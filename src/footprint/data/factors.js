@@ -14,7 +14,7 @@
 export const FACTOR_SET = {
   id: 'nga2025-ukghg2026-intl2',
   updated: 'August 2026',
-  note: 'Australian electricity, gas and transport fuels use the DCCEEW National Greenhouse Accounts Factors (2025), which remain search-verified only, read from the workbook: no 2025 or 2026 edition could be obtained, and the 2024 workbook is a different vintage, so the shipped values are left as they stand rather than being replaced by older ones. Flights, freight, hotel nights, rail and bus use the UK Government conversion factors (2026 edition), published by DESNZ and still widely known as the DEFRA factors, read cell for cell. United States electricity is priced per state from EPA eGRID2023 rev2, with gas and motor fuels from the EPA GHG Emission Factors Hub. New Zealand electricity, gas, transport fuels and hotel nights come from the MfE Measuring Emissions Catalogue 2026; only the NZ fuel-cycle line still rides an Australian proxy. Updated when new editions are published and verified against the source workbook.',
+  note: 'Australian electricity, gas and transport fuels carry the values published in the DCCEEW National Greenhouse Accounts Factors 2025 (Tables 1, 5, 6 and 9). DCCEEW\'s workbook could not be downloaded when this set was built, so these values were checked against published summaries and a mirrored copy of the tables, not read from the source file; they are to be read against the workbook at the next refresh. Flights, freight, hotel nights, rail and bus use the UK Government conversion factors (2026 edition), published by DESNZ and still widely known as the DEFRA factors, read cell for cell. United States electricity is priced per state from EPA eGRID2023 rev2, with gas and motor fuels from the EPA GHG Emission Factors Hub. New Zealand electricity, gas, transport fuels and hotel nights come from the MfE Measuring Emissions Catalogue 2026; only the NZ fuel-cycle line still rides an Australian proxy. Updated when new editions are published and verified against the source workbook.',
 };
 
 // ---------------------------------------------------------------------------
@@ -88,7 +88,7 @@ export const categoryById = (id) =>
 // ---------------------------------------------------------------------------
 export const ELECTRICITY_SOURCE = {
   name: 'DCCEEW, Australian National Greenhouse Accounts Factors 2025',
-  detail: 'Table 1: scope 2 and scope 3 emission factors for purchased electricity by state. Published August 2025; replaces the 2024 workbook.',
+  detail: 'Table 1: scope 2 and scope 3 emission factors for purchased electricity by state. Published August 2025; replaces the 2024 edition. Checked against published summaries and a mirrored copy of the table, not yet read from DCCEEW\'s own workbook.',
   url: 'https://www.dcceew.gov.au/climate-change/publications/national-greenhouse-accounts-factors-2025',
 };
 
@@ -98,7 +98,7 @@ export const ELECTRICITY_SOURCE = {
 // the default until a state is chosen.
 export const ELECTRICITY_SOURCE_NZ = {
   name: 'NZ Ministry for the Environment, Measuring Emissions Catalogue 2026',
-  detail: 'Purchased grid-average electricity for the national grid, about 85% renewable (hydro, wind, geothermal), read from Table 5.2 (annual averages, 2010 to 2025) at the 2025 annual figure. Scope 3 is the catalogue\'s own separate transmission-and-distribution loss factor from Table 5.4, so the line no longer understates by leaving losses out. The annual series is volatile because a dry hydrological year pulls thermal generation in: 2024 read 0.0993596 against 2025\'s 0.0786625, a 26% swing, so a New Zealand total moves with the year it is priced in.',
+  detail: 'Purchased grid-average electricity for the national grid, about 85% renewable (hydro, wind, geothermal), read from Table 5.2 (annual averages, 2010 to 2025) at the 2025 annual figure. Scope 3 is the catalogue\'s own separate transmission-and-distribution loss factor from Table 5.4. The annual series is volatile because a dry hydrological year pulls thermal generation in: 2024 read 0.0993596 against 2025\'s 0.0786625, a 26% swing, so a New Zealand total moves with the year it is priced in.',
   url: 'https://environment.govt.nz/publications/measuring-emissions-a-guide-for-organisations-2026-detailed-guide/',
 };
 
@@ -204,7 +204,7 @@ export const electricitySourceFor = (country) =>
 export const GRID_DECLINE = {
   ratePerYear: 0.92,
   floor: 0.05,
-  source: 'Stylised from DCCEEW, Australia’s emissions projections 2024 (electricity sector decline to 2035 under the 82% renewables trajectory), flattened to a single annual rate and applied as the background decline for whichever grid is home; a US or NZ audit inherits it as a stated simplification.',
+  source: 'Stylised from DCCEEW, Australia\'s emissions projections 2024 (electricity sector decline to 2035 under the 82% renewables trajectory), flattened to a single annual rate and applied as the background decline for whichever grid is home; a US or NZ audit inherits it as a stated simplification.',
 };
 
 // ---------------------------------------------------------------------------
@@ -214,7 +214,7 @@ export const GRID_DECLINE = {
 // ---------------------------------------------------------------------------
 export const GAS_SOURCE = {
   name: 'DCCEEW, Australian National Greenhouse Accounts Factors 2025',
-  detail: 'Table 5 (natural gas distributed in a pipeline, scope 1 combined CO2, CH4, N2O: 51.53 kg CO2-e/GJ) and Table 6 (scope 3 fuel-cycle, metropolitan, by state).',
+  detail: 'Table 5 (natural gas distributed in a pipeline, scope 1 combined CO2, CH4, N2O: 51.53 kg CO2-e/GJ) and Table 6 (scope 3 fuel-cycle, metropolitan, by state). Checked against published summaries and a mirrored copy of the table, not yet read from DCCEEW\'s own workbook.',
   url: 'https://www.dcceew.gov.au/climate-change/publications/national-greenhouse-accounts-factors-2025',
 };
 
@@ -276,7 +276,7 @@ export const gasSourceFor = (country) =>
 // ---------------------------------------------------------------------------
 export const ROAD_SOURCE = {
   name: 'DCCEEW, Australian National Greenhouse Accounts Factors 2025',
-  detail: 'Table 9, cars and light commercial vehicles: petrol 67.62 kg CO2-e/GJ scope 1 and 17.2 scope 3 at 34.2 GJ/kL; diesel 70.41 and 17.3 at 38.6 GJ/kL. Converted to per litre. A hybrid burns petrol at the petrol factors; only the default consumption differs (4.5 L/100km, indicative real-world figure for current hybrids).',
+  detail: 'Table 9, cars and light commercial vehicles: petrol 67.62 kg CO2-e/GJ scope 1 and 17.2 scope 3 at 34.2 GJ/kL; diesel 70.41 and 17.3 at 38.6 GJ/kL. Converted to per litre. A hybrid burns petrol at the petrol factors; only the default consumption differs (4.5 L/100km, indicative real-world figure for current hybrids). Checked against published summaries and a mirrored copy of the table, not yet read from DCCEEW\'s own workbook.',
   url: 'https://www.dcceew.gov.au/climate-change/publications/national-greenhouse-accounts-factors-2025',
 };
 
@@ -295,7 +295,7 @@ export const ROAD_FUELS = {
 // cent). Both countries keep the NGA fuel-cycle (scope 3) factors as a
 // stated proxy so the well-to-tank boundary matches across countries:
 // refining and crude supply chains are close enough for a screening line,
-// and dropping them would make one country's petrol read dishonestly light.
+// and dropping them would make one country's petrol read misleadingly light.
 export const ROAD_SOURCE_US = {
   name: 'US EPA GHG Emission Factors Hub (2025), mobile combustion',
   detail: 'Motor gasoline 8.78 and diesel 10.21 kg CO2 per gallon (2.32 and 2.70 per litre); per-mile CH4 and N2O add under 1% and are left out, stated. Fuel-cycle (scope 3) uses the Australian NGA factors as a stated proxy so the boundary matches the other countries. A hybrid burns petrol at the petrol factors; only the default consumption differs.',
@@ -304,7 +304,7 @@ export const ROAD_SOURCE_US = {
 
 export const ROAD_SOURCE_NZ = {
   name: 'NZ Ministry for the Environment, Measuring Emissions Catalogue 2026 (combustion), with Australian NGA fuel-cycle factors as a stated proxy',
-  detail: 'Combustion is read from the catalogue\'s transport fuel table (Table 3.3): regular petrol 2.36143 and diesel 2.67177 kg CO2-e per litre, replacing the Australian proxy the tool carried before. The separate fuel-cycle (scope 3) line has no NZ equivalent in the catalogue, so it keeps the Australian NGA well-to-tank factors as a stated proxy and is marked as such. A hybrid burns petrol at the petrol factors; only the default consumption differs.',
+  detail: 'Combustion is read from the catalogue\'s transport fuel table (Table 3.3): regular petrol 2.36143 and diesel 2.67177 kg CO2-e per litre. The separate fuel-cycle (scope 3) line has no NZ equivalent in the catalogue, so it keeps the Australian NGA well-to-tank factors as a stated proxy and is marked as such. A hybrid burns petrol at the petrol factors; only the default consumption differs.',
   url: 'https://environment.govt.nz/publications/measuring-emissions-a-guide-for-organisations-2026-detailed-guide/',
 };
 
@@ -347,7 +347,7 @@ export const ROAD_MODES = {
   pt: {
     label: 'Public transport (rail, indicative)',
     perKm: 0.03092,
-    source: 'UK Government GHG Conversion Factors 2026, national rail per passenger-km (sheet "Business travel- land", cell D87, tank-to-wheel), used as an indicative proxy pending a published Australian per-passenger-km figure. The 2026 edition rebuilt the rail factors on new Office of Rail and Road and Transport for London data, the first CO2 update since 2021, which had still been running on pre-COVID 2019 loadings. The honest range is wide and depends on how you count the grid. On a location-based (physical grid) basis the real Sydney figure is higher than this, roughly twice, because the NSW grid is far more coal-heavy than the UK one. On a market-based basis it is close to zero, because Sydney Trains has bought 100 per cent renewable electricity since 2021. This proxy sits between the two. Public transport is a small line for most people, so the choice moves the total very little.',
+    source: 'UK Government GHG Conversion Factors 2026, national rail per passenger-km (sheet "Business travel- land", cell D87, tank-to-wheel), used as an indicative proxy pending a published Australian per-passenger-km figure. The 2026 edition rebuilt the rail factors on new Office of Rail and Road and Transport for London data, the first CO2 update since 2021, which had still been running on pre-COVID 2019 loadings. The range is wide and depends on how you count the grid. On a location-based (physical grid) basis the real Sydney figure is higher than this, roughly twice, because the NSW grid is far more coal-heavy than the UK one. On a market-based basis it is close to zero, because Sydney Trains has bought 100 per cent renewable electricity since 2021. This proxy sits between the two. Public transport is a small line for most people, so the choice moves the total very little.',
   },
   // Buses run about four times the rail factor per passenger-km, so a
   // bus-heavy commute priced at the rail proxy reads far too low. Same proxy
@@ -571,7 +571,7 @@ export function flightBandForKm(km, international) {
 // travel cap; every other network caps differently (daily caps, flat fares, or
 // fare-free periods), so those ceilings are DERIVED and approximate, marked
 // `approx`. Public-transport spend is a screening input (±30% tier) regardless,
-// so an approximate ceiling is honest here; the point is to avoid absurd
+// so an approximate ceiling is fair here; the point is to avoid absurd
 // annualisation, not to price a fare to the cent. Figures move with fare
 // policy, so they carry an as-at date and the note says so.
 // ---------------------------------------------------------------------------
@@ -716,7 +716,7 @@ export const GOODS_FX_BY_COUNTRY = {
   },
   NZ: {
     rate: 0.5842,
-    rateNote: 'Rolling 12-month average to 15 July 2026, USD per 1 NZD, from the NZ Inland Revenue overseas currency rates tables. This now sits on the same twelve months as the Australian rate beside it; it previously lagged a year behind.',
+    rateNote: 'Rolling 12-month average to 15 July 2026, USD per 1 NZD, from the NZ Inland Revenue overseas currency rates tables. It sits on the same twelve months as the Australian rate beside it.',
   },
   US: {
     rate: 1,
@@ -774,7 +774,7 @@ export const goodsPerAud = (kind) => goodsPerDollar(kind, 'AU');
 // calculator. Each bucket is the equal-weighted mean of the named product
 // rows, a stated screening assumption in the same style as GOODS above.
 //
-// Two honesty notes, both stated on the method page: (1) ADEME's use phase
+// Two caveats, both stated on the method page: (1) ADEME's use phase
 // attributes the garment's full laundering to the garment, which overlaps
 // slightly with home electricity counted elsewhere here, so the line reads
 // conservative rather than hiding the seam; (2) inter-study variance in
@@ -917,7 +917,7 @@ export const dwellingPerM2 = (dwelling) =>
 // estimate never moves; the tiers only set the width of the range shown
 // around the total. Band percentages are stated assumptions of this method
 // (the framework is published, the exact widths are editorial), applied to
-// each entry and summed without correlation credit: the honest worst case
+// each entry and summed without correlation credit: the conservative worst case
 // each way, screening-grade and labelled as such.
 // ---------------------------------------------------------------------------
 export const QUALITY_SOURCE = {

@@ -12,7 +12,7 @@ function Figures({ active }) {
       <div className={'sfig' + (active === 0 ? ' on' : '')}>
         <div className="sfig-kick">Phase 01 · Establish the baseline</div>
         <div className="sfig-big">82.7%</div>
-        <div className="sfig-cap">of the footprint sits in the value chain (Scope 3), representative infrastructure portfolio</div>
+        <div className="sfig-cap">of the footprint sits in the value chain (Scope 3), illustrative infrastructure portfolio</div>
         <div className="sfig-bars">
           <div className="sfig-bar-row"><span className="sfig-bar-lbl">Scope 1</span><div className="sfig-bar"><i style={{ '--w': '14%' }} /></div><span className="sfig-bar-val">11.5%</span></div>
           <div className="sfig-bar-row"><span className="sfig-bar-lbl">Scope 2</span><div className="sfig-bar"><i style={{ '--w': '7%' }} /></div><span className="sfig-bar-val">5.8%</span></div>
@@ -23,7 +23,7 @@ function Figures({ active }) {
       <div className={'sfig' + (active === 1 ? ' on' : '')}>
         <div className="sfig-kick">Phase 02 · Build the roadmap</div>
         <div className="sfig-big">27→9</div>
-        <div className="sfig-cap">initiatives long-listed, quantified, then screened with stakeholders into a sequenced roadmap</div>
+        <div className="sfig-cap">illustrative count: initiatives long-listed, quantified, then screened with stakeholders into a sequenced roadmap</div>
         <div className="sfig-bars">
           <div className="sfig-bar-row"><span className="sfig-bar-lbl">Long-list</span><div className="sfig-bar"><i style={{ '--w': '100%', background: 'var(--rule-dk)' }} /></div><span className="sfig-bar-val">27</span></div>
           <div className="sfig-bar-row"><span className="sfig-bar-lbl">MCA screen</span><div className="sfig-bar"><i style={{ '--w': '55%' }} /></div><span className="sfig-bar-val">15</span></div>
@@ -44,17 +44,16 @@ function Figures({ active }) {
           <text x="240" y="38" fontFamily="JetBrains Mono,monospace" fontSize="8" fill="#64748B">BAU</text>
           <text x="240" y="95" fontFamily="JetBrains Mono,monospace" fontSize="8" fill="#8BAD1F">NET PATHWAY</text>
         </svg>
-        <div className="sfig-cap" style={{ marginTop: '1rem', marginBottom: 0 }}>Toggle-based levers: every assumption traceable to a published source</div>
+        <div className="sfig-cap" style={{ marginTop: '1rem', marginBottom: 0 }}>Toggle-based levers, each tied to a published source</div>
       </div>
 
       <div className={'sfig' + (active === 3 ? ' on' : '')}>
-        <div className="sfig-kick">Phase 04 · Hand it over</div>
-        <div className="sfig-big">−40%</div>
-        <div className="sfig-cap">inventory preparation time after automation, and the team runs it without me</div>
+        <div className="sfig-kick">Phase 04 · Make it repeatable</div>
+        <div className="sfig-cap">What is in place before the numbers leave the model</div>
         <ul className="sfig-checks">
-          <li>Methodology documented for assurance</li>
-          <li>Templates and tooling pre-configured</li>
-          <li>Internal team operates the next cycle</li>
+          <li>Method documented for assurance</li>
+          <li>Repetitive steps scripted and templated</li>
+          <li>Next cycle reruns the same logic</li>
         </ul>
       </div>
     </div>

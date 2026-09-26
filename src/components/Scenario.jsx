@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Chart, LineController, LineElement, PointElement, LinearScale, CategoryScale, Filler, Tooltip } from 'chart.js';
 
-// Register only what the pathway chart uses — chart.js/auto pulls in every
+// Register only what the pathway chart uses, chart.js/auto pulls in every
 // controller, scale, and plugin and roughly doubles the chart bundle.
 Chart.register(LineController, LineElement, PointElement, LinearScale, CategoryScale, Filler, Tooltip);
 import { runModel, chartLabels, LEVER_LABELS, SECTOR_OPTIONS, resolveSector } from '../data/scenario';
@@ -100,7 +100,7 @@ export default function Scenario() {
     });
     chartRef.current = ch;
 
-    // Scrollytelling build — wedges assemble on first view (unless already visible).
+    // Scrollytelling build: wedges assemble on first view (unless already visible).
     const card = ctx.closest('.chart-card');
     const ORDER = [6, 5, 0, 1, 2, 3, 4];
     const reduce = prefersReducedMotion();
@@ -162,8 +162,8 @@ export default function Scenario() {
   return (
     <section id="scenario">
       <div className="canvas">
-        <div className="sec-tag" data-idx="02 / "><Icon name="target" size={30} />Decarbonisation Scenario Model</div>
-        <p className="tool-decl" style={{ marginTop: '1.5rem' }}>Every lever has a source. <strong>Set the levers, then read the story.</strong></p>
+        <div className="sec-tag" data-idx="02 / "><Icon name="target" size={30} />Decarbonisation scenario model</div>
+        <p className="tool-decl" style={{ marginTop: '1.5rem' }}>Set the levers, then read the result.</p>
         <p className="tool-sub">{labels.sub}</p>
         {/* The state of the data, said before the data: a basis of preparation
             compressed to one paragraph, the same thing every tool page on this
@@ -199,7 +199,7 @@ export default function Scenario() {
             <div className="scn-step">
               <span className="scn-step-num"><Icon name="bolt" size={28} className="fpi-lead" />Step 02</span>
               <h3 className="scn-step-title">Set the abatement levers</h3>
-              <p className="scn-step-sub">Every lever traces to a published source. Card colours match the wedges in the chart.</p>
+              <p className="scn-step-sub">Card colours match the wedges in the chart.</p>
               <div className="lever-deck">
                 {LEVERS.map((lv) => (
                   <div className="lever-card" key={lv.key} style={{ '--lc': lv.lc }}>
@@ -209,7 +209,7 @@ export default function Scenario() {
                   </div>
                 ))}
                 <div className="lever-card lever-card-rev" style={{ '--lc': 'var(--step-comms)' }}>
-                  <div className="lever-top"><span className="lever-dot" aria-hidden="true" /><span className="lever-name">Volume / Revenue Growth Assumption</span></div>
+                  <div className="lever-top"><span className="lever-dot" aria-hidden="true" /><span className="lever-name">Volume or revenue growth</span></div>
                   <div className="lever-src">Scales gross emissions before abatement is applied</div>
                   <Seg value={scn.rev} options={REV_OPTS} onChange={(v) => set('rev', v)} sc="var(--step-comms)" small />
                 </div>
@@ -222,7 +222,7 @@ export default function Scenario() {
             <div className="scn-step">
               <span className="scn-step-num"><Icon name="chart" size={28} className="fpi-lead" />Step 03</span>
               <h3 className="scn-step-title">Read the result</h3>
-              <p className="scn-step-sub">The headline rewrites itself as you move the levers, the way a board slide should.</p>
+              <p className="scn-step-sub">The headline recalculates as you move the levers.</p>
               <p className="takeaway" aria-live="polite">
                 {result.takeaway.head}<em>{result.takeaway.value}</em>{result.takeaway.tail}
                 <span className="tk-note">{result.takeaway.note}</span>
@@ -264,7 +264,7 @@ export default function Scenario() {
                 <div className="chart-legend" ref={legendRef} aria-hidden="true" />
               </div>
               <div className="contrib-card">
-                <div className="contrib-head">Abatement contribution by lever at FY30 (interim target year): tCO₂-e avoided vs. gross pathway</div>
+                <div className="contrib-head">Abatement contribution by lever at FY30 (interim target year): tCO₂-e avoided vs gross pathway</div>
                 {cbars.map((c) => (
                   <div className="cbar" key={c.key}>
                     <div className={'cbar-name ' + c.cls}>{c.name}</div>
@@ -278,7 +278,7 @@ export default function Scenario() {
         </div>
 
         <div className="scn-foot">
-          <p>More examples of this work: emissions baselines, decarbonisation roadmaps, MCA prioritisation, and lifecycle carbon assessment across infrastructure, built environment, and government.</p>
+          <p>More of the method, shown on illustrative data: emissions baseline, decarbonisation roadmap, MCA prioritisation and lifecycle carbon.</p>
           <a href="work/" className="btn btn-primary">View work samples →</a>
         </div>
       </div>

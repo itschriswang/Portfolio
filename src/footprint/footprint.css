@@ -461,7 +461,7 @@
 /* ---- Guided audit: flight cards ---- */
 /* Each trip is its own editable card. Add a card, pick From and To, change any
    of it whenever. No carbon on the card, on purpose: the reveal keeps the
-   number. The distance is shown because it makes the estimate feel honest. */
+   number. The distance is shown because it makes the estimate feel transparent. */
 .ob-flight-list{ display:flex; flex-direction:column; gap:0.75rem; margin-bottom:1.1rem; }
 .ob-flight-list > .ob-label{ margin-bottom:0.2rem; }
 .ob-fcard{ background:var(--white); border:1px solid var(--rule-dk); border-left:3px solid var(--fp-flight); padding:0.9rem 1rem 0.8rem; display:flex; flex-direction:column; gap:0.75rem; }
@@ -506,7 +506,7 @@
 /* Seats-for-others fold-away inside a flight card. */
 .ob-fl-more{ border-top:1px dashed var(--rule-lt); margin-top:0.6rem; }
 .ob-fl-more .ob-field-compact{ margin-top:0.6rem; }
-/* Path chooser: two big honest options before the flow starts. */
+/* Path chooser: two big options before the flow starts. */
 .ob-choicewrap{ display:grid; gap:0.8rem; grid-template-columns:1fr; max-width:560px; margin-top:1rem; }
 @media(min-width:560px){ .ob-choicewrap{ grid-template-columns:1fr 1fr; } }
 .ob-choice{ text-align:left; border:1px solid var(--rule-dk); background:var(--white); padding:1.1rem 1.2rem; cursor:pointer; transition:border-color 0.25s var(--ease), transform 0.25s var(--ease); }

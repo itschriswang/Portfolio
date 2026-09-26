@@ -42,7 +42,7 @@ export default function Bio() {
 
         <div className="pipe-head">
           <h2 className="pipe-title"><SplitText text="How the work fits together" /></h2>
-          <p className="pipe-sub">Five stages, end-to-end: raw data to board narrative. <strong>Click each stage to see delivered examples.</strong></p>
+          <p className="pipe-sub">Five stages, from raw data to board narrative. Open a stage to see delivered examples.</p>
         </div>
         <Pipeline />
       </div>

@@ -544,7 +544,7 @@ function AirportSelect({ label, value, placeholder, onChange }) {
 // One flight, as its own editable card: From, To, return or one way, cabin,
 // month, and the seats you paid for. Editable at any time; removable. No
 // carbon shown here on purpose, so the reveal keeps its punch; the distance is
-// shown because it makes the estimate feel honest, not because it spoils it.
+// shown because it makes the estimate feel transparent, not because it spoils it.
 function FlightCard({ fl, index, monthOptions, onChange, onRemove, onDuplicate }) {
   const set = (k, v) => onChange({ ...fl, [k]: v });
   const meta = flightMeta(fl);
@@ -907,7 +907,7 @@ export default function Onboarding({ onDone, onBuilt, onCancel }) {
             value={a.fuelType} onChange={(v) => set('fuelType', v)}
           />
           {/* Chips, not a stepper: "on average" arithmetic is the visitor's
-              least answerable question, and four honest buckets cover it.
+              least answerable question, and four plain buckets cover it.
               Four or more prices as four; the split only sharpens from there. */}
           <Chips
             icon="people"

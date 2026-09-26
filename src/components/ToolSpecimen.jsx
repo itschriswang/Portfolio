@@ -55,7 +55,7 @@ function Figure({ x, y, value, label, size = 19 }) {
 }
 
 // ---------------------------------------------------------------------------
-// 01 · Target Tracker — the claimed trajectory against the reported series.
+// 01 · Target Tracker: the claimed trajectory against the reported series.
 // The two lines are the whole tool: dashed is what the company said it would
 // do, solid is what it filed. The distance between them is the page's point.
 // ---------------------------------------------------------------------------
@@ -131,7 +131,7 @@ function Trajectory({ d, w, h, still, uid }) {
 }
 
 // ---------------------------------------------------------------------------
-// 02 · Work Samples — one stacked bar, because the first finding of nearly
+// 02 · Work Samples: one stacked bar, because the first finding of nearly
 // every baseline is the same shape: the value chain owns the footprint.
 // ---------------------------------------------------------------------------
 function Scopes({ d, w, h, still }) {
@@ -170,7 +170,7 @@ function Scopes({ d, w, h, still }) {
 }
 
 // ---------------------------------------------------------------------------
-// 03 · Cost Per Wear — the shape of fashion disclosure. The bars fall off a
+// 03 · Cost Per Wear: the shape of fashion disclosure. The bars fall off a
 // cliff, which is the finding: most brands publish very little.
 // ---------------------------------------------------------------------------
 function Histogram({ d, w, h, still }) {
@@ -202,7 +202,7 @@ function Histogram({ d, w, h, still }) {
 }
 
 // ---------------------------------------------------------------------------
-// 04 · Super Fund Holdings — one column per default option, one dot per
+// 04 · Super Fund Holdings: one column per default option, one dot per
 // flagged holding. Every column lights up, which is the whole point.
 // ---------------------------------------------------------------------------
 function Matrix({ d, w, h, still }) {
@@ -240,7 +240,7 @@ function Matrix({ d, w, h, still }) {
 }
 
 // ---------------------------------------------------------------------------
-// 05 · Grid Intensity — the same kilowatt hour under six different factors.
+// 05 · Grid Intensity: the same kilowatt hour under six different factors.
 // The location-based rows sit muted; the two market-based references carry the
 // accent, because the distance between those two is what the explorer teaches.
 // ---------------------------------------------------------------------------
@@ -282,7 +282,7 @@ function Factors({ d, w, h, still }) {
 }
 
 // ---------------------------------------------------------------------------
-// 06 · Life Footprint — one year, priced by category. Flights take the accent
+// 06 · Life Footprint: one year, priced by category. Flights take the accent
 // because in this year flights are close to two thirds of the whole total.
 // ---------------------------------------------------------------------------
 function Stack({ d, w, h, still }) {
@@ -316,7 +316,7 @@ function Stack({ d, w, h, still }) {
 }
 
 // ---------------------------------------------------------------------------
-// 07 · Australia's Climate Progress — one track running to the target, filled
+// 07 · Australia's Climate Progress: one track running to the target, filled
 // to where emissions actually are, with the pace the target implies marked on
 // it. Progress and shortfall in one picture, which is the page's thesis.
 // ---------------------------------------------------------------------------
@@ -347,7 +347,7 @@ function Gap({ d, w, h, still }) {
 }
 
 // ---------------------------------------------------------------------------
-// 08 · Sustainability Daily — one item on the scale it gets guessed against,
+// 08 · Sustainability Daily: one item on the scale it gets guessed against,
 // with the lifestyle benchmark holding the far end of the track.
 // ---------------------------------------------------------------------------
 function Scale({ d, w, h, still }) {

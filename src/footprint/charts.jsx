@@ -161,7 +161,7 @@ export function PathwayChart({ pathway, budget, labels }) {
 
 // ---------------------------------------------------------------------------
 // Personal MACC: variable-width bars, cost per tonne (y) against cumulative
-// abatement (x). Custom SVG because no charting library draws one honestly.
+// abatement (x). Custom SVG because no charting library draws one accurately.
 // The drawing squeezes to the container: below ~620px the viewBox narrows so
 // on-chart text renders near CSS size instead of scaling away to nothing,
 // and bars answer to tap as well as hover and focus.

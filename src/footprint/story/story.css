@@ -518,7 +518,7 @@
 .st-char-how .st-line { margin-top: 0.6rem; }
 .st-char-how .st-axes { margin-top: 1.4rem; margin-left: 0; }
 
-/* The taxonomy as an honest matrix: three weight rows by four temperament
+/* The taxonomy as a full matrix: three weight rows by four temperament
    columns, the visitor's cell lit. On wide screens it is a table; on narrow
    ones it reflows into stacked weight groups so nothing scrolls sideways. */
 .st-matrix-scroll { margin: 1rem 0 0.9rem; padding-bottom: 0.4rem; }

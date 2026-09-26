@@ -102,7 +102,7 @@ export default function CharacterMoment({ d, voice, tags, character }) {
   });
 
   return (
-    <section className="st-moment st-character" id="st-character" aria-label="Your carbon character">
+    <section className="st-moment st-character" id="st-character" aria-label="Your result">
       <motion.div className="st-center st-wide" initial="hidden" whileInView="visible" viewport={inView}>
         <motion.div className="sec-tag" data-idx="" variants={rise}>{tags['st-character']}</motion.div>
 

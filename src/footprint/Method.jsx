@@ -220,7 +220,7 @@ export default function Method() {
             source={GOODS_SOURCE}
           />
           <p className="fp-note">
-            Currency and inflation bridge: each per-2022-USD factor is multiplied by the home currency’s USD rate (A$ {GOODS_FX_BY_COUNTRY.AU.rate}, NZ$ {GOODS_FX_BY_COUNTRY.NZ.rate}, US$ {GOODS_FX_BY_COUNTRY.US.rate}) and divided by {GOODS_FX.inflation} (US CPI-U, 2022 to reporting year) to price spend in current local dollars. {GOODS_FX_BY_COUNTRY.AU.rateNote} {GOODS_FX_BY_COUNTRY.NZ.rateNote} {GOODS_FX.inflationNote} This block is a screening estimate for a US consumption basket applied to the home country’s spend; treat it as coarse and lower-confidence than the metered lines above.
+            Currency and inflation bridge: each per-2022-USD factor is multiplied by the home currency's USD rate (A$ {GOODS_FX_BY_COUNTRY.AU.rate}, NZ$ {GOODS_FX_BY_COUNTRY.NZ.rate}, US$ {GOODS_FX_BY_COUNTRY.US.rate}) and divided by {GOODS_FX.inflation} (US CPI-U, 2022 to reporting year) to price spend in current local dollars. {GOODS_FX_BY_COUNTRY.AU.rateNote} {GOODS_FX_BY_COUNTRY.NZ.rateNote} {GOODS_FX.inflationNote} This block is a screening estimate for a US consumption basket applied to the home country's spend; treat it as coarse and lower-confidence than the metered lines above.
           </p>
           <FTable
             caption="Clothing by item (optional detail) · kg CO₂-e per item, cradle-to-grave"
@@ -252,6 +252,13 @@ export default function Method() {
               </ul>
             </div>
           ))}
+        </div>
+
+        <div className="fp-method-block fp-method-wide">
+          <h3>{METHOD.changes.title}</h3>
+          <ul className="fp-exclusions">
+            {METHOD.changes.items.map((x, i) => <li key={i}>{x}</li>)}
+          </ul>
         </div>
       </div>
     </section>

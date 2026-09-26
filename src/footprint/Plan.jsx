@@ -111,7 +111,7 @@ export default function Plan({ macc, pathway, plan, onToggle }) {
   return (
     <section id="fp-plan">
       <div className="canvas">
-        <div className="sec-tag" data-idx="03 / "><Icon name="target" size={32} />What if</div>
+        <div className="sec-tag" data-idx="02 / "><Icon name="target" size={32} />What if</div>
         <h2 className="display fp-h2"><SplitText text={PLAN.title[0]} /> <SplitText text={PLAN.title[1]} accentIndex={1} /></h2>
         <p className="fp-sub">{PLAN.sub}</p>
 

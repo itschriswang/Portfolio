@@ -22,7 +22,7 @@ export default function Experience() {
     let railLen = 1;
 
     // Map the rail gradient to actual node positions so each node sits exactly
-    // on its own colour — guarantees the UNSW node reads yellow, not black.
+    // on its own colour, guarantees the UNSW node reads yellow, not black.
     function paintRail() {
       const stops = [`var(--${marks[0].clr}) 0%`];
       entries.forEach((en, i) => {
@@ -77,7 +77,9 @@ export default function Experience() {
             <div className="exp-entry" key={exp.org} ref={(el) => (entryRefs.current[ei] = el)}>
               <div className="exp-hd">
                 <div>
-                  <img className={'exp-logo ' + exp.logoClass} src={exp.logo} alt={exp.logoAlt} width={exp.logoW} height={exp.logoH} loading="lazy" decoding="async" />
+                  {exp.logo
+                    ? <img className={'exp-logo ' + exp.logoClass} src={exp.logo} alt={exp.logoAlt} width={exp.logoW} height={exp.logoH} loading="lazy" decoding="async" />
+                    : <div className="exp-eyebrow">{exp.eyebrowIcon && <Icon name={exp.eyebrowIcon} size={28} className="fpi-lead" />}{exp.eyebrow}</div>}
                   <div className="exp-org-name">{exp.org}</div>
                   <div className="exp-dept">{exp.dept}</div>
                 </div>

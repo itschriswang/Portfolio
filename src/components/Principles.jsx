@@ -12,7 +12,7 @@ export default function Principles() {
   return (
     <section id="principles">
       <div className="canvas">
-        <div className="sec-tag" data-idx="01 / "><Icon name="leaf" size={30} />My Practice</div>
+        <div className="sec-tag" data-idx="01 / "><Icon name="leaf" size={30} />My practice</div>
         <h2 className="display princ-headline">
           <SplitText text="How I work" accentIndex={1} />
         </h2>

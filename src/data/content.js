@@ -1,93 +1,117 @@
-// All editorial copy, preserved verbatim from the original site. Nothing here
-// is summarised or omitted — only re-laid-out by the components that consume it.
+// All editorial copy for the home page, plus the shared footer, tool index and
+// gate copy. Components only lay these strings out.
 
 export const NAV_LINKS = [
   { href: '#about', label: 'About' },
   { href: '#bio', label: 'Capabilities' },
-  { href: '#principles', label: 'My Practice' },
+  { href: '#principles', label: 'My practice' },
   { href: '#experience', label: 'Experience' },
-  { href: '#scenario', label: 'Decarb Model' },
+  { href: '#scenario', label: 'Decarb model' },
   { href: '#tools', label: 'Tools' },
-  { href: 'work/', label: 'Work Samples', external: true },
-  { href: 'footprint/', label: 'Footprint', external: true },
+  { href: 'work/', label: 'Work samples', external: true },
+  { href: 'footprint/', label: 'Life Footprint', external: true },
 ];
+
+// Years since a start date, floored to the half year. Never rounds up, so a
+// counter or a sentence built on it cannot claim a half year not yet served.
+export function yearsSince(startISO, now = Date.now()) {
+  const years = (now - new Date(startISO)) / (1000 * 60 * 60 * 24 * 365.25);
+  return Math.max(0, Math.floor(years * 2) / 2);
+}
+
+const NUMBER_WORDS = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve'];
+
+// "Four and a half years", "Five years": the bio says in words what the hero
+// counter shows in figures, from the same start date and the same floor.
+function yearsInWords(startISO) {
+  const y = yearsSince(startISO);
+  const whole = Math.floor(y);
+  const half = y - whole === 0.5;
+  const word = NUMBER_WORDS[whole] ?? String(whole);
+  if (half) return `${word} and a half years`;
+  return `${word} year${whole === 1 ? '' : 's'}`;
+}
+
+const SUSTAINABILITY_START = '2022-02-01';
+const PROFESSIONAL_START = '2020-03-01';
 
 export const HERO = {
   name: ['Chris', 'Wang'],
-  roles: ['Sustainability Advisor', 'Emissions Modeller', 'ESG Reporting Lead', 'Decarbonisation Strategist'],
+  roles: ['Senior Sustainability Advisor', 'Emissions Modeller', 'GHG Reporting and Assurance'],
   location: 'Melbourne, Australia',
-  prop: 'I help large organisations turn emissions data into governed reporting infrastructure and credible decarbonisation pathways. The work is repeatable, auditable, and built to be owned by the team.',
+  prop: 'I help large organisations turn emissions data into governed reporting and decarbonisation pathways, documented well enough for an assurer to follow.',
   ctas: [
     { label: 'Get in touch', href: '#contact', primary: true, icon: 'linkedin' },
   ],
-  // Animated counters: start date drives the live "years" figure.
+  // Animated counters: the start date drives the live figure, floored to the
+  // half year by yearsSince above.
   instruments: [
-    { id: 'years-advisory', label: ['Years sustainability', 'advisory'], start: '2022-02-01', suffix: '+' },
-    { id: 'years-built-env', label: ['Years built environment', '& infrastructure'], start: '2020-02-01', suffix: '+' },
+    { id: 'years-sustainability', label: ['Years in', 'sustainability'], start: SUSTAINABILITY_START, suffix: '+' },
+    { id: 'years-professional', label: ['Years professional', 'experience'], start: PROFESSIONAL_START, suffix: '+' },
   ],
 };
 
 export const BIO_PARAS = [
-  'Looking for sustainability leadership in fashion, consumer goods, or technology, where supply chain transparency and decarbonisation are primary workstreams.',
-  'I build the data infrastructure that makes sustainability commitments defensible: GHG inventories with documented methodology, Scope 1-3 baselines that survive external assurance, decarbonisation models with traceable lever assumptions, and reporting systems that internal teams can operate after I leave the engagement.',
-  'Four years in sustainability advisory across WSP and Downer EDI: GHG accounting, regulatory disclosure, decarbonisation modelling, supply chain emissions. Six years prior in built environment and infrastructure, including project delivery at the Department of Defence.',
+  `${yearsInWords(SUSTAINABILITY_START)} in sustainability, at WSP and now Downer Group, after two years delivering capital infrastructure projects at the Department of Defence. The work covers GHG accounting, regulatory reporting, decarbonisation modelling and supply chain emissions.`,
+  'I build the data infrastructure behind sustainability commitments: GHG inventories with documented methodology, Scope 1-3 baselines that hold up under external assurance, decarbonisation models with traceable lever assumptions, and reporting systems the team can run without me.',
+  'Longer term, I am interested in sustainability roles in fashion, consumer goods and technology, where supply chain transparency and decarbonisation are core work.',
 ];
 
 export const OUTCOMES = [
-  { color: 'var(--accent-ink)', num: '+35', small: '%', what: 'GRESB Infrastructure score uplift in year one', where: 'Major Australian energy distributor · full assessment cycle, then handed over · WSP' },
-  { color: 'var(--indigo)', num: '−40', small: '%', what: 'GHG inventory preparation time, through automation', where: 'Excel + Python tooling, documented for internal operation · WSP' },
-  { color: 'var(--amber-ink)', num: '3', small: ' BUs', what: 'Manual emissions data collection eliminated', where: 'Pre-configured templates with automated Envizi upload · Downer EDI' },
+  { color: 'var(--accent-ink)', num: '+35', small: '%', what: 'GRESB Infrastructure score in year one, with global ranking up 63%', where: 'Major Australian energy distributor · FY22 submission I led · WSP' },
+  { color: 'var(--indigo)', num: '153', small: ' suppliers', what: 'Shortlisted from 13,391 for CDP Supply Chain, at 93.5% contact coverage', where: 'Python pipeline over raw spend data · Downer Group' },
+  { color: 'var(--amber-ink)', num: '3', small: ' BUs', what: 'Moved to subcontractor diesel templates that generate the platform upload', where: 'Replaced manual supplier sorting and matching · Downer Group' },
 ];
 
 export const PIPELINE = [
   {
-    step: 'raw', n: '01', label: 'Raw Data', icon: 'box', color: 'var(--step-raw)',
-    desc: 'Design pre-configured data collection systems, automated upload pipelines, and systematic review frameworks that eliminate manual effort and embed audit trails at the data layer.',
+    step: 'raw', n: '01', label: 'Raw data', icon: 'box', color: 'var(--step-raw)',
+    desc: 'Pre-configured collection templates, automated upload pipelines and review tools that cut manual handling and keep the audit trail with the data.',
     examples: [
-      { title: 'Subcontractor Diesel Reporting Templates', body: 'Pre-configured Excel templates with embedded calculation logic and automated Envizi upload generation. Eliminated manual data collection across three Downer business units, replacing a recurring per-quarter effort.', outcome: 'Outcome: manual collection eliminated across 3 BUs, Downer EDI' },
-      { title: 'Scope 3 Data Collection Pipeline Rebuild', body: 'Rebuilt the full subcontractor survey pipeline incorporating proxy rate calculations, prior-period response pooling, and CPI inflation adjustment. Structured so business unit contacts can operate each cycle without re-briefing.', outcome: 'Applied across Downer EDI supply chain emissions reporting' },
+      { title: 'Subcontractor diesel reporting templates', body: 'Pre-configured Excel templates with embedded calculation logic that generate the Envizi upload. They replaced manual supplier sorting and matching each quarter across three Downer business units.', outcome: 'Three business units, Downer Group' },
+      { title: 'Subcontractor diesel estimation pipeline', body: 'Rebuilt the subcontractor diesel estimate: survey actuals first, then a category proxy from CPI-adjusted pooled responses, then a fallback. Then specified it, with a 65-check validator, for handover to the data team.', outcome: 'Subcontractor emissions reporting, Downer Group' },
     ],
   },
   {
     step: 'calc', n: '02', label: 'Calculation', icon: 'spark', color: 'var(--step-calc)',
-    desc: 'GHG inventory preparation and Scope 1-3 accounting aligned to GHG Protocol and NGER. Methodology documented for external assurance and reuse across reporting cycles.',
+    desc: 'GHG inventory preparation and Scope 1-3 accounting aligned to the GHG Protocol and NGER, with the method documented for external assurance and reuse across reporting cycles.',
     examples: [
-      { title: 'GHG Recalculation Module', body: 'Independent recalculation module with operational control boundary filtering, built to reconcile Group-level emissions calculations against Envizi outputs. Documented logic for ongoing internal verification without advisory dependency.', outcome: 'Outcome: delivered external assurance readiness for Group-level Scope 1 and 2, Downer EDI' },
-      { title: 'GHG Inventory Automation: ~40% Time Reduction', body: 'Automated Excel and Python tools at WSP that replaced recurring manual workflows across active client accounts. All tools documented with logic notes for internal operation.', outcome: 'Outcome: ~40% reduction in GHG inventory preparation time, WSP in Australia' },
+      { title: 'GHG recalculation module', body: 'Independent recalculation module with operational control boundary filtering, built to reconcile Group-level emissions calculations against Envizi outputs.', outcome: 'Group Scope 1 and 2 reconciled to the reporting platform ahead of external limited assurance, Downer Group' },
+      { title: 'LCA automation in Python', body: 'Python scripts that automated data downloads and material linking for life cycle assessments, plus internal tools that populated calculators and reporting templates.', outcome: 'About four hours saved per study, and more than 13 labour hours on one project, WSP in Australia' },
     ],
   },
   {
     step: 'report', n: '03', label: 'Reporting', icon: 'chart', color: 'var(--step-report)',
-    desc: 'Regulatory disclosure for NGER, AASB S2/ISSB, GRESB, and CDP. Full submission management, methodology documentation, and external assurance preparation structured for internal handover.',
+    desc: 'Regulatory reporting and disclosure across NGER, AASB S2, GRESB and CDP. For Downer Group\'s FY26 NGER report, due in October 2026, I am the data manager, reviewer and uploader.',
     examples: [
-      { title: 'GRESB Infrastructure Assessment: 35% Improvement', body: 'Led the full assessment cycle for a major Australian energy distributor: gap analysis, data collection reform, targeted disclosure uplift across management, performance, and stakeholder engagement components. Methodology documented for handover and independently operable from year two.', outcome: 'Outcome: 35% score improvement in year one, handed back as an internally operable process' },
-      { title: 'NSW Treasury Net Zero Government Operations Policy', body: 'Technical input on emissions boundary definition and agency-level reporting methodology: operational control vs. equity share treatment, data tier hierarchy for limited-data agencies, and NGER alignment.', outcome: 'Outcome: input incorporated into the whole-of-government policy framework across NSW agencies' },
-      { title: 'NGER Statutory Compliance: Section 13E Response', body: 'Drafted and lodged a Section 13E statutory compliance response to DCCEEW under POFRA 2017 within a 30-day deadline. Included reconciliation of historical data and full methodology documentation.', outcome: 'Outcome: submitted on deadline, Downer EDI' },
+      { title: 'GRESB Infrastructure Assessment', body: 'Led the FY22 GRESB Infrastructure submission for a major Australian energy distributor on behalf of its institutional investor. Built the procedures for data collection, materiality assessment, gap analysis, mock scoring and submission compilation.', outcome: 'Score up 35% and global ranking up 63% in year one, WSP in Australia' },
+      { title: 'NSW Government emissions accounting guidelines', body: 'Co-developed emissions accounting guidelines for all NSW Government entities under NSW Treasury\'s reporting framework. Reviewed NGERS, AASB S2 and the GHG Protocol, and ran the stakeholder engagement.', outcome: 'Guidelines for every NSW Government entity, WSP in Australia' },
+      { title: 'Statutory fuel reporting notice', body: 'Managed the response to a statutory notice under the Petroleum and Other Fuels Reporting Act 2017. Interpreted the requirements, coordinated diesel capacity and reserves data across business units, and delivered the first return inside the ten-day window.', outcome: 'Monthly returns kept up to 30 June 2026, Downer Group' },
     ],
   },
   {
     step: 'strategy', n: '04', label: 'Strategy', icon: 'target', color: 'var(--step-strategy)',
-    desc: 'Scenario-driven decarbonisation models with traceable lever assumptions drawn from published sources, structured for non-specialist interrogation and owned internally by the team that runs them.',
+    desc: 'Decarbonisation scenario models with every lever assumption traced to a published source, built so a non-specialist can test them.',
     examples: [
-      { title: 'Net Zero Pathway Model: Board Presentation', body: "Toggle-based net zero pathway model incorporating DCCEEW 2025 grid emission factor projections, NVES Act 2024 fleet trajectories, and BU-level pathway curves. Built for internal operation without ongoing advisory support. Presented to the board by senior leadership as part of the Group's climate strategy, and became the internal reference tool for tracking BU abatement progress.", outcome: 'Outcome: board-level presentation; ongoing internal reference tool, Downer EDI' },
-      { title: 'Scope 1-3 Baselines and Decarbonisation Roadmaps', body: 'Delivered across infrastructure and built environment portfolios for government and private sector clients. Each roadmap includes lever-level abatement pathways, revenue-indexed gross emissions forecasting, and documented methodology for independent operation.', outcome: 'Applied across infrastructure, government, and commercial property portfolios, WSP in Australia' },
+      { title: 'Net zero pathway model', body: 'Toggle-based net zero pathway model to FY2050 across 130 initiatives, with DCCEEW grid emission factor projections, NVES Act 2024 light-fleet trajectories, CSIRO heavy-fleet pathways and business unit filters. Its outputs went into the Reasonable Grounds board papers and the FY26 Annual Report decarbonisation graphs.', outcome: 'Board papers and the FY26 Annual Report, Downer Group' },
+      { title: 'Scope 1-3 baselines', body: 'A first Scope 1-3 baseline for a state-owned water utility, with standard, drought-year and five-year forecast profiles, and a first Scope 1 and 2 baseline for a mining equipment supplier, with client workshops on data collection that fed its decarbonisation strategy.', outcome: 'Government and private sector clients, WSP in Australia' },
     ],
     cta: { href: '#scenario', label: '→ See the live scenario model below' },
   },
   {
     step: 'comms', n: '05', label: 'Communication', icon: 'people', color: 'var(--step-comms)',
-    desc: 'Technical analysis translated into stakeholder-ready outputs: from board presentations and all-employee training to public disclosure frameworks that teams can operate independently.',
+    desc: 'Technical analysis turned into board papers, all-employee training and public disclosure.',
     examples: [
-      { title: 'Climate Change eLearning Module: Company-wide Deployment', body: 'Co-developed with an external learning design provider across three role clusters and two delivery formats. Content designed from scratch through to company-wide launch, covering GHG accounting fundamentals, decarbonisation levers, and role-specific action pathways.', outcome: 'Outcome: deployed across all-employee cohort company-wide, Downer EDI' },
-      { title: 'ESG Impact Report Workshop', body: 'Facilitated a cross-BU ESG Impact Report content workshop with a General Manager, coordinating four business unit disclosure reviews through Workiva for the annual ESG Impact Report.', outcome: 'Applied to the annual ESG Impact Report, Downer EDI' },
+      { title: 'Climate change eLearn', body: 'Co-developed an all-employee climate eLearn with an external learning designer, covering GHG accounting fundamentals, decarbonisation levers and role-specific actions. Took it from storyboard review to a staged rollout plan.', outcome: 'First cohort from November 2026, Downer Group' },
+      { title: 'ESG Impact Report workshop', body: 'Designed and ran a content workshop for ten environment and sustainability managers, including a General Manager, drawing out the case studies in one session. Then coordinated section authors through the Workiva cycle to sign-off.', outcome: 'Annual ESG Impact Report, Downer Group' },
     ],
   },
 ];
 
 export const PRINCIPLES = [
-  { num: '01', icon: 'list', title: 'Data integrity precedes narrative.', body: 'Every net zero commitment is a claim. Its credibility depends on what sits behind it: a defensible, independently verifiable inventory, documented before anyone writes the narrative.' },
-  { num: '02', icon: 'spark', title: 'Reusable infrastructure compounds value.', body: "Advisory that lives in a consultant's head has a short shelf life. I build models and processes designed to be owned internally, so the team can run the next reporting cycle without calling back in." },
-  { num: '03', icon: 'target', title: 'Ambition grounded in evidence, with gaps named.', body: 'The science sets the pace. Pathway models need lever assumptions grounded in published data, with uncertainty disclosed alongside figures. Carbon credits belong on residual hard-to-abate emissions only, once near-term reduction has been done.' },
+  { num: '01', icon: 'list', title: 'Data integrity comes before the narrative', body: 'A net zero commitment is a claim, and it is only as credible as the inventory behind it: defensible, independently verifiable, and documented before anyone writes the narrative.' },
+  { num: '02', icon: 'spark', title: 'Build it for the team to keep', body: 'I build models and processes the internal team owns and understands, so the next reporting cycle does not depend on me being in the room.' },
+  { num: '03', icon: 'target', title: 'Ambition backed by evidence, gaps named', body: 'Pathway models need lever assumptions from published data, with the uncertainty stated beside each figure. Carbon credits belong on residual hard-to-abate emissions only, once near-term reduction has been done.' },
 ];
 
 // ---------------------------------------------------------------------------
@@ -101,7 +125,7 @@ export const PRINCIPLES = [
 export const SCENARIO_UI = {
   basis: {
     label: 'Illustrative',
-    text: 'Nothing in this model is client data. The operating profiles are scaled to published peer disclosures and every lever traces to a public source, but no figure here belongs to an organisation I have worked for. Read it as a demonstration of method rather than as a result.',
+    text: 'Nothing in this model is client data. The operating profiles are scaled to published peer disclosures and each lever names its basis, but no figure here belongs to an organisation I have worked for. Read it as a demonstration of method rather than as a result.',
     meta: 'FY30 interim target year \u00b7 FY50 endpoint \u00b7 tCO\u2082-e per year',
   },
   // Labels for the run summary that captions the result panel.
@@ -110,7 +134,7 @@ export const SCENARIO_UI = {
 };
 
 // ---------------------------------------------------------------------------
-// TOOLS — the standalone subpages, gathered on the home page as evidence.
+// TOOLS: the standalone subpages, gathered on the home page as evidence.
 //
 // Framing note (deliberate, do not soften): this section exists to answer a
 // hiring manager's question, "can this person actually do the work". So every
@@ -126,23 +150,22 @@ export const SCENARIO_UI = {
 export const TOOLS_INTRO = {
   tag: 'Tools',
   idx: '03 / ',
-  title: ['Built,', 'not claimed'],
+  title: ['Working', 'tools'],
   paras: [
-    'Two tools, built in my own time and maintained since. Each one takes a question a sustainability team has to answer and answers it in public, with sourced numbers, a stated method, and the gaps named.',
-    'They run on the same discipline I bring to a reporting cycle. If a figure cannot be traced to a citation and an access date, it does not go on the page. Where a number is an estimate, the page says so beside the number.',
-    'The chart on each card is drawn from that tool\'s own data, and says underneath it what stands behind the numbers.',
+    'Two tools, built in my own time and maintained since. Each takes a question a sustainability team has to answer and works it through in public, with a stated method and the gaps named.',
+    'The chart on each card is drawn from that tool\'s own data, with its basis printed underneath.',
   ],
   rules: [
     {
-      icon: 'list', head: 'Sourced or it does not ship',
-      body: 'Every figure carries its source and the date it was read. Estimates are labelled as estimates, at the number.',
+      icon: 'list', head: 'Every figure sourced or labelled',
+      body: 'A sourced figure carries its source and the date it was read. Estimates and illustrative figures say so, at the number.',
     },
     {
       icon: 'book', head: 'Each tool states its basis',
       body: 'Method, boundary, exclusions and update cadence sit on the page, the way an assurance-ready inventory carries its basis of preparation.',
     },
     {
-      icon: 'loop', head: 'Built to be handed over',
+      icon: 'loop', head: 'One source per tool',
       body: 'Data, copy and methodology live in one place per tool, so refreshing a factor moves every place it appears.',
     },
   ],
@@ -164,19 +187,19 @@ export const TOOLS_INTRO = {
 export const TOOLS = [
   {
     n: '01', icon: 'chart', color: 'var(--lime)',
-    name: 'Work Samples', spec: 'work', span: 3, href: 'work/',
-    what: 'Four client-side frameworks as live working examples: emissions baseline, decarbonisation roadmap, multi-criteria prioritisation, and lifecycle carbon. One case study runs through all four.',
-    proves: 'The engagement arc I run end to end: boundary and data grading, quantified options, stakeholder-weighted screening, then a sequenced roadmap with CAPEX by year.',
+    name: 'Work samples', spec: 'work', span: 3, href: 'work/',
+    what: 'Four frameworks as interactive examples on illustrative data: emissions baseline, decarbonisation roadmap, multi-criteria prioritisation and lifecycle carbon. A composite case study runs through all four.',
+    proves: 'The method I use from baseline to roadmap: boundary and data grading, quantified options, weighted screening, then a sequenced roadmap.',
     tags: ['Scope 1-3 baseline', 'MCA framework', 'A1-A5 lifecycle'],
-    scope: '4 frameworks · one engagement, start to finish',
+    scope: '4 frameworks · illustrative data, not client data',
   },
   {
     n: '02', icon: 'house', color: 'var(--matcha)',
     name: 'Life Footprint', spec: 'footprint', span: 3, href: 'footprint/',
-    what: 'A full personal emissions model across ten categories, with a guided audit, an abatement planner, a forecast pathway and a reveal at the end that makes the year legible.',
-    proves: 'The whole inventory arc in miniature: boundary, cited factor set, calculation, abatement pathway, and a basis of preparation kept in sync with the engine.',
+    what: 'A full personal emissions model across ten categories, with a guided audit, an abatement planner, a forecast pathway and an animated summary of the year at the end.',
+    proves: 'An inventory in miniature: boundary, cited factor set, calculation, abatement pathway, and a basis of preparation kept in sync with the engine.',
     tags: ['Cited factor set', 'Abatement planner', 'Basis of preparation'],
-    scope: '10 categories · every factor cites its source',
+    scope: '10 categories · each factor names its source',
   },
 ];
 
@@ -253,48 +276,52 @@ export const EXPERIENCE = [
   {
     mark: 'DG', clr: 'downer',
     logo: 'Downer_Group_logo.svg.png', logoClass: 'logo-downer', logoAlt: 'Downer Group logo', logoW: 252, logoH: 90,
-    org: 'Downer EDI', dept: 'Group Environment, Sustainability & Reporting',
+    org: 'Downer Group', dept: 'Group Environment, Sustainability & Reporting',
     roles: [{ title: 'Senior Sustainability Advisor', date: 'Mar 2026 - Present' }],
     bullets: [
-      { section: 'Facilitation & Stakeholder Influence' },
-      { text: 'Facilitated a cross-BU ESG Impact Report content workshop with a General Manager, coordinating four business unit disclosure reviews through Workiva for the annual ESG Impact Report.' },
-      { text: 'Co-developed an all-employee climate eLearning module with an external learning design provider across three role clusters and two delivery formats, from content design through company-wide launch.' },
-      { section: 'Data Tools & Systems' },
-      { text: 'Built a toggle-based net zero pathway model using government and research-sourced lever assumptions, structured for internal operation without ongoing advisory support.' },
-      { text: 'Designed pre-configured subcontractor diesel reporting templates with embedded calculation logic and automated Envizi upload generation, eliminating manual collection across three business units.' },
+      { section: 'Facilitation and stakeholder influence' },
+      { text: 'Designed and ran an ESG Impact Report content workshop for ten environment and sustainability managers, including a General Manager, then coordinated section authors through Workiva for the annual report.' },
+      { text: 'Co-developed an all-employee climate eLearn with an external learning designer and took it from storyboard review to a staged rollout plan, with the first cohort from November 2026.' },
+      { section: 'Data tools and systems' },
+      { text: 'Built a toggle-based net zero pathway model to FY2050 on government and research-sourced lever assumptions. Its outputs went into the Reasonable Grounds board papers and the FY26 Annual Report decarbonisation graphs.' },
+      { text: 'Designed subcontractor diesel reporting templates with embedded calculation logic that generate the Envizi upload, replacing manual supplier sorting and matching across three business units.' },
       { text: 'Developed an independent GHG recalculation module with operational control boundary filtering to support external assurance.' },
-      { text: 'Rebuilt the Scope 3 subcontractor data collection pipeline, incorporating proxy rate calculations, prior-period response pooling, and CPI inflation adjustment.' },
-      { text: 'Redesigned FY emissions data review tools with cross-BU anomaly detection, site completeness tracking, and emission factor verification logic.' },
-      { section: 'Portfolio & Governance' },
-      { text: 'Drafted and lodged a Section 13E statutory compliance response to DCCEEW under POFRA 2017 within a 30-day deadline.' },
-      { text: 'Managed 12+ concurrent workstreams from Month 1, spanning GHG reporting, disclosure preparation, emissions modelling, and eLearning development.' },
-      { text: 'Built a cross-BU stakeholder cadence from scratch, establishing fortnightly check-ins with six business unit contacts within the first six weeks.' },
+      { text: 'Rebuilt the subcontractor diesel estimation pipeline with proxy rate calculations, prior-period response pooling and CPI adjustment.' },
+      { text: 'Built a Python pipeline that took raw spend data across 13,391 suppliers to a 153-supplier CDP Supply Chain shortlist at 93.5% contact coverage.' },
+      { text: 'Redesigned the FY emissions data review tools with cross-BU anomaly detection, site completeness tracking and emission factor checks.' },
+      { section: 'Reporting and governance' },
+      { text: 'Data manager, reviewer and uploader for Downer Group\'s FY26 NGER report, due 31 October 2026.' },
+      { text: 'Managed the response to a statutory notice under the Petroleum and Other Fuels Reporting Act 2017: the first return inside the ten-day window, then monthly returns to 30 June 2026.' },
+      { text: 'Took over a handover portfolio of more than 12 workstreams in the first month and set its priorities and timelines.' },
+      { text: 'Set up fortnightly check-ins with environment managers in three business units within the first six weeks.' },
     ],
   },
   {
     mark: 'WSP', clr: 'wsp',
     logo: 'img-png-wsp-red.png', logoClass: 'logo-wsp', logoAlt: 'WSP logo', logoW: 126, logoH: 60,
-    org: 'WSP in Australia', dept: 'Sustainability & Climate Change Advisory',
+    org: 'WSP in Australia', dept: 'Sustainability and Climate Change Advisory',
     roles: [
       { title: 'Project Consultant', date: 'Oct 2025 - Feb 2026' },
       { title: 'Design Consultant', date: 'Oct 2023 - Oct 2025' },
-      { title: 'Sustainability Consultant', date: 'Feb 2022 - Oct 2023' },
+      { title: 'Consultant', date: 'Feb 2022 - Oct 2023' },
     ],
     bullets: [
-      { text: '35% GRESB score improvement in year one: led the full Infrastructure Assessment cycle for a major Australian energy distributor, from gap analysis and data collection reform through to final submission and internal handover.' },
-      { text: 'GHG inventory preparation time reduced by approximately 40%: built automated Excel and Python tools that replaced recurring manual workflows across active client accounts, with documented logic for ongoing internal operation.' },
-      { text: 'Technical input to NSW Treasury Net Zero Government Operations Policy: contributed emissions boundary definition and agency-level reporting methodology to the whole-of-government framework.' },
-      { text: 'Lifecycle carbon assessments delivered for hospital and commercial fitout projects: A1-A5 boundary analysis with material hotspot quantification and low-carbon specification recommendations referenced against IStructE and GBCA benchmarks.' },
-      { text: 'Scope 1-3 baselines and decarbonisation roadmaps delivered across infrastructure and built environment portfolios for government and private sector clients.' },
+      { text: 'Led the FY22 GRESB Infrastructure submission for a major Australian energy distributor on behalf of its institutional investor: score up 35% and global ranking up 63% in year one.' },
+      { text: 'Co-developed emissions accounting guidelines for all NSW Government entities under NSW Treasury\'s reporting framework, drawing on NGERS, AASB S2 and the GHG Protocol.' },
+      { text: 'Coordinated and delivered life cycle assessments for more than ten high-rise developments across NSW, Queensland and Victoria, and for transport infrastructure, with carbon reduction options and procurement advice for developers, engineers and builders.' },
+      { text: 'Automated LCA data downloads and material linking in Python, saving about four hours per study, and built reporting tools that saved more than 13 labour hours on one project.' },
+      { text: 'Delivered first emissions baselines for government and private sector clients, with client workshops on data collection that fed their decarbonisation strategies.' },
     ],
   },
   {
+    // No logo: the Defence lockup is the Commonwealth Coat of Arms, which is
+    // not for personal use. Entries without a logo show a text eyebrow instead.
     mark: 'DoD', clr: 'defence',
-    logo: 'Defence.png', logoClass: 'logo-defence', logoAlt: 'Australian Government Department of Defence crest', logoW: 168, logoH: 168,
-    org: 'Department of Defence', dept: 'Capital Facilities & Infrastructure Branch',
-    roles: [{ title: 'Assistant Project Officer', date: 'Feb 2020 - Jan 2022' }],
+    eyebrow: 'Government', eyebrowIcon: 'building',
+    org: 'Department of Defence', dept: 'Capital Facilities and Infrastructure',
+    roles: [{ title: 'Assistant Project Officer', date: 'Mar 2020 - Feb 2022' }],
     bullets: [
-      { text: 'Infrastructure upgrade project delivery across Defence sites as part of a $3.2 billion capital portfolio under the Capital Facilities & Infrastructure Branch, coordinating design, procurement, and delivery across multiple concurrent projects.' },
+      { text: 'Administered contracts totalling $1.3 billion across five capital facilities projects in Sydney and Darwin.' },
     ],
   },
 ];
@@ -308,7 +335,7 @@ export const EDUCATION = {
   dept: 'Bachelor of Engineering (Civil with Architecture)',
   roles: [{ title: 'Honours Class 1' }],
   bullets: [
-    { lead: 'Honours', text: 'First Class, Dean’s Honours List.' },
+    { lead: 'Honours', text: "First Class, Dean's Honours List." },
     { lead: 'Thesis · 92/100', text: 'Vertical Greenery Systems and the Indoor Setting.' },
     { lead: 'Leadership', text: 'President, CEVSOC 2021 · Arc Club of the Year · executive team of 56, 2,000-member society.' },
     { lead: 'Capstone', text: 'Sustainable infrastructure masterplanning · Green Star, NABERS, Envision.' },
@@ -320,14 +347,14 @@ export const EDUCATION = {
 // primary LinkedIn action. There is deliberately no second LinkedIn CTA.
 export const FOOTER = {
   wordmark: 'Chris Wang',
-  availability: 'Open to senior advisory and lead sustainability roles.',
+  availability: 'Happy to talk emissions reporting, assurance and decarbonisation modelling.',
   // Merged from the former Contact section.
-  location: 'Melbourne, Australia · flexible on arrangement',
+  location: 'Melbourne, Australia · flexible on working arrangements',
   ctaLabel: 'Connect on LinkedIn',
   ctaHref: 'https://linkedin.com/in/itschriswang',
   ctaHandle: 'linkedin.com/in/itschriswang',
   rights: 'All rights reserved © 2026 · Chris Wang',
-  tagline: 'Sustainability advisor · Melbourne, Australia',
+  tagline: 'Senior Sustainability Advisor · Melbourne, Australia',
   // Link columns. hrefs beginning with '#' or a sub-path are prefixed with the
   // page base at render time so the footer works from the root and /work/.
   // How many there are drives the grid (see --footer-col-n in SiteFooter.jsx),
@@ -338,16 +365,16 @@ export const FOOTER = {
       links: [
         { label: 'About', href: '#about' },
         { label: 'Capabilities', href: '#bio' },
-        { label: 'My Practice', href: '#principles' },
+        { label: 'My practice', href: '#principles' },
         { label: 'Experience', href: '#experience' },
       ],
     },
     {
       head: 'Work', icon: 'chart',
       links: [
-        { label: 'Decarb Model', href: '#scenario' },
-        { label: 'Work Samples', href: 'work/' },
-        { label: 'Carbon Footprint', href: 'footprint/' },
+        { label: 'Decarb model', href: '#scenario' },
+        { label: 'Work samples', href: 'work/' },
+        { label: 'Life Footprint', href: 'footprint/' },
       ],
     },
   ],

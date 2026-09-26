@@ -1,21 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useVelocity, useSpring, useMotionValue, animate } from 'framer-motion';
-import { HERO } from '../data/content';
+import { HERO, yearsSince } from '../data/content';
 import SplitText from './SplitText';
 import ContourField from './ContourField';
 import Aurora from './Aurora';
 import Icon, { LinkedInIcon } from './Icons';
 
-// Live "years" from a start date, rounded to the nearest half year.
-function yearsSince(startISO) {
-  const start = new Date(startISO);
-  const years = (Date.now() - start) / (1000 * 60 * 60 * 24 * 365.25);
-  return Math.round(years * 2) / 2;
-}
-
+// The live "years" figure comes from yearsSince (content.js), floored to the
+// half year. The tween floors too, so no frame ever shows more than the target.
 function formatYears(v) {
-  const rounded = Math.round(v * 2) / 2;
-  return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1);
+  const floored = Math.floor(v * 2 + 1e-9) / 2;
+  return Number.isInteger(floored) ? String(floored) : floored.toFixed(1);
 }
 
 function Counter({ target, suffix }) {

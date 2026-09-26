@@ -1,30 +1,31 @@
-// All /work content, preserved verbatim, plus the Sankey SVG generator ported
-// from the original page.
+// All /work content, plus the Sankey SVG generator ported from the original
+// page. Every figure on this page is illustrative: the samples show methods on
+// representative data, not client or employer deliverables.
 
 export const TABS = [
-  { id: 'baseline', letter: 'A', label: 'Emissions Baseline', icon: 'chart' },
-  { id: 'roadmap', letter: 'B', label: 'Decarb Roadmap', icon: 'target' },
-  { id: 'mca', letter: 'C', label: 'MCA Framework', icon: 'list' },
-  { id: 'lca', letter: 'D', label: 'Lifecycle Carbon', icon: 'leaf' },
+  { id: 'baseline', letter: 'A', label: 'Emissions baseline', icon: 'chart' },
+  { id: 'roadmap', letter: 'B', label: 'Decarb roadmap', icon: 'target' },
+  { id: 'mca', letter: 'C', label: 'MCA framework', icon: 'list' },
+  { id: 'lca', letter: 'D', label: 'Lifecycle carbon', icon: 'leaf' },
 ];
 
-// Narrative lead-in that frames the four frameworks below as the machinery of a
-// single engagement, so a reader meets the story before the methodology.
+// Narrative lead-in: the order the work runs in, so a reader meets the
+// sequence before the four methods.
 export const WORK_NARRATIVE = {
   tag: 'The through-line',
-  title: 'One engagement, start to finish',
+  title: 'The order the work runs in',
   paras: [
-    'Every engagement starts in the same place. Confirm the boundary, grade the data, and name the gaps. The first finding is almost always identical: the overwhelming majority of emissions sit in the value chain, outside direct operational control. Everything downstream follows from it, starting with whether the levers worth modelling sit inside the business or across its suppliers.',
+    'Emissions work starts by confirming the boundary, grading the data and naming the gaps. The first finding is usually that most emissions sit in the value chain, outside direct operational control, and that decides whether the levers worth modelling sit inside the business or with its suppliers.',
     'From there the work runs in a fixed order. Options get quantified before any pathway is modelled, because a pathway is only as good as the levers underneath it. Targets come last, once the pathway exists, so the interim numbers are ones the roadmap can deliver.',
-    'The four frameworks below are the machinery behind that arc, each shown as a live working example. The case study at the end walks one engagement through all of them, baseline to boardroom.',
+    'The four frameworks below follow that order, each as an interactive example on illustrative data. The case study at the end is a composite walk-through of all four.',
   ],
 };
 
 export const BASELINE_SECTORS = {
   property: {
-    label: 'Commercial Property',
+    label: 'Commercial property',
     claim: 'Base-building electricity and leased building operations drive the footprint. Renewable procurement and all-electric retrofit are the primary reduction levers.',
-    meta: 'FY25 Baseline · Scope 1-3 · Illustrative: representative commercial office portfolio. Not client data.',
+    meta: 'FY25 baseline · Scope 1-3 · Illustrative: representative commercial office portfolio. Not client data.',
     s1: '8.2%', s2: '22.4%', s3: '69.4%',
     s1b: 'On-site plant and gas combustion. All-electric retrofit removes the direct emissions over time.',
     s2b: 'Dominant operational category. Base-building electricity drives most Scope 2 exposure. Renewable procurement (PPA / GreenPower) and grid decarbonisation are the primary levers.',
@@ -32,14 +33,14 @@ export const BASELINE_SECTORS = {
     sk: [8.2, 22.4, 69.4, 22.0, 12.6, 34.8],
     tiles: [
       { h: '69% of emissions sit outside direct operational control', b: 'Tenant electricity (Cat 13) and supply chain (Cat 1) dominate. Green leases and procurement policy are the primary reduction mechanisms.' },
-      { h: 'Renewable procurement is the largest near-term lever', b: 'Scope 2 is 22% of the portfolio footprint. A PPA plus the grid decarbonisation trajectory is the most immediate pathway to net-zero Scope 2.' },
-      { h: 'All-electric retrofit locks in long-term performance', b: 'Asset use-phase emissions track the grid. Gas phase-out paired with a renewable PPA eliminates Scope 2 at the portfolio level over time.' },
+      { h: 'Renewable procurement is the largest near-term lever', b: 'Scope 2 is 22% of the portfolio footprint. A PPA plus the grid decarbonisation trajectory is the most immediate route to net zero Scope 2.' },
+      { h: 'All-electric retrofit removes on-site gas for good', b: 'Asset use-phase emissions then track the grid. Gas phase-out removes on-site combustion from Scope 1, and a renewable PPA covering the electricity that replaces it takes market-based Scope 2 toward zero at the portfolio level over time.' },
     ],
   },
   retail: {
-    label: 'Retail · Shopping Centres',
+    label: 'Retail · shopping centres',
     claim: 'Common-area electricity and refrigeration drive operations, but tenant energy and merchandise supply chains dominate the total footprint.',
-    meta: 'FY25 Baseline · Scope 1-3 · Illustrative: representative shopping-centre portfolio. Not client data.',
+    meta: 'FY25 baseline · Scope 1-3 · Illustrative: representative shopping-centre portfolio. Not client data.',
     s1: '9.5%', s2: '27.0%', s3: '63.5%',
     s1b: 'Refrigerant leakage and minor gas combustion. A low-GWP refrigerant transition is the primary Scope 1 lever.',
     s2b: 'Common-area lighting, HVAC and vertical transport. Renewable procurement and grid decarbonisation are the largest near-term levers.',
@@ -52,9 +53,9 @@ export const BASELINE_SECTORS = {
     ],
   },
   logistics: {
-    label: 'Logistics & Industrial',
+    label: 'Logistics and industrial',
     claim: 'Warehouse operations are low-intensity and quick to decarbonise; the footprint is dominated by embodied carbon in the sheds and downstream transport.',
-    meta: 'FY25 Baseline · Scope 1-3 · Illustrative: representative logistics estate portfolio. Not client data.',
+    meta: 'FY25 baseline · Scope 1-3 · Illustrative: representative logistics estate portfolio. Not client data.',
     s1: '6.5%', s2: '18.5%', s3: '75.0%',
     s1b: 'Yard equipment and minor combustion. Materials-handling electrification (forklifts) is the primary direct lever.',
     s2b: 'Warehouse lighting, refrigeration and cold-chain. Large rooftop-solar and PPA potential decarbonises Scope 2 quickly.',
@@ -62,14 +63,14 @@ export const BASELINE_SECTORS = {
     sk: [6.5, 18.5, 75.0, 40.0, 22.0, 13.0],
     tiles: [
       { h: 'Rooftop solar makes Scope 2 the quick win', b: 'Large, unshaded warehouse roofs support major on-site generation. Solar plus a PPA can take base-building Scope 2 close to zero within a few years.' },
-      { h: 'Embodied carbon is locked in at construction', b: 'Tilt-up concrete and steel dominate Cat 1. Low-carbon concrete specification and structural efficiency at design stage are the highest-leverage moves.' },
+      { h: 'Embodied carbon is locked in at construction', b: 'Tilt-up concrete and steel dominate Cat 1. Low-carbon concrete specification and structural efficiency at design stage have the most effect.' },
       { h: 'Downstream transport needs modal and fuel shift', b: 'Distribution (Cat 4) is the second-largest category. Load optimisation, modal shift and low-carbon fuels reduce it, but it depends on supply-chain partners.' },
     ],
   },
   infrastructure: {
-    label: 'Infrastructure Services',
-    claim: 'Value chain emissions dominate the footprint, shaping where Net Zero action must focus.',
-    meta: 'FY25 Baseline · Scope 1-3 · Illustrative composite scaled between listed sector peers. Not client data.',
+    label: 'Infrastructure services',
+    claim: 'Value chain emissions are 83% of the footprint, so that is where net zero action has to focus.',
+    meta: 'FY25 baseline · Scope 1-3 · Illustrative composite scaled between listed sector peers. Not client data.',
     s1: '11.5%', s2: '5.8%', s3: '82.7%',
     s1b: 'Stationary combustion, diesel fleet, and mobile plant. Highest direct control. Largest lever is fleet and plant electrification.',
     s2b: 'Driven by grid emission factor trajectory and on-site renewable procurement (PPA / GreenPower).',
@@ -140,23 +141,23 @@ export function buildSankey(s1p, s2p, s3p, cat1p, cat4p, cat13p) {
   return s;
 }
 
-export const ROADMAP_INTRO = 'A structured three-stage methodology for moving from emissions data to a sequenced decarbonisation roadmap with CAPEX implications. Applied across infrastructure, property, and government sector engagements.';
+export const ROADMAP_INTRO = 'A three-stage method for moving from emissions data to a sequenced decarbonisation roadmap with CAPEX implications.';
 
 export const ROADMAP_STAGES = [
   {
-    n: 'Stage 01', title: 'Establish Baseline & Constraints', obj: 'Objective: Understand starting point and limits',
+    n: 'Stage 01', title: 'Establish the baseline and constraints', obj: 'Objective: understand the starting point and limits',
     pts: ['Confirm Scope 1-3 boundaries, data confidence, and material gaps', 'Identify constraints: regulatory, commercial, operational', 'Map key stakeholders: portfolio managers, facility managers, procurement', 'Understand existing decarbonisation efforts and commitments'],
-    note: 'Potential data gaps at this stage: capital goods, business travel, waste in operations: flagged for proxy methodology or exclusion with rationale.',
+    note: 'Likely data gaps at this stage (capital goods, business travel, waste in operations) are flagged for a proxy method or excluded with a stated reason.',
   },
   {
-    n: 'Stage 02', title: 'Identify & Quantify Mitigation Options', obj: 'Objective: Generate and evaluate options',
+    n: 'Stage 02', title: 'Identify and quantify mitigation options', obj: 'Objective: generate and evaluate options',
     pts: ['Develop long-list of initiatives across Scope 1-3', 'Quantify abatement, cost, and timing for each option', 'Identify initiatives to avoid, reduce, and replace emissions', 'Cover operations, design, supply chain, and asset use-phase'],
     note: 'Acknowledge ongoing decarbonisation scenarios: national grid trajectory, material and technology changes, policy pipeline.',
   },
   {
-    n: 'Stage 03', title: 'Screen & Build the Roadmap', obj: 'Objective: Narrow options into a sequenced plan',
+    n: 'Stage 03', title: 'Screen options and build the roadmap', obj: 'Objective: narrow options into a sequenced plan',
     pts: ['Short-list options with stakeholders using MCA (see next tab)', 'Build sequenced roadmap with CAPEX implications by year', 'Set interim targets aligned to SBTi or AASB S2 scenarios', 'Define governance, ownership, and monitoring cadence'],
-    note: 'Output: a pathway model where scenario toggles show how lever choices affect the trajectory: gross vs. net, by scope and business unit.',
+    note: 'Output: a pathway model whose toggles show how lever choices move the trajectory, gross and net, by scope and business unit.',
   },
 ];
 
@@ -164,8 +165,8 @@ export const ROADMAP_LEVERS = {
   caption: 'Example mitigation levers by scope',
   head: ['Lever', 'Scope', 'Timing', 'Notes'],
   rows: [
-    ['Renewable electricity (PPA / GreenPower)', 'Scope 2', 'Near-term', 'Highest leverage early. Addresses purchased electricity entirely with credible instruments.'],
-    ['LV fleet transition (EV)', 'Scope 1', 'Near-to-mid', 'NVES trajectory sets baseline expectation. Faster procurement cycles accelerate.'],
+    ['Renewable electricity (PPA / GreenPower)', 'Scope 2', 'Near-term', 'Largest early effect. Covers all purchased electricity with credible instruments.'],
+    ['LV fleet transition (EV)', 'Scope 1', 'Near-to-mid', 'NVES trajectory sets baseline expectation. Faster procurement cycles speed it up.'],
     ['HV fleet transition', 'Scope 1', 'Mid-term', 'CSIRO pathway. Technology readiness constrains pace: most impact post-FY2029.'],
     ['Low-carbon materials procurement', 'Scope 3 Cat 1', 'Mid-term', 'Specification and supplier engagement. Locks in embodied carbon reductions at design stage.'],
     ['Supplier engagement programme', 'Scope 3 Cat 1/4', 'Ongoing', 'CDP supply chain, contractual requirements, capacity building for key suppliers.'],
@@ -174,14 +175,14 @@ export const ROADMAP_LEVERS = {
   ],
 };
 
-export const MCA_INTRO = 'A multi-criteria analysis framework for prioritising decarbonisation initiatives. Applied to move from a long-list of options to a sequenced roadmap with CAPEX implications. Weighting factors are agreed with stakeholders following engagement: the framework structures the decision, it does not make it.';
+export const MCA_INTRO = 'A multi-criteria analysis framework for prioritising decarbonisation initiatives, used to narrow a long-list of options into a sequenced roadmap with CAPEX implications. Stakeholders agree the weightings, and the framework structures the decision they make.';
 
 export const MCA_CRITERIA = [
-  { crit: 'Impact (Carbon)', metric: 'Metric: total tCO₂-e reduction to 2050', body: 'Will the option deliver significant carbon reductions toward net zero targets? Primary quantitative screen.' },
-  { crit: 'Cost Effectiveness', metric: 'Metric: Net Present Cost / tCO₂-e avoided', body: 'Is the initiative cost-effective in achieving carbon reductions? Levelised cost of abatement used to identify the efficiency frontier before CAPEX commitments.' },
-  { crit: 'Readiness', metric: 'Metric: technology and commercial maturity', body: 'Is the option technically and commercially ready to deploy at scale? What time horizon does it become feasible? Informs sequencing.' },
-  { crit: 'Ability to Influence', metric: 'Metric: organisational control vs. external dependency', body: 'Does the organisation have direct ability to act, or is collaboration and third-party decisions required? Determines ownership model.' },
-  { crit: 'Risks & Constraints', metric: 'Metric: safety, regulatory, reputational exposure', body: 'Significant safety, licensing, regulatory, or community risks? Go/no-go screen for initiatives with material downside exposure.' },
+  { crit: 'Impact (carbon)', metric: 'Metric: total tCO₂-e reduction to 2050', body: 'Will the option deliver significant carbon reductions toward net zero targets? Primary quantitative screen.' },
+  { crit: 'Cost-effectiveness', metric: 'Metric: net present cost / tCO₂-e avoided', body: 'Is the initiative cost-effective in achieving carbon reductions? Levelised cost of abatement used to identify the efficiency frontier before CAPEX commitments.' },
+  { crit: 'Readiness', metric: 'Metric: technology and commercial maturity', body: 'Is the option technically and commercially ready to deploy at scale? When does it become feasible? Informs sequencing.' },
+  { crit: 'Ability to influence', metric: 'Metric: organisational control vs. external dependency', body: 'Does the organisation have direct ability to act, or are collaboration and third-party decisions required? Determines ownership model.' },
+  { crit: 'Risks and constraints', metric: 'Metric: safety, regulatory, reputational exposure', body: 'Significant safety, licensing, regulatory, or community risks? Go/no-go screen for initiatives with material downside exposure.' },
   { crit: 'Co-benefits', metric: 'Metric: value beyond carbon savings', body: 'Associated environmental, community, or strategic value beyond carbon savings. Includes resilience, regulatory positioning, and commercial differentiation.' },
 ];
 
@@ -189,15 +190,15 @@ export const MCA_ANALYSIS = {
   caption: 'Further analysis to support prioritisation',
   head: ['Analysis', 'Purpose', 'Key data sources'],
   rows: [
-    ['Embodied Carbon Assessments', 'Quantify upfront emissions by building typology; identify material hotspots and assess impact of material and construction alternatives', 'LCA databases, supplier EPDs, BIM models, QS schedules'],
-    ['Marginal Abatement Cost Curve', 'Prioritise initiatives by cost-effectiveness and scale of emissions reduction', 'Supplier quotes, CAPEX estimates, financial models, market benchmarks'],
-    ['Use-Phase Performance Modelling', 'Project operational emissions over 30 years; validate NABERS and Green Star targets', 'NatHERS, FirstRate5, NABERS forecasting, utility benchmarks'],
-    ['Capital Planning Alignment', 'Align decarbonisation measures with existing asset lifecycles and CAPEX planning', 'CAPEX plans, maintenance schedules, climate risk assessments'],
+    ['Embodied carbon assessments', 'Quantify upfront emissions by building typology; identify material hotspots and assess impact of material and construction alternatives', 'LCA databases, supplier EPDs, BIM models, QS schedules'],
+    ['Marginal abatement cost curve', 'Prioritise initiatives by cost-effectiveness and scale of emissions reduction', 'Supplier quotes, CAPEX estimates, financial models, market benchmarks'],
+    ['Use-phase performance modelling', 'Project operational emissions over 30 years; validate NABERS and Green Star targets', 'NatHERS, FirstRate5, NABERS forecasting, utility benchmarks'],
+    ['Capital planning alignment', 'Align decarbonisation measures with existing asset lifecycles and CAPEX planning', 'CAPEX plans, maintenance schedules, climate risk assessments'],
   ],
 };
 
 export const LCA = {
-  claim: 'Upfront embodied carbon is front-loaded in the construction phase. The window to reduce it closes at design stage.',
+  claim: 'Upfront embodied carbon is emitted in the construction phase, and the window to reduce it closes at design stage.',
   meta: 'Illustrative · representative commercial office typology · method per GBCA Upfront Carbon Reduction guide v1.1 · not client data',
   modulesHead: 'System boundary: lifecycle modules in scope',
   modules: [
@@ -234,16 +235,16 @@ export const LCA = {
   systemsHead: 'Upfront carbon by building system',
   systems: [
     { tag: 'Structural frame', pct: '65%', body: 'Concrete (in-situ and precast) and reinforcing steel. Primary hotspot. Reduction via structural efficiency, low-carbon concrete specification, and supplier EPD procurement.' },
-    { tag: 'Envelope & MEP', pct: '27%', body: 'Building envelope (cladding, glazing, roofing) plus mechanical, electrical, and hydraulic services. Reduction via specification choices and system right-sizing.' },
+    { tag: 'Envelope and MEP', pct: '27%', body: 'Building envelope (cladding, glazing, roofing) plus mechanical, electrical, and hydraulic services. Reduction via specification choices and system right-sizing.' },
     { tag: 'Internal fit-out', pct: '8%', body: 'Partitions, finishes, and fitments. Smallest upfront contribution. Circular economy and demountable design reduce end-of-life impact.' },
   ],
   hotspotsCaption: 'Material hotspot breakdown: upfront embodied carbon (A1-A5)',
   hotspots: [
-    { name: 'In-situ concrete & precast', sub: 'Post-tensioned slabs, cores, columns', pct: '42%', w: 100, bg: 'var(--matcha)' },
+    { name: 'In-situ concrete and precast', sub: 'Post-tensioned slabs, cores, columns', pct: '42%', w: 100, bg: 'var(--matcha)' },
     { name: 'Reinforcing and structural steel', sub: 'Rebar, fabricated sections', pct: '23%', w: 55, bg: 'rgba(62,110,52,0.8)' },
     { name: 'Building envelope', sub: 'Curtain wall, cladding, roofing', pct: '16%', w: 38, bg: 'rgba(62,110,52,0.6)' },
     { name: 'MEP systems', sub: 'Mechanical, electrical, hydraulic', pct: '11%', w: 26, bg: 'rgba(62,110,52,0.4)' },
-    { name: 'Internal fit-out & other', sub: 'Partitions, finishes, landscaping', pct: '8%', w: 19, bg: 'rgba(62,110,52,0.25)' },
+    { name: 'Internal fit-out and other', sub: 'Partitions, finishes, landscaping', pct: '8%', w: 19, bg: 'rgba(62,110,52,0.25)' },
   ],
   benchHead: 'Benchmark comparison: upfront embodied carbon intensity (kgCO₂-e/m² GFA)',
   benchTicks: ['0', '200', '400', '600', '800'],
@@ -264,17 +265,17 @@ export const LCA = {
     ],
   },
   tiles: [
-    { h: 'Embodied carbon is front-loaded', b: '65% of the lifecycle carbon footprint is locked in before practical completion. Procurement and specification decisions determine the outcome.' },
+    { h: 'Upfront carbon is set at design stage', b: 'The structural frame carries about 65% of upfront carbon (A1-A5), and it is fixed at design stage. Procurement and specification decisions determine the outcome.' },
     { h: 'Operational carbon is addressable', b: 'All-electric design paired with a grid decarbonisation trajectory can drive use-phase Scope 2 emissions to near-zero by the mid-2030s. This is the primary lever for buildings with long asset lives.' },
     { h: 'Removals are reported on their own', b: 'Carbon offsets, carbon-neutral certified products and stored biogenic carbon no longer reduce a project upfront carbon. Under v1.1 they are reported on their own in the Upfront Carbon Compensation credit, so A1-A5 hotspots have to be designed out.' },
   ],
 };
 
-export const CASE_INTRO = 'How one engagement moves from raw fuel invoices to a board-presented pathway. Scroll through the four phases: the figure tracks where the work happens.';
+export const CASE_INTRO = 'A composite walk-through of how the work runs, from raw fuel invoices to a pathway ready for a board paper. The figures are illustrative. Scroll through the four phases; the figure changes with each one.';
 
 export const CASE_STEPS = [
-  { num: '01', title: 'Establish the baseline.', body: 'Fuel invoices, meter reads and subcontractor spend all arrive at different quality, so the first job is grading them: metered, estimated, or missing entirely. Boundaries then get set under operational control and the Scope 3 categories screened for materiality. Whatever falls out is written down with the reason attached, because an exclusion nobody documented is the thing an assurer finds first.', src: 'GHG Protocol · NGER · documented for external assurance' },
-  { num: '02', title: 'Build the roadmap.', body: 'A long-list runs to dozens of initiatives, most of which will not survive contact with a cost. Each one gets an abatement figure, a cost, and the year it becomes feasible. Stakeholders weight the criteria, the multi-criteria screen ranks what is left, and the survivors are sequenced against the capital plan so the CAPEX lands where the business can carry it.', src: 'MCA framework · marginal abatement cost · capital planning alignment' },
-  { num: '03', title: 'Model the pathway.', body: "A toggle-based scenario model where every lever assumption traces to a published source: grid trajectory, fleet transition, plant electrification. Built so a non-specialist can interrogate it, and presented to the board by senior leadership as the Group's climate reference tool.", src: 'DCCEEW 2025 · NVES Act 2024 · CSIRO Net Zero Pathways' },
-  { num: '04', title: 'Hand it over.', body: 'The engagement ends; the infrastructure stays. Automated tooling cut inventory preparation time by roughly 40%, and every model ships with documented logic so the internal team runs the next reporting cycle without calling the consultant back in.', src: 'Excel · Python · Envizi · operable without advisory dependency' },
+  { num: '01', title: 'Establish the baseline', body: 'Fuel invoices, meter reads and subcontractor spend all arrive at different quality, so the first job is grading them: metered, estimated, or missing entirely. Boundaries then get set under operational control and the Scope 3 categories screened for materiality. Whatever falls out is written down with the reason attached, because an exclusion nobody documented is the thing an assurer finds first.', src: 'GHG Protocol · NGER · documented for external assurance' },
+  { num: '02', title: 'Build the roadmap', body: 'A long-list runs to dozens of initiatives, most of which will not survive contact with a cost. Each one gets an abatement figure, a cost, and the year it becomes feasible. Stakeholders weight the criteria, the multi-criteria screen ranks what is left, and the survivors are sequenced against the capital plan so the CAPEX lands where the business can carry it.', src: 'MCA framework · marginal abatement cost · capital planning alignment' },
+  { num: '03', title: 'Model the pathway', body: 'A toggle-based scenario model in which each lever (grid trajectory, fleet transition, plant electrification) carries its assumption and the source behind it. Built so a non-specialist can interrogate it, and so its outputs can go straight into a board paper.', src: 'DCCEEW 2025 · NVES Act 2024 · CSIRO Net Zero Pathways' },
+  { num: '04', title: 'Make it repeatable', body: 'The method gets written down before the numbers go anywhere: data sources, boundary decisions, factors and exclusions, each with its reason. Repetitive steps such as supplier matching and fuel sorting move into scripts and templates, so the next reporting cycle reruns the same logic and an assurer can follow it line by line.', src: 'Excel · Python · Envizi' },
 ];

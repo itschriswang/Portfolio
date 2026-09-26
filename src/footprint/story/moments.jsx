@@ -740,7 +740,7 @@ export function Bench({ d, voice, tags }) {
 // 8 · The needle, as a live toy: the top three cuts are switches. Flipping
 // them re-prices the year through the same engine the pathway uses, applied
 // in APPLY_ORDER at full phase, so overlapping levers compose instead of
-// double counting; the standalone figure on each card stays the honest
+// double counting; the standalone figure on each card stays the true
 // "this one alone" number.
 // ---------------------------------------------------------------------------
 export function Needle({ d, profile, agg, voice, tags, onPlan }) {
@@ -811,7 +811,6 @@ export function Needle({ d, profile, agg, voice, tags, onPlan }) {
           </span>
           {on.size > 1 && <span className="st-caveat">{NEEDLE.live.note}</span>}
         </motion.div>
-        <motion.p className="st-punch" variants={rise} custom={7}>{NEEDLE.punch}</motion.p>
         <motion.div className="st-share-row" variants={rise} custom={8}>
           <button type="button" className="btn btn-secondary" onClick={onPlan}>{NEEDLE.cta} ↓</button>
         </motion.div>
@@ -828,7 +827,7 @@ export function Needle({ d, profile, agg, voice, tags, onPlan }) {
 export function Outro({ d, voice, character, tags, onStart, onExplore, onReplay, onCopyLink, endRef }) {
   const top = d.ranked[0];
   // Put a name on the marquee card when we have one: "ADA'S CARBON EMISSIONS".
-  const totalTitle = d.name ? d.name.toUpperCase() + '’S CARBON EMISSIONS' : SHARE_ST.cards.total[voice];
+  const totalTitle = d.name ? d.name.toUpperCase() + "'S CARBON EMISSIONS" : SHARE_ST.cards.total[voice];
   const cards = [];
   // The character leads the gallery: it is the most identity-shaped card, the
   // one people actually post. The plain total follows for the literal-minded.

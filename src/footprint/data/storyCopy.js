@@ -38,13 +38,13 @@ export const CHAPTERS = [
 ];
 
 export const COVER = {
-  tag: 'Your Carbon Footprint',
+  tag: 'Life Footprint',
   eyebrow: 'A carbon footprint calculator',
   h1a: { example: 'Calculate your year of', own: 'Your year of' },
   h1b: 'carbon emissions',
   sub: {
     example:
-      'I measure carbon for a living, so I pointed the same maths at my own year: every flight, power bill, parcel and dinner, added up honestly.',
+      'I measure carbon for a living, so I pointed the same maths at my own year: every flight, power bill and parcel, plus an estimate of what I ate, added up.',
     own:
       'Your year, measured in carbon: flights, power, food and deliveries. It stays in this browser and nowhere else.',
   },
@@ -98,7 +98,7 @@ export const GUESS = {
   refs: [
     { id: 'home', unit: 't a person', note: 'per person, all greenhouse gases' },
     { id: 'global', label: 'World average', unit: 't a person', note: 'per person, all greenhouse gases' },
-    { id: 'budget', label: '1.5°C lifestyle benchmark', unit: 't a person', note: 'a level to sit under now' },
+    { id: 'budget', label: '1.5°C lifestyle benchmark', unit: 't a person', note: 'where a year needs to be by 2030' },
   ],
   cont: 'See where I land',
   contOwn: 'Take a guess',
@@ -114,7 +114,7 @@ export const LOCKIN = {
   sliderLabel: 'Your guess, tonnes of CO₂-e',
   unit: 't CO₂-e',
   lock: 'Lock it in',
-  locked: 'Locked: {g} t. No changing it now. The number is next.',
+  locked: 'Locked at {g} t. The number is next.',
   skip: 'No guess, just show me',
   cta: 'Reveal the number',
 };
@@ -128,8 +128,8 @@ export const TOTAL = {
   // Cute, accurate aside explaining the "-e" the first time it appears.
   eNote: 'CO₂-e means "carbon dioxide equivalent". It lets different greenhouse gases sit in one number, like converting currencies before you add them up.',
   line: {
-    example: 'Every flight, power bill, parcel and dinner, added up.',
-    own: 'Everything you entered, added up. The awkward bits left in.',
+    example: 'Every flight, power bill and parcel, plus an estimate of what I ate, added up.',
+    own: 'Everything you entered, added up, awkward bits included.',
   },
   // One instant everyday anchor beside the number, so the unit means
   // something in the same breath it is read; the equivalences moment does
@@ -141,7 +141,7 @@ export const TOTAL = {
     kicker: 'Your guess',
     under: 'You guessed {g} t. Under by {d} t: your year runs bigger than you thought.',
     over: 'You guessed {g} t. Over by {d} t: your year is smaller than you feared.',
-    close: 'You guessed {g} t. Within {pct}% of the audit. Honestly impressive calibration.',
+    close: 'You guessed {g} t. Within {pct}% of the audit.',
   },
 };
 
@@ -275,12 +275,12 @@ export const BENCH_ST = {
     example: 'Under the Australian average, but still well over the 1.5°C lifestyle benchmark of 2.5 tonnes a person. Cutting the flights is how I close that gap.',
     own: 'Of the three, the 2.5 tonne benchmark is the one to aim under. The next section is how you move toward it.',
   },
-  // What the 2.5 t line means, in plain English: a sustainable level to sit
-  // under right now, not a future deadline. Kept short on purpose; the
+  // What the 2.5 t line means, in plain English, restated from the source
+  // (benchmarks.js): where an average footprint needs to be by 2030. The
   // tooltip and label variants below say the same thing in fewer words for
   // the row name and the tile.
-  benchNote: 'The 2.5 t line marks a sustainable, fair share of carbon for one person, worked out from what it takes to keep warming near 1.5°C. It is not a future deadline: the goal is to already be under it, today. The further above the line a year sits, the more it adds to a hotter, harsher climate.',
-  benchNoteTooltip: 'The level a year should already sit under, today.',
+  benchNote: 'The 2.5 t line is the 1.5°C-aligned lifestyle benchmark: where an average person\'s footprint needs to be by 2030 to hold warming near 1.5°C.',
+  benchNoteTooltip: 'Where a year needs to be by 2030.',
   benchNoteLabel: 'Aim to stay under this line',
   // Personal overshoot day: the date the 2.5 t budget ran out at this pace.
   overshoot: {
@@ -319,7 +319,6 @@ export const NEEDLE = {
     on: 'On',
     off: 'Off',
   },
-  punch: 'One big change beats fifty small habits.',
   cta: 'Open the what-if machine',
 };
 
@@ -347,7 +346,7 @@ export const SHARE_ST = {
     previewAlt: 'Preview of the share image',
     rendering: 'Drawing your card…',
     share: 'Share',
-    shareHint: 'Opens your phone’s share sheet: Instagram Story, LinkedIn, Messages.',
+    shareHint: 'Opens your phone\'s share sheet: Instagram Story, LinkedIn, Messages.',
     save: 'Save image',
     saveHint: 'Saves the PNG, ready to post yourself.',
     saved: 'Saved to your device.',
@@ -369,7 +368,7 @@ export const SHARE_ST = {
   site: 'itschriswang.com/footprint',
   // What rides beside the card file through the native share sheet: a human
   // sentence and the canonical page link.
-  shareText: 'A year of carbon, counted honestly.',
+  shareText: 'A year of carbon, priced on published factors.',
   shareUrl: 'https://itschriswang.com/footprint/',
   method: 'Home energy, travel, freight and diet · published factors, no offsets',
   cards: {
@@ -430,8 +429,8 @@ export const CHARACTER_ST = {
   // the one-line "what would change it" lives right here, not three moments
   // later. {label} is the biggest category.
   hook: {
-    example: 'The {label} line is the lever: change it and next year reads as someone else.',
-    own: 'Your biggest lever is the {label} line: change it and next year reads as someone else.',
+    example: 'The {label} line is the biggest lever: changing it moves next year the most.',
+    own: 'Your biggest lever is the {label} line: changing it moves next year the most.',
   },
   matrixTitle: 'The twelve results',
   matrixCols: [
@@ -459,7 +458,7 @@ export const ratioPhrase = (total, base) => {
 
 export const OB = {
   title: 'Your footprint',
-  intro: 'About three minutes: five short steps, then an optional sixth. Rough answers now, real bills whenever you like. Everything stays in this browser, and we keep the final total for the reveal.',
+  intro: 'About three minutes: five short steps, then an optional sixth. Rough answers now, real bills whenever you like. Everything stays in this browser, and the total waits for the reveal.',
   // Neutral, spoiler-free footer line. The running total is deliberately not
   // shown: seeing it here would spoil the reveal that follows.
   keepForReveal: 'The total waits for the reveal',
@@ -483,7 +482,7 @@ export const OB = {
   factsByCountry: (() => {
     const rideshare = {
       text: 'Per kilometre, rideshare carries about six and a half times the carbon of the train.',
-      src: 'NGA 2025 and DESNZ / DEFRA 2025 factors',
+      src: 'NGA 2025 and DESNZ / DEFRA 2026 factors',
     };
     const diet = {
       text: 'The gap between a high-meat year and a vegan year is about 1.6 tonnes, roughly 8,000 km of petrol driving.',
@@ -498,19 +497,19 @@ export const OB = {
     const build = (you, energy, flight) => [you, flight, rideshare, energy, diet, spend];
     return {
       AU: build(
-        { text: 'The average Australian sits near 22 tonnes of CO₂-e a year, more than three times the world average.', src: 'EDGAR / JRC 2024' },
+        { text: 'The average Australian sits near 22 tonnes of CO₂-e a year, more than three times the world average.', src: 'EDGAR / JRC 2025' },
         { text: 'The same home reads very differently by state: Tasmania\'s grid factor is about a quarter of Victoria\'s.', src: 'DCCEEW NGA Factors 2025' },
-        { text: 'One Sydney to London economy return is about 4 tonnes with the high-altitude effect counted: more than a year of electricity for most whole households.', src: 'DESNZ / DEFRA 2025 factors' },
+        { text: 'One Sydney to London economy return is about 4 tonnes with the high-altitude effect counted: more than a year of electricity for most whole households.', src: 'DESNZ / DEFRA 2026 factors' },
       ),
       NZ: build(
-        { text: 'The average New Zealander sits near 15 tonnes of CO₂-e a year, more than twice the world average, and much of it is agricultural methane.', src: 'NZ GHG Inventory 1990-2023' },
-        { text: 'New Zealand\'s grid is about 85% renewable: a kilowatt-hour there carries about a tenth of the carbon of the same kilowatt-hour in Sydney.', src: 'MfE Measuring Emissions Catalogue' },
-        { text: 'One Auckland to London economy return is about 4.6 tonnes with the high-altitude effect counted: several years of electricity for a typical New Zealand home.', src: 'DESNZ / DEFRA 2025 factors' },
+        { text: 'The average New Zealander sits near 15 tonnes of CO₂-e a year, more than twice the world average, and much of it is agricultural methane.', src: 'EDGAR / JRC 2025' },
+        { text: 'New Zealand\'s grid is about 85% renewable: a kilowatt-hour there carries about a tenth of the carbon of the same kilowatt-hour in Sydney.', src: 'MfE Measuring Emissions Catalogue 2026' },
+        { text: 'One Auckland to London economy return is about 4.6 tonnes with the high-altitude effect counted: several years of electricity for a typical New Zealand home.', src: 'DESNZ / DEFRA 2026 factors' },
       ),
       US: build(
         { text: 'The average American sits near 17 tonnes of CO₂-e a year, more than two and a half times the world average.', src: 'EDGAR / JRC 2025' },
         { text: 'The US grid averages about 0.37 kg of CO₂-e per kilowatt-hour, but state grids run from a small fraction of that to well over double.', src: 'US EIA and EPA eGRID' },
-        { text: 'One New York to London economy return is about 1.4 tonnes with the high-altitude effect counted: a few months of driving in a typical American car.', src: 'DESNZ / DEFRA 2025 factors' },
+        { text: 'One New York to London economy return is about 1.4 tonnes with the high-altitude effect counted: a few months of driving in a typical American car.', src: 'DESNZ / DEFRA 2026 factors' },
       ),
     };
   })(),
@@ -529,7 +528,7 @@ export const DASH_EXTRA = {
   compare: {
     vsExample: "Overlay Chris's FY2026",
     vsOwn: 'Overlay your footprint',
-    note: 'Same boundary, same factors, different life. Diamonds mark the overlaid footprint.',
+    note: 'Priced on the same boundary and factors. Diamonds mark the overlaid footprint.',
     overlaid: 'Overlaid: {label}, {t} t total.',
   },
   replayChip: 'Replay the reveal',

@@ -40,7 +40,7 @@ function MethodLink() {
   return (
     <section id="fp-methodlink">
       <div className="canvas">
-        <div className="sec-tag" data-idx="04 / "><Icon name="book" size={32} />How it works</div>
+        <div className="sec-tag" data-idx="03 / "><Icon name="book" size={32} />How it works</div>
         <h2 className="display fp-h2"><SplitText text={METHOD_LINK.title[0]} /> <SplitText text={METHOD_LINK.title[1]} accentIndex={1} /></h2>
         <p className="fp-sub">{METHOD_LINK.body}</p>
         <div className="fp-ctrl-row">
@@ -196,7 +196,7 @@ export default function FootprintApp() {
       at2030: Math.round((pathway.plan[Math.max(0, pathway.years.indexOf(2030))] || 0) * 100) / 100,
     });
     // The button that called this confirms on itself. The toast is not a
-    // second "copied" — it is the one thing the button cannot say, which is
+    // second "copied": it is the one thing the button cannot say, which is
     // what the link does and does not carry.
     const ok = await copyText(url);
     if (ok) flash(TOASTS.shareCopied);
@@ -336,7 +336,7 @@ export default function FootprintApp() {
                 className="fp-snaphero-field"
               />
               <div className="canvas fp-snaphero-inner">
-                <div className="sec-tag" data-idx="">{fill(SHARE.bannerTitle, { who: snapshot.name ? snapshot.name + '’s' : 'My', label: snapshot.label })}</div>
+                <div className="sec-tag" data-idx="">{fill(SHARE.bannerTitle, { who: snapshot.name ? snapshot.name + "'s" : 'My', label: snapshot.label })}</div>
                 <div className="fp-snaphero-num display">
                   <CountUp value={snapshot.total} decimals={1} duration={1.1} /><span> t CO₂-e</span>
                 </div>

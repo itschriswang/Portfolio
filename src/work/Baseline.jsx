@@ -33,7 +33,7 @@ export default function Baseline() {
   return (
     <div>
       {/* One connected tool: profile selector, headline claim, and the scope
-          split read as a single card — the same stepped language as the home
+          split read as a single card, the same stepped language as the home
           decarb model, no floating divider between the selector and the split. */}
       <div className="baseline-tool">
         <div className="baseline-ctrl">
@@ -51,16 +51,16 @@ export default function Baseline() {
           <div className="bl-meta">{d.meta}</div>
         </div>
         <div className="scope-grid">
-          <div className="scope-cell"><div className="scope-tag"><Icon name="flame" size={30} className="fpi-lead" />Scope 1: Direct</div><div className="scope-pct">{d.s1}</div><div className="scope-body">{d.s1b}</div></div>
-          <div className="scope-cell"><div className="scope-tag"><Icon name="bolt" size={30} className="fpi-lead" />Scope 2: Electricity</div><div className="scope-pct">{d.s2}</div><div className="scope-body">{d.s2b}</div></div>
-          <div className="scope-cell"><div className="scope-tag"><Icon name="globe" size={30} className="fpi-lead" />Scope 3: Value chain</div><div className="scope-pct">{d.s3}</div><div className="scope-body">{d.s3b}</div></div>
+          <div className="scope-cell"><div className="scope-tag"><Icon name="flame" size={30} className="fpi-lead" />Scope 1: direct</div><div className="scope-pct">{d.s1}</div><div className="scope-body">{d.s1b}</div></div>
+          <div className="scope-cell"><div className="scope-tag"><Icon name="bolt" size={30} className="fpi-lead" />Scope 2: electricity</div><div className="scope-pct">{d.s2}</div><div className="scope-body">{d.s2b}</div></div>
+          <div className="scope-cell"><div className="scope-tag"><Icon name="globe" size={30} className="fpi-lead" />Scope 3: value chain</div><div className="scope-pct">{d.s3}</div><div className="scope-body">{d.s3b}</div></div>
         </div>
       </div>
       <div className="sankey-band">
         <div className="sankey-band-inner">
           <div className="sk-kicker">Fig. A · Emissions flow · FY25 baseline</div>
-          <h2 className="sk-head">Where the footprint <em>flows</em>.</h2>
-          <p className="sk-sub">Scope 1-3 distribution and the Scope 3 category breakdown for the selected organisation type. The value chain dominates, which is why the reduction playbook starts with suppliers and design choices.</p>
+          <h2 className="sk-head">Where the footprint <em>flows</em></h2>
+          <p className="sk-sub">Scope 1-3 distribution and the Scope 3 category breakdown for the selected organisation type. The value chain dominates, which is why reduction starts with suppliers and design choices.</p>
           <SankeyFigure key={sector} sk={d.sk} />
         </div>
       </div>
