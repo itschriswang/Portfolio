@@ -204,7 +204,11 @@
   padding:1rem 1.1rem 1.05rem; transition:border-color 0.2s var(--ease), background 0.2s var(--ease);
 }
 .fp-opt.on{ background:rgba(181,196,43,0.09); border-color:#75821D; border-top-color:var(--ac); }
-.fp-opt.na{ opacity:0.6; }
+/* Not applicable: greyed by border and ink rather than opacity, so the reason
+   text beneath still clears 4.5:1. */
+.fp-opt.na{ border-style:dashed; border-top:3px solid var(--rule-dk); }
+.fp-opt.na .fp-opt-name, .fp-opt.na .fp-opt-detail{ color:var(--fp-ink-2); }
+.fp-opt.na .fp-action-dot{ opacity:0.5; }
 .fp-opt-name{ font-weight:700; font-size:0.85rem; color:var(--slate); display:flex; gap:0.5rem; align-items:center; line-height:1.35; text-wrap:balance; }
 .fp-opt-pct{ font-size:2.1rem; font-weight:700; color:var(--slate); line-height:1; font-variant-numeric:tabular-nums; }
 .fp-opt-pct span{ font-size:0.5em; color:var(--accent-ink); font-weight:600; }
@@ -568,6 +572,14 @@
 .fp-skim-contact p{ font-size:0.85rem; line-height:1.6; margin:0; max-width:34rem; color:#CBD5C6; }
 .fp-skim-contact .fp-linkbtn{ color:#E8EDE6; border-color:rgba(255,255,255,0.35); }
 .fp-skim-contact .fp-linkbtn:hover{ color:var(--matcha); border-color:var(--matcha); }
+
+/* ---- Quick-path dwelling nudge --------------------------------------------
+   Sits directly above the option cards, because the two it unlocks are the
+   greyed-out ones right below it. Same visual family as the rollover card. */
+.fp-dwelling-nudge{ border:1px solid var(--fp-electricity); border-left:4px solid var(--matcha); background:rgba(181,196,43,0.08); padding:1.1rem 1.3rem; margin:0 0 1.2rem; }
+.fp-dwelling-k{ display:block; font-family:var(--mono); font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:var(--accent-ink); font-weight:700; margin:0 0 0.45rem; line-height:1.5; }
+.fp-dwelling-body{ font-size:0.95rem; line-height:1.65; color:var(--slate); max-width:60ch; margin:0 0 0.9rem; }
+.fp-dwelling-nudge .fp-ctrl-row{ margin:0; }
 
 /* ---- Year rollover and the multi-year record ------------------------------ */
 .fp-rollover{ padding:1.5rem 0 0; }

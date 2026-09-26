@@ -191,6 +191,28 @@ export const ELECTRICITY = {
 export const regionsForCountry = (country) =>
   Object.entries(ELECTRICITY).filter(([, r]) => r.country === country);
 
+// The spread across the American grid, derived from the table above rather
+// than typed into prose. Several places on the site state this number (the
+// place picker's note, the basis of preparation, the reveal's grid moment),
+// and a derived export means a factor refresh moves the sentence and the
+// figure together instead of leaving one behind. The national average row is
+// excluded: it is a summary of the others, not a place anyone lives.
+export const US_GRID_SPREAD = (() => {
+  const rows = Object.entries(ELECTRICITY)
+    .filter(([key, r]) => r.country === 'US' && key !== 'US')
+    .sort((a, b) => a[1].s2 - b[1].s2);
+  const [cleanKey, clean] = rows[0];
+  const [dirtyKey, dirty] = rows[rows.length - 1];
+  return {
+    clean: { key: cleanKey, ...clean },
+    dirty: { key: dirtyKey, ...dirty },
+    // Compared on scope 2 alone, which is the generation attribute the grid
+    // itself sets; scope 3 here is a fixed gross-up of it, so it carries the
+    // same ratio and would not change the figure.
+    ratio: dirty.s2 / clean.s2,
+  };
+})();
+
 // The electricity row for a settings object, falling back to the home
 // country's default region rather than always NSW.
 export const electricityFor = (settings) =>
@@ -204,7 +226,7 @@ export const electricitySourceFor = (country) =>
 export const GRID_DECLINE = {
   ratePerYear: 0.92,
   floor: 0.05,
-  source: 'Stylised from DCCEEW, Australia\'s emissions projections 2024 (electricity sector decline to 2035 under the 82% renewables trajectory), flattened to a single annual rate and applied as the background decline for whichever grid is home; a US or NZ audit inherits it as a stated simplification.',
+  source: 'Stylised from DCCEEW, Australia\'s emissions projections 2024 (electricity sector decline to 2035 under the 82% renewables trajectory), flattened to a single annual rate and applied as the background decline for whichever grid is home; a US or NZ audit inherits it as a stated simplification. The floor is where a declining grid levels out. On a grid already cleaner than the floor (Vermont at 0.0237, and New Zealand partway through the horizon) it clamps to today\'s factor instead, so the projection always opens on the audited year.',
 };
 
 // ---------------------------------------------------------------------------
@@ -360,6 +382,12 @@ export const ROAD_MODES = {
     source: 'UK Government GHG Conversion Factors 2026, local bus excluding London, per passenger-km (sheet "Business travel- land", cell D79, tank-to-wheel). A stated proxy pending a published Australian per-passenger-km bus figure. Australian urban buses run a diesel fleet of broadly similar occupancy, so the figure is a defensible stand-in; a fuller electric-bus rollout would pull it down.',
   },
 };
+
+// How much heavier a bus is than a train, per passenger-kilometre. Derived
+// from the two rows above rather than typed into prose, for the same reason
+// US_GRID_SPREAD is: the reveal and the basis of preparation both say "about
+// four times", and this is where that four comes from.
+export const PT_MODE_RATIO = ROAD_MODES.bus.perKm / ROAD_MODES.pt.perKm;
 
 // ---------------------------------------------------------------------------
 // Flights: distance-based, per passenger-km. UK Government (DESNZ/DEFRA)

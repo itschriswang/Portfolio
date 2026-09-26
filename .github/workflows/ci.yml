@@ -1,0 +1,35 @@
+name: CI
+
+# The gate on the way in. deploy.yml runs the same two steps on main, but that
+# fires after a merge; this one runs on the branch, so a broken engine or a
+# figure that no longer matches its source is caught before it lands.
+
+# Pull requests only. A push trigger alongside this one fires a second run for
+# the same commit, and cancelling the duplicate is worse than not starting it:
+# GitHub counts a cancelled check as non-passing, so the pull request sits at
+# "unstable" and reads amber even with the real run green. Nothing reaches main
+# except through a pull request, and deploy.yml runs the same two steps again
+# before publishing, so this covers every commit that can actually ship.
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run build

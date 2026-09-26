@@ -180,6 +180,19 @@ removes a caveat.
   stated.
 - **US natural gas fuel-cycle**, currently not counted at all, so that line
   understates. The EPA hub gives combustion only.
+- **US and NZ upstream electricity (fuel-cycle) factors.** Newly written up on
+  the method page, which now carries a section on it: the three countries do not
+  use the same scope 3 boundary on the electricity line. Australia's NGA factor
+  covers the fuel supply chain plus network losses, which is why its scope 3
+  runs from about 5% of the generation factor in NSW to about 18% in SA. eGRID
+  publishes only a 4.2% grid gross loss, and MfE only its own transmission and
+  distribution loss, so both of those countries carry losses and no fuel cycle.
+  The gap is a few per cent of an electricity line, not of a year, and it is
+  declared rather than closed because no primary upstream figure could be read
+  for either country; borrowing Australia's would be inventing one. Closing it
+  needs a published US or NZ well-to-tank electricity factor. `tests/factors.test.js`
+  holds the three conventions in place, so a refresh that quietly switches one
+  fails the suite.
 - **eGRID2024** when EPA publishes it. Production appeared paused as at
   March 2026, so eGRID2023 rev2 remains current:
   https://www.epa.gov/egrid/download-data
@@ -214,15 +227,15 @@ removes a caveat.
 
 `docs/data-sources/README.md` states the policy: to avoid redistributing third
 parties' copyrighted reports, full report PDFs are **not** stored in this repo.
-The August 2026 upload added about 175 MB of exactly those, which took `.git`
-past 240 MB on a public repository.
 
-Now that every figure has been extracted with a page or cell citation, the
-source PDFs have served their purpose. The consistent position is to remove them
-from the working tree and keep the citations plus the links above. Note that
-removing them from the tree does not remove them from git history; that needs a
-history rewrite, which is a separate decision.
+In September 2026 the company reports added by the August upload (NAB, APA,
+Santos, Brambles, Evolution Mining, Aristocrat, James Hardie), the EV Council
+and Carbon Trust papers, the loose PDFs at the repository root and five exact
+duplicates were removed from the working tree. Every figure taken from them
+already carries a page or cell citation and a link. Government and
+open-licensed datasets (DEFRA, eGRID, EPA, MfE, AER, AEMO, CER, DCCEEW, EDGAR,
+ATO, RBA, IRD, EIA) stay as working provenance.
 
-Government publications (DEFRA, eGRID, EPA, MfE, AER, AEMO, CER, DCCEEW, EDGAR)
-are generally open-licensed and are the safer ones to keep. Company reports and
-paid or restricted research are the ones the policy is really about.
+Removing a file from the tree does not remove it from git history; any removed
+report can be recovered with `git show <commit>:<path>` from a commit before the
+removal. Purging history is a separate decision.

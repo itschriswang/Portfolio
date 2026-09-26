@@ -15,7 +15,7 @@ import { baselineState, stateEmissions } from '../lib/engine';
 import { ABATEMENT_OPTIONS, APPLY_ORDER } from '../data/abatement';
 import {
   CHROME, COVER, YEAR, GUESS, LOCKIN, TOTAL, EQUIV_ST, SCOPES, HOTSPOTS_ST,
-  MONTHS_ST, BENCH_ST, NEEDLE, OUTRO, SHARE_ST, fill, ratioPhrase,
+  MONTHS_ST, BENCH_ST, GRID_ST, NEEDLE, OUTRO, SHARE_ST, fill, ratioPhrase,
 } from '../data/storyCopy';
 
 // Standard whileInView reveal used by the calm moments. Under reduced motion
@@ -156,10 +156,6 @@ export function Cover({ d, voice, onStart, reduced }) {
           <span className="st-cover-note-dot" aria-hidden="true" />{COVER.startNote}
         </p>
       </motion.div>
-      <div className="st-cue" aria-hidden="true">
-        <span>{COVER.scrollCue}</span>
-        <span className="st-cue-line" />
-      </div>
     </section>
   );
 }
@@ -740,6 +736,91 @@ export function Bench({ d, voice, tags }) {
 }
 
 // ---------------------------------------------------------------------------
+// 7b · The grid swap. Renders only for a United States audit whose electricity
+// line moves materially between the lightest state grid and the heaviest, so
+// it is a moment for the people it is true about and absent for everyone else.
+// The numbers are the visitor's own year with one line re-priced, never a
+// reference household: same appliances, same hours, different wire.
+// ---------------------------------------------------------------------------
+export function GridSwap({ d, tags }) {
+  const g = d.gridSwap;
+  if (!g) return null;
+  const max = Math.max(g.dirty.total, g.your.total, g.clean.total);
+  const rows = [
+    { key: 'clean', label: fill(GRID_ST.rows.clean, { name: g.clean.label }), total: g.clean.total },
+    { key: 'here', label: fill(GRID_ST.rows.here, { name: g.your.label }), total: g.your.total, you: true },
+    { key: 'dirty', label: fill(GRID_ST.rows.dirty, { name: g.dirty.label }), total: g.dirty.total },
+  ];
+
+  return (
+    <section className="st-moment st-grid" id="st-grid" aria-label="Your grid">
+      <motion.div className="st-center st-wide" initial="hidden" whileInView="visible" viewport={inView}>
+        <motion.div className="sec-tag" data-idx="" variants={rise}>{tags['st-grid']}</motion.div>
+        <motion.h2 className="st-h2 display" variants={rise} custom={1}>{GRID_ST.headline}</motion.h2>
+        <motion.p className="st-line" variants={rise} custom={1.5}>{GRID_ST.sub}</motion.p>
+
+        <div className="st-bench-rows">
+          {rows.map((r, i) => (
+            <motion.div className="st-bench-row" key={r.key} variants={rise} custom={2 + i}>
+              <span className="st-bench-name">{r.label}</span>
+              <span className="st-bench-track" aria-hidden="true">
+                <motion.span
+                  className={'st-bench-fill' + (r.you ? ' you' : '')}
+                  variants={{
+                    hidden: { scaleX: 0 },
+                    visible: { scaleX: 1, transition: { duration: 0.7, delay: 0.25 + i * 0.12, ease: [0.25, 1, 0.5, 1] } },
+                  }}
+                  style={{ width: `${Math.max(1.5, (r.total / max) * 100)}%` }}
+                />
+              </span>
+              <span className="st-bench-val"><CountUp value={r.total} decimals={1} delay={0.2 + i * 0.12} /> t</span>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Every state grid on one log axis, so the shape of the distribution
+            shows: most of the country clusters low and a handful of coal
+            states sit right out on the tail. */}
+        <motion.div className="st-grid-scale" variants={rise} custom={5}>
+          <span className="st-grid-scale-l">{GRID_ST.scaleLabel}</span>
+          <span
+            className="st-grid-axis"
+            role="img"
+            aria-label={fill(GRID_ST.scaleAria, {
+              clean: g.clean.label, cleanV: g.clean.factor.toFixed(4),
+              dirty: g.dirty.label, dirtyV: g.dirty.factor.toFixed(4),
+              here: g.your.label, hereV: g.your.factor.toFixed(4),
+            })}
+          >
+            {g.ticks.map((t) => (
+              <i key={t.key} className={'st-grid-tick' + (t.you ? ' you' : '')} style={{ left: `${t.pos * 100}%` }} />
+            ))}
+            {g.your.pos != null && (
+              <em className="st-grid-you" style={{ left: `${g.your.pos * 100}%` }}>{GRID_ST.yours}</em>
+            )}
+          </span>
+          <span className="st-grid-ends">
+            <span>{g.clean.label} · {g.clean.factor.toFixed(4)}</span>
+            <span>{g.dirty.label} · {g.dirty.factor.toFixed(4)}</span>
+          </span>
+        </motion.div>
+
+        <motion.p className="st-punch" variants={rise} custom={6}>
+          <CountUp value={g.ratio} decimals={0} duration={1.4} className="st-punch-num" />
+          <span className="st-punch-pct">{GRID_ST.punchUnit}</span> {GRID_ST.punch}
+        </motion.p>
+
+        <motion.p className="st-punch-sm" variants={rise} custom={6.5}>
+          {fill(GRID_ST.swing.line, { swing: fmtT(g.swing) })}
+        </motion.p>
+
+        <motion.p className="st-benchnote" variants={rise} custom={7}>{GRID_ST.note}</motion.p>
+      </motion.div>
+    </section>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // 8 · The needle, as a live toy: the top three cuts are switches. Flipping
 // them re-prices the year through the same engine the pathway uses, applied
 // in APPLY_ORDER at full phase, so overlapping levers compose instead of
@@ -814,6 +895,17 @@ export function Needle({ d, profile, agg, voice, tags, onPlan }) {
           </span>
           {on.size > 1 && <span className="st-caveat">{NEEDLE.live.note}</span>}
         </motion.div>
+        {d.modeSwap && (
+          <motion.p className="st-benchnote" variants={rise} custom={6.5}>
+            <strong>{NEEDLE.modeSwap.kicker}. </strong>
+            {fill(NEEDLE.modeSwap[d.modeSwap.lead][voice] || NEEDLE.modeSwap[d.modeSwap.lead].own, {
+              km: d.modeSwap.km.toLocaleString(),
+              asIs: fmtT(d.modeSwap.asIs, 2),
+              swapped: fmtT(d.modeSwap.swapped, 2),
+            })}{' '}
+            {fill(NEEDLE.modeSwap.tail, { x: d.modeSwap.ratio })}
+          </motion.p>
+        )}
         <motion.div className="st-share-row" variants={rise} custom={8}>
           <button type="button" className="btn btn-secondary" onClick={onPlan}>{NEEDLE.cta} ↓</button>
         </motion.div>

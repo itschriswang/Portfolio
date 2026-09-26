@@ -62,6 +62,7 @@
 .st-months { background: var(--band); }
 .st-bench { background: var(--bg); border-top: 1px solid var(--rule-lt); }
 .st-needle { background: #F4F6EE; border-top: 1px solid var(--rule-lt); border-bottom: 1px solid var(--rule-lt); }
+.st-grid { background: var(--bg); border-top: 1px solid var(--rule-lt); }
 
 .st-cover .sec-tag, .st-total .sec-tag, .st-outro .sec-tag { color: var(--st-dark-mid); }
 .st-cover .display, .st-total .display, .st-outro .display { color: var(--st-dark-ink); }
@@ -842,3 +843,42 @@
 .st-needle-tick em { position: absolute; top: 21px; left: 0; transform: translateX(-50%); white-space: nowrap; font-style: normal; font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #C7274A; font-weight: 700; }
 .st-needle-live .st-caveat { margin-top: 1.4rem; }
 @media (prefers-reduced-motion: reduce) { .st-needle-fill { transition: none; } }
+
+
+/* ---- Grid swap (United States audits only) ----
+   The three-row comparison reuses the benchmark bars; only the axis below
+   them is new. It is a log axis because the American distribution clusters
+   low with a long coal tail, so a linear one would pile four fifths of the
+   states into the first sixth of the track. */
+.st-grid-scale { margin: 2.4rem 0 0; width: 100%; text-align: left; }
+.st-grid-scale-l {
+  display: block; font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--mid); font-weight: 700; margin-bottom: 1.5rem;
+}
+.st-grid-axis {
+  position: relative; display: block; height: 34px; border-radius: 4px;
+  background: linear-gradient(90deg, rgba(181, 196, 43, 0.34), rgba(199, 39, 74, 0.30));
+}
+.st-grid-tick {
+  position: absolute; top: 6px; bottom: 6px; width: 1px; margin-left: -0.5px;
+  background: rgba(23, 28, 19, 0.34);
+}
+.st-grid-tick.you { top: -5px; bottom: -5px; width: 3px; margin-left: -1.5px; background: var(--slate); border-radius: 2px; }
+.st-grid-you {
+  position: absolute; top: -1.55rem; transform: translateX(-50%); white-space: nowrap;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+  font-weight: 700; font-style: normal; color: var(--slate);
+}
+.st-grid-ends {
+  display: flex; justify-content: space-between; gap: 1rem; margin-top: 0.6rem;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.04em; color: var(--mid); font-weight: 600;
+}
+.st-grid-ends span:last-child { text-align: right; }
+.st-grid .st-punch { margin-top: 2.2rem; }
+.st-grid .st-punch-sm { margin-top: 1.2rem; }
+.st-grid .st-benchnote { margin-left: 0; margin-bottom: 3rem; }
+.st-grid .st-bench-val { white-space: nowrap; }
+
+/* The needle's mode line sits with the cards above it, not centred against
+   them. */
+.st-needle .st-benchnote { margin-left: 0; }

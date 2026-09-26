@@ -81,6 +81,7 @@ export function buildProfileFromOnboarding(a) {
   const settings = {
     name: '', country: a.country, state: a.state, householdSize: a.householdSize, dwelling: a.dwelling,
     roofOwn: a.roofOwn,
+    dwellingAssumed: !a.dwellingAnswered,
     dietType: a.dietType, fuelType: a.fuelType, greenpowerPct: a.greenpowerPct,
     carOccupancy: a.carOccupancy,
   };
@@ -300,6 +301,11 @@ const GAS_DEFAULTS = { AU: 3000, NZ: 850, US: 30 };
 
 const DEFAULTS = {
   country: 'AU', state: 'NSW', householdSize: 2, dwelling: 'apartment', roofOwn: true, dietType: 'medMeat', fuelType: 'petrol',
+  // The quick path never shows the dwelling and roof questions, so its answers
+  // are an assumption rather than an answer. Recorded here and carried onto
+  // the profile, so the results page can offer the correction instead of the
+  // quick path spending a question on it.
+  dwellingAnswered: false,
   // gpChoice is the picked chip; greenpowerPct is what the engine prices from.
   // 'no' and 'unsure' are distinct choices that both price at 0% renewable.
   gpChoice: 'no', greenpowerPct: 0, energyPreset: null, kwhQuarter: 1000, gasQuarter: GAS_DEFAULTS.AU, carKmWeek: 0, carOccupancy: 1,
@@ -777,6 +783,10 @@ export default function Onboarding({ onDone, onBuilt, onCancel }) {
   // silent default underneath.
   const chooseMode = (m) => {
     setMode(m);
+    // The full flow puts the dwelling and roof questions on screen, so leaving
+    // them on their defaults is an answer. Only the quick path, which never
+    // shows them, records an assumption for the results page to offer back.
+    if (m === 'full') setA((s) => ({ ...s, dwellingAnswered: true }));
     if (m === 'express') {
       setA((s) => {
         if (s.energyPreset) return s;
@@ -833,7 +843,7 @@ export default function Onboarding({ onDone, onBuilt, onCancel }) {
           { value: 'house', label: ONBOARD.you.dwellingHouse },
           { value: 'apartment', label: ONBOARD.you.dwellingApartment },
         ]}
-        value={a.dwelling} onChange={(v) => set('dwelling', v)}
+        value={a.dwelling} onChange={(v) => setA((st) => ({ ...st, dwelling: v, dwellingAnswered: true }))}
       />
       {a.dwelling === 'house' && (
         <Chips
@@ -843,7 +853,7 @@ export default function Onboarding({ onDone, onBuilt, onCancel }) {
             { value: true, label: ONBOARD.you.roofYes },
             { value: false, label: ONBOARD.you.roofNo },
           ]}
-          value={a.roofOwn} onChange={(v) => set('roofOwn', v)}
+          value={a.roofOwn} onChange={(v) => setA((st) => ({ ...st, roofOwn: v, dwellingAnswered: true }))}
           note={ONBOARD.you.roofNote}
         />
       )}
@@ -1217,9 +1227,10 @@ export default function Onboarding({ onDone, onBuilt, onCancel }) {
           })}
         </span>
       </div>
+      <p className="ob-note">{ONBOARD.express.assumeNote}</p>
       <div className="ob-done-ctas">
         <button type="button" className="btn btn-primary fp-btn" onClick={() => setStep(6)}>{ONBOARD.express.cta} →</button>
-        <button type="button" className="fp-linkbtn" onClick={() => setMode('full')}>{ONBOARD.express.refine}</button>
+        <button type="button" className="fp-linkbtn" onClick={() => chooseMode('full')}>{ONBOARD.express.refine}</button>
       </div>
     </div>
   );

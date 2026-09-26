@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import SplitText from '../components/SplitText';
 import { categoryById } from './data/factors';
 import { BUDGET_2030 } from './data/benchmarks';
-import { PLAN, EFFORT_LABELS, fmtT } from './data/copy';
+import { PLAN, EFFORT_LABELS, fmtT, listOf } from './data/copy';
 import { fill } from './data/storyCopy';
 import { prefersReducedMotion } from '../utils/media';
 import { PathwayChart, MaccChart, PATHWAY_COLORS } from './charts';
@@ -51,10 +51,17 @@ function OptionCard({ r, on, baseline, onToggle }) {
   );
 }
 
-export default function Plan({ macc, pathway, plan, onToggle, voice = 'own' }) {
+export default function Plan({ macc, pathway, plan, onToggle, voice = 'own', dwellingNudge, onDwellingAnswer }) {
   const trackRef = useRef(null);
   const plannerRef = useRef(null);
   const impactRef = useRef(null);
+  const cardsHeadRef = useRef(null);
+  // Answering removes the nudge, and the button with it, so focus moves to the
+  // card list the answer changed rather than dropping to the page.
+  const answerDwelling = (ownsRoof) => {
+    onDwellingAnswer(ownsRoof);
+    requestAnimationFrame(() => { if (cardsHeadRef.current) cardsHeadRef.current.focus({ preventScroll: true }); });
+  };
   const [view, setView] = useState('pathway');
   const horizonYear = pathway.years[pathway.years.length - 1];
   const landing = pathway.plan[pathway.plan.length - 1];
@@ -159,8 +166,38 @@ export default function Plan({ macc, pathway, plan, onToggle, voice = 'own' }) {
           </div>
 
           <div className="fp-card fp-planner-cards">
-            <div className="fp-card-head">{PLAN.tableTitle}</div>
+            <div className="fp-card-head" ref={cardsHeadRef} tabIndex={-1}>{PLAN.tableTitle}</div>
             <div className="fp-card-sub">{PLAN.tableSub}</div>
+            {/* The quick path never asked where you live, so two whole-home
+                measures sit greyed out on an assumption. The correction lands
+                here, beside the cards it unlocks, rather than costing every
+                visitor a question in a one-minute flow. */}
+            {dwellingNudge && (
+              <section className="fp-dwelling-nudge" aria-labelledby="fp-dwelling-k">
+                <h3 className="fp-dwelling-k" id="fp-dwelling-k">
+                  {fill(PLAN.dwellingNudge.kicker, {
+                    n: PLAN.dwellingNudge.counts[dwellingNudge.actions.length] || dwellingNudge.actions.length,
+                    verb: dwellingNudge.actions.length > 1 ? 'are' : 'is',
+                  })}
+                </h3>
+                <p className="fp-dwelling-body">
+                  {/* The card names keep their own casing, so the sentence
+                      points at labels the visitor can find right below it. */}
+                  {fill(PLAN.dwellingNudge.body, {
+                    list: listOf(dwellingNudge.actions),
+                    verb: dwellingNudge.actions.length > 1 ? 'are' : 'is',
+                  })}
+                </p>
+                <div className="fp-ctrl-row">
+                  <button type="button" className="btn btn-primary fp-btn" onClick={() => answerDwelling(true)}>
+                    {PLAN.dwellingNudge.cta}
+                  </button>
+                  <button type="button" className="fp-linkbtn" onClick={() => answerDwelling(false)}>
+                    {PLAN.dwellingNudge.dismiss}
+                  </button>
+                </div>
+              </section>
+            )}
             <div className="fp-carousel">
               {/* The arrows sit in their own row, never over a card. */}
               <div className="fp-car-nav">
