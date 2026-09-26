@@ -28,6 +28,10 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
+      # The engine tests gate the deploy alongside the build: a factor refresh
+      # that breaks reconciliation, or a figure quoted in copy that the data no
+      # longer carries, stops here rather than shipping.
+      - run: npm test
       - run: npm run build
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

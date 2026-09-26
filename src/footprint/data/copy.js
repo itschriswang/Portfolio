@@ -89,6 +89,21 @@ export const PLAN = {
   effortLabel: 'Difficulty',
   carouselLabel: 'Reduction options',
   carouselCount: '{n} options',
+  // Shown only to a quick-path audit that never answered the dwelling
+  // question, and only when answering it would unlock something.
+  dwellingNudge: {
+    // Only two options turn on tenure, so the count is one or two and the
+    // wording carries both rather than guessing at a plural.
+    counts: ['', 'One', 'Two'],
+    kicker: '{n} of the biggest changes {verb} missing',
+    body: 'The quick estimate never asked about your home, so it assumed a flat with a roof you cannot change. That is why {list} {verb} greyed out below. If you live in a house with a roof you can change, say so here.',
+    cta: 'I have my own roof',
+    dismiss: 'No, the flat is right',
+    // Answering makes the cards switchable; it does not switch them on, and
+    // the toast should not claim otherwise.
+    added: 'Now available below: {list}. Switch a card on to see what it saves.',
+    dismissed: 'Kept as a flat. Redo the audit any time to change it.',
+  },
   prev: 'Previous options',
   next: 'More options',
   impact: {
@@ -144,6 +159,11 @@ export const ONBOARD = {
     name: 'Quick estimate',
     cta: 'See your estimate',
     refine: 'Do the full audit instead',
+    // The quick path does not ask about the building or the roof, because two
+    // more questions would cost every visitor time to fix something only
+    // home-owners have. It assumes a flat, says so here, and offers the
+    // correction on the results page where the consequence is visible.
+    assumeNote: 'This path assumes a flat and a roof that is not yours to change, so rooftop solar and electrifying the gas stay out of your plan. If that is wrong, one tap on the results page puts them back.',
   },
   // Rough flight counts: the fallback for a year nobody can reconstruct trip
   // by trip. Shared by the quick path and the trips step's disclosure.
@@ -159,7 +179,7 @@ export const ONBOARD = {
     title: 'About you',
     sub: 'Where you live sets your power mix, and shared home energy is split across the adults who live there.',
     country: 'Where is home?',
-    usGridNote: 'Pick your state and your power is priced on that state\'s own grid, from the EPA\'s eGRID data. The cleanest state grid runs about forty times lighter than the dirtiest, so the same house reads very differently in Vermont and West Virginia.',
+    usGridNote: 'Pick your state and your power is priced on that state\'s own grid, from the EPA\'s eGRID data. The lightest state grid is about 38 times cleaner than the heaviest, so the same house reads very differently in Vermont and West Virginia.',
     state: 'Where do you live?',
     stateNote: 'Your state sets how clean your electricity is, so it shapes every powered line in the result.',
     household: 'How many adults share your home? (counting you)',
@@ -403,15 +423,23 @@ export const METHOD = {
     title: 'Where the numbers come from',
     paras: [
       'Australian electricity, gas and road-fuel factors carry the values published in the Australian Government (DCCEEW) National Greenhouse Accounts Factors 2025, Tables 1, 5, 6 and 9. I could not download DCCEEW\'s own workbook when I built this set, so I checked those values against published summaries and a mirrored copy of the tables rather than reading them from the source file. They are the one part of this page not read from the publisher\'s workbook, and I will read them against it at the next refresh. Flights, freight, hotel nights, rail and bus use the UK Government conversion factors 2026 edition, published by DESNZ and still widely known as the DEFRA factors, because they are the most complete public source for aviation by distance and cabin. Those numbers match the 2026 workbook cell for cell.',
-      'The calculator also runs a United States or New Zealand audit, with the home country picked in the first step. US electricity is priced from the state you live in: every state, the District of Columbia and Puerto Rico carries its own factor from the EPA eGRID2023 workbook, read cell for cell. The American grid runs from about 0.02 kg CO₂-e per kWh in Vermont to about 0.89 in West Virginia, a spread of nearly forty times, so a national average would overstate half the country and understate the other half. Scope 3 adds the eGRID grid gross loss of 4.2 per cent. US gas and road fuels use the EPA GHG Emission Factors Hub defaults. New Zealand electricity, gas, road fuels and hotel nights come from the MfE Measuring Emissions Catalogue 2026, including its separate transmission-loss factor. One New Zealand line still rides a proxy: the fuel-cycle (scope 3) side of petrol and diesel, where the catalogue publishes no equivalent, so the Australian well-to-tank factors stand in and the table says so.',
+      'The calculator also runs a United States or New Zealand audit, with the home country picked in the first step. US electricity is priced from the state you live in: every state, the District of Columbia and Puerto Rico carries its own factor from the EPA eGRID2023 workbook, read cell for cell. The American grid runs from 0.02 kg CO₂-e per kWh in Vermont to 0.89 in West Virginia, a spread of about 38 times, so a national average would overstate half the country and understate the other half. US gas and road fuels use the EPA GHG Emission Factors Hub defaults. New Zealand electricity, gas, road fuels and hotel nights come from the MfE Measuring Emissions Catalogue 2026, including its separate transmission-loss factor. One New Zealand line still rides a proxy: the fuel-cycle (scope 3) side of petrol and diesel, where the catalogue publishes no equivalent, so the Australian well-to-tank factors stand in and the table says so.',
       'Diet is a coarse estimate: it uses published UK per-day values by diet type, chosen because they separate the six diet patterns cleanly. Australian studies find the same direction (CSIRO and Ridoutt), but on different accounting boundaries, so they anchor the size of the figure. Public transport uses a UK rail factor as a stand-in until a published Australian per-passenger figure is available. On the physical NSW grid the real rail figure is higher than this proxy, because the grid is coal-heavy; measured against Sydney Trains renewable electricity contracts it is close to zero. Public transport is a small line, so the choice barely moves a total. The optional detail is the coarsest part: clothing counted by item uses the ADEME consumer-products LCA study (2018, the basis of the French Base Empreinte per-item textile factors), cross-checked against the Mistra Future Fashion per-garment assessments and the WRAP UK aggregate; the remaining goods and services are a spend-based screening estimate from the US EPA Supply Chain factors converted to Australian dollars; and hotel nights use the UK Government (DEFRA) per-room-night factors by country, priced at the destination country of the trip they belong to. The optional home line uses indicative per-square-metre upfront embodied-carbon figures for Australian dwellings (detached houses from Illankoon et al. 2023; apartments anchored on the GBCA and thinkstep-anz 2021 report), amortised over 50 years; residential figures span a wide range, so it is a screening estimate. All are labelled that way. Every factor and its source is in the tables below.',
+    ],
+  },
+  scope3: {
+    title: 'Scope 3 on the electricity line',
+    paras: [
+      'Scope 3 on the electricity line covers a different boundary in each of the three countries. I use each country\'s own published convention and do not force one onto the others.',
+      'Australia\'s boundary is the widest. The National Greenhouse Accounts scope 3 factor covers the fuel supply chain (extracting, processing and delivering the coal or gas) as well as the electricity lost in transmission and distribution. Because it carries the fuel, it moves with the fuel mix behind each grid, from about 5 per cent of the generation factor in New South Wales to about 18 per cent in South Australia. The United States boundary is the narrowest. eGRID publishes a grid gross loss of 4.2 per cent and no upstream figure, so scope 3 there is that loss alone: each kilowatt-hour you consume needs one divided by 0.958 generated behind it, and every American scope 3 cell in the table below comes from that. New Zealand sits with the United States, on its own published transmission and distribution loss factor of about 8 per cent, again with no fuel cycle.',
+      'So a United States or New Zealand electricity line reads slightly light against an Australian one, by whatever the fuel supply chain behind that grid adds. On the Australian figures that gap is a few per cent of the electricity line and a smaller share of the whole year, so it changes no result on this page. I have not reconciled it because I could not read an American or New Zealand upstream electricity factor from a primary source, and borrowing Australia\'s would put an invented number in the table. It stays declared here, and it is first in the queue when a published figure appears.',
     ],
   },
   quality: {
     title: 'How results are calculated',
     paras: [
       'Each item is activity times a factor: kilowatt-hours times the grid factor, litres times the fuel factor, passenger-kilometres times the flight factor, and so on. Flights include the extra warming effect of burning fuel at altitude, which calculators treat differently, so this one reads a little higher than a CO₂-only figure. The 2026 factor set publishes both views, so the table below shows the without-altitude figure beside the one used; note the uplift applies to the carbon dioxide alone, so the two differ by about 1.69 times, slightly under the 1.7 the uplift itself implies. Public transport splits between rail and bus on the answer you give, because a bus carries roughly four times the carbon of a train per passenger-kilometre and pricing every fare as rail would understate a bus commute.',
-      'Where a real bill or itinerary is not to hand, the calculator estimates: it turns spend into litres, kilometres or parcels at stated rates, or extends a metered daily average over an unbilled period. The quick-estimate path works the same way, only coarser: a typical-home preset stands in for the bills, and rough flight counts price each return at a stated representative sector length (1,100 km domestic, 2,400 km short overseas, 11,000 km long haul, each way, economy), so the range beside the total reads wider until named trips and real bills replace them. In Australia, public-transport spend is capped at the state weekly fare cap first (in NSW, the $50 Opal cap), because spending past the cap buys no extra travel; US and NZ networks cap too differently to carry one ceiling, so spend there is counted as given. Gas bills read in the local unit (megajoules in Australia, kilowatt-hours in New Zealand, therms in the United States) and convert to megajoules before pricing. Estimates are labelled, and replacing one with a real number tightens the range shown next to the total. A certified renewable purchase (GreenPower in Australia, a certified green-power plan elsewhere), where you have it, lowers your purchased-electricity figure, and the same netting applies to electricity an EV draws from the grid; no offsets are subtracted anywhere.',
+      'Where a real bill or itinerary is not to hand, the calculator estimates: it turns spend into litres, kilometres or parcels at stated rates, or extends a metered daily average over an unbilled period. The quick-estimate path works the same way, only coarser: a typical-home preset stands in for the bills, and rough flight counts price each return at a stated representative sector length (1,100 km domestic, 2,400 km short overseas, 11,000 km long haul, each way, economy), so the range beside the total reads wider until named trips and real bills replace them. The quick path also never asks about the building or the roof, so it assumes a flat with a roof you cannot change, which leaves rooftop solar and electrifying the gas out of the plan; it says so on screen, and the results page offers the correction in one tap. In Australia, public-transport spend is capped at the state weekly fare cap first (in NSW, the $50 Opal cap), because spending past the cap buys no extra travel; US and NZ networks cap too differently to carry one ceiling, so spend there is counted as given. Gas bills read in the local unit (megajoules in Australia, kilowatt-hours in New Zealand, therms in the United States) and convert to megajoules before pricing. Estimates are labelled, and replacing one with a real number tightens the range shown next to the total. A certified renewable purchase (GreenPower in Australia, a certified green-power plan elsewhere), where you have it, lowers your purchased-electricity figure, and the same netting applies to electricity an EV draws from the grid; no offsets are subtracted anywhere.',
     ],
   },
   interpret: {
@@ -467,7 +495,7 @@ export const METHOD = {
           'Accommodation other than hotels (short-stay rentals, hostels, staying with friends). Hotel nights are counted at a country-average factor, so the specific hotel makes no difference.',
           'Financial and professional services, and any spending the screening factors above do not cover. The goods estimate is a screening tool, so it catches the shape of the basket.',
           'Still queued, because the numbers could not be verified to this page\'s standard in this edition: household waste to landfill, pets (dog and cat food), the embodied emissions of building or buying a car, mains water supply, an Australian spend-based factor set to replace the US one, and published Australian rail and bus figures to replace the UK proxies. Each stays out until its source can be read, and is recorded in the research trail for the next refresh.',
-          'What is still a stated proxy, and where each one bites: the fuel-cycle (scope 3) side of New Zealand petrol and diesel uses Australian well-to-tank factors, because no New Zealand equivalent is published. US gas fuel-cycle is not counted at all, so that line understates. Rideshare and public transport outside Australia keep the Australian and UK per-kilometre figures. The Australian electricity, gas and fuel factors carry the NGA Factors 2025 values but were checked against published summaries and a mirrored copy, not read from DCCEEW\'s workbook. That is the largest verification gap left on this page.',
+          'What is still a stated proxy, and where each one bites: the fuel-cycle (scope 3) side of New Zealand petrol and diesel uses Australian well-to-tank factors, because no New Zealand equivalent is published. US gas fuel-cycle is not counted at all, so that line understates. The electricity fuel cycle is not counted in the United States or New Zealand either; that is a difference in convention rather than a proxy, and the scope 3 section above sets it out. Rideshare and public transport outside Australia keep the Australian and UK per-kilometre figures. The Australian electricity, gas and fuel factors carry the NGA Factors 2025 values but were checked against published summaries and a mirrored copy, not read from DCCEEW\'s workbook. That is the largest verification gap left on this page.',
         ],
       },
     ],
@@ -482,6 +510,9 @@ export const METHOD = {
       'New Zealand electricity (with its separate transmission-loss factor), gas, road-fuel combustion and hotel nights now come from the MfE Measuring Emissions Catalogue 2026, in place of the Australian stand-ins used before. The UK hotel table lists New Zealand but leaves it blank.',
       'Public transport gained a bus factor, so it is no longer priced entirely as rail.',
       'Two items that were queued now ship with their sources read: the garment-count clothing option and the home-embodied line for a new build.',
+      'The projection no longer lifts a grid that is already cleaner than the 0.05 kg per kWh floor. Vermont, and New Zealand partway through the horizon, now stay on their own factor, so every projection opens on the audited year.',
+      'The US grid spread is now quoted as about 38 times, the figure the eGRID table carries, where it previously said forty.',
+      'A new section sets out how scope 3 on the electricity line differs between Australia, the United States and New Zealand.',
     ],
   },
 };
@@ -568,4 +599,12 @@ export const fmtRatio = (total, base) => {
   return r < 1
     ? { v: String(Math.round(r * 100)), unit: '%' }
     : { v: (Math.round(r * 10) / 10).toFixed(1), unit: '×' };
+};
+
+// "a", "a and b", "a, b and c". No serial comma, in keeping with the rest of
+// the copy on the site.
+export const listOf = (items) => {
+  const list = (items || []).filter(Boolean);
+  if (list.length < 2) return list[0] || '';
+  return list.slice(0, -1).join(', ') + ' and ' + list[list.length - 1];
 };

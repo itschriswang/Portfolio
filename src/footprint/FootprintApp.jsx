@@ -5,7 +5,7 @@ import Aurora from '../components/Aurora';
 import ContourField from '../components/ContourField';
 import SplitText from '../components/SplitText';
 import { buildSeedProfile, SEED_SETTINGS } from './data/seedProfile';
-import { INTRO, MODE, SHARE, DATA_CTRL, TOASTS, YEARS, METHOD_LINK, fmtT } from './data/copy';
+import { INTRO, MODE, PLAN, SHARE, DATA_CTRL, TOASTS, YEARS, METHOD_LINK, fmtT, listOf } from './data/copy';
 import { DASH_EXTRA, fill } from './data/storyCopy';
 import { CATEGORIES, categoryById } from './data/factors';
 import { CHARACTERS, classifyCharacter } from './data/characters';
@@ -132,6 +132,21 @@ export default function FootprintApp() {
   // The audit not currently on screen, aggregated for the comparison overlay.
   // A closed year compares against the open one (year over year); the open
   // year compares against the worked example, and vice versa.
+  // The quick path never asks about the building or the roof, so it assumes a
+  // flat and rooftop solar and gas electrification never reach the plan. Rather
+  // than spend two questions of a one-minute path on it, the correction is
+  // offered here, next to the greyed-out cards it would unlock. Computed by
+  // re-running the curve as a house, so the nudge only appears when answering
+  // would genuinely change something: no gas and no meter, no nudge.
+  const dwellingNudge = useMemo(() => {
+    if (isExample || archived || !own || !own.settings.dwellingAssumed) return null;
+    const asHouse = { ...own, settings: { ...own.settings, dwelling: 'house', roofOwn: true } };
+    const unlocked = maccData(asHouse, agg)
+      .filter((r) => r.applicable && r.reduction > 0.05)
+      .filter((r) => !(macc.find((m) => m.id === r.id) || {}).applicable);
+    return unlocked.length ? { actions: unlocked.map((r) => r.action) } : null;
+  }, [isExample, archived, own, agg, macc]);
+
   const compareAgg = useMemo(() => {
     if (archived) return aggregate(own);
     return own ? aggregate(isExample ? own : seed) : null;
@@ -164,6 +179,20 @@ export default function FootprintApp() {
         plan: { ...p.plan, enabled: p.plan.enabled.includes(id) ? p.plan.enabled.filter((x) => x !== id) : [...p.plan.enabled, id] },
       }));
     }
+  };
+
+  const onDwellingAnswer = (ownsRoof) => {
+    updateOwn((p) => ({
+      ...p,
+      settings: {
+        ...p.settings,
+        dwellingAssumed: false,
+        ...(ownsRoof ? { dwelling: 'house', roofOwn: true } : {}),
+      },
+    }));
+    flash(ownsRoof
+      ? fill(PLAN.dwellingNudge.added, { list: listOf(dwellingNudge ? dwellingNudge.actions : []) })
+      : PLAN.dwellingNudge.dismissed);
   };
 
   const onExport = () => { exportProfile(own); };
@@ -453,7 +482,12 @@ export default function FootprintApp() {
         )}
 
         <Dashboard agg={agg} period={profile.period} compareAgg={compareAgg} comparePeriod={comparePeriod} isExample={isExample} country={profile.settings.country} />
-        {!archived && <Plan macc={macc} pathway={pathway} plan={profile.plan} onToggle={onToggle} voice={voice} />}
+        {!archived && (
+          <Plan
+            macc={macc} pathway={pathway} plan={profile.plan} onToggle={onToggle} voice={voice}
+            dwellingNudge={dwellingNudge} onDwellingAnswer={onDwellingAnswer}
+          />
+        )}
         {!isExample && !archived && (
           <DataControls onExport={onExport} onImportFile={onImportFile} onReset={onReset} onShare={onShare} />
         )}

@@ -44,6 +44,7 @@ built as a React + Vite multi-page app and deployed to GitHub Pages.
 | `src/styles/global.css` | Design tokens + all main-page styles. |
 | `public/` | Shared static assets (logos, favicon, `robots.txt`, `sitemap.xml`, and the Open Graph share cards: the profile card `og-image.png` plus one generated per-page card, `og-<page>.png`), plus `404.html` — hand-written, self-contained and outside the build, because GitHub Pages serves it for any unresolved path at any depth so it cannot use the relative asset paths the built pages rely on. Its tokens are a deliberate copy of the `:root` block in `global.css`. |
 | `scripts/og/` | Share-thumbnail generator. `cards.mjs` (per-page copy and motifs), `draw.js` (the shared canvas renderer), `generate.mjs` (headless-Chromium harness). `npm run og:cards` writes the `og-*.png` cards into `public/`. Not part of the site build. |
+| `tests/` | The engine's test suite, on Node's built-in runner with no test dependency added. `support/resolve-hook.mjs` lets Node read the app's extensionless imports as they are, so nothing in `src/` is shaped to suit the runner. Covers the pure layer only (`src/footprint/lib/` and `data/`), because Node cannot parse JSX. See `tests/README.md`. Not built or deployed. |
 | `docs/` | Non-app material: `skill-reference/` and research source data. Not built or deployed. No personal or career material — see Career record below. |
 
 ## Conventions
@@ -155,6 +156,22 @@ built as a React + Vite multi-page app and deployed to GitHub Pages.
   `--rng-thumb` / `--rng-track` / `--rng-fill` on the wrapper and pass their own
   button class to `CopyButton`, so a control looks like its neighbours rather
   than like an import. Do not hand-roll a fifth range or a fifth copy state.
+- **A calculation that matters lives in a plain module, not a component.**
+  Node cannot parse JSX, so anything inside a `.jsx` file is beyond the reach of
+  the tests. `src/footprint/lib/swaps.js` exists for that reason: the reveal's
+  two counterfactuals (the American grid swap and the bus-versus-rail line) are
+  derived there and rendered in `story/moments.jsx`, so their numbers are
+  checked against the factor tables rather than against a screenshot. When a
+  component grows arithmetic, move the arithmetic out and test it.
+- **A figure quoted in prose is pinned to the table it came from.**
+  `tests/published-figures.test.js` reads the copy and the factor set together:
+  the 38x American grid spread, the 4.9 t swing between the lightest and
+  heaviest state grids, and the four-times bus-to-rail ratio all have to keep
+  matching the data. A refresh that moves one of them fails the suite, and the
+  sentence quoting it has to move in the same change. Where a number can be
+  derived rather than typed, derive it: `US_GRID_SPREAD` and `PT_MODE_RATIO` in
+  `factors.js` are exported for exactly this, and the reveal's copy carries
+  `{name}` placeholders instead of hard-coded state names.
 - **Motion respects preferences.** Gate every animation/loop on
   `prefersReducedMotion()` and cursor-only interactions on `canHover()` (both
   from `src/utils/media.js`). Canvas/WebGL loops must pause off-screen via
@@ -198,16 +215,21 @@ built as a React + Vite multi-page app and deployed to GitHub Pages.
 ```bash
 npm install
 npm run dev      # local dev server
-npm run build    # production build to dist/ (also the CI check)
+npm test         # engine + factor tests (node:test, no test dependency)
+npm run build    # production build to dist/
 npm run preview  # preview the production build
 ```
 
-Run `npm run build` before committing — it is the only automated gate.
+Run `npm test && npm run build` before committing. Both gate CI: `ci.yml` runs
+them on every branch and pull request, and `deploy.yml` runs them again before
+publishing from `main`.
 
 ## Deployment
 
-GitHub Actions (`.github/workflows/deploy.yml`) builds and publishes `dist/` to
-GitHub Pages on push to `main`. `base: './'` in `vite.config.js` keeps asset
+GitHub Actions (`.github/workflows/deploy.yml`) tests, builds and publishes
+`dist/` to GitHub Pages on push to `main`; `.github/workflows/ci.yml` runs the
+same two steps on every pull request, so the gate fires before a merge rather
+than after it. `base: './'` in `vite.config.js` keeps asset
 paths relative so both the domain root and a `/Portfolio/` sub-path work.
 
 ## Writing rules (for any site copy)

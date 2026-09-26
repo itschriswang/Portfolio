@@ -456,7 +456,14 @@ export function baselineState(profile, agg) {
 // Emissions (tCO2e/yr) for an activity state in projection year offset i.
 export function stateEmissions(st, yearOffset) {
   const f = electricityFor({ state: st.state, country: st.country });
-  const s2f = Math.max(GRID_DECLINE.floor, f.s2 * Math.pow(GRID_DECLINE.ratePerYear, Math.max(0, yearOffset)));
+  // The floor is an asymptote for a grid on its way down, not a minimum
+  // charge. Applied flat it would lift a grid already cleaner than it, and the
+  // projection would open by charging a Vermont household (0.0237) more than
+  // its own audit did; New Zealand crosses the same line partway through the
+  // horizon. Clamping the floor to today's factor keeps year zero equal to the
+  // audited year on every grid in the table.
+  const floor = Math.min(GRID_DECLINE.floor, f.s2);
+  const s2f = Math.max(floor, f.s2 * Math.pow(GRID_DECLINE.ratePerYear, Math.max(0, yearOffset)));
   const fuel = roadFuelFor(st.country, st.fuelType);
 
   const evKwh = st.kmCar * st.evShare * ROAD_FUELS.ev.kWhPerKm;

@@ -180,6 +180,19 @@ removes a caveat.
   stated.
 - **US natural gas fuel-cycle**, currently not counted at all, so that line
   understates. The EPA hub gives combustion only.
+- **US and NZ upstream electricity (fuel-cycle) factors.** Newly written up on
+  the method page, which now carries a section on it: the three countries do not
+  use the same scope 3 boundary on the electricity line. Australia's NGA factor
+  covers the fuel supply chain plus network losses, which is why its scope 3
+  runs from about 5% of the generation factor in NSW to about 18% in SA. eGRID
+  publishes only a 4.2% grid gross loss, and MfE only its own transmission and
+  distribution loss, so both of those countries carry losses and no fuel cycle.
+  The gap is a few per cent of an electricity line, not of a year, and it is
+  declared rather than closed because no primary upstream figure could be read
+  for either country; borrowing Australia's would be inventing one. Closing it
+  needs a published US or NZ well-to-tank electricity factor. `tests/factors.test.js`
+  holds the three conventions in place, so a refresh that quietly switches one
+  fails the suite.
 - **eGRID2024** when EPA publishes it. Production appeared paused as at
   March 2026, so eGRID2023 rev2 remains current:
   https://www.epa.gov/egrid/download-data

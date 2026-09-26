@@ -64,6 +64,10 @@ export default function Method() {
             <h2><Icon name="list" size={32} className="fpi-lead" />{METHOD.sources.title}</h2>
             {METHOD.sources.paras.map((p, i) => <p key={i}>{p}</p>)}
           </div>
+          <div className="fp-method-block fp-method-wide">
+            <h2><Icon name="bolt" size={32} className="fpi-lead" />{METHOD.scope3.title}</h2>
+            {METHOD.scope3.paras.map((p, i) => <p key={i}>{p}</p>)}
+          </div>
           <div className="fp-method-block">
             <h2><Icon name="target" size={32} className="fpi-lead" />{METHOD.quality.title}</h2>
             {METHOD.quality.paras.map((p, i) => <p key={i}>{p}</p>)}

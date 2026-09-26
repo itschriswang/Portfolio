@@ -1,16 +1,16 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { prefersReducedMotion } from '../../utils/media';
-import { CATEGORIES, categoryById } from '../data/factors';
+import { CATEGORIES, categoryById, countryOf } from '../data/factors';
+import { gridSwapFor, modeSwapFor } from '../lib/swaps';
 import { BENCHMARKS, homeAverageFor } from '../data/benchmarks';
-import { countryOf } from '../data/factors';
 import {
   CHROME, CHAPTERS, CATEGORY_QUIPS, BENCH_ST,
-  YEAR, GUESS, LOCKIN, EQUIV_ST, SCOPES, MONTHS_ST, CHARACTER_ST, NEEDLE, OUTRO,
+  YEAR, GUESS, LOCKIN, EQUIV_ST, SCOPES, MONTHS_ST, CHARACTER_ST, GRID_ST, NEEDLE, OUTRO,
 } from '../data/storyCopy';
 import { classifyCharacter } from '../data/characters';
 import {
   Cover, YearTicker, ReferencePoints, LockIn, TotalReveal, Equivalences,
-  Scopes, Hotspots, WorstMonth, Bench, Needle, Outro,
+  Scopes, Hotspots, GridSwap, WorstMonth, Bench, Needle, Outro,
 } from './moments';
 import CharacterMoment from './CharacterMoment';
 import Mark from '../../components/Mark';
@@ -25,6 +25,7 @@ const TAG_TEXT = {
   'st-scopes': SCOPES.tag,
   'st-months': MONTHS_ST.tag,
   'st-bench': BENCH_ST.tag,
+  'st-grid': GRID_ST.tag,
   'st-character': CHARACTER_ST.tag,
   'st-needle': NEEDLE.tag,
   'st-outro': OUTRO.tag,
@@ -120,6 +121,9 @@ function buildStoryData(profile, agg, macc, voice) {
     { id: 'mealDays', v: tally('diet', (m) => m.days || 0) },
   ].filter((t) => t.v > 0).slice(0, 4);
 
+  const gridSwap = gridSwapFor(profile, agg);
+  const modeSwap = modeSwapFor(profile);
+
   const effortLabel = { low: 'Easy', med: 'Moderate', high: 'Harder' };
   const needle = macc
     .filter((r) => r.applicable && r.reduction > 0.05)
@@ -150,6 +154,8 @@ function buildStoryData(profile, agg, macc, voice) {
     bench,
     overshoot,
     largest: agg.largest ? { label: agg.largest.label, t: agg.largest.tco2e } : null,
+    gridSwap,
+    modeSwap,
     needle,
   };
 }
@@ -248,6 +254,7 @@ export default function Story({ profile, agg, macc, voice, onStart, onSkip, onEn
     if (c.id === 'st-lockin') return voice === 'own';
     if (c.id === 'st-equiv') return d.total > 0.005;
     if (c.id === 'st-months') return !!d.worst;
+    if (c.id === 'st-grid') return !!d.gridSwap;
     if (c.id === 'st-needle') return d.needle.length > 0;
     if (c.id === 'st-hotspots') return d.ranked.length > 0;
     return true;
@@ -339,6 +346,7 @@ export default function Story({ profile, agg, macc, voice, onStart, onSkip, onEn
       {d.total > 0.005 && <Equivalences d={d} voice={voice} tags={tags} />}
       <Scopes d={d} voice={voice} tags={tags} />
       <Hotspots d={d} voice={voice} tags={tags} reduced={reduced} />
+      <GridSwap d={d} tags={tags} />
       <WorstMonth d={d} voice={voice} tags={tags} />
       <CharacterMoment d={d} voice={voice} tags={tags} character={character} />
       <Needle d={d} profile={profile} agg={agg} voice={voice} tags={tags} onPlan={onPlan} />
