@@ -6,7 +6,7 @@ import CopyButton from '../../components/CopyButton';
 import Range from '../../components/Range';
 import CarbonField from './CarbonField';
 import { CountUp, ScrubNumber } from './CountUp';
-import { fmtT } from '../data/copy';
+import { fmtT, fmtRatio } from '../data/copy';
 import { categoryShapes } from '../data/shapes';
 import ShareSheet from './ShareSheet';
 import { renderShare } from '../lib/shareCard';
@@ -18,9 +18,11 @@ import {
   MONTHS_ST, BENCH_ST, NEEDLE, OUTRO, SHARE_ST, fill, ratioPhrase,
 } from '../data/storyCopy';
 
-// Standard whileInView reveal used by the calm moments.
+// Standard whileInView reveal used by the calm moments. Under reduced motion
+// the hidden state is the visible one, so nothing waits on a fade to be read.
+const RM = prefersReducedMotion();
 const rise = {
-  hidden: { opacity: 0, y: 28 },
+  hidden: RM ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 },
   visible: (i = 0) => ({
     opacity: 1, y: 0,
     transition: { duration: 0.55, delay: i * 0.12, ease: [0.25, 1, 0.5, 1] },
@@ -270,7 +272,7 @@ export function ReferencePoints({ d, voice, tags, goTo }) {
             return (
               <motion.div className="st-ref-card" key={r.id} variants={rise} custom={3 + i}>
                 <div className="st-ref-v display">
-                  <CountUp value={b ? b.t : 0} decimals={1} delay={0.2 + i * 0.15} /><span className="st-ref-unit"> {r.unit}</span>
+                  <CountUp value={b ? b.t : 0} decimals={1} delay={0.2 + i * 0.15} /><span className="st-ref-unit">{'\u00a0' + r.unit}</span>
                 </div>
                 <div className="st-ref-label">{r.label || (b ? b.label : '')}</div>
                 <div className="st-ref-note">{r.note}</div>
@@ -655,9 +657,10 @@ export function WorstMonth({ d, voice, tags }) {
 // ---------------------------------------------------------------------------
 // A comparison as a big tile: under 100% reads as a percentage, over reads
 // as a multiplier, so "57%" and "5.1×" both land at a glance.
+// The dashboard KPIs use the same helper, so one ratio never reads two ways.
 const ratioLabel = (total, base) => {
-  const r = total / base;
-  return r < 1 ? Math.round(r * 100) + '%' : (Math.round(r * 10) / 10).toFixed(1) + '×';
+  const { v, unit } = fmtRatio(total, base);
+  return v + unit;
 };
 
 export function Bench({ d, voice, tags }) {
@@ -740,7 +743,7 @@ export function Bench({ d, voice, tags }) {
 // 8 · The needle, as a live toy: the top three cuts are switches. Flipping
 // them re-prices the year through the same engine the pathway uses, applied
 // in APPLY_ORDER at full phase, so overlapping levers compose instead of
-// double counting; the standalone figure on each card stays the honest
+// double counting; the standalone figure on each card stays the true
 // "this one alone" number.
 // ---------------------------------------------------------------------------
 export function Needle({ d, profile, agg, voice, tags, onPlan }) {
@@ -811,7 +814,6 @@ export function Needle({ d, profile, agg, voice, tags, onPlan }) {
           </span>
           {on.size > 1 && <span className="st-caveat">{NEEDLE.live.note}</span>}
         </motion.div>
-        <motion.p className="st-punch" variants={rise} custom={7}>{NEEDLE.punch}</motion.p>
         <motion.div className="st-share-row" variants={rise} custom={8}>
           <button type="button" className="btn btn-secondary" onClick={onPlan}>{NEEDLE.cta} ↓</button>
         </motion.div>
@@ -828,7 +830,7 @@ export function Needle({ d, profile, agg, voice, tags, onPlan }) {
 export function Outro({ d, voice, character, tags, onStart, onExplore, onReplay, onCopyLink, endRef }) {
   const top = d.ranked[0];
   // Put a name on the marquee card when we have one: "ADA'S CARBON EMISSIONS".
-  const totalTitle = d.name ? d.name.toUpperCase() + '’S CARBON EMISSIONS' : SHARE_ST.cards.total[voice];
+  const totalTitle = d.name ? d.name.toUpperCase() + "'S CARBON EMISSIONS" : SHARE_ST.cards.total[voice];
   const cards = [];
   // The character leads the gallery: it is the most identity-shaped card, the
   // one people actually post. The plain total follows for the literal-minded.

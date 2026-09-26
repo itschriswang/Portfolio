@@ -13,12 +13,12 @@ Chart.register(BarController, BarElement, LineController, LineElement, PointElem
 
 const MONO = "'JetBrains Mono',monospace";
 const TOOLTIP_STYLE = {
-  backgroundColor: 'rgba(15,23,42,0.96)', titleColor: '#F8FAFC', bodyColor: 'rgba(248,250,252,0.85)',
+  backgroundColor: 'rgba(23,28,19,0.96)', titleColor: '#F4F6EE', bodyColor: 'rgba(244,246,238,0.85)',
   titleFont: { family: MONO, size: 11 }, bodyFont: { family: MONO, size: 11 },
   borderColor: 'rgba(181,196,43,0.5)', borderWidth: 1,
 };
-const AXIS_TICKS = { font: { family: MONO, size: 10 }, color: '#64748B' };
-const GRID = { color: 'rgba(15,23,42,0.05)' };
+const AXIS_TICKS = { font: { family: MONO, size: 11 }, color: '#65695B' };
+const GRID = { color: 'rgba(33,48,15,0.06)' };
 
 // The one month list the footprint charts and dashboard both read from.
 export const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -64,7 +64,7 @@ export function TrendChart({ agg }) {
           // Horizontal month labels with auto-skip: on a phone the twelve
           // labels would otherwise rotate and collide.
           x: { stacked: true, grid: { display: false }, ticks: { ...AXIS_TICKS, maxRotation: 0, autoSkip: true, autoSkipPadding: 10 } },
-          y: { stacked: true, grid: GRID, ticks: AXIS_TICKS, title: { display: true, text: 'tCO₂-e / month', font: { size: 10 }, color: '#64748B' } },
+          y: { stacked: true, grid: GRID, ticks: AXIS_TICKS, title: { display: true, text: 'tCO₂-e / month', font: { size: 11 }, color: '#65695B' } },
         },
       },
     });
@@ -130,7 +130,7 @@ export function PathwayChart({ pathway, budget, labels }) {
         },
         scales: {
           x: { grid: GRID, ticks: AXIS_TICKS },
-          y: { grid: GRID, beginAtZero: true, ticks: AXIS_TICKS, title: { display: true, text: 'tCO₂-e / year', font: { size: 10 }, color: '#64748B' } },
+          y: { grid: GRID, beginAtZero: true, ticks: AXIS_TICKS, title: { display: true, text: 'tCO₂-e / year', font: { size: 11 }, color: '#65695B' } },
         },
       },
     });
@@ -161,7 +161,7 @@ export function PathwayChart({ pathway, budget, labels }) {
 
 // ---------------------------------------------------------------------------
 // Personal MACC: variable-width bars, cost per tonne (y) against cumulative
-// abatement (x). Custom SVG because no charting library draws one honestly.
+// abatement (x). Custom SVG because no charting library draws one accurately.
 // The drawing squeezes to the container: below ~620px the viewBox narrows so
 // on-chart text renders near CSS size instead of scaling away to nothing,
 // and bars answer to tap as well as hover and focus.
@@ -195,7 +195,7 @@ export function MaccChart({ rows }) {
   // Font sizes in viewBox units: the compact viewBox renders close to 1:1 on
   // a phone, so these land near their CSS-pixel size.
   const fsTick = compact ? 13 : 11;
-  const fsLabel = compact ? 12.5 : 10.5;
+  const fsLabel = compact ? 12.5 : 11.5;
   const totalRed = live.reduce((s, r) => s + r.reduction, 0);
 
   // MACC-standard axis capping: tiny-tonnage behavioural options can carry
@@ -238,11 +238,11 @@ export function MaccChart({ rows }) {
         aria-label={'Marginal abatement cost curve: ' + live.map((r) => r.action + ' abates ' + r.reduction.toFixed(2) + ' tonnes a year at ' + (r.costPerTonne < 0 ? 'a saving of $' + Math.abs(r.costPerTonne) : '$' + r.costPerTonne) + ' per tonne').join('; ') + '.'}>
         {yTicks.map((v) => (
           <g key={v}>
-            <line x1={padL} x2={W - padR} y1={yFor(v)} y2={yFor(v)} stroke="rgba(15,23,42,0.07)" strokeWidth="1" />
-            <text x={padL - 6} y={yFor(v) + 4} textAnchor="end" fontSize={fsTick} fontFamily="JetBrains Mono, monospace" fill="#64748B">{'$' + v.toLocaleString()}</text>
+            <line x1={padL} x2={W - padR} y1={yFor(v)} y2={yFor(v)} stroke="rgba(33,48,15,0.08)" strokeWidth="1" />
+            <text x={padL - 6} y={yFor(v) + 4} textAnchor="end" fontSize={fsTick} fontFamily="JetBrains Mono, monospace" fill="#65695B">{'$' + v.toLocaleString()}</text>
           </g>
         ))}
-        <line x1={padL} x2={W - padR} y1={y0} y2={y0} stroke="#475569" strokeWidth="1.5" />
+        <line x1={padL} x2={W - padR} y1={y0} y2={y0} stroke="#4A4F42" strokeWidth="1.5" />
         {/* Enter and Space never reach onClick on an SVG group, so the pin
             toggle answers the keys itself via onKeyDown. */}
         {bars.map((b) => (
@@ -261,10 +261,10 @@ export function MaccChart({ rows }) {
             )}
           </g>
         ))}
-        <text x={W - padR} y={H - 8} textAnchor="end" fontSize={fsLabel} fontFamily="JetBrains Mono, monospace" fill="#64748B">
+        <text x={W - padR} y={H - 8} textAnchor="end" fontSize={fsLabel} fontFamily="JetBrains Mono, monospace" fill="#65695B">
           {'cumulative abatement → ' + totalRed.toFixed(1) + ' t/yr'}
         </text>
-        <text x={14} y={padT + 2} fontSize={fsLabel} fontFamily="JetBrains Mono, monospace" fill="#64748B" transform={'rotate(-90 14 ' + (padT + 2) + ')'} textAnchor="end">$ per tonne</text>
+        <text x={14} y={padT + 2} fontSize={fsLabel} fontFamily="JetBrains Mono, monospace" fill="#65695B" transform={'rotate(-90 14 ' + (padT + 2) + ')'} textAnchor="end">$ per tonne</text>
       </svg>
       <div className="fp-macc-tip" aria-live="polite">
         {tip ? (

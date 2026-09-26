@@ -230,7 +230,7 @@ export const CHARACTERS = [
   {
     id: 'slice-of-life', name: 'The Slice of Life', hex: '#B5C42B', stencil: S.field,
     weight: 'feather', shape: 'generalist', rhythm: 'steady',
-    tagline: 'Everyday, gentle, honestly counted.',
+    tagline: 'Everyday, gentle, counted in full.',
     line: 'The genre where nothing dramatic happens. A bit of everything, spread thin, observed closely and added up anyway.',
   },
   {
@@ -249,13 +249,13 @@ export const CHARACTERS = [
     id: 'festival-season', name: 'The Festival Season', hex: '#C7274A', stencil: S.flare,
     weight: 'middle', shape: 'generalist', rhythm: 'spiky',
     tagline: 'Everything happened in one loud stretch.',
-    line: 'An ordinary spread of a year that concentrated into one hot window. The year has a season, and the season has a bill.',
+    line: 'An ordinary spread of a year that concentrated into one hot window.',
   },
   {
     id: 'playlist', name: 'The Playlist', hex: '#6E7469', stencil: S.shuffle,
     weight: 'middle', shape: 'generalist', rhythm: 'steady',
     tagline: 'A bit of everything, on shuffle.',
-    line: 'Evenly sampled across every category, no track dominating. The most common shape there is, which is rather the point.',
+    line: 'Evenly sampled across every category, no track dominating.',
   },
   {
     id: 'world-tour', name: 'The World Tour', hex: '#635BFF', stencil: S.orbit,
@@ -267,13 +267,13 @@ export const CHARACTERS = [
     id: 'grind', name: 'The Grind', hex: '#B56A00', stencil: S.strata,
     weight: 'heavy', shape: 'specialist', rhythm: 'steady',
     tagline: 'One loop, enormous hours.',
-    line: 'A big total built the slow way: the same dominant category, week after week. Nothing ever spiked. It never needed to.',
+    line: 'A big total built the slow way: the same dominant category, week after week. Nothing ever spiked.',
   },
   {
     id: 'crossover-event', name: 'The Crossover Event', hex: '#C7274A', stencil: S.converge,
     weight: 'heavy', shape: 'generalist', rhythm: 'spiky',
     tagline: 'Every storyline converged at once.',
-    line: 'Heavy across the board, then the stretch where everything showed up in the same frame. Diversified, eventful, large.',
+    line: 'Heavy across the board, then the stretch where everything showed up in the same frame.',
   },
   {
     id: 'completionist', name: 'The Completionist', hex: '#475569', stencil: S.grid,

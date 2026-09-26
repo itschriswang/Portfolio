@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import Icon from './Icons';
 import ToolSpecimen from './ToolSpecimen';
 
@@ -20,11 +20,13 @@ const reveal = {
 };
 
 export default function ToolCard({ tool, index }) {
+  // Reduced motion: render in place rather than reveal on scroll.
+  const still = useReducedMotion();
   return (
     <motion.a
       className="tool-card" href={tool.href} data-span={tool.span}
       style={{ '--tc': tool.color }}
-      custom={index} variants={reveal} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-60px' }}
+      custom={index} variants={reveal} initial={still ? false : 'hidden'} whileInView="visible" viewport={{ once: true, margin: '-60px' }}
     >
       <span className="tool-rule" aria-hidden="true" />
       <div className="tool-top">

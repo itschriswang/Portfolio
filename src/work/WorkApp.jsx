@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Grain, ScrollProgress, SkipLink, useHashLanding, useStickyNavHeight } from '../components/Chrome';
 import SplitText from '../components/SplitText';
@@ -60,16 +60,35 @@ function WorkNav() {
   );
 }
 
+// A wide table scrolls sideways inside its own frame on narrow screens. The
+// frame is a named, focusable region so a keyboard user can reach it and
+// scroll it with the arrow keys, and a short hint shows only while there is
+// something to scroll to.
 function DataTable({ data }) {
+  const ref = useRef(null);
+  const [overflows, setOverflows] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return undefined;
+    const check = () => setOverflows(el.scrollWidth > el.clientWidth + 1);
+    check();
+    if (typeof ResizeObserver === 'undefined') return undefined;
+    const ro = new ResizeObserver(check);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
   return (
-    <div className="scroll-x">
-      <table className="c-table">
-        <thead><tr>{data.head.map((h, i) => <th key={i}>{h}</th>)}</tr></thead>
-        <tbody>
-          {data.rows.map((r, i) => <tr key={i}>{r.map((c, j) => <td key={j}>{c}</td>)}</tr>)}
-        </tbody>
-      </table>
-    </div>
+    <>
+      <div className="scroll-x" ref={ref} tabIndex={0} role="region" aria-label={data.caption}>
+        <table className={`c-table cols-${data.head.length}`}>
+          <thead><tr>{data.head.map((h, i) => <th key={i} scope="col">{h}</th>)}</tr></thead>
+          <tbody>
+            {data.rows.map((r, i) => <tr key={i}>{r.map((c, j) => <td key={j}>{c}</td>)}</tr>)}
+          </tbody>
+        </table>
+      </div>
+      {overflows && <p className="scroll-hint" aria-hidden="true">Scroll sideways for more columns <span>→</span></p>}
+    </>
   );
 }
 
@@ -220,9 +239,9 @@ export default function WorkApp() {
         />
         <ContourField />
         <div className="canvas" style={{ position: 'relative', zIndex: 1 }}>
-          <div className="sec-tag" data-idx="01 / "><Icon name="chart" size={30} />Work Samples</div>
-          <h1 className="wi-title display"><SplitText text="Frameworks" /> <SplitText text="in practice." accentIndex={1} /></h1>
-          <p className="wi-sub">Four analytical frameworks, each shown as a live working example drawn from production engagements across infrastructure, built environment, and government. Select a tab to explore the methodology.</p>
+          <div className="sec-tag" data-idx="01 / "><Icon name="chart" size={30} />Work samples</div>
+          <h1 className="wi-title display"><SplitText text="Frameworks" /> <SplitText text="in practice" accentIndex={1} /></h1>
+          <p className="wi-sub">Four analytical frameworks for infrastructure, built environment and government work, each shown as an interactive example on illustrative data. Select a tab to see the method.</p>
           <a href="../" className="wi-back"><span>←</span>&nbsp;Back to profile</a>
         </div>
       </section>
@@ -279,7 +298,7 @@ export default function WorkApp() {
 
       <section id="casestudy">
         <div className="canvas">
-          <div className="sec-tag" data-idx="03 / "><Icon name="book" size={30} />Case Study · Baseline to Boardroom</div>
+          <div className="sec-tag" data-idx="03 / "><Icon name="book" size={30} />Case study</div>
           <h2 className="display" style={{ fontSize: 'clamp(1.8rem,5vw,3.5rem)', marginTop: '1.2rem', marginBottom: '1rem' }}>
             <SplitText text="Baseline to boardroom" accentIndex={2} />
           </h2>

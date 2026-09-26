@@ -3,6 +3,7 @@
 // never drift from the maths. Any change to the engine, factors, reduction
 // options or pathway model must land here in the same change (see CLAUDE.md).
 
+import { useId } from 'react';
 import SplitText from '../components/SplitText';
 import {
   ELECTRICITY, ELECTRICITY_SOURCE, ELECTRICITY_SOURCE_NZ, ELECTRICITY_SOURCE_US,
@@ -20,10 +21,13 @@ import { METHOD } from './data/copy';
 import Icon from '../components/Icons';
 
 function FTable({ caption, head, rows, source }) {
+  const capId = useId();
   return (
     <div className="fp-ftable">
-      <div className="fp-ftable-cap">{caption}</div>
-      <div className="fp-scroll-x">
+      <div className="fp-ftable-cap" id={capId}>{caption}</div>
+      {/* Scrolls sideways on a phone, so it takes focus (arrow keys scroll it)
+          and is named by its caption. */}
+      <div className="fp-scroll-x" tabIndex={0} role="region" aria-labelledby={capId}>
         <table className="fp-table">
           <thead><tr>{head.map((h, i) => <th key={i}>{h}</th>)}</tr></thead>
           <tbody>{rows.map((r, i) => <tr key={i}>{r.map((c, j) => <td key={j}>{c}</td>)}</tr>)}</tbody>
@@ -42,49 +46,49 @@ export default function Method() {
   return (
     <section id="fp-method">
       <div className="canvas">
-        <div className="sec-tag" data-idx="./ "><Icon name="book" size={32} />{METHOD.tag}</div>
+        <div className="sec-tag" data-idx=""><Icon name="book" size={32} />{METHOD.tag}</div>
         <h1 className="display fp-h2"><SplitText text={METHOD.title[0]} /> <SplitText text={METHOD.title[1]} accentIndex={1} /></h1>
         <p className="fp-sub">{METHOD.sub}</p>
         <p className="fp-note">← <a href="../">{METHOD.backToDash}</a></p>
 
         <div className="fp-method-grid">
           <div className="fp-method-block">
-            <h3><Icon name="globe" size={32} className="fpi-lead" />{METHOD.boundary.title}</h3>
+            <h2><Icon name="globe" size={32} className="fpi-lead" />{METHOD.boundary.title}</h2>
             {METHOD.boundary.paras.map((p, i) => <p key={i}>{p}</p>)}
           </div>
           <div className="fp-method-block">
-            <h3><Icon name="clock" size={32} className="fpi-lead" />{METHOD.period.title}</h3>
+            <h2><Icon name="clock" size={32} className="fpi-lead" />{METHOD.period.title}</h2>
             {METHOD.period.paras.map((p, i) => <p key={i}>{p}</p>)}
           </div>
           <div className="fp-method-block">
-            <h3><Icon name="list" size={32} className="fpi-lead" />{METHOD.sources.title}</h3>
+            <h2><Icon name="list" size={32} className="fpi-lead" />{METHOD.sources.title}</h2>
             {METHOD.sources.paras.map((p, i) => <p key={i}>{p}</p>)}
           </div>
           <div className="fp-method-block">
-            <h3><Icon name="target" size={32} className="fpi-lead" />{METHOD.quality.title}</h3>
+            <h2><Icon name="target" size={32} className="fpi-lead" />{METHOD.quality.title}</h2>
             {METHOD.quality.paras.map((p, i) => <p key={i}>{p}</p>)}
           </div>
           <div className="fp-method-block">
-            <h3><Icon name="book" size={32} className="fpi-lead" />{METHOD.interpret.title}</h3>
+            <h2><Icon name="book" size={32} className="fpi-lead" />{METHOD.interpret.title}</h2>
             {METHOD.interpret.paras.map((p, i) => <p key={i}>{p}</p>)}
           </div>
           <div className="fp-method-block">
-            <h3><Icon name="chart" size={32} className="fpi-lead" />{METHOD.plan.title}</h3>
+            <h2><Icon name="chart" size={32} className="fpi-lead" />{METHOD.plan.title}</h2>
             {METHOD.plan.paras.map((p, i) => <p key={i}>{p}</p>)}
             <p className="fp-note">Grid trajectory used in the chart: the electricity factor declines about {Math.round((1 - GRID_DECLINE.ratePerYear) * 100)}% a year toward a floor, {GRID_DECLINE.source}</p>
           </div>
           <div className="fp-method-block fp-method-wide">
-            <h3><Icon name="people" size={32} className="fpi-lead" />{METHOD.character.title}</h3>
+            <h2><Icon name="people" size={32} className="fpi-lead" />{METHOD.character.title}</h2>
             {METHOD.character.paras.map((p, i) => <p key={i}>{p}</p>)}
           </div>
           <div className="fp-method-block fp-method-wide">
-            <h3>{METHOD.equiv.title}</h3>
+            <h2>{METHOD.equiv.title}</h2>
             {METHOD.equiv.paras.map((p, i) => <p key={i}>{p}</p>)}
           </div>
         </div>
 
         <div className="fp-method-block fp-method-wide">
-          <h3>{METHOD.factorsTitle}</h3>
+          <h2>{METHOD.factorsTitle}</h2>
           <p>{METHOD.factorsSub}</p>
 
           <FTable
@@ -220,7 +224,7 @@ export default function Method() {
             source={GOODS_SOURCE}
           />
           <p className="fp-note">
-            Currency and inflation bridge: each per-2022-USD factor is multiplied by the home currency’s USD rate (A$ {GOODS_FX_BY_COUNTRY.AU.rate}, NZ$ {GOODS_FX_BY_COUNTRY.NZ.rate}, US$ {GOODS_FX_BY_COUNTRY.US.rate}) and divided by {GOODS_FX.inflation} (US CPI-U, 2022 to reporting year) to price spend in current local dollars. {GOODS_FX_BY_COUNTRY.AU.rateNote} {GOODS_FX_BY_COUNTRY.NZ.rateNote} {GOODS_FX.inflationNote} This block is a screening estimate for a US consumption basket applied to the home country’s spend; treat it as coarse and lower-confidence than the metered lines above.
+            Currency and inflation bridge: each per-2022-USD factor is multiplied by the home currency's USD rate (A$ {GOODS_FX_BY_COUNTRY.AU.rate}, NZ$ {GOODS_FX_BY_COUNTRY.NZ.rate}, US$ {GOODS_FX_BY_COUNTRY.US.rate}) and divided by {GOODS_FX.inflation} (US CPI-U, 2022 to reporting year) to price spend in current local dollars. {GOODS_FX_BY_COUNTRY.AU.rateNote} {GOODS_FX_BY_COUNTRY.NZ.rateNote} {GOODS_FX.inflationNote} This block is a screening estimate for a US consumption basket applied to the home country's spend; treat it as coarse and lower-confidence than the metered lines above.
           </p>
           <FTable
             caption="Clothing by item (optional detail) · kg CO₂-e per item, cradle-to-grave"
@@ -243,7 +247,7 @@ export default function Method() {
         </div>
 
         <div className="fp-method-block fp-method-wide">
-          <h3><Icon name="bin" size={32} className="fpi-lead" />{METHOD.exclusions.title}</h3>
+          <h2><Icon name="bin" size={32} className="fpi-lead" />{METHOD.exclusions.title}</h2>
           {METHOD.exclusions.groups.map((g, gi) => (
             <div key={gi} className="fp-excl-group">
               <div className="fp-card-head">{g.head}</div>
@@ -252,6 +256,13 @@ export default function Method() {
               </ul>
             </div>
           ))}
+        </div>
+
+        <div className="fp-method-block fp-method-wide">
+          <h2>{METHOD.changes.title}</h2>
+          <ul className="fp-exclusions">
+            {METHOD.changes.items.map((x, i) => <li key={i}>{x}</li>)}
+          </ul>
         </div>
       </div>
     </section>

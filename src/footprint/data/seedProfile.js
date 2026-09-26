@@ -37,7 +37,7 @@ export function buildSeedProfile() {
     // Electricity: two-adult apartment on the NSW grid, costs split evenly.
     // The apartment averages 3.78 kWh a day on actual reads.
     E({ id: 'seed-el1', quality: 'forecast', date: '2025-10-12', category: 'electricity', label: 'Power, Aug to Oct', period_months: 3, meta: { ...hh, kwh: 310 }, notes: 'Estimated from the metered daily average across the quarter.' }),
-    E({ id: 'seed-el2', quality: 'forecast', date: '2026-01-13', category: 'electricity', label: 'Power bill, Oct to Jan', period_months: 3, meta: { ...hh, kwh: 355 }, notes: 'Billed quarter; usage estimated from the following invoice’s daily average. Household total, my share is half.' }),
+    E({ id: 'seed-el2', quality: 'forecast', date: '2026-01-13', category: 'electricity', label: 'Power bill, Oct to Jan', period_months: 3, meta: { ...hh, kwh: 355 }, notes: 'Billed quarter; usage estimated from the following invoice\'s daily average. Household total, my share is half.' }),
     E({ id: 'seed-el3', quality: 'metered', date: '2026-04-15', category: 'electricity', label: 'Power bill, Jan to Apr', period_months: 3, meta: { ...hh, kwh: 348 }, notes: 'Actual time-of-use reads: 3.78 kWh a day for the whole apartment. Household total, my share is half.' }),
     E({ id: 'seed-el4', quality: 'forecast', date: '2026-06-30', category: 'electricity', label: 'Power, Apr to Jun (forecast)', period_months: 2, meta: { ...hh, kwh: 287 }, notes: 'Forecast at the metered daily average until the next actual read lands.' }),
 
@@ -48,15 +48,15 @@ export function buildSeedProfile() {
     E({ id: 'seed-ga3', quality: 'metered', date: '2026-03-31', category: 'gas', label: 'Gas, Jan to Mar (usage graph)', period_months: 3, meta: { ...hh, mj: 3408 }, notes: '' }),
     E({ id: 'seed-ga4', quality: 'metered', date: '2026-06-30', category: 'gas', label: 'Gas, Apr to Jun', period_months: 3, meta: { ...hh, mj: 3888 }, notes: 'June anchored to the actual bill (1,235 MJ over 28 days); April and May from the usage graph.' }),
 
-    // Road: no car. Rideshare and taxis spend-converted; Opal fares
-    // converted at an average fare per kilometre. Estimates, and labelled.
+    // Road: no car. Rideshare and taxis spend-converted; public-transport
+    // fares converted at an average fare per kilometre. Estimates, and labelled.
     E({ id: 'seed-rd1', quality: 'estimated', date: '2025-09-30', category: 'road', label: 'Rideshare, Jul to Sep', period_months: 3, meta: { mode: 'rideshare', km: 223 }, notes: 'Spend-converted at about $2.10 per km. Deadheading excluded, so this understates.' }),
     E({ id: 'seed-rd2', quality: 'estimated', date: '2025-12-31', category: 'road', label: 'Rideshare, Oct to Dec', period_months: 3, meta: { mode: 'rideshare', km: 164 }, notes: 'Spend-converted.' }),
     E({ id: 'seed-rd3', quality: 'estimated', date: '2026-03-31', category: 'road', label: 'Rideshare, Jan to Mar', period_months: 3, meta: { mode: 'rideshare', km: 106 }, notes: 'Spend-converted.' }),
     E({ id: 'seed-rd4', quality: 'estimated', date: '2026-06-30', category: 'road', label: 'Rideshare, Apr to Jun', period_months: 3, meta: { mode: 'rideshare', km: 175 }, notes: 'Spend-converted.' }),
     E({ id: 'seed-rd5', quality: 'estimated', date: '2026-01-31', category: 'road', label: 'Taxis abroad (Tokyo, Seoul, Manila, Cebu)', meta: { mode: 'taxi', km: 320 }, notes: 'Trip taxis on the January travel, spend-converted at local rates. Coarse.' }),
-    E({ id: 'seed-rd6', quality: 'estimated', date: '2025-12-31', category: 'road', label: 'Sydney trains and buses, Jul to Dec', period_months: 6, meta: { mode: 'pt', km: 2600 }, notes: 'Opal fares converted at about 25c per km. Indicative rail factor; the daily commute lives here.' }),
-    E({ id: 'seed-rd7', quality: 'estimated', date: '2026-06-30', category: 'road', label: 'Sydney trains and buses, Jan to Jun', period_months: 6, meta: { mode: 'pt', km: 2600 }, notes: 'Opal fares converted at about 25c per km.' }),
+    E({ id: 'seed-rd6', quality: 'estimated', date: '2025-12-31', category: 'road', label: 'Trains and buses, Jul to Dec', period_months: 6, meta: { mode: 'pt', km: 2600 }, notes: 'Fares converted at about 25c per km. Indicative rail factor; the daily commute lives here.' }),
+    E({ id: 'seed-rd7', quality: 'estimated', date: '2026-06-30', category: 'road', label: 'Trains and buses, Jan to Jun', period_months: 6, meta: { mode: 'pt', km: 2600 }, notes: 'Fares converted at about 25c per km.' }),
 
     // Flights: the whole story. Every itinerary at UK Government (DESNZ)
     // per-pax-km factors, radiative forcing included, great-circle distance
@@ -76,7 +76,7 @@ export function buildSeedProfile() {
     E({ id: 'seed-fl11', quality: 'metered', date: '2026-04-05', category: 'flight', label: 'Sydney to Singapore, April trip', meta: { km: 6288, return: false, band: 'longIntl', cabin: 'economy' }, notes: 'One way.' }),
     E({ id: 'seed-fl12', quality: 'metered', date: '2026-04-11', category: 'flight', label: 'Singapore to Sydney', meta: { km: 6288, return: false, band: 'longIntl', cabin: 'economy' }, notes: 'One way, home from Singapore.' }),
 
-    // Freight: the online shopping habit, counted honestly.
+    // Freight: the online shopping habit, counted in full.
     E({ id: 'seed-fr1', quality: 'estimated', date: '2026-06-30', category: 'freight', label: 'International parcels, air express (est. 75 kg)', period_months: 12, meta: { mode: 'air', tonneKm: 600 }, notes: 'About 25 consolidated overseas orders at roughly 3 kg each, air freighted about 8,000 km. Sea consolidation would cut this by around 90 percent; that toggle is in the plan.' }),
     E({ id: 'seed-fr2', quality: 'estimated', date: '2026-06-30', category: 'freight', label: 'Domestic parcels (about 40 deliveries)', period_months: 12, meta: { parcels: 40 }, notes: 'Counted off order history at the indicative per-parcel factor.' }),
 

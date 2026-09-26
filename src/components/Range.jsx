@@ -5,7 +5,7 @@
 // control does not give us is a sense of where the value sits: three of the
 // four sliders on this site drew an unfilled grey track, so the only signal was
 // the thumb's position against an unmarked line. This paints the track
-// underneath the input instead — a fill to the current value, and optional step
+// underneath the input instead: a fill to the current value, and optional step
 // notches so the scale is readable at a glance.
 //
 // Track, fill and notches are all inset by half a thumb width, so 0% and 100%

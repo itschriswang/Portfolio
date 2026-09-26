@@ -3,7 +3,8 @@ import { motion } from 'framer-motion';
 import SplitText from '../components/SplitText';
 import { CATEGORIES } from './data/factors';
 import { BENCHMARK_CAVEAT, BUDGET_2030, homeAverageFor } from './data/benchmarks';
-import { DASH, DASH_UI, fmtT } from './data/copy';
+import { DASH, DASH_UI, fmtT, fmtRatio } from './data/copy';
+import { prefersReducedMotion } from '../utils/media';
 import { DASH_EXTRA, fill } from './data/storyCopy';
 import { CountUp } from './story/CountUp';
 import { TrendChart, MONTH_NAMES } from './charts';
@@ -14,8 +15,9 @@ const monthName = (key) => {
   return MONTH_NAMES[Number(m) - 1] + ' ' + y;
 };
 
+// Reduced motion starts visible rather than fading in.
 const fadeUp = {
-  initial: { opacity: 0, y: 18 },
+  initial: prefersReducedMotion() ? false : { opacity: 0, y: 18 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, margin: '-10% 0px' },
   transition: { duration: 0.4, ease: [0.25, 1, 0.5, 1] },
@@ -67,12 +69,12 @@ export default function Dashboard({ agg, period, compareAgg, comparePeriod, isEx
           </div>
           <div className="fp-kpi">
             <div className="fp-kpi-l">{DASH.kpis.aus}</div>
-            <div className="fp-kpi-v">{Math.round((total / homeAvg.tco2e) * 100)}<span>%</span></div>
+            <div className="fp-kpi-v">{fmtRatio(total, homeAvg.tco2e).v}<span>{fmtRatio(total, homeAvg.tco2e).unit}</span></div>
             <div className="fp-kpi-n">{homeAvg.short} · {homeAvg.tco2e} t</div>
           </div>
           <div className="fp-kpi">
             <div className="fp-kpi-l">{DASH.kpis.budget}</div>
-            <div className="fp-kpi-v">{Math.round((total / BUDGET_2030.tco2e) * 100)}<span>%</span></div>
+            <div className="fp-kpi-v">{fmtRatio(total, BUDGET_2030.tco2e).v}<span>{fmtRatio(total, BUDGET_2030.tco2e).unit}</span></div>
             <div className="fp-kpi-n">{BUDGET_2030.short} · {BUDGET_2030.tco2e} t</div>
           </div>
           <div className="fp-kpi">

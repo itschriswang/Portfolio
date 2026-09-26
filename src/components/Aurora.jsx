@@ -21,7 +21,7 @@ uniform float uOpacity;
 
 out vec4 fragColor;
 
-// Smooth gaussian-ish falloff in [0, 1] — no hard edges, never overshoots.
+// Smooth gaussian-ish falloff in [0, 1], no hard edges, never overshoots.
 float glowFalloff(float d, float width) {
   float x = d / width;
   return exp(-x * x);
@@ -76,7 +76,7 @@ void main() {
 
   // Green carries the field. The other three stops only ever show up as
   // faint, patchy wisps (independent noise fields, low max weight) so
-  // they read as a hint of colour, not a band — and never average down
+  // they read as a hint of colour, not a band, and never average down
   // into a muddy blend with the green base.
   vec3 rampColor = uColorStops[1];
   float blueWisp = pow(max(snoise(vec2(uv.x * 1.1 - uTime * 0.05, uv.y * 1.4 + 4.1)), 0.0), 1.4) * 0.55;
@@ -86,7 +86,7 @@ void main() {
   rampColor = mix(rampColor, uColorStops[2], amberWisp);
   rampColor = mix(rampColor, uColorStops[3], berryWisp);
 
-  // A gently drifting horizon line, not a hard band — the noise only
+  // A gently drifting horizon line, not a hard band, the noise only
   // nudges where the glow centres, it never multiplies into the alpha.
   float drift = snoise(vec2(uv.x * 1.6 + uTime * 0.12, uTime * 0.18)) * 0.07 * uAmplitude;
   float center = 0.93 + drift;
@@ -117,7 +117,7 @@ export default function Aurora(props) {
     // That throw happens inside an effect, so React tears down the whole tree
     // above it and the page renders blank rather than merely un-decorated.
     // The aurora is an aria-hidden backdrop over a CSS gradient that already
-    // stands on its own, so the honest failure is to draw nothing.
+    // stands on its own, so the right failure is to draw nothing.
     let renderer;
     try {
       renderer = new Renderer({
@@ -174,7 +174,7 @@ export default function Aurora(props) {
     const mesh = new Mesh(gl, { geometry, program });
     ctn.appendChild(gl.canvas);
 
-    // Convert colour stops only when the array changes — doing this per frame
+    // Convert colour stops only when the array changes, doing this per frame
     // allocated four Color objects and a new array on every RAF tick.
     let lastStops = colorStops;
     let lastStopsArray = colorStopsArray;

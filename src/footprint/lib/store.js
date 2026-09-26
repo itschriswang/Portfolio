@@ -1,6 +1,6 @@
 // Persistence and portability. Everything is client-side by design: the
 // visitor's audit lives in their own localStorage, never leaves the device,
-// and can be exported to a JSON file they control. The honest-privacy model
+// and can be exported to a JSON file they control. The privacy model
 // is the feature, not the fallback.
 
 const KEY = 'cw-footprint-v1';

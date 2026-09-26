@@ -5,7 +5,7 @@ import Mark from './Mark';
 
 // Keeps the folder-tab notch equidistant from the wordmark on both sides.
 // The tab width used to be a hardcoded px guess for the wordmark's rendered
-// size (stale the moment the copy changed — see git history for "Christopher
+// size (stale the moment the copy changed, see git history for "Christopher
 // Wang" -> "Chris Wang"), and negative letter-spacing makes the element's own
 // box wider than its visible glyphs, so even a fresh guess would still read
 // as an oversized right gap. Measuring the live text range sidesteps both:

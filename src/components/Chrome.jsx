@@ -74,8 +74,8 @@ export function useStickyNavHeight() {
 // when the browser resolves the URL fragment the target section does not exist
 // yet, and it never retries once React paints. The visitor lands at the top of
 // the page instead of the section they asked for. That silently broke every
-// cross-page anchor on the site — the nav and footer of /work/ and of all five
-// tool pages link back with '../#bio', '../#scenario' and the like — plus any
+// cross-page anchor on the site (the nav and footer of /work/ and of all five
+// tool pages link back with '../#bio', '../#scenario' and the like), plus any
 // deep link that was shared or bookmarked.
 //
 // So do the browser's job once the element is there: poll a few frames for it
@@ -92,7 +92,7 @@ export function useHashLanding() {
     // and that has to survive: someone who read to the footer of /#tools,
     // followed a link and came back expects the footer, not a jump to the top
     // of the section. Only a fresh navigation gets the landing treatment.
-    // Testing window.scrollY instead would not work here — the served HTML is
+    // Testing window.scrollY instead would not work here, the served HTML is
     // an empty #root, so the page has no height and no restored offset yet at
     // the moment this runs.
     const navEntry = performance.getEntriesByType?.('navigation')?.[0];

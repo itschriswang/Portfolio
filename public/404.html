@@ -31,10 +31,11 @@
       --lime-wash:#F1F7D8;
       --forest:#21300F;
       --forest-ink:#5E6B1E;
-      --accent-ink:#6A7614;
+      --accent-ink:#647012;
       --slate:oklch(0.207 0.022 118);
       --bg:oklch(0.984 0.006 118);
-      --mid:oklch(0.553 0.022 118);
+      --mid:oklch(0.50 0.022 118);
+      --ink-2:oklch(0.446 0.022 118);
       --subtle:oklch(0.682 0.018 118);
       --rule-dk:oklch(0.853 0.013 118);
       --rule-lt:oklch(0.917 0.008 118);
@@ -62,27 +63,27 @@
       background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.042'/%3E%3C/svg%3E");
     }
 
-    header{ border-bottom:1px solid var(--rule-dk); background:rgba(248,250,252,0.72); backdrop-filter:blur(10px); }
+    header{ border-bottom:1px solid var(--rule-dk); background:rgba(249,250,246,0.72); backdrop-filter:blur(10px); }
     .head-inner{ display:flex; align-items:center; min-height:52px; }
-    .logo{ color:var(--accent-ink); display:inline-flex; align-items:center; text-decoration:none; transition:opacity 0.25s var(--ease); }
+    .logo{ color:var(--accent-ink); display:inline-flex; align-items:center; min-width:40px; min-height:40px; text-decoration:none; transition:opacity 0.25s var(--ease); }
     .logo:hover{ opacity:0.55; }
     .logo svg{ width:1.3rem; height:1.3rem; display:block; }
 
     main{ flex:1; padding:clamp(3rem,9vw,6.5rem) 0 clamp(2.5rem,6vw,4rem); position:relative; }
 
     .tag{
-      font-family:var(--mono); font-size:10px; letter-spacing:0.25em; text-transform:uppercase;
+      font-family:var(--mono); font-size:11px; letter-spacing:0.16em; text-transform:uppercase;
       color:var(--mid); font-weight:500; display:flex; align-items:center; gap:0.6rem;
     }
     .tag b{ color:var(--accent-ink); font-weight:500; }
     .rule{ height:1px; background:var(--rule-dk); flex:1; max-width:340px; }
 
     h1{
-      font-family:var(--disp); font-weight:700; line-height:0.86; letter-spacing:-0.045em;
+      font-family:var(--disp); font-weight:700; line-height:0.86; letter-spacing:-0.04em; text-wrap:balance;
       font-size:clamp(2.3rem,7.5vw,4.6rem); margin:1.4rem 0 1.2rem; max-width:12ch;
     }
     h1 em{ font-style:normal; color:var(--forest-ink); }
-    .lede{ font-size:clamp(0.92rem,1.3vw,1.04rem); font-weight:400; color:#475569; max-width:58ch; line-height:1.8; }
+    .lede{ font-size:clamp(0.92rem,1.3vw,1.04rem); font-weight:400; color:var(--ink-2); max-width:58ch; line-height:1.8; text-wrap:pretty; }
     .lede + .lede{ margin-top:0.9rem; }
     .lede:first-of-type{ padding-left:1.1rem; border-left:3px solid var(--forest-ink); }
 
@@ -104,7 +105,7 @@
     }
     @media (min-width:720px){ .cols{ grid-template-columns:repeat(2,1fr); max-width:640px; } }
     .col-head{
-      font-family:var(--mono); font-size:10px; letter-spacing:0.2em; text-transform:uppercase;
+      font-family:var(--mono); font-size:11px; letter-spacing:0.14em; text-transform:uppercase;
       color:var(--mid); font-weight:600; margin-bottom:0.9rem;
     }
     .col ul{ list-style:none; display:flex; flex-direction:column; gap:0.55rem; }
@@ -119,12 +120,18 @@
 
     footer{ border-top:1px solid var(--rule-dk); padding:1.6rem 0; }
     .foot-inner{ display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
-    .foot-name{ font-family:var(--mono); font-size:10px; letter-spacing:0.06em; color:var(--mid); }
+    .foot-name{ font-family:var(--mono); font-size:11px; letter-spacing:0.06em; color:var(--mid); }
+    .foot-links{ display:flex; align-items:center; gap:0.4rem 1.4rem; flex-wrap:wrap; }
     .foot-back{
-      font-family:var(--mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase;
+      font-family:var(--mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase;
       color:var(--mid); text-decoration:none; font-weight:600;
+      display:inline-flex; align-items:center; min-height:24px;
     }
     .foot-back:hover{ color:var(--accent-ink); }
+    .ext-arrow{ margin-left:0.3em; }
+    .foot-back:focus-visible, .logo:focus-visible{ outline:2px solid var(--matcha); outline-offset:3px; border-radius:2px; }
+
+    .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
 
     @media (prefers-reduced-motion:reduce){
       *,*::before,*::after{ transition-duration:0.01ms !important; }
@@ -159,12 +166,10 @@
 
       <p class="lede">
         The link you followed points at something that moved, or at something
-        that never existed here. Nothing on this site is guessed at, so rather
-        than send you somewhere approximate, here is the whole of it.
+        that never existed here. Here is everything on the site.
       </p>
       <p class="lede">
-        If you arrived from a link of mine that is now wrong, that is worth
-        knowing. The LinkedIn address at the foot of every page reaches me.
+        If a link of mine sent you here, let me know on LinkedIn.
       </p>
 
       <nav class="cols" aria-label="Everything on this site">
@@ -172,7 +177,7 @@
           <div class="col-head">Profile</div>
           <ul>
             <li><a href="/" data-path="">Home<span>Practice, capabilities and experience</span></a></li>
-            <li><a href="/work/" data-path="work/">Work samples<span>Baseline, roadmap, options appraisal, life cycle</span></a></li>
+            <li><a href="/work/" data-path="work/">Work samples<span>Baseline, roadmap, MCA, lifecycle carbon</span></a></li>
           </ul>
         </div>
         <div class="col">
@@ -188,7 +193,10 @@
   <footer>
     <div class="canvas foot-inner">
       <span class="foot-name">Chris Wang · 2026</span>
-      <a class="foot-back" href="/" data-path="">← Back to profile</a>
+      <span class="foot-links">
+        <a class="foot-back" href="https://linkedin.com/in/itschriswang" target="_blank" rel="noopener noreferrer">LinkedIn<span class="ext-arrow" aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
+        <a class="foot-back" href="/" data-path="">← Back to profile</a>
+      </span>
     </div>
   </footer>
 

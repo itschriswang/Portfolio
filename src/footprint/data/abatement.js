@@ -4,7 +4,7 @@
 // by re-pricing the state. `cost` returns an indicative net annual cost in
 // dollars (negative = saving), with the basis stated in `source`.
 //
-// `applicable` is honest about circumstance: a renter in an apartment sees
+// `applicable` reflects circumstance: a renter in an apartment sees
 // solar and appliance swaps greyed out as landlord problems, and someone
 // without a car never sees an EV bar.
 //
@@ -119,7 +119,7 @@ export const ABATEMENT_OPTIONS = [
     id: 'diet-low',
     category: 'diet',
     action: 'Medium meat to low meat',
-    detail: 'Meat under 50 g a day on average. The factor set treats diet coarsely and says so; the direction and rough size are robust across the LCA literature.',
+    detail: 'Meat under 50 g a day on average. The factor set treats diet coarsely and says so; the direction and rough size hold across the LCA literature.',
     effort: 'low',
     source: 'Scarborough et al. 2014 per-day factors; grocery saving indicative $300/yr (less red meat, more legumes).',
     applicable: (st) => st.dietPerDay > 4.67,
@@ -152,7 +152,7 @@ export const ABATEMENT_OPTIONS = [
     id: 'fewer-parcels',
     category: 'freight',
     action: 'Consolidate parcels into standard shipping',
-    detail: 'Included for honesty: on most footprints this barely moves the total. Small, and it should be.',
+    detail: 'On most footprints this barely moves the total.',
     effort: 'low',
     source: 'Assumes 40% fewer parcel movements at the indicative per-parcel factor; no net cost.',
     applicable: (st) => st.freightOtherT > 0.005,
@@ -163,7 +163,7 @@ export const ABATEMENT_OPTIONS = [
     id: 'electrify-gas',
     category: 'gas',
     action: 'Electrify the gas appliances',
-    detail: 'Reverse-cycle heating and heat pump hot water replace 90% of gas use; the new electric load is added to the meter before solar acts on it. Flagged not applicable for renters and apartments: this one belongs to the landlord, and the method says so out loud.',
+    detail: 'Reverse-cycle heating and heat pump hot water replace 90% of gas use; the new electric load is added to the meter before solar acts on it. Flagged not applicable for renters and apartments: this one belongs to the landlord.',
     effort: 'high',
     source: 'Heat pump COP 3.5 against gas appliance efficiency 0.85; capex about $3,000 net of state rebates, amortised over 12 years and split across the household; running-cost delta at indicative 4c/MJ gas and 30c/kWh electricity, scaled to your audited gas use.',
     applicable: (st) => st.mj > 0 && st.dwelling === 'house' && st.roofOwn,

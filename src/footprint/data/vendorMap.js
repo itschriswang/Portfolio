@@ -2,7 +2,7 @@
 //
 // The design principle is the same as organisational scope 3 screening:
 // spend data is a screening tool, not a measurement. Dollars convert to
-// activity only where the conversion is roughly honest (fuel dollars to
+// activity only where the conversion is roughly sound (fuel dollars to
 // litres, fares to kilometres, orders to parcels). Where it would be junk
 // (flights, energy retailers), the import surfaces a checklist and asks for
 // the real itinerary or the real bill instead. Groceries and dining never

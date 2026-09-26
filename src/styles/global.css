@@ -42,11 +42,16 @@ html { scroll-behavior: smooth; overflow-x: clip; color-scheme: light; }
      --matcha is a FILL only (glyph accents on dark, aurora, icon dots,
      hover backgrounds) — it fails contrast as text on any light surface.
      --accent-ink is the one green permitted as text on light (eyebrows,
-     numerals, lever labels): darker than the old ad-hoc #75821D so it
-     clears 4.5:1 on white and lime-wash. --amber-ink is the equivalent
-     darkened companion for --amber numerals. */
-  --accent-ink:#6A7614;
-  --amber-ink:#B56A00;
+     numerals, lever labels): darker than the old ad-hoc #75821D. Retuned
+     September 2026 from #6A7614 (4.52:1 on lime-wash, 4.26:1 on lime-soft)
+     to clear 4.5:1 on every light green surface: 5.4 white, 4.9 lime-wash,
+     4.6 lime-soft. --amber-ink is the darkened companion for --amber
+     numerals, retuned from #B56A00 (3.5:1 on its own 15% tile, 4.2:1 on
+     white) to 5.9 white, 4.7 on the tile, and 5.9 as white-on-amber.
+     --indigo-ink does the same for --indigo figures (6.9 white, 5.4 tile). */
+  --accent-ink:#647012;
+  --amber-ink:#955500;
+  --indigo-ink:#4B42D6;
   /* --berry is a fill too, and fails contrast as small text on both white and
      the lime wash (about 3.1:1 there). --berry-ink is its darkened text
      companion, used for a figure that has moved the wrong way. */
@@ -64,14 +69,20 @@ html { scroll-behavior: smooth; overflow-x: clip; color-scheme: light; }
   --r-pill:999px;
   /* Soft, layered elevation — cards lift off the page rather than sit in a box. */
   --shadow-soft:0 6px 22px rgba(33,48,15,0.07);
-  --shadow-card:0 16px 44px rgba(33,48,15,0.12),0 4px 12px rgba(15,23,42,0.05);
+  --shadow-card:0 16px 44px rgba(33,48,15,0.12),0 4px 12px rgba(23,25,13,0.05);
   /* Brand-tinted neutrals — matcha hue (~118) at low chroma, lightness held
      from the original slate values (was #0F172A / F8FAFC / 64748B / 94A3B8 /
-     CBD5E1 / E2E8F0) so contrast is unchanged. */
+     CBD5E1 / E2E8F0) so contrast is unchanged. The exception is --mid:
+     at the original 0.553 it sat just under 4.5:1 on every tinted band
+     (4.3 on --band and lime-wash) while carrying small label text, so it is
+     taken to 0.50: 6.0 white, 5.4 band and lime-wash, 5.1 lime-soft.
+     --ink-2 is the warm replacement for the old secondary body grey
+     #475569, same lightness, matcha hue. */
   --slate:oklch(0.207 0.022 118);
   --bg:oklch(0.984 0.006 118);
   --white:#FFFFFF;
-  --mid:oklch(0.553 0.022 118);
+  --mid:oklch(0.50 0.022 118);
+  --ink-2:oklch(0.446 0.022 118);
   --subtle:oklch(0.682 0.018 118);
   --rule-dk:oklch(0.853 0.013 118);
   --rule-lt:oklch(0.917 0.008 118);
@@ -118,6 +129,10 @@ body {
 
 a { color:inherit; }
 img { max-width:100%; }
+/* Headings balance their lines so a short last word never sits alone, and
+   body paragraphs avoid a one-word final line. */
+h1, h2, h3, h4 { text-wrap:balance; }
+p { text-wrap:pretty; }
 
 /* ----------------------------------------------------------------------------
    TOUCH BEHAVIOUR — every control on every page.
@@ -203,7 +218,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible{
 
 /* Helpers for components that previously used inline styles */
 .bio-matrix{ row-gap:0; }
-.princ-headline{ font-size:clamp(2.4rem,7vw,5.2rem); margin-top:1.2rem; max-width:14ch; letter-spacing:-0.05em; }
+.princ-headline{ font-size:clamp(2.4rem,7vw,5.2rem); margin-top:1.2rem; max-width:14ch; letter-spacing:-0.04em; }
 
 /* ============================================================================
    EDITORIAL CANVAS — raw viewport grid + asymmetric 12-col matrix
@@ -231,7 +246,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible{
 
 /* Oversized section index marks + micro labels */
 .sec-tag {
-  font-family:var(--mono); font-size:10px; letter-spacing:0.25em;
+  font-family:var(--mono); font-size:11px; letter-spacing:0.16em;
   text-transform:uppercase; color:var(--mid); font-weight:500;
   display:inline-flex; align-items:center; gap:0.6rem;
 }
@@ -243,7 +258,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible{
   line-height:0.85; letter-spacing:-0.04em; color:var(--slate);
 }
 .kicker {
-  font-family:var(--mono); font-size:10px; letter-spacing:0.25em;
+  font-family:var(--mono); font-size:11px; letter-spacing:0.16em;
   text-transform:uppercase; color:var(--mid); font-weight:500;
 }
 
@@ -266,15 +281,15 @@ section { position:relative; }
 /* ============================================================================
    NAV
    ============================================================================ */
-.nav{ position:sticky; top:0; z-index:var(--z-nav); background:rgba(248,250,252,0.82); backdrop-filter:blur(10px); border-bottom:1px solid var(--rule-dk); }
+.nav{ position:sticky; top:0; z-index:var(--z-nav); background:rgba(249,250,246,0.82); backdrop-filter:blur(10px); border-bottom:1px solid var(--rule-dk); }
 .nav-inner{ display:flex; justify-content:space-between; align-items:center; min-height:52px; gap:0.5rem; padding-top:0.3rem; padding-bottom:0.3rem; flex-wrap:wrap; }
-.nav-logo{ font-family:var(--mono); font-size:1rem; font-weight:500; color:var(--accent-ink); text-decoration:none; letter-spacing:-0.02em; flex-shrink:0; transition:opacity 0.25s; order:1; display:inline-flex; align-items:center; }
+.nav-logo{ font-family:var(--mono); font-size:1rem; font-weight:500; color:var(--accent-ink); text-decoration:none; letter-spacing:-0.02em; flex-shrink:0; transition:opacity 0.25s; order:1; display:inline-flex; align-items:center; padding:2px; margin:-2px; }
 .nav-logo:hover{ opacity:0.55; }
 /* The site mark ("The Segmented Split"): a square ring cut into two hemispheres.
    Sized in em so it tracks each host link's font-size; colour via currentColor. */
 .nav-logo svg, .footer-mark svg, .fp-footer-home svg, .st-home svg{ width:1.3em; height:1.3em; display:block; }
 .nav-links{ display:flex; flex-wrap:wrap; justify-content:flex-end; gap:0.1rem 0.2rem; order:2; }
-.nav-links a{ position:relative; font-family:var(--mono); font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--mid); text-decoration:none; padding:0.45rem 0.7rem; transition:color 0.3s var(--ease); white-space:nowrap; }
+.nav-links a{ position:relative; font-family:var(--mono); font-size:11px; line-height:1.55; letter-spacing:0.11em; text-transform:uppercase; color:var(--mid); text-decoration:none; padding:0.45rem 0.7rem; transition:color 0.3s var(--ease); white-space:nowrap; }
 .nav-links a:hover, .nav-links a.active{ color:var(--accent-ink); }
 /* Editorial underline: wipes in from the left on hover, holds on the active link. */
 .nav-links a::after{ content:''; position:absolute; left:0.7rem; right:0.7rem; bottom:0.2rem; height:1px; background:var(--matcha); transform:scaleX(0); transform-origin:left; transition:transform 0.3s var(--ease); }
@@ -284,11 +299,11 @@ section { position:relative; }
    and about 1200px, so the padding and tracking tighten through that band
    rather than letting the bar drop to two rows. */
 @media(min-width:681px) and (max-width:1200px){
-  .nav-links a{ padding-left:0.45rem; padding-right:0.45rem; letter-spacing:0.13em; }
+  .nav-links a{ padding-left:0.45rem; padding-right:0.45rem; letter-spacing:0.06em; }
   .nav-links a::after{ left:0.45rem; right:0.45rem; }
 }
 @media(min-width:681px) and (max-width:1000px){
-  .nav-links a{ padding-left:0.3rem; padding-right:0.3rem; letter-spacing:0.09em; }
+  .nav-links a{ padding-left:0.3rem; padding-right:0.3rem; letter-spacing:0.03em; }
   .nav-links a::after{ left:0.3rem; right:0.3rem; }
 }
 
@@ -328,10 +343,14 @@ section { position:relative; }
 .hero-grid{ position:relative; z-index:1; row-gap:0; align-items:end; padding-top:clamp(2.5rem,7vw,5rem); }
 .hero-name{
   grid-column:1 / 13; position:relative; z-index:2;
-  font-size:clamp(1.7rem,7.1vw,6.1rem); line-height:0.8; letter-spacing:-0.05em;
+  font-size:clamp(1.7rem,7.1vw,6rem); line-height:0.8; letter-spacing:-0.04em;
   margin-bottom:0.1em;
   --split-accent:var(--forest);
 }
+/* SplitText's accent word falls back to --matcha, which is a fill and sits
+   under 2:1 as text on the light home bands. The home page takes the ink
+   variant instead; the dark tools band and the hero set their own. */
+.page-home{ --split-accent:var(--accent-ink); }
 .hero-name em{ color:var(--forest-ink); font-style:normal; }
 .hero-side{ grid-column:1 / 10; align-self:start; margin-top:clamp(1rem,2.5vw,1.8rem); }
 @media(max-width:680px){
@@ -368,12 +387,10 @@ section { position:relative; }
   display:flex; flex-direction:column; justify-content:space-between; min-height:7.5rem;
 }
 .instr:nth-child(2){ background:var(--forest); }
-.instr-lbl{ font-family:var(--mono); font-size:9px; letter-spacing:0.1em; text-transform:uppercase; color:var(--forest-2); line-height:1.4; margin-bottom:0.5rem; font-weight:600; }
+.instr-lbl{ font-family:var(--mono); font-size:11px; letter-spacing:0.05em; text-transform:uppercase; color:var(--forest-2); line-height:1.4; margin-bottom:0.5rem; font-weight:600; }
 .instr:nth-child(2) .instr-lbl{ color:var(--lime); }
 .instr-val{ font-family:var(--disp); font-size:clamp(2rem,4vw,2.6rem); font-weight:700; color:var(--forest); line-height:1; letter-spacing:-0.02em; }
 .instr:nth-child(2) .instr-val{ color:var(--lime-bright); }
-.scroll-hint{ display:flex; align-items:center; gap:0.6rem; font-family:var(--mono); font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--mid); margin-top:clamp(2rem,5vw,3rem); }
-.scroll-hint-line{ width:48px; height:1px; background:var(--rule-dk); }
 
 /* ============================================================================
    BIO + PIPELINE
@@ -390,11 +407,11 @@ section { position:relative; }
 @media(max-width:680px){ .bio-head{ grid-column:1 / 5; position:static; } }
 .bio-body{ grid-column:4 / 13; }
 @media(max-width:680px){ .bio-body{ grid-column:1 / 5; margin-top:1.5rem; } }
-.bio-text{ font-size:0.95rem; font-weight:400; color:#475569; line-height:1.8; max-width:62ch; }
+.bio-text{ font-size:0.95rem; font-weight:400; color:var(--ink-2); line-height:1.8; max-width:62ch; }
 .bio-text + .bio-text{ margin-top:1rem; }
 
 .outcomes{ margin:clamp(2.5rem,6vw,4rem) 0 0; }
-.outcomes-head{ font-family:var(--mono); font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--slate); font-weight:600; margin-bottom:1rem; display:flex; align-items:center; gap:0.75rem; }
+.outcomes-head{ font-family:var(--mono); font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--slate); font-weight:600; margin-bottom:1rem; display:flex; align-items:center; gap:0.75rem; }
 .outcomes-head::after{ content:''; flex:1; height:1px; background:var(--rule-lt); }
 .outcomes-grid{ display:grid; grid-template-columns:1fr; gap:1px; background:var(--rule-dk); border:1px solid var(--rule-dk); border-radius:var(--r-xl); overflow:hidden; box-shadow:var(--shadow-soft); }
 @media(min-width:640px){ .outcomes-grid{ grid-template-columns:repeat(3,1fr); } }
@@ -412,7 +429,7 @@ section { position:relative; }
 
 .pipe-head{ margin-top:clamp(3rem,7vw,5rem); margin-bottom:1.5rem; }
 .pipe-title{ font-family:var(--disp); font-size:clamp(1.8rem,4.6vw,3rem); font-weight:700; letter-spacing:-0.035em; color:var(--slate); line-height:0.92; margin-bottom:0.6rem; }
-.pipe-sub{ font-size:0.92rem; font-weight:400; color:#475569; line-height:1.7; max-width:56ch; }
+.pipe-sub{ font-size:0.92rem; font-weight:400; color:var(--ink-2); line-height:1.7; max-width:56ch; }
 .pipe-sub strong{ font-weight:600; color:var(--slate); }
 
 /* Separated rounded cards (reference accordion) rather than one boxed list —
@@ -430,20 +447,23 @@ section { position:relative; }
 .pipe-step{ display:flex; flex-wrap:wrap; row-gap:0.25rem; align-items:center; gap:0.9rem; padding:0.95rem 1rem; background:var(--white); cursor:pointer; user-select:none; transition:background 0.25s var(--ease); }
 .pipe-step:hover{ background:var(--lime-wash); }
 .pipe-step:focus-visible{ outline:2px solid var(--matcha); outline-offset:-2px; }
-.pipe-n{ font-family:var(--mono); font-size:10px; letter-spacing:0.08em; font-weight:700; color:color-mix(in srgb, var(--pc,var(--matcha)) 72%, var(--slate)); background:color-mix(in srgb, var(--pc,var(--matcha)) 14%, var(--white)); border-radius:var(--r-pill); padding:0.3rem 0.6rem; flex-shrink:0; }
-.pipe-label{ font-family:var(--mono); font-size:0.82rem; letter-spacing:0.08em; text-transform:uppercase; font-weight:600; color:var(--pc,var(--slate)); }
+.pipe-n{ font-family:var(--mono); font-size:11px; letter-spacing:0.06em; font-weight:700; color:color-mix(in srgb, var(--pc,var(--matcha)) 50%, var(--slate)); background:color-mix(in srgb, var(--pc,var(--matcha)) 14%, var(--white)); border-radius:var(--r-pill); padding:0.3rem 0.6rem; flex-shrink:0; }
+/* The step hue at full strength is a fill (the icon accent, the numeral
+   pill). As text it is mixed half with --slate, which keeps the hue family
+   and clears 5:1 on white and the lime-wash hover for all five steps. */
+.pipe-label{ font-family:var(--mono); font-size:0.82rem; letter-spacing:0.08em; text-transform:uppercase; font-weight:600; color:color-mix(in srgb, var(--pc,var(--slate)) 50%, var(--slate)); }
 .pipe-step-right{ display:flex; align-items:center; gap:0.6rem; margin-left:auto; flex-shrink:0; }
-.pipe-badge{ font-family:var(--mono); font-size:10px; letter-spacing:0.06em; text-transform:uppercase; color:var(--mid); background:var(--band); border:1px solid var(--rule-dk); padding:0.25rem 0.7rem; border-radius:var(--r-pill); white-space:nowrap; transition:background 0.2s,color 0.2s,border-color 0.2s; }
+.pipe-badge{ font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--mid); background:var(--band); border:1px solid var(--rule-dk); padding:0.25rem 0.7rem; border-radius:var(--r-pill); white-space:nowrap; transition:background 0.2s,color 0.2s,border-color 0.2s; }
 .pipe-step:hover .pipe-badge, .pipe-step.open .pipe-badge{ background:rgba(181,196,43,0.14); color:var(--accent-ink); border-color:rgba(181,196,43,0.35); }
 .pipe-chevron{ font-size:0.7rem; color:var(--subtle); transition:transform 0.32s var(--ease),color 0.2s; line-height:1; }
 .pipe-step.open .pipe-chevron{ transform:rotate(180deg); color:var(--matcha); }
-.pipe-panel-inner{ padding:1.25rem 1.5rem 1.6rem; background:#FAFBFC; overflow:hidden; }
+.pipe-panel-inner{ padding:1.25rem 1.5rem 1.6rem; background:var(--bg); overflow:hidden; }
 .pipe-desc{ font-size:0.85rem; color:var(--mid); line-height:1.7; margin-bottom:1.25rem; }
 .pipe-examples{ display:flex; flex-direction:column; gap:0.85rem; }
 .pipe-example{ padding:0.95rem 1.1rem; background:var(--white); border:1px solid var(--rule-lt); border-left:3px solid var(--rule-dk); border-radius:var(--r-sm); transition:border-left-color 0.2s; }
 .pipe-example:hover{ border-left-color:var(--matcha); }
 .pipe-ex-title{ font-weight:700; font-size:0.86rem; color:var(--slate); margin-bottom:0.3rem; line-height:1.3; }
-.pipe-ex-body{ font-size:0.8rem; color:#475569; line-height:1.65; margin-bottom:0.35rem; }
+.pipe-ex-body{ font-size:0.8rem; color:var(--ink-2); line-height:1.65; margin-bottom:0.35rem; }
 .pipe-ex-outcome{ font-family:var(--mono); font-size:11px; color:var(--accent-ink); letter-spacing:0.02em; line-height:1.5; }
 .pipe-cta{ display:inline-flex; align-items:center; gap:0.35rem; margin-top:1.25rem; font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--accent-ink); text-decoration:none; font-weight:600; transition:opacity 0.2s; }
 .pipe-cta:hover{ opacity:0.7; }
@@ -474,7 +494,7 @@ section { position:relative; }
 }
 .princ-main{ display:flex; flex-direction:column; }
 .princ-title{ font-family:var(--disp); font-size:clamp(1.05rem,2.2vw,1.35rem); font-weight:700; color:var(--slate); line-height:1.2; margin-bottom:0.75rem; letter-spacing:-0.02em; }
-.princ-body{ font-size:0.85rem; font-weight:400; color:#475569; line-height:1.75; }
+.princ-body{ font-size:0.85rem; font-weight:400; color:var(--ink-2); line-height:1.75; }
 
 /* ============================================================================
    SCENARIO MODEL
@@ -491,10 +511,10 @@ section { position:relative; }
    about every figure in the section. Amber is the site's report/caution step
    colour, so the band reads as a notice without leaving the palette. */
 .basis-strip{ display:flex; flex-wrap:wrap; align-items:baseline; gap:0.5rem 1.15rem; margin-top:1.35rem; padding:0.95rem 1.2rem; background:rgba(255,149,0,0.07); border:1px solid rgba(255,149,0,0.30); border-radius:var(--r-lg); }
-.basis-badge{ display:inline-flex; align-items:center; gap:0.4rem; flex:0 0 auto; font-family:var(--mono); font-size:10px; font-weight:700; letter-spacing:0.13em; text-transform:uppercase; color:var(--amber-ink); }
+.basis-badge{ display:inline-flex; align-items:center; gap:0.4rem; flex:0 0 auto; font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--amber-ink); }
 .basis-text{ flex:1 1 24rem; font-size:0.85rem; font-weight:400; line-height:1.65; color:var(--slate); max-width:74ch; }
-.basis-meta{ flex:0 1 auto; font-family:var(--mono); font-size:10px; letter-spacing:0.05em; color:var(--amber-ink); }
-.sector-desc{ font-size:0.86rem; color:#475569; margin-top:1.1rem; line-height:1.65; max-width:62ch; }
+.basis-meta{ flex:0 1 auto; font-family:var(--mono); font-size:11px; letter-spacing:0.05em; color:var(--amber-ink); }
+.sector-desc{ font-size:0.86rem; color:var(--ink-2); margin-top:1.1rem; line-height:1.65; max-width:62ch; }
 
 .scn-step{ margin-top:clamp(2.5rem,6vw,3.5rem); padding-top:2rem; border-top:1px solid var(--rule-dk); }
 .scn-step-num{ font-family:var(--mono); font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent-ink); font-weight:700; display:block; margin-bottom:0.4rem; }
@@ -502,7 +522,7 @@ section { position:relative; }
 .scn-step-sub{ font-size:0.85rem; font-weight:400; color:var(--mid); line-height:1.6; max-width:60ch; }
 
 .seg-row{ display:flex; flex-wrap:wrap; gap:1px; background:var(--rule-dk); border:1px solid var(--rule-dk); width:fit-content; max-width:100%; margin-top:1.25rem; border-radius:var(--r-md); overflow:hidden; }
-.seg-btn{ font-family:var(--sans); font-size:0.8rem; font-weight:500; border:none; background:var(--white); color:#475569; cursor:pointer; padding:0.55rem 1.1rem; transition:background 0.2s,color 0.2s; white-space:nowrap; }
+.seg-btn{ font-family:var(--sans); font-size:0.8rem; font-weight:500; border:none; background:var(--white); color:var(--ink-2); cursor:pointer; padding:0.55rem 1.1rem; transition:background 0.2s,color 0.2s; white-space:nowrap; }
 .seg-btn:hover:not(.on){ background:var(--lime-wash); color:var(--forest); }
 .seg-btn:focus-visible{ outline:2px solid var(--matcha); outline-offset:-2px; }
 .seg-btn.on{ background:var(--forest); color:var(--lime-bright); font-weight:600; }
@@ -545,7 +565,7 @@ section { position:relative; }
    neighbouring cards land at different heights instead of sharing a row. */
 .lever-card .seg-row{ border-color:var(--rule-lt); background:var(--rule-lt); margin-top:auto; }
 
-.takeaway{ position:relative; background:linear-gradient(150deg,var(--lime-wash),var(--white) 70%); padding:1.15rem 1.5rem 1.15rem 1.75rem; margin-top:1.25rem; margin-bottom:1.5rem; font-family:var(--disp); font-size:clamp(1.05rem,2.6vw,1.4rem); font-weight:600; line-height:1.45; color:var(--slate); letter-spacing:-0.01em; border-radius:var(--r-md); box-shadow:0 6px 20px rgba(33,48,15,0.10),0 1px 2px rgba(15,23,42,0.04); }
+.takeaway{ position:relative; background:linear-gradient(150deg,var(--lime-wash),var(--white) 70%); padding:1.15rem 1.5rem 1.15rem 1.75rem; margin-top:1.25rem; margin-bottom:1.5rem; font-family:var(--disp); font-size:clamp(1.05rem,2.6vw,1.4rem); font-weight:600; line-height:1.45; color:var(--slate); letter-spacing:-0.01em; border-radius:var(--r-md); box-shadow:0 6px 20px rgba(33,48,15,0.10),0 1px 2px rgba(23,25,13,0.04); }
 /* Inset rounded gradient bar — sits inside the rounded box, never meeting the curve. */
 .takeaway::before{ content:''; position:absolute; left:0.8rem; top:1.05rem; bottom:1.05rem; width:4px; border-radius:var(--r-pill); background:linear-gradient(180deg,var(--forest-ink),var(--matcha)); }
 .takeaway em{ font-style:normal; color:#75821D; }
@@ -554,8 +574,8 @@ section { position:relative; }
 /* RUN SUMMARY — the settings the panel's figures came out of, so a screenshot
    of the result still says what it is a result of. */
 .scn-frame{ display:flex; flex-wrap:wrap; align-items:center; gap:0.35rem; margin-bottom:0.9rem; }
-.scn-frame-lead{ font-family:var(--mono); font-size:10px; font-weight:700; letter-spacing:0.13em; text-transform:uppercase; color:var(--mid); margin-right:0.15rem; }
-.scn-frame-chip{ display:inline-flex; align-items:baseline; gap:0.3rem; padding:0.2rem 0.6rem; font-size:10.5px; line-height:1.45; color:var(--mid); background:var(--white); border:1px solid var(--rule-dk); border-radius:var(--r-pill); }
+.scn-frame-lead{ font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--mid); margin-right:0.15rem; }
+.scn-frame-chip{ display:inline-flex; align-items:baseline; gap:0.3rem; padding:0.2rem 0.6rem; font-size:11.5px; line-height:1.45; color:var(--mid); background:var(--white); border:1px solid var(--rule-dk); border-radius:var(--r-pill); }
 .scn-frame-chip b{ font-weight:700; color:var(--slate); }
 .scn-frame-profile{ font-weight:700; color:var(--accent-ink); background:var(--lime-wash); border-color:var(--lime); }
 
@@ -566,7 +586,7 @@ section { position:relative; }
    as the primary result, the static baselines as supporting context. */
 .kpi.live{ background:var(--lime-wash); }
 .kpi.live::before{ content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--forest-ink); }
-.kpi-l{ font-family:var(--mono); font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--mid); margin-bottom:0.35rem; font-weight:600; }
+.kpi-l{ font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--mid); margin-bottom:0.35rem; font-weight:600; }
 .kpi-v{ font-family:var(--disp); font-size:1.55rem; font-weight:700; color:var(--slate); line-height:1; }
 .kpi.live .kpi-l{ color:var(--forest-ink); }
 .kpi.live .kpi-v{ color:var(--forest); }
@@ -574,8 +594,8 @@ section { position:relative; }
    look up, so every tile that moved carries what it moved from and by how
    much, absolute and relative both. The change is signed, so direction reads
    without the colour and the colour is reinforcement rather than the cue. */
-.kpi-base{ font-size:10.5px; color:var(--mid); line-height:1.45; margin-top:0.5rem; }
-.kpi-note{ font-size:10.5px; color:var(--mid); line-height:1.45; margin-top:0.5rem; }
+.kpi-base{ font-size:11.5px; color:var(--mid); line-height:1.45; margin-top:0.5rem; }
+.kpi-note{ font-size:11.5px; color:var(--mid); line-height:1.45; margin-top:0.5rem; }
 .kpi-chg{ display:flex; flex-wrap:wrap; gap:0.3rem 0.45rem; margin-top:0.35rem; font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:0.01em; }
 .kpi-chg-down{ color:var(--accent-ink); }
 .kpi-chg-up{ color:var(--berry-ink); }
@@ -589,7 +609,7 @@ section { position:relative; }
 .chart-wrap{ position:relative; height:260px; }
 @media(min-width:600px){ .chart-wrap{ height:340px; } }
 .chart-legend{ display:flex; flex-wrap:wrap; gap:0.4rem 1.4rem; margin-top:1rem; padding-top:0.85rem; border-top:1px solid var(--rule-lt); }
-.cl-item{ display:flex; align-items:center; gap:0.5rem; font-size:0.76rem; font-weight:500; color:#475569; }
+.cl-item{ display:flex; align-items:center; gap:0.5rem; font-size:0.76rem; font-weight:500; color:var(--ink-2); }
 .cl-swatch{ width:14px; height:10px; flex-shrink:0; border-radius:1px; }
 .cl-swatch.line{ height:0; border-top:2px solid currentColor; width:16px; }
 .cl-swatch.dash{ height:0; border-top:2px dashed currentColor; width:16px; }
@@ -600,10 +620,10 @@ section { position:relative; }
 @media(max-width:559px){ .cbar{ gap:0.5rem; } }
 .cbar:last-child{ margin-bottom:0; }
 .cbar-name{ font-size:0.78rem; font-weight:600; }
-.cbar-name.grid{ color:var(--indigo); } .cbar-name.lv{ color:var(--accent-ink); } .cbar-name.hv{ color:var(--amber-ink); } .cbar-name.plant{ color:var(--berry); }
-.cbar-track{ height:6px; background:#E2E8F0; overflow:hidden; border-radius:var(--r-pill); }
+.cbar-name.grid{ color:var(--indigo); } .cbar-name.lv{ color:var(--accent-ink); } .cbar-name.hv{ color:var(--amber-ink); } .cbar-name.plant{ color:var(--berry-ink); }
+.cbar-track{ height:6px; background:var(--rule-lt); overflow:hidden; border-radius:var(--r-pill); }
 .cbar-fill{ height:100%; transition:width 0.35s var(--ease); }
-.cbar-val{ font-family:var(--mono); font-size:0.7rem; color:#475569; text-align:right; }
+.cbar-val{ font-family:var(--mono); font-size:0.7rem; color:var(--ink-2); text-align:right; }
 
 /* Desktop: controls + results side by side so the whole model fits one viewport. */
 @media(min-width:1024px){
@@ -644,7 +664,7 @@ section { position:relative; }
 .btn{ display:inline-flex; padding:0.75rem 1.75rem; font-family:var(--sans); font-size:0.85rem; font-weight:600; text-decoration:none; cursor:pointer; transition:background 0.3s var(--ease),border-color 0.3s var(--ease),color 0.3s var(--ease); min-height:44px; align-items:center; gap:0.55rem; }
 .btn-primary{ background:var(--matcha); color:var(--slate); border:1px solid var(--matcha); }
 .btn-primary:hover{ background:#8BAD1F; border-color:#8BAD1F; }
-.btn-secondary{ background:transparent; color:var(--slate); border:1px solid #CBD5E1; }
+.btn-secondary{ background:transparent; color:var(--slate); border:1px solid var(--rule-dk); }
 .btn-secondary:hover{ border-color:var(--matcha); color:var(--matcha); }
 .btn .li-icon{ width:16px; height:16px; }
 
@@ -673,7 +693,7 @@ section { position:relative; }
 .tools-head{ display:grid; gap:clamp(1.4rem,3vw,2.5rem); margin-top:1.2rem; align-items:start; }
 @media(min-width:900px){ .tools-head{ grid-template-columns:minmax(0,5fr) minmax(0,6fr); gap:clamp(2rem,4vw,4rem); } }
 .tools-headline{
-  font-size:clamp(2.2rem,6.4vw,4.6rem); letter-spacing:-0.045em; max-width:12ch;
+  font-size:clamp(2.2rem,6.4vw,4.6rem); letter-spacing:-0.04em; max-width:12ch;
   color:var(--lime-soft); --split-accent:var(--lime-bright);
 }
 .tools-lead{ display:flex; flex-direction:column; gap:0.9rem; }
@@ -815,7 +835,7 @@ section { position:relative; }
 }
 .tool-spec-basis{
   display:block; margin-top:0.2rem;
-  font-family:var(--mono); font-size:10px; letter-spacing:0.06em;
+  font-family:var(--mono); font-size:11px; letter-spacing:0.05em;
   text-transform:uppercase; color:var(--sage-2);
 }
 
@@ -825,12 +845,12 @@ section { position:relative; }
   margin-top:0.8rem; padding-top:0.8rem; border-top:1px solid rgba(210,223,206,0.14);
 }
 .tool-proves-lbl{
-  display:block; font-family:var(--mono); font-size:10px; letter-spacing:0.16em;
+  display:block; font-family:var(--mono); font-size:11px; letter-spacing:0.12em;
   text-transform:uppercase; font-weight:700; color:var(--lime); margin-bottom:0.3rem;
 }
 .tool-tags{ list-style:none; display:flex; flex-wrap:wrap; gap:0.4rem; margin-top:0.95rem; }
 .tool-tags li{
-  font-family:var(--mono); font-size:10px; letter-spacing:0.08em; text-transform:uppercase;
+  font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase;
   color:var(--sage-2); border:1px solid rgba(210,223,206,0.22); border-radius:var(--r-pill);
   padding:0.28rem 0.7rem; white-space:nowrap;
 }
@@ -880,13 +900,13 @@ section { position:relative; }
 .exp-role-title{ font-weight:700; font-size:0.85rem; color:var(--slate); }
 .exp-date{ font-family:var(--mono); font-size:11px; color:var(--mid); white-space:nowrap; }
 .exp-bullets{ list-style:none; display:flex; flex-direction:column; gap:0.6rem; }
-.exp-bullets li{ font-size:0.86rem; font-weight:400; color:#475569; line-height:1.7; padding-left:1.1rem; position:relative; }
+.exp-bullets li{ font-size:0.86rem; font-weight:400; color:var(--ink-2); line-height:1.7; padding-left:1.1rem; position:relative; }
 .exp-bullets li.has-mark::before{ content:'›'; position:absolute; left:0; color:var(--matcha); font-size:1rem; line-height:1.5; }
-.exp-section-lbl{ font-family:var(--mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent-ink); font-weight:600; display:block; margin-top:1.1rem; padding-left:0; }
+.exp-section-lbl{ font-family:var(--mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent-ink); font-weight:600; display:block; margin-top:1.1rem; padding-left:0; }
 
 /* Education entry: same layout as the roles above. An eyebrow label stands in
    for the employer logo so the header aligns; a bold lead-in labels each fact. */
-.exp-eyebrow{ font-family:var(--mono); font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent-ink); font-weight:600; margin-bottom:0.6rem; }
+.exp-eyebrow{ font-family:var(--mono); font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent-ink); font-weight:600; margin-bottom:0.6rem; }
 .exp-bullet-lead{ font-weight:600; color:var(--slate); }
 .exp-bullet-lead::after{ content:': '; color:var(--subtle); font-weight:400; }
 
@@ -999,6 +1019,7 @@ a.footer-cta-btn[target="_blank"]::after{ content:none; }
 .footer-col-list a{
   font-family:var(--mono); font-size:12px; letter-spacing:0.06em; text-transform:uppercase; text-decoration:none;
   color:var(--forest-2); position:relative; transition:color 0.2s var(--ease); display:inline-block;
+  padding-block:0.25rem;
 }
 .footer-col-list a:hover{ color:var(--forest); text-decoration:underline; text-underline-offset:3px; }
 
@@ -1006,9 +1027,9 @@ a.footer-cta-btn[target="_blank"]::after{ content:none; }
   display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;
   margin-top:clamp(2rem,4.5vw,3rem); padding-top:1.2rem; border-top:1px solid rgba(33,48,15,0.18);
 }
-.footer-mark{ font-family:var(--mono); font-size:1.1rem; font-weight:600; color:var(--forest); text-decoration:none; transition:opacity 0.2s; margin-right:auto; display:inline-flex; align-items:center; }
+.footer-mark{ font-family:var(--mono); font-size:1.1rem; font-weight:600; color:var(--forest); text-decoration:none; transition:opacity 0.2s; margin-right:auto; display:inline-flex; align-items:center; min-width:24px; min-height:24px; }
 .footer-mark:hover{ opacity:0.6; }
-.footer-tagline{ font-family:var(--mono); font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--forest-2); }
+.footer-tagline{ font-family:var(--mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--forest-2); }
 @media(max-width:559px){ .footer-tagline{ display:none; } }
 
 /* ============================================================================
@@ -1019,9 +1040,9 @@ a.footer-cta-btn[target="_blank"]::after{ content:none; }
    ============================================================================ */
 .fp-footer{ border-top:1px solid var(--rule-dk); background:var(--bg); padding:1.6rem 0; }
 .fp-footer-inner{ display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
-.fp-footer-home{ color:var(--matcha); font-family:var(--mono); font-size:0.9rem; text-decoration:none; opacity:0.85; display:inline-flex; align-items:center; }
-.fp-footer-name{ font-family:var(--mono); font-size:10px; letter-spacing:0.06em; color:var(--mid); }
-.fp-footer-back{ font-family:var(--mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--mid); text-decoration:none; font-weight:600; }
+.fp-footer-home{ color:var(--matcha); font-family:var(--mono); font-size:0.9rem; text-decoration:none; opacity:0.85; display:inline-flex; align-items:center; min-width:24px; min-height:24px; }
+.fp-footer-name{ font-family:var(--mono); font-size:11px; letter-spacing:0.06em; color:var(--mid); }
+.fp-footer-back{ font-family:var(--mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--mid); text-decoration:none; font-weight:600; display:inline-flex; align-items:center; min-height:24px; }
 .fp-footer-back:hover{ color:var(--matcha); }
 
 /* ============================================================================
@@ -1130,7 +1151,7 @@ a.footer-cta-btn[target="_blank"]::after{ content:none; }
 }
 ::-webkit-scrollbar{ width:5px; }
 ::-webkit-scrollbar-track{ background:var(--bg); }
-::-webkit-scrollbar-thumb{ background:#CBD5E1; border-radius:2px; }
+::-webkit-scrollbar-thumb{ background:var(--rule-dk); border-radius:2px; }
 ::-webkit-scrollbar-thumb:hover{ background:var(--matcha); }
 
 /* ============================================================================
@@ -1175,14 +1196,14 @@ a.footer-cta-btn[target="_blank"]::after{ content:none; }
 .gate-mark{ display:inline-flex; color:var(--lime); width:30px; height:30px; }
 .gate-mark svg{ width:100%; height:100%; }
 .gate-eyebrow{
-  font-family:var(--mono); font-size:10px; letter-spacing:0.14em; text-transform:uppercase;
+  font-family:var(--mono); font-size:11px; letter-spacing:0.12em; text-transform:uppercase;
   font-weight:700; color:var(--lime); margin-top:1.1rem;
 }
 .gate-title{ font-size:clamp(1.8rem,5vw,2.5rem); letter-spacing:-0.04em; color:var(--lime-soft); margin:0.5rem 0 0.9rem; }
 .gate-body{ font-size:0.85rem; line-height:1.75; color:var(--sage); }
 .gate-form{ margin-top:1.5rem; }
 .gate-label{
-  display:block; font-family:var(--mono); font-size:10px; letter-spacing:0.1em;
+  display:block; font-family:var(--mono); font-size:11px; letter-spacing:0.08em;
   text-transform:uppercase; font-weight:700; color:var(--sage-2); margin-bottom:0.45rem;
 }
 .gate-row{ display:flex; gap:0.5rem; flex-wrap:wrap; }

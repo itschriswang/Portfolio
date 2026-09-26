@@ -59,7 +59,7 @@
 .st-total, .st-outro { background: var(--st-dark); color: var(--st-dark-ink); }
 .st-scopes { background: var(--bg); }
 .st-hot { background: #F4F6EE; border-top: 1px solid var(--rule-lt); }
-.st-months { background: #EEF2FF; }
+.st-months { background: var(--band); }
 .st-bench { background: var(--bg); border-top: 1px solid var(--rule-lt); }
 .st-needle { background: #F4F6EE; border-top: 1px solid var(--rule-lt); border-bottom: 1px solid var(--rule-lt); }
 
@@ -70,17 +70,17 @@
 /* ---- Type ---- */
 .st-h1 { font-size: clamp(2.6rem, 10vw, 6.8rem); line-height: 0.88; letter-spacing: -0.045em; margin: 1.1rem 0 1.4rem; }
 .st-h2 { font-size: clamp(2rem, 7vw, 4.4rem); line-height: 0.9; letter-spacing: -0.04em; margin: 1rem 0 1.1rem; }
-.st-line { font-size: clamp(0.98rem, 1.6vw, 1.18rem); font-weight: 300; color: #475569; line-height: 1.7; max-width: 560px; }
+.st-line { font-size: clamp(0.98rem, 1.6vw, 1.18rem); font-weight: 300; color: var(--fp-ink-2); line-height: 1.7; max-width: 560px; }
 .st-line-num { font-family: var(--disp); font-weight: 700; color: var(--slate); font-size: 1.25em; }
 .st-total .st-line-num, .st-outro .st-line-num { color: var(--st-dark-ink); }
 .st-kicker { font-family: var(--mono); font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--st-dark-mid); font-weight: 600; }
 .st-punch { font-family: var(--disp); font-weight: 600; font-size: clamp(1.35rem, 3.4vw, 2.1rem); line-height: 1.25; letter-spacing: -0.02em; color: var(--slate); margin-top: 2.2rem; max-width: 640px; }
-.st-punch-num { font-size: 1.6em; font-weight: 700; color: #75821D; }
-.st-punch-pct { font-size: 1.1em; font-weight: 700; color: #75821D; margin-right: 0.15em; }
+.st-punch-num { font-size: 1.6em; font-weight: 700; color: var(--accent-ink); }
+.st-punch-pct { font-size: 1.1em; font-weight: 700; color: var(--accent-ink); margin-right: 0.15em; }
 /* On the scopes moment the percentage IS the insight: give it the display slot. */
 .st-scopes .st-punch-num { display: block; font-size: clamp(3.4rem, 10vw, 6.5rem); line-height: 0.9; margin-bottom: 0.15em; }
 .st-punch-sm { font-size: clamp(1rem, 1.8vw, 1.2rem); font-weight: 500; color: var(--slate); line-height: 1.6; max-width: 620px; margin-top: 1.8rem; padding-left: 1rem; border-left: 3px solid var(--matcha); }
-.st-caveat { font-family: var(--mono); font-size: 10px; color: #475569; margin-top: 1rem; max-width: 560px; line-height: 1.6; }
+.st-caveat { font-family: var(--sans); font-size: 0.8125rem; color: var(--fp-ink-2); margin-top: 1rem; max-width: 560px; line-height: 1.6; text-wrap: pretty; }
 
 /* Ghost depth layer. */
 .st-ghost {
@@ -125,7 +125,7 @@
 }
 .st-home:hover { opacity: 0.7; }
 .st-skip {
-  font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.1em; text-transform: uppercase;
   font-weight: 600; color: var(--st-dark-ink); background: rgba(23, 28, 19, 0.82);
   backdrop-filter: blur(8px); border: 1px solid rgba(244, 246, 238, 0.14);
   border-radius: 999px; padding: 0.5rem 0.95rem; cursor: pointer;
@@ -168,7 +168,7 @@
   position: absolute;
   right: 26px; top: 50%;
   transform: translateY(-50%) translateX(4px);
-  font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
   color: var(--st-dark-ink); background: rgba(23, 28, 19, 0.75); backdrop-filter: blur(6px);
   border-radius: 999px; padding: 0.25rem 0.6rem; white-space: nowrap;
   opacity: 0; pointer-events: none;
@@ -181,16 +181,16 @@
 .st-cover-inner { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; width: 100%; }
 /* A soft scrim so the words never fight the particle field behind them. */
 .st-cover-inner::before { content: ''; position: absolute; inset: -10% -8% -10% -8%; z-index: -1; background: radial-gradient(120% 92% at 28% 46%, rgba(23, 28, 19, 0.86), rgba(23, 28, 19, 0.5) 52%, transparent 84%); pointer-events: none; }
-.st-cover-eyebrow { display: flex; width: fit-content; align-items: center; gap: 0.5rem; font-family: var(--mono); font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; font-weight: 700; color: var(--matcha); margin-bottom: 0.9rem; }
+.st-cover-eyebrow { display: flex; width: fit-content; align-items: center; gap: 0.5rem; font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.24em; text-transform: uppercase; font-weight: 700; color: var(--matcha); margin-bottom: 0.9rem; }
 .st-cover-eyebrow-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--matcha); box-shadow: 0 0 0 0 rgba(181, 196, 43, 0.5); animation: st-pulse 2.4s var(--ease) infinite; }
 @keyframes st-pulse { 0% { box-shadow: 0 0 0 0 rgba(181, 196, 43, 0.45); } 70% { box-shadow: 0 0 0 8px rgba(181, 196, 43, 0); } 100% { box-shadow: 0 0 0 0 rgba(181, 196, 43, 0); } }
 .st-cover-sub { font-size: clamp(0.95rem, 1.5vw, 1.15rem); font-weight: 300; color: var(--st-dark-ink); max-width: 560px; line-height: 1.75; margin-bottom: 1.1rem; padding-left: 1.1rem; border-left: 2px solid var(--matcha); }
-.st-cover-meta { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--st-dark-mid); margin-bottom: 1.6rem; }
+.st-cover-meta { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--st-dark-mid); margin-bottom: 1.6rem; }
 .st-cover-cta { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
 /* The one-line legend for the particle field: every dot is ten kilograms. */
 .st-cover-note {
   display: flex; align-items: center; gap: 0.5rem;
-  font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.2em; text-transform: uppercase;
   font-weight: 600; color: var(--st-dark-mid); margin-top: 1.2rem;
 }
 .st-cover-note-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--matcha); flex-shrink: 0; }
@@ -199,7 +199,7 @@
   bottom: 1.6rem; left: 50%;
   transform: translateX(-50%);
   display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
-  font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.24em; text-transform: uppercase;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase;
   color: var(--st-dark-mid);
   z-index: 2;
 }
@@ -210,8 +210,8 @@
 .st-scrollhint {
   position: absolute; left: var(--gut); bottom: 1.35rem; z-index: 3;
   display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
-  font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.22em; text-transform: uppercase;
-  font-weight: 600; color: #475569; pointer-events: none;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+  font-weight: 600; color: var(--fp-ink-2); pointer-events: none;
 }
 .st-scrollhint.dark { color: var(--st-dark-mid); }
 @media (max-width: 680px) { .st-scrollhint { left: 5vw; } }
@@ -235,11 +235,11 @@
 }
 .st-tally.lead .st-tally-v { font-size: clamp(3.2rem, 9vw, 6rem); letter-spacing: -0.04em; }
 .st-tally-l {
-  font-family: var(--mono); font-size: clamp(0.6rem, 1.2vw, 0.72rem);
+  font-family: var(--mono); font-size: clamp(0.72rem, 1.2vw, 0.8rem);
   letter-spacing: 0.18em; text-transform: uppercase; color: var(--mid); font-weight: 600;
 }
 .st-tally-sub {
-  font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.06em;
+  font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.06em;
   color: #66731A; font-weight: 700;
 }
 .st-ticker { position: relative; z-index: 1; margin-top: 2.4rem; display: flex; flex-direction: column; gap: 0.7rem; width: 100vw; max-width: 100vw; overflow: hidden; align-self: center; margin-left: calc(-1 * var(--gut)); margin-right: calc(-1 * var(--gut)); }
@@ -252,7 +252,7 @@
 @keyframes st-drift { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-4%); } }
 .st-tick-chip {
   display: inline-flex; align-items: center; gap: 0.5rem;
-  font-family: var(--mono); font-size: 11.5px; color: #475569;
+  font-family: var(--mono); font-size: 11.5px; color: var(--fp-ink-2);
   background: var(--white); border: 1px solid var(--rule-dk);
   padding: 0.65rem 1rem; border-radius: 999px;
   box-shadow: 0 2px 10px rgba(31, 42, 30, 0.05);
@@ -279,7 +279,7 @@
 .st-guess-ctas { display: flex; gap: 1rem; justify-content: center; align-items: center; flex-wrap: wrap; }
 
 .st-quiet {
-  font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase;
+  font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.1em; text-transform: uppercase;
   font-weight: 600; background: none; border: none; color: var(--mid);
   border-bottom: 1px solid var(--rule-dk); padding: 0.35rem 0.1rem; cursor: pointer;
   transition: color 0.25s var(--ease), border-color 0.25s var(--ease);
@@ -343,24 +343,24 @@
 .st-total .st-share-row { margin-top: 0; }
 
 .st-share {
-  font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase;
+  font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.1em; text-transform: uppercase;
   font-weight: 700; cursor: pointer;
   background: transparent; color: var(--slate);
   border: 1px solid var(--rule-dk); border-radius: 999px; padding: 0.6rem 1.1rem;
   display: inline-flex; align-items: center; gap: 0.5rem;
   transition: border-color 0.25s var(--ease), color 0.25s var(--ease), transform 0.25s var(--ease);
 }
-.st-share:hover { border-color: var(--matcha); color: #75821D; transform: translateY(-1px); }
+.st-share:hover { border-color: var(--matcha); color: var(--accent-ink); transform: translateY(-1px); }
 .st-total .st-share, .st-outro .st-share { color: var(--st-dark-ink); border-color: var(--st-dark-rule); }
 .st-total .st-share:hover, .st-outro .st-share:hover { color: var(--matcha); border-color: var(--matcha); }
 
 /* ---- Scopes ---- */
 .st-scope-rows { display: flex; flex-direction: column; gap: 1.6rem; margin: 2.2rem 0; }
 .st-scope-row { display: grid; grid-template-columns: auto 1fr; gap: 1.2rem; align-items: start; }
-.st-scope-n { font-family: var(--disp); font-weight: 700; font-size: clamp(2.6rem, 6vw, 4rem); line-height: 0.9; min-width: 1.2em; color: #75821D; }
-.st-scope-name { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mid); font-weight: 700; margin-bottom: 0.3rem; }
+.st-scope-n { font-family: var(--disp); font-weight: 700; font-size: clamp(2.6rem, 6vw, 4rem); line-height: 0.9; min-width: 1.2em; color: var(--accent-ink); }
+.st-scope-name { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mid); font-weight: 700; margin-bottom: 0.3rem; }
 .st-scope-val { font-family: var(--disp); font-weight: 700; font-size: clamp(1.6rem, 3.6vw, 2.4rem); color: var(--slate); line-height: 1.05; font-variant-numeric: tabular-nums; }
-.st-scope-line { font-size: 0.9rem; font-weight: 300; color: #475569; line-height: 1.65; max-width: 480px; margin-top: 0.35rem; }
+.st-scope-line { font-size: 0.9rem; font-weight: 300; color: var(--fp-ink-2); line-height: 1.65; max-width: 480px; margin-top: 0.35rem; }
 .st-scope-bar { display: flex; height: 14px; border-radius: 4px; overflow: hidden; gap: 2px; background: var(--white); }
 .st-scope-bar span { display: block; height: 100%; border-radius: 2px; }
 
@@ -386,8 +386,8 @@
 .st-month-col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 0.45rem; position: relative; padding-top: 1.6rem; }
 .st-month-bar { display: block; width: 100%; flex-shrink: 0; background: oklch(0.62 0.02 118); border-radius: 3px 3px 0 0; transform-origin: bottom; }
 .st-month-bar.worst { background: #75821D; }
-.st-month-flag { position: absolute; top: -0.4rem; left: 50%; transform: translateX(-50%); font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--slate); background: var(--matcha); padding: 0.15rem 0.4rem; border-radius: 2px; white-space: nowrap; z-index: 1; }
-.st-month-l { font-family: var(--mono); font-size: 9px; color: #475569; text-transform: uppercase; }
+.st-month-flag { position: absolute; top: -0.4rem; left: 50%; transform: translateX(-50%); font-family: var(--mono); font-size: 11.5px; font-weight: 700; color: var(--slate); background: var(--matcha); padding: 0.15rem 0.4rem; border-radius: 2px; white-space: nowrap; z-index: 1; }
+.st-month-l { font-family: var(--mono); font-size: 11px; color: var(--fp-ink-2); text-transform: uppercase; }
 
 /* ---- Bench ---- */
 .st-bench-rows { display: flex; flex-direction: column; gap: 1.3rem; margin: 2.2rem 0 0.6rem; }
@@ -399,7 +399,7 @@
 .st-bench-val { font-family: var(--mono); font-size: clamp(1.05rem, 2.6vw, 1.3rem); font-weight: 700; color: var(--slate); text-align: right; font-variant-numeric: tabular-nums; }
 /* Personal overshoot day: the date the 2.5 t budget ran out. */
 .st-overshoot { display: block; margin-top: 1.9rem; padding: 1rem 1.2rem; border: 1px solid var(--rule-lt); border-left: 3px solid var(--matcha); border-radius: 0 12px 12px 0; max-width: 620px; background: var(--white, #fff); }
-.st-overshoot-k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: #75821D; font-weight: 700; margin-bottom: 0.35rem; }
+.st-overshoot-k { display: block; font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--accent-ink); font-weight: 700; margin-bottom: 0.35rem; }
 .st-overshoot-line { font-size: clamp(1rem, 1.8vw, 1.15rem); font-weight: 500; color: var(--slate); line-height: 1.6; }
 
 /* ---- Needle ---- */
@@ -408,8 +408,8 @@
 .st-needle-card { background: var(--white); padding: 1.5rem 1.5rem 1.3rem; border-top: 3px solid var(--ac); transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease); }
 .st-needle-card:hover { transform: translateY(-3px); box-shadow: 0 14px 34px rgba(23, 28, 19, 0.10); }
 .st-needle-t { font-size: clamp(2.4rem, 5.5vw, 3.4rem); font-weight: 700; color: var(--slate); line-height: 1; margin-bottom: 0.35rem; font-variant-numeric: tabular-nums; }
-.st-needle-pct { font-size: 0.55em; color: #75821D; font-weight: 700; }
-.st-needle-of { font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--mid); font-weight: 600; margin-bottom: 0.7rem; }
+.st-needle-pct { font-size: 0.55em; color: var(--accent-ink); font-weight: 700; }
+.st-needle-of { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--mid); font-weight: 600; margin-bottom: 0.7rem; }
 .st-needle-name { font-weight: 700; font-size: 0.92rem; color: var(--slate); line-height: 1.4; margin-bottom: 0.45rem; }
 
 /* ---- Outro ---- */
@@ -427,7 +427,7 @@
   /* The total's column runs tall on phones; extra headroom keeps the kicker
      clear of the fixed chrome, and tighter chips buy the room back. */
   .st-total .st-sticky { padding-top: 7rem; padding-bottom: 4.5rem; }
-  .st-total .st-cat-chip { font-size: 9.5px; padding: 0.4rem 0.7rem; }
+  .st-total .st-cat-chip { font-size: 11px; padding: 0.4rem 0.7rem; }
   .st-cat-hint { min-height: 1.2em; }
   .st-chrome { padding: 0.55rem 3vw; padding-top: max(0.55rem, env(safe-area-inset-top)); }
   .st-skip { max-width: 52vw; overflow: hidden; text-overflow: ellipsis; }
@@ -456,7 +456,7 @@
 /* Category chips under the total: hover or focus gathers that category. */
 .st-cat-chips { display: flex; gap: 0.45rem; flex-wrap: wrap; justify-content: center; max-width: 640px; }
 .st-cat-chip {
-  font-family: var(--mono); font-size: 10px; letter-spacing: 0.05em; font-weight: 600;
+  font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.05em; font-weight: 600;
   color: var(--st-dark-ink); background: rgba(244, 246, 238, 0.05);
   border: 1px solid rgba(244, 246, 238, 0.32); border-radius: 999px; padding: 0.45rem 0.8rem;
   cursor: pointer; display: inline-flex; align-items: center; gap: 0.45rem;
@@ -466,22 +466,22 @@
 
 /* ---- Scopes: plain labels ---- */
 .st-scope-plain { font-family: var(--disp); font-weight: 700; font-size: clamp(1.15rem, 2.4vw, 1.6rem); color: var(--slate); letter-spacing: -0.02em; margin: 0.15rem 0 0.3rem; }
-.st-scopes .st-scope-name { font-size: 9.5px; }
+.st-scopes .st-scope-name { font-size: 11px; }
 
 /* ---- Bench tiles ---- */
 .st-bench-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule-dk); border: 1px solid var(--rule-dk); margin: 1.8rem 0 1.6rem; }
 @media (max-width: 559px) { .st-bench-tiles { grid-template-columns: 1fr; } }
 .st-bench-tile { background: var(--white); padding: 1.1rem 1.2rem; display: flex; flex-direction: column; gap: 0.3rem; }
 .st-bench-tile-v { font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; line-height: 1; color: var(--slate); font-variant-numeric: tabular-nums; }
-.st-bench-tile-l { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mid); font-weight: 600; }
-.st-bench-tile-aim { font-size: 0.72rem; color: #75821D; font-weight: 600; margin-top: 0.1rem; }
+.st-bench-tile-l { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mid); font-weight: 600; }
+.st-bench-tile-aim { font-size: 0.72rem; color: var(--accent-ink); font-weight: 600; margin-top: 0.1rem; }
 
 /* ---- Next chapter pill ---- */
 .st-next {
   position: fixed; bottom: 1.1rem; left: 50%; transform: translateX(-50%); z-index: 60;
   /* Home-indicator phones: the pill rides above the gesture bar. */
   bottom: calc(1.1rem + env(safe-area-inset-bottom));
-  font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+  font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase;
   font-weight: 600; color: var(--st-dark-ink); background: rgba(23, 28, 19, 0.62);
   backdrop-filter: blur(8px); border: 1px solid rgba(244, 246, 238, 0.16); border-radius: 999px;
   padding: 0.6rem 1.1rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;
@@ -497,7 +497,7 @@
 .st-character .sec-tag { color: var(--st-dark-mid); }
 .st-character .display { color: var(--st-dark-ink); }
 .st-character .st-line { color: var(--st-dark-mid); }
-.st-character .st-caveat { color: rgba(169, 180, 162, 0.75); }
+.st-character .st-caveat { color: var(--st-dark-mid); }
 .st-character .st-share { color: var(--st-dark-ink); border-color: var(--st-dark-rule); }
 .st-character .st-share:hover { color: var(--matcha); border-color: var(--matcha); }
 .st-char-stage { display: grid; grid-template-columns: 1fr; gap: 1.6rem; margin: 2rem 0 2.4rem; align-items: center; }
@@ -508,7 +508,7 @@
 .st-char-name { font-size: clamp(2.2rem, 6vw, 3.6rem); line-height: 0.95; letter-spacing: -0.04em; margin: 0.5rem 0 0.4rem; }
 .st-char-tagline { font-family: var(--disp); font-weight: 600; font-size: clamp(1.05rem, 2.2vw, 1.35rem); color: var(--st-dark-ink); margin-bottom: 0.8rem; }
 .st-char-line { font-size: 0.95rem; font-weight: 300; color: var(--st-dark-mid); line-height: 1.7; max-width: 480px; margin-bottom: 0.8rem; }
-.st-char-stat { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--matcha); font-weight: 700; margin-bottom: 0.5rem; }
+.st-char-stat { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--matcha); font-weight: 700; margin-bottom: 0.5rem; }
 .st-char-hint { font-size: 0.9rem; font-weight: 500; color: var(--st-dark-ink); border-left: 3px solid var(--matcha); padding-left: 0.8rem; max-width: 460px; margin-bottom: 0.6rem; }
 /* The verdict's bridge to action, on the screenshot moment itself. */
 .st-char-hook { font-family: var(--mono); font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; font-weight: 700; color: var(--matcha); max-width: 460px; margin-bottom: 0.6rem; }
@@ -518,17 +518,17 @@
 .st-char-how .st-line { margin-top: 0.6rem; }
 .st-char-how .st-axes { margin-top: 1.4rem; margin-left: 0; }
 
-/* The taxonomy as an honest matrix: three weight rows by four temperament
+/* The taxonomy as a full matrix: three weight rows by four temperament
    columns, the visitor's cell lit. On wide screens it is a table; on narrow
    ones it reflows into stacked weight groups so nothing scrolls sideways. */
 .st-matrix-scroll { margin: 1rem 0 0.9rem; padding-bottom: 0.4rem; }
 .st-matrix { display: grid; grid-template-columns: auto repeat(4, minmax(120px, 1fr)); gap: 0.5rem 0.8rem; align-items: center; }
-.st-matrix-col { font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--st-dark-mid); line-height: 1.55; padding-left: 0.5rem; }
-.st-matrix-rowlab { font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--st-dark-mid); white-space: nowrap; padding-right: 0.3rem; }
+.st-matrix-col { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--st-dark-mid); line-height: 1.55; padding-left: 0.5rem; }
+.st-matrix-rowlab { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--st-dark-mid); white-space: nowrap; padding-right: 0.3rem; }
 .st-char-cell { display: flex; align-items: center; gap: 0.55rem; font-size: 0.76rem; font-weight: 500; color: var(--st-dark-mid); padding: 0.35rem 0.5rem; border-radius: 10px; border: 1px solid transparent; }
 .st-char-cell.you { color: var(--st-dark-ink); font-weight: 700; border-color: var(--matcha); background: rgba(181, 196, 43, 0.08); }
-.st-char-cell-temp { display: none; font-family: var(--mono); font-size: 8px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--st-dark-mid); }
-.st-char-you { font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--slate); background: var(--matcha); border-radius: 999px; padding: 0.12rem 0.45rem; font-weight: 700; }
+.st-char-cell-temp { display: none; font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--st-dark-mid); }
+.st-char-you { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--slate); background: var(--matcha); border-radius: 999px; padding: 0.12rem 0.45rem; font-weight: 700; }
 
 /* Narrow screens: two-up cards grouped under each weight band. The corner and
    the column header row fold away, and each weight label spans the full width,
@@ -536,7 +536,7 @@
 @media (max-width: 640px) {
   .st-matrix { grid-template-columns: 1fr 1fr; gap: 0.5rem; align-items: stretch; }
   .st-matrix-corner, .st-matrix-col { display: none; }
-  .st-matrix-rowlab { grid-column: 1 / -1; margin-top: 0.7rem; font-size: 9px; padding: 0 0 0.1rem; border-bottom: 1px solid var(--st-dark-rule); }
+  .st-matrix-rowlab { grid-column: 1 / -1; margin-top: 0.7rem; font-size: 11px; padding: 0 0 0.1rem; border-bottom: 1px solid var(--st-dark-rule); }
   .st-char-cell { flex-direction: column; align-items: flex-start; gap: 0.3rem; padding: 0.6rem 0.65rem; border: 1px solid var(--st-dark-rule); border-radius: 12px; }
   .st-char-cell.you { border-color: var(--matcha); }
   .st-char-cell-name { font-weight: 700; color: var(--st-dark-ink); }
@@ -548,25 +548,25 @@
 .st-axis { display: grid; grid-template-columns: minmax(92px, 120px) 1fr minmax(150px, auto); gap: 0.2rem 1.1rem; align-items: center; padding-bottom: 1.1rem; }
 .st-axis-head { display: flex; flex-direction: column; }
 .st-axis-label { font-family: var(--disp); font-weight: 600; font-size: 0.95rem; color: var(--st-dark-ink); }
-.st-axis-gloss { font-size: 0.68rem; color: var(--st-dark-mid); }
+.st-axis-gloss { font-size: 0.75rem; color: var(--st-dark-mid); }
 .st-axis-track { position: relative; height: 10px; border-radius: 999px; background: rgba(244, 246, 238, 0.1); }
 .st-axis-fill { position: absolute; top: 0; left: 0; bottom: 0; border-radius: 999px; }
 .st-axis-tick { position: absolute; top: -4px; width: 0; }
 .st-axis-tick i { display: block; width: 2px; height: 18px; background: rgba(244, 246, 238, 0.35); }
-.st-axis-tick em { position: absolute; top: 20px; left: 0; transform: translateX(-50%); white-space: nowrap; font-style: normal; font-family: var(--mono); font-size: 8px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--st-dark-mid); }
+.st-axis-tick em { position: absolute; top: 20px; left: 0; transform: translateX(-50%); white-space: nowrap; font-style: normal; font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--st-dark-mid); }
 .st-axis-out { display: flex; flex-direction: column; align-items: flex-start; }
 .st-axis-level { font-family: var(--disp); font-weight: 700; font-size: 1rem; line-height: 1.2; }
-.st-axis-reading { font-family: var(--mono); font-size: 9px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--st-dark-mid); }
+.st-axis-reading { font-family: var(--mono); font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--st-dark-mid); }
 @media (max-width: 559px) {
   .st-axis { grid-template-columns: 1fr; gap: 0.45rem; }
   .st-axis-head { flex-direction: row; align-items: baseline; gap: 0.5rem; }
   .st-axis-out { flex-direction: row; align-items: baseline; gap: 0.6rem; margin-top: 0.5rem; }
 }
 
-.st-char-verdict { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.09em; text-transform: uppercase; font-weight: 700; margin-bottom: 0.8rem; }
+.st-char-verdict { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.09em; text-transform: uppercase; font-weight: 700; margin-bottom: 0.8rem; }
 .st-char-badge { display: flex; align-items: center; gap: 0.7rem; border: 1px solid var(--st-dark-rule); border-radius: 12px; padding: 0.6rem 0.85rem; max-width: 460px; margin-bottom: 0.8rem; font-size: 0.82rem; color: var(--st-dark-mid); line-height: 1.5; }
 .st-char-badge strong { color: var(--st-dark-ink); }
-.st-char-badge em { font-style: normal; font-family: var(--mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--matcha); }
+.st-char-badge em { font-style: normal; font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--matcha); }
 
 @media (prefers-reduced-motion: reduce) {
   .st-next, .st-cat-chip { transition: none; }
@@ -605,7 +605,7 @@
 .st-sheet-x:hover { border-color: var(--matcha); color: var(--matcha); }
 .st-sheet-tabs { display: flex; gap: 0.4rem; margin-bottom: 1rem; flex-wrap: wrap; }
 .st-sheet-tab {
-  font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600;
+  font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600;
   color: var(--st-dark-mid); background: rgba(244, 246, 238, 0.05);
   border: 1px solid var(--st-dark-rule); border-radius: 999px; padding: 0.5rem 0.85rem; cursor: pointer;
   transition: border-color 0.2s var(--ease), color 0.2s var(--ease), background 0.2s var(--ease);
@@ -618,12 +618,12 @@
   min-height: 200px; max-height: 52vh; overflow: hidden; padding: 0.8rem;
 }
 .st-sheet-preview img { max-width: 100%; max-height: calc(52vh - 1.6rem); max-height: calc(52dvh - 1.6rem); width: auto; height: auto; display: block; border-radius: 8px; }
-.st-sheet-loading { position: absolute; font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--st-dark-mid); }
-.st-sheet-fmtnote { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--st-dark-mid); margin: 0.7rem 0 0; text-align: center; }
+.st-sheet-loading { position: absolute; font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--st-dark-mid); }
+.st-sheet-fmtnote { font-family: var(--mono); font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--st-dark-mid); margin: 0.7rem 0 0; text-align: center; }
 .st-sheet-actions { display: flex; gap: 0.7rem; align-items: center; margin-top: 1.1rem; }
 .st-sheet-actions .fp-btn { flex: 1; justify-content: center; }
 .st-sheet-save {
-  font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700;
+  font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700;
   color: var(--st-dark-ink); background: transparent; border: 1px solid var(--st-dark-rule);
   border-radius: 999px; padding: 0.7rem 1.1rem; cursor: pointer; white-space: nowrap;
   transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
@@ -645,10 +645,11 @@
 }
 @media (max-width: 559px) { .st-ref-cards { grid-template-columns: 1fr; } }
 .st-ref-card { background: var(--white); padding: 1.7rem 1.5rem; display: flex; flex-direction: column; gap: 0.45rem; text-align: left; }
-.st-ref-v { font-size: clamp(3rem, 7.5vw, 4.8rem); font-weight: 700; line-height: 1; color: var(--slate); font-variant-numeric: tabular-nums; }
-.st-ref-unit { font-family: var(--mono); font-size: 0.3em; font-weight: 500; color: var(--mid); letter-spacing: 0.04em; }
+/* The figure and its unit hold one line ("22.3 t"); nothing wraps inside it. */
+.st-ref-v { font-size: clamp(3rem, 7.5vw, 4.4rem); font-weight: 700; line-height: 1; color: var(--slate); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.st-ref-unit { font-family: var(--mono); font-size: 0.4em; font-weight: 500; color: var(--mid); letter-spacing: 0.04em; }
 .st-ref-label { font-family: var(--disp); font-weight: 600; font-size: 1.1rem; color: var(--slate); }
-.st-ref-note { font-size: 0.85rem; color: #475569; line-height: 1.5; }
+.st-ref-note { font-size: 0.85rem; color: var(--fp-ink-2); line-height: 1.5; }
 
 /* Total moment: instant everyday anchor beside the number */
 .st-anchor {
@@ -663,7 +664,7 @@
   border-bottom: 1px solid var(--st-dark-rule); padding: 0.7rem 0;
 }
 .st-cat-hint {
-  font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.05em; font-weight: 500;
+  font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.05em; font-weight: 500;
   color: var(--matcha); text-transform: uppercase; text-align: center; margin-top: 0.3rem;
   min-height: 2.4em;
 }
@@ -673,14 +674,14 @@
 
 /* Benchmark explanation on the context moment */
 .st-benchnote {
-  font-size: 0.9rem; color: #475569; line-height: 1.65; max-width: 620px;
+  font-size: 0.9rem; color: var(--fp-ink-2); line-height: 1.65; max-width: 620px;
   margin: 1rem auto 0; border-left: 3px solid var(--matcha); padding: 0.6rem 0 0.6rem 1rem;
   background: rgba(181, 196, 43, 0.06); text-align: left;
 }
 
 /* Needle: difficulty label replaces the cost line */
 .st-needle-effort {
-  font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.05em; font-weight: 600;
+  font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.05em; font-weight: 600;
   color: #66731A; text-transform: uppercase; margin-top: 0.5rem;
 }
 
@@ -706,14 +707,15 @@
   display: flex; align-items: center; justify-content: center;
   transition: border-color 0.25s var(--ease), transform 0.25s var(--ease);
 }
-.st-gallery-thumb:hover { border-color: var(--matcha); transform: translateY(-2px); }
+.st-gallery-thumb:hover { border-color: var(--matcha); }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) { .st-gallery-thumb:hover { transform: translateY(-2px); } }
 .st-gallery-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .st-gallery-loading {
-  font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
   color: var(--st-dark-mid); padding: 0 0.6rem; text-align: center;
 }
 .st-gallery-label {
-  font-family: var(--mono); font-size: 10px; letter-spacing: 0.09em; text-transform: uppercase;
+  font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.09em; text-transform: uppercase;
   font-weight: 600; color: var(--st-dark-mid);
 }
 /* Frame glint: a faint conic arc drifting around each shareable card on the
@@ -751,7 +753,7 @@
 
 /* Persistent "calculate your own" pill in the story chrome (example voice). */
 .st-cta-pill {
-  font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.1em; text-transform: uppercase;
   font-weight: 700; color: var(--slate); background: var(--matcha);
   border: 1px solid var(--matcha); border-radius: 999px; padding: 0.5rem 0.95rem; cursor: pointer;
   white-space: nowrap; display: inline-flex; align-items: center; gap: 0.4rem;
@@ -779,7 +781,7 @@
 .st-equiv .st-caveat { margin-left: auto; margin-right: auto; }
 .st-eq-chips { display: flex; gap: 0.45rem; flex-wrap: wrap; justify-content: center; margin: 1.8rem auto 0; max-width: 720px; }
 .st-eq-chip {
-  font-family: var(--mono); font-size: 10px; letter-spacing: 0.05em; font-weight: 600;
+  font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.05em; font-weight: 600;
   color: var(--slate); background: var(--white); border: 1px solid var(--rule-dk);
   border-radius: 999px; padding: 0.5rem 0.9rem; cursor: pointer;
   transition: border-color 0.25s var(--ease), background 0.25s var(--ease), transform 0.25s var(--ease);
@@ -793,7 +795,7 @@
   letter-spacing: -0.04em; color: var(--slate); font-variant-numeric: tabular-nums;
 }
 .st-eq-unit { font-family: var(--mono); font-size: clamp(0.72rem, 1.4vw, 0.9rem); letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); font-weight: 600; max-width: 220px; text-align: left; line-height: 1.5; }
-.st-eq-cad { font-family: var(--disp); font-weight: 600; font-size: clamp(1.05rem, 2.2vw, 1.4rem); color: #75821D; margin-top: 0.7rem; }
+.st-eq-cad { font-family: var(--disp); font-weight: 600; font-size: clamp(1.05rem, 2.2vw, 1.4rem); color: var(--accent-ink); margin-top: 0.7rem; }
 .st-eq-dots { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; margin: 1.5rem auto 0.6rem; max-width: 560px; min-height: 44px; }
 .st-eq-dots i {
   width: 9px; height: 9px; border-radius: 50%; background: var(--matcha);
@@ -801,8 +803,8 @@
   animation: st-eq-pop 0.35s var(--ease) forwards;
 }
 @keyframes st-eq-pop { to { opacity: 1; transform: scale(1); } }
-.st-eq-legend { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); font-weight: 600; }
-.st-eq-basis { font-size: 0.85rem; color: #475569; line-height: 1.65; max-width: 620px; margin: 1.2rem auto 0; border-left: 3px solid var(--matcha); padding: 0.5rem 0 0.5rem 1rem; text-align: left; background: rgba(181, 196, 43, 0.06); }
+.st-eq-legend { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); font-weight: 600; }
+.st-eq-basis { font-size: 0.85rem; color: var(--fp-ink-2); line-height: 1.65; max-width: 620px; margin: 1.2rem auto 0; border-left: 3px solid var(--matcha); padding: 0.5rem 0 0.5rem 1rem; text-align: left; background: rgba(181, 196, 43, 0.06); }
 @media (prefers-reduced-motion: reduce) {
   .st-eq-dots i { animation: none; opacity: 1; transform: none; }
   .st-eq-chip, .st-cta-pill { transition: none; }
@@ -818,7 +820,7 @@
 .st-needle-btn.on { background: #FBFDF2; box-shadow: inset 0 0 0 2px var(--ac); }
 .st-needle-state {
   position: absolute; top: 0.9rem; right: 0.9rem;
-  font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
   font-weight: 700; color: var(--mid); border: 1px solid var(--rule-dk);
   border-radius: 999px; padding: 0.2rem 0.55rem;
   transition: background 0.25s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease);
@@ -829,14 +831,14 @@
   margin-top: 1.6rem; padding: 1.2rem 1.4rem; background: var(--white);
   border: 1px solid var(--rule-dk); border-left: 3px solid var(--matcha);
 }
-.st-needle-live-l { font-family: var(--mono); font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: #75821D; font-weight: 700; }
+.st-needle-live-l { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--accent-ink); font-weight: 700; }
 .st-needle-live-num { font-weight: 700; font-size: clamp(2.4rem, 6vw, 3.8rem); line-height: 1; color: var(--slate); font-variant-numeric: tabular-nums; }
 .st-needle-live-num span { font-family: var(--mono); font-size: 0.35em; font-weight: 600; color: var(--mid); letter-spacing: 0.06em; }
-.st-needle-live-line { font-size: 0.9rem; font-weight: 500; color: #475569; line-height: 1.5; }
+.st-needle-live-line { font-size: 0.9rem; font-weight: 500; color: var(--fp-ink-2); line-height: 1.5; }
 .st-needle-track { position: relative; display: block; width: 100%; height: 12px; border-radius: 999px; background: var(--rule-lt); margin-top: 0.6rem; overflow: visible; }
 .st-needle-fill { position: absolute; top: 0; left: 0; bottom: 0; border-radius: 999px; background: #75821D; transition: width 0.6s var(--ease); }
 .st-needle-tick { position: absolute; top: -4px; width: 0; }
 .st-needle-tick i { display: block; width: 2px; height: 20px; background: #C7274A; }
-.st-needle-tick em { position: absolute; top: 21px; left: 0; transform: translateX(-50%); white-space: nowrap; font-style: normal; font-family: var(--mono); font-size: 8px; letter-spacing: 0.08em; text-transform: uppercase; color: #C7274A; font-weight: 700; }
+.st-needle-tick em { position: absolute; top: 21px; left: 0; transform: translateX(-50%); white-space: nowrap; font-style: normal; font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #C7274A; font-weight: 700; }
 .st-needle-live .st-caveat { margin-top: 1.4rem; }
 @media (prefers-reduced-motion: reduce) { .st-needle-fill { transition: none; } }

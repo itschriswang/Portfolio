@@ -1,5 +1,5 @@
 // Benchmarks used to contextualise a personal total. Each carries its basis,
-// because the comparisons are only honest if the boundaries are named:
+// because the comparisons are only fair if the boundaries are named:
 // this tool's boundary (household energy, personal travel, freight, diet) is
 // narrower than the national accounting behind the averages. Rendered
 // directly in the Basis of Preparation. `short` is the compact label the

@@ -51,7 +51,7 @@ function OptionCard({ r, on, baseline, onToggle }) {
   );
 }
 
-export default function Plan({ macc, pathway, plan, onToggle }) {
+export default function Plan({ macc, pathway, plan, onToggle, voice = 'own' }) {
   const trackRef = useRef(null);
   const plannerRef = useRef(null);
   const impactRef = useRef(null);
@@ -72,7 +72,7 @@ export default function Plan({ macc, pathway, plan, onToggle }) {
     .filter((r) => r.applicable && plan.enabled.includes(r.id))
     .reduce((s, r) => s + (r.cost || 0), 0);
   const moneyLine = chosenCost < -20
-    ? fill(PLAN.impact.saves, { n: Math.abs(Math.round(chosenCost)).toLocaleString() })
+    ? fill(voice === 'example' ? PLAN.impact.savesExample : PLAN.impact.saves, { n: Math.abs(Math.round(chosenCost)).toLocaleString() })
     : chosenCost > 20
       ? fill(PLAN.impact.costs, { n: Math.round(chosenCost).toLocaleString() })
       : PLAN.impact.evens;
@@ -100,32 +100,53 @@ export default function Plan({ macc, pathway, plan, onToggle }) {
     return () => ro.disconnect();
   }, []);
 
-  const nudge = (dir) => {
+  // Which ends of the rail are reached, so an arrow that has nowhere to go
+  // says so instead of doing nothing.
+  const [atStart, setAtStart] = useState(true);
+  const [atEnd, setAtEnd] = useState(false);
+  const syncEnds = () => {
     const el = trackRef.current;
     if (!el) return;
+    setAtStart(el.scrollLeft <= 2);
+    setAtEnd(el.scrollLeft + el.clientWidth >= el.scrollWidth - 2);
+  };
+  useEffect(() => {
+    syncEnds();
+    const el = trackRef.current;
+    if (!el || !('ResizeObserver' in window)) return undefined;
+    const ro = new ResizeObserver(syncEnds);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  const nudge = (dir) => {
+    const el = trackRef.current;
+    if (!el || (dir < 0 && atStart) || (dir > 0 && atEnd)) return;
     const card = el.querySelector('.fp-opt');
     const step = card ? card.getBoundingClientRect().width + 14 : 300;
-    el.scrollBy({ left: dir * step, behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
+    // A whole view at a time on wide rails, one card on a phone.
+    const perView = card ? Math.max(1, Math.floor((el.clientWidth + 14) / step)) : 1;
+    el.scrollBy({ left: dir * step * perView, behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
   };
 
   return (
     <section id="fp-plan">
       <div className="canvas">
-        <div className="sec-tag" data-idx="03 / "><Icon name="target" size={32} />What if</div>
+        <div className="sec-tag" data-idx="02 / "><Icon name="target" size={32} />What if</div>
         <h2 className="display fp-h2"><SplitText text={PLAN.title[0]} /> <SplitText text={PLAN.title[1]} accentIndex={1} /></h2>
-        <p className="fp-sub">{PLAN.sub}</p>
+        <p className="fp-sub">{voice === 'example' ? PLAN.subExample : PLAN.sub}</p>
 
         {/* Options as a carousel with the chart alongside, so a choice changes
             the chart in view. The readout heads the planner and pins there, so
             it keeps the effect visible without ever sitting over a card. */}
         <div className="fp-planner" ref={plannerRef}>
           <div className="fp-impact" role="status" ref={impactRef}>
-            <span className="fp-impact-l">{PLAN.impact.label}</span>
+            <span className="fp-impact-l">{voice === 'example' ? PLAN.impact.labelExample : PLAN.impact.label}</span>
             {enabledCount === 0 ? (
               <span className="fp-impact-line">{PLAN.impact.none}</span>
             ) : (
               <span className="fp-impact-line">
-                {fill(PLAN.impact.line, {
+                {fill(voice === 'example' ? PLAN.impact.lineExample : PLAN.impact.line, {
                   n: enabledCount, s: enabledCount > 1 ? 's' : '',
                   at2030: fmtT(at2030), bau2030: fmtT(bau2030), pct: cut2030,
                 })}{' · '}
@@ -141,13 +162,17 @@ export default function Plan({ macc, pathway, plan, onToggle }) {
             <div className="fp-card-head">{PLAN.tableTitle}</div>
             <div className="fp-card-sub">{PLAN.tableSub}</div>
             <div className="fp-carousel">
-              <button type="button" className="fp-car-btn prev" aria-label={PLAN.prev} onClick={() => nudge(-1)}>‹</button>
-              <ul className="fp-car-track" ref={trackRef} aria-label={PLAN.carouselLabel}>
+              {/* The arrows sit in their own row, never over a card. */}
+              <div className="fp-car-nav">
+                <span className="fp-car-count">{fill(PLAN.carouselCount, { n: options.length })}</span>
+                <button type="button" className="fp-car-btn prev" aria-label={PLAN.prev} aria-controls="fp-car-track" aria-disabled={atStart} onClick={() => nudge(-1)}>‹</button>
+                <button type="button" className="fp-car-btn next" aria-label={PLAN.next} aria-controls="fp-car-track" aria-disabled={atEnd} onClick={() => nudge(1)}>›</button>
+              </div>
+              <ul className="fp-car-track" id="fp-car-track" ref={trackRef} aria-label={PLAN.carouselLabel} onScroll={syncEnds}>
                 {options.map((r) => (
                   <OptionCard key={r.id} r={r} on={plan.enabled.includes(r.id)} baseline={baseline} onToggle={onToggle} />
                 ))}
               </ul>
-              <button type="button" className="fp-car-btn next" aria-label={PLAN.next} onClick={() => nudge(1)}>›</button>
             </div>
           </div>
 
@@ -178,7 +203,7 @@ export default function Plan({ macc, pathway, plan, onToggle }) {
                   <span className="fp-leg-item"><span className="fp-leg-line dash" style={{ color: PATHWAY_COLORS.budget }} />{PLAN.budgetLabel}</span>
                 </div>
                 <p className="fp-takeaway">
-                  {fill(PLAN.takeaway.lead, { year: horizonYear })} <em>{fmtT(landing)} t</em>, {fill(PLAN.takeaway.mid, { bau: fmtT(bauLanding), at2030: fmtT(at2030) })} {gap > 0
+                  {fill(voice === 'example' ? PLAN.takeaway.leadExample : PLAN.takeaway.lead, { year: horizonYear })} <em>{fmtT(landing)} t</em>, {fill(PLAN.takeaway.mid, { bau: fmtT(bauLanding), at2030: fmtT(at2030) })} {gap > 0
                     ? <>{PLAN.takeaway.over} <em>{fill(PLAN.impact.over, { gap: fmtT(gap) })}</em>.</>
                     : <>{PLAN.takeaway.within} <em>{PLAN.impact.within}</em>.</>}
                 </p>

@@ -1,6 +1,6 @@
 # CLAUDE.md — Christopher Wang Portfolio
 
-Premium editorial portfolio for Christopher Wang (Sustainability Advisor),
+Editorial portfolio for Christopher Wang (Senior Sustainability Advisor),
 built as a React + Vite multi-page app and deployed to GitHub Pages.
 
 ## Stack
@@ -51,7 +51,7 @@ built as a React + Vite multi-page app and deployed to GitHub Pages.
 - **Design tokens** (colours, fonts, easing, z-index) live in `:root` in
   `global.css`. Neutrals are intentionally tinted toward the matcha brand hue at
   low chroma — do not "restore" cool-blue slate values; the green lean is
-  deliberate and contrast is held to the original lightness.
+  deliberate and contrast is held to the original lightness, except `--mid`, darkened to oklch 0.50 in September 2026 so small text clears 4.5:1 on the tinted bands.
 - **All editorial copy is data**, not JSX. Add or edit words in `src/data/`,
   never inline in components.
 - **The basis of preparation stays in sync.** The footprint's method page

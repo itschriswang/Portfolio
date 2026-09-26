@@ -2,12 +2,12 @@
 // components. Australian English, no em dashes, Chris's voice.
 
 export const META = {
-  navLabel: 'Footprint',
-  title: 'Your Carbon Footprint',
+  navLabel: 'Life Footprint',
+  title: 'Life Footprint',
 };
 
 export const INTRO = {
-  tag: 'Your Carbon Footprint',
+  tag: 'Life Footprint',
   h1a: 'Calculate your year of',
   h1b: 'carbon emissions',
   paras: [
@@ -54,25 +54,28 @@ export const DASH = {
   },
   trendTitle: 'The year, month by month',
   trendSub: 'tCO₂-e per month, stacked by category. Bills spread across the months they cover; dated trips land where they happened; undated estimates spread evenly.',
-  trendEmpty: 'No month-by-month story yet: every item here is a typical-year estimate spread evenly, so the months would all read the same. Add a real date to a flight or a bill and this chart starts talking.',
+  trendEmpty: 'No month-by-month story yet: every item here is a typical-year estimate spread evenly, so the months would all read the same. Add a real date to a flight or a bill and this chart fills in by month.',
   worstLabel: 'worst month',
   catTitle: 'By category',
   catSub: 'Annual tCO₂-e by category, and its share of the total. The biggest one or two decide most of the result.',
   flightCallout: 'No car, a modest apartment, transit everywhere, and none of it matters next to the flying. The flights are the footprint, so any real plan has to start there.',
-  genericCallout: 'The biggest categories above are where the reductions are. Working on the largest ones does the most.',
+  genericCallout: 'The biggest categories above are where the reductions are.',
 };
 
 export const PLAN = {
   tag: '02 / What if',
   title: ['Replay the year', 'differently'],
-  sub: 'A sandbox. Every change here is priced against your own audited numbers above: flip one on and see the year you could have had, and the decade that follows. Offsets and green-power products are left out on purpose: they shuffle certificates, they do not remove the emissions.',
+  sub: 'A sandbox. Every change here is priced against your own audited numbers above: flip one on and see the year you could have had, and the decade that follows. Offsets and green-power products are left out of the options: they retire certificates; the activity still happens.',
+  // Worked-example voice: the sandbox opens on the changes I have committed
+  // to, so say so rather than let "3 changes on" contradict the needle above.
+  subExample: 'A sandbox, priced against my own audited numbers above. It opens with the three changes I have committed to already on; the flight ones are still off. Flip any of them and see the year I could have had, and the decade that follows. Offsets and green-power products are left out of the options: they retire certificates; the activity still happens.',
   scenarioTitle: 'Where it goes from here',
   scenarioSub: 'Two lines. The lower one is the version of the year you just built, carried forward; the upper dashed one is where things stay if nothing changes. They sit together until you switch a change on. The grid keeps getting cleaner in the background either way, and bigger changes take longer to phase in.',
   budgetLabel: '1.5°C lifestyle benchmark · 2.5 t a person',
   bauLabel: 'If nothing changes',
   planLabel: 'With your changes',
   tableTitle: 'Flip the switches',
-  tableSub: 'Turn a change on and the chart beside it rebuilds. Each card shows what changes, roughly how much it would save in a year, and how hard it would be. Nothing here is a commitment; it is a working model of your own year.',
+  tableSub: 'Turn a change on and the chart beside it rebuilds. Each card shows what changes, roughly how much it would save in a year, and how hard it would be.',
   toggleOn: 'On',
   toggleOff: 'Try it',
   na: 'Not relevant here',
@@ -85,10 +88,15 @@ export const PLAN = {
   whyLabel: 'Why it matters',
   effortLabel: 'Difficulty',
   carouselLabel: 'Reduction options',
+  carouselCount: '{n} options',
   prev: 'Previous options',
   next: 'More options',
   impact: {
     label: 'Switched on so far',
+    labelExample: 'My committed changes, on to start',
+    // Worked-example voice: my year, my pocket.
+    lineExample: '{n} change{s} on. By 2030 this version of my year lands at {at2030} t, down {pct}% from the {bau2030} t on the do-nothing line',
+    savesExample: 'about ${n} a year back in my pocket',
     none: 'Nothing switched on yet. Flip a change and watch the line pull away from "if nothing changes".',
     line: '{n} change{s} on. By 2030 this version of you lands at {at2030} t, down {pct}% from the {bau2030} t on the do-nothing line',
     over: '{gap} t over the 2.5 t benchmark',
@@ -101,6 +109,7 @@ export const PLAN = {
   // impact.over / impact.within so the two readouts can never disagree.
   takeaway: {
     lead: 'By FY{year} your choices land you at',
+    leadExample: 'By FY{year} these choices land me at',
     mid: 'next to {bau} t if nothing changes. At 2030 that reads {at2030} t,',
     over: 'still',
     within: 'which is',
@@ -131,7 +140,7 @@ export const ONBOARD = {
   },
   express: {
     title: 'The quick version',
-    sub: 'Six answers, one screen. Rough is fine: every figure here can be sharpened later, and the result carries an honest range.',
+    sub: 'Six answers, one screen. Rough is fine: every figure here can be sharpened later, and the result shows its range.',
     name: 'Quick estimate',
     cta: 'See your estimate',
     refine: 'Do the full audit instead',
@@ -148,13 +157,13 @@ export const ONBOARD = {
   },
   you: {
     title: 'About you',
-    sub: 'Where you live sets your power mix, and we split shared home energy across the people who live there.',
+    sub: 'Where you live sets your power mix, and shared home energy is split across the adults who live there.',
     country: 'Where is home?',
-    usGridNote: 'Pick your state and your power is priced on that state\'s own grid, from the EPA\'s eGRID data. It matters: the cleanest state grid runs about forty times lighter than the dirtiest, so the same house reads very differently in Vermont and West Virginia.',
+    usGridNote: 'Pick your state and your power is priced on that state\'s own grid, from the EPA\'s eGRID data. The cleanest state grid runs about forty times lighter than the dirtiest, so the same house reads very differently in Vermont and West Virginia.',
     state: 'Where do you live?',
     stateNote: 'Your state sets how clean your electricity is, so it shapes every powered line in the result.',
     household: 'How many adults share your home? (counting you)',
-    householdNote: 'We split shared home energy across the adults at home, so you are only counted for your share. Two adults means half of each bill is yours.',
+    householdNote: 'Shared home energy is split across the adults at home, so you are counted for your share only. Two adults means half of each bill is yours.',
     dwelling: 'Your place',
     dwellingHouse: 'House',
     dwellingApartment: 'Apartment or unit',
@@ -169,11 +178,11 @@ export const ONBOARD = {
     title: 'Home energy',
     sub: 'Usually one of the bigger slices of a footprint. Pick a typical home to start, or better, read the figures straight off a power and gas bill.',
     presetLabel: 'Which sounds most like your place?',
-    presetNote: 'Rough starting points, sized to your household: each adult adds their share, so a busier home reads higher. The figures below are the whole-home total per quarter for the number of adults you set. For scale, the regulator puts average annual household use between about 4,400 and 6,700 kWh depending on where you live, which the apartment and house rungs bracket. The dollar figures beside each are an indicative feel at typical rates: the regulator prints bills only as charts, so a figure read off one would not meet the standard the rest of this page holds. Gas-heated homes in cold climates often run well above these. Swap in your real bills whenever you find them.',
+    presetNote: 'Rough starting points, sized to your household: each adult adds their share, so a busier home reads higher. The figures below are the whole-home total per quarter for the number of adults you set. For scale, the regulator puts average annual household use between about 4,400 and 6,700 kWh depending on where you live, which the apartment and house rungs bracket. The dollar figures beside each are indicative only, at typical rates. Gas-heated homes in cold climates often run well above these. Swap in your real bills whenever you find them.',
     kwh: 'Electricity, kWh per quarter (whole home)',
     gas: 'Gas, {unit} per quarter (0 if no gas)',
     // {n}/{s} filled with the household size in the component.
-    splitNote: 'These are whole-home figures. We count your share: split evenly across the {n} adult{s} at home. Change the number of adults back on the first step.',
+    splitNote: 'These are whole-home figures. Your share is the bill split evenly across the {n} adult{s} at home. Change the number of adults back on the first step.',
     splitNoteSolo: 'These are whole-home figures. With one adult at home, the whole bill is yours.',
     // The renewable-plan question and note come from COUNTRIES in factors.js
     // (GreenPower is an Australian product name); only the chips live here.
@@ -195,7 +204,7 @@ export const ONBOARD = {
       { value: 3, label: 'Three of us' },
       { value: 4, label: 'Four or more' },
     ],
-    occupancyNote: 'We split car emissions across everyone in the car, the same way we split the home bills. Two people halves your share.',
+    occupancyNote: 'Car emissions are split across everyone in the car, the same way as the home bills. Two people halves your share.',
     rideshare: 'Rideshare spend per week, $',
     pt: 'Public transport spend per week, $',
     ptMix: 'Mostly trains, or mostly buses?',
@@ -208,8 +217,8 @@ export const ONBOARD = {
     // Filled in the component. Exact = NSW's published weekly cap; approx =
     // a derived ceiling for networks that cap by the day, by the trip, or not
     // at all right now. {asOf} dates the approximate figures.
-    ptCapNoteExact: 'In {state}, {label} applies, so we will not count more than ${cap} a week unless you override it. Spending past the cap does not buy more travel.',
-    ptCapNoteApprox: 'In {state}, fares are capped ({label}), so we will not count more than about ${cap} a week unless you override it. A rough ceiling, current as at {asOf}.',
+    ptCapNoteExact: 'In {state}, {label} applies, so the calculator counts no more than ${cap} a week unless you override it. Spending past the cap does not buy more travel.',
+    ptCapNoteApprox: 'In {state}, fares are capped ({label}), so the calculator counts no more than about ${cap} a week unless you override it. A rough ceiling, current as at {asOf}.',
     ptOverride: 'Count your full spend anyway',
     ptCapApplied: 'Counting up to ${cap} a week',
     ptCapAppliedApprox: 'Counting up to about ${cap} a week',
@@ -223,7 +232,7 @@ export const ONBOARD = {
     pickFrom: 'Choose a starting city',
     when: 'When',
     whenAny: 'Sometime in the year',
-    whenNote: 'Optional. Give a trip its month and your month-by-month chart and worst-month reveal come alive; leave it open and it spreads evenly across the year.',
+    whenNote: 'Optional. Give a trip its month and it shows in the month-by-month chart and the worst-month reveal; leave it open and it spreads evenly across the year.',
     cabins: { economy: 'Economy', premium: 'Premium', business: 'Business', first: 'First' },
     // Retained for the activity log's simple quick-add route picker.
     customOpt: 'Custom distance…',
@@ -256,7 +265,7 @@ export const ONBOARD = {
   food: {
     title: 'Food and parcels',
     sub: 'Pick the diet that sounds most like your week. Rough is fine.',
-    diet: 'Your diet, honestly',
+    diet: 'Your diet',
     dietHints: {
       highMeat: 'Meat most meals, or big serves daily',
       medMeat: 'A standard serve most days',
@@ -275,8 +284,8 @@ export const ONBOARD = {
   // context chapter's caveat says the total leaves that basket out.
   advanced: {
     title: 'A little more detail',
-    sub: 'Optional. The quick survey leaves out the things you buy: clothes, gadgets, going out and health. Pop in rough monthly figures and we will estimate those too, or skip the lot.',
-    optional: 'Every field starts at zero and skipping adds nothing: we never swap in an average person\'s spending for yours. Skip it and your total simply leaves this basket out, and the benchmark chapter says so.',
+    sub: 'Optional. The quick survey leaves out the things you buy: clothes, gadgets, going out and health. Pop in rough monthly figures to estimate those too, or skip the lot.',
+    optional: 'Every field starts at zero and skipping adds nothing: an average person\'s spending is never swapped in for yours. Skip it and your total leaves this basket out, and the benchmark chapter says so.',
     // Clothing counts items by default: per-garment factors weigh garments,
     // not dollars, so a fast-fashion haul reads as heavy as it is. Spend
     // stays as the fallback for someone who only knows their budget.
@@ -298,7 +307,7 @@ export const ONBOARD = {
     },
     clothingItemsNote: 'Each item is priced on a published per-garment life-cycle factor, so ten cheap tees weigh ten times one tee, whatever they cost. Count what you bought new; second-hand pieces carry almost none of this and can be left out.',
     clothing: 'Clothing and footwear, $ a month',
-    clothingNote: 'Spend-based, so every dollar carries the same factor: a $300 boutique jacket counts ten times a $30 fast-fashion tee, even though the physical impact of the cheap haul may be no smaller. If that sits badly, count the items instead; it is the more honest measure.',
+    clothingNote: 'Spend-based, so every dollar carries the same factor: a $300 boutique jacket counts ten times a $30 fast-fashion tee, even though the physical impact of the cheap haul may be no smaller. Counting items is the more accurate measure.',
     electronics: 'Electronics and tech, $ a month',
     electronicsNote: 'New phones, laptops, headphones, consoles, small appliances and accessories, averaged out. A $1,200 phone every two years is $50 a month.',
     entertainment: 'Entertainment and going out, $ a month',
@@ -316,7 +325,7 @@ export const ONBOARD = {
     homeAreaNote: 'The upfront carbon locked in when it was built (materials, transport, construction) spread over a 50-year life and split per adult, so it lands as a small yearly share. Indicative only: real homes vary widely, so treat it as a rough screening figure.',
     skip: 'Skip this step',
     sourceSummary: 'How this is estimated',
-    sourceBody: 'Clothing counted by item uses published per-garment life-cycle factors (ADEME\'s consumer-products LCA study, the basis of the French national per-item factors), so the physical count carries the number. The spend fields come from how much you spend: dollars times a published spend-based factor (US EPA supply-chain factors, bridged into your home country\'s dollars). The home line, when you turn it on, prices the floor area at an indicative per-square-metre upfront (A1-A5) embodied-carbon figure from Australian residential studies, amortised over a 50-year life and split per adult. All of it is a screening estimate for the wider basket the simple survey leaves out, deliberately rough, so treat these as coarse additions. A skipped field adds exactly nothing.',
+    sourceBody: 'Clothing counted by item uses published per-garment life-cycle factors (ADEME\'s consumer-products LCA study, the basis of the French national per-item factors), so the physical count carries the number. The spend fields come from how much you spend: dollars times a published spend-based factor (US EPA supply-chain factors, bridged into your home country\'s dollars). The home line, when you turn it on, prices the floor area at an indicative per-square-metre upfront (A1-A5) embodied-carbon figure from Australian residential studies, amortised over a 50-year life and split per adult. All of it is a screening estimate for the wider basket the simple survey leaves out. A skipped field adds exactly nothing.',
   },
   finish: 'See your footprint',
   back: 'Back',
@@ -371,7 +380,7 @@ export const ENERGY_PRESETS = {
 };
 
 export const METHOD = {
-  tag: 'Your Carbon Footprint / How it works',
+  tag: 'Life Footprint / How it works',
   title: ['How the', 'calculator works'],
   sub: 'A plain explanation of what this calculator counts, where the numbers come from, and how to read the result. The tables further down are the exact factors it uses.',
   backToDash: 'Back to the calculator',
@@ -379,7 +388,7 @@ export const METHOD = {
     title: 'What it includes',
     paras: [
       'The calculator covers the things a person controls or pays for directly: home electricity and gas, personal travel on the ground, flights, parcel deliveries, and diet. It groups them the way companies do, translated to a person: Scope 1 is fuel you burn yourself (home gas, and petrol if you drive), Scope 2 is the electricity you buy, and Scope 3 is everything else your choices cause but that happens elsewhere.',
-      'An optional detail step adds part of the wider basket the quick survey skips. Clothing is counted by items bought by default, priced on published per-garment life-cycle factors, because a spend-based factor prices five cheap tees below one expensive coat and so misreads fast fashion; a spend option remains for someone who only knows their budget. Electronics, entertainment, health, and other goods and services are estimated from how much you spend, so they are labelled screening estimates and carry more uncertainty than a metered bill. The same step carries one home line: if you built or bought your home new, its upfront (A1-A5) embodied carbon is counted at an indicative per-square-metre figure, amortised over a 50-year life and split per adult. It is demand-side and new-build only, so a second-hand home adds nothing and buying existing reads as the lower-carbon choice; a rented home is out too. They are all off unless you fill them in, and count as Scope 3. Skipping the step adds nothing: no average-person spending is ever substituted in, so a skipped basket simply stays out of the total. Hotel nights are gathered in the flights step instead: each trip carries its own nights, priced per occupied room-night at the destination country\'s published factor, and nights with no flight attached use the home country\'s figure.',
+      'An optional detail step adds part of the wider basket the quick survey skips. Clothing is counted by items bought by default, priced on published per-garment life-cycle factors, because a spend-based factor prices five cheap tees below one expensive coat and so misreads fast fashion; a spend option remains for someone who only knows their budget. Electronics, entertainment, health, and other goods and services are estimated from how much you spend, so they are labelled screening estimates and carry more uncertainty than a metered bill. The same step carries one home line: if you built or bought your home new, its upfront (A1-A5) embodied carbon is counted at an indicative per-square-metre figure, amortised over a 50-year life and split per adult. It is demand-side and new-build only, so a second-hand home adds nothing and buying existing reads as the lower-carbon choice; a rented home is out too. They are all off unless you fill them in, and count as Scope 3. Skipping the step adds nothing: no average-person spending is ever substituted in, so a skipped basket stays out of the total. Hotel nights are gathered in the flights step instead: each trip carries its own nights, priced per occupied room-night at the destination country\'s published factor, and nights with no flight attached use the home country\'s figure.',
       'Shared home energy is split evenly between the adults in the home: two adults means half of each bill counts as yours. Shared car trips are split the same way, by the average number of people in the car. Rideshare and public-transport factors are already per passenger, so they need no split.',
     ],
   },
@@ -387,22 +396,22 @@ export const METHOD = {
     title: 'The reporting period',
     paras: [
       'The worked example runs on the Australian financial year, July to June: it is FY2026 (July 2025 to June 2026). Your own audit runs on your last twelve complete months, whichever country is home, and rolls over a year at a time from there.',
-      'Timing is honest about what is known. Dated trips land in the month they happened, bills spread across the months they cover, and rough typical-year estimates spread evenly across the year. A bill that reaches back past the start of the reporting window keeps its early share in the window\'s first month, so the monthly chart always sums to the annual total. The month-by-month chart and the worst-month reveal only appear once real dates give them something to show.',
+      'Timing follows what is known. Dated trips land in the month they happened, bills spread across the months they cover, and rough typical-year estimates spread evenly across the year. A bill that reaches back past the start of the reporting window keeps its early share in the window\'s first month, so the monthly chart always sums to the annual total. The month-by-month chart and the worst-month reveal only appear once real dates give them something to show.',
     ],
   },
   sources: {
     title: 'Where the numbers come from',
     paras: [
-      'Australian electricity, gas and road-fuel factors are from the Australian Government (DCCEEW) National Greenhouse Accounts Factors 2025. Those Australian figures remain the one part of this table checked against published summaries only: the 2025 edition could not be obtained, and replacing it with the older 2024 workbook would be a step backwards, so it stays as it is and says so here. Flights, freight, hotel nights, rail and bus use the UK Government conversion factors 2026 edition, published by DESNZ and still widely known as the DEFRA factors, because they are the most complete public source for aviation by distance and cabin. Those numbers match the 2026 workbook cell for cell.',
-      'The calculator also runs a United States or New Zealand audit, with the home country picked in the first step. US electricity is priced from the state you live in: every state, the District of Columbia and Puerto Rico carries its own factor from the EPA eGRID2023 workbook, read cell for cell. The American grid runs from about 0.02 kg CO₂-e per kWh in Vermont to about 0.89 in West Virginia, a spread of nearly forty times, so a national average flattered half the country while punishing the other half. Scope 3 adds the eGRID grid gross loss of 4.2 per cent. US gas and road fuels use the EPA GHG Emission Factors Hub defaults. New Zealand electricity, gas, road fuels and hotel nights now come from the MfE Measuring Emissions Catalogue 2026, replacing the Australian stand-ins they used before, including the separate transmission-loss factor that the electricity line previously left out. One New Zealand line still rides a proxy: the fuel-cycle (scope 3) side of petrol and diesel, where the catalogue publishes no equivalent, so the Australian well-to-tank factors stand in and the table says so.',
+      'Australian electricity, gas and road-fuel factors carry the values published in the Australian Government (DCCEEW) National Greenhouse Accounts Factors 2025, Tables 1, 5, 6 and 9. I could not download DCCEEW\'s own workbook when I built this set, so I checked those values against published summaries and a mirrored copy of the tables rather than reading them from the source file. They are the one part of this page not read from the publisher\'s workbook, and I will read them against it at the next refresh. Flights, freight, hotel nights, rail and bus use the UK Government conversion factors 2026 edition, published by DESNZ and still widely known as the DEFRA factors, because they are the most complete public source for aviation by distance and cabin. Those numbers match the 2026 workbook cell for cell.',
+      'The calculator also runs a United States or New Zealand audit, with the home country picked in the first step. US electricity is priced from the state you live in: every state, the District of Columbia and Puerto Rico carries its own factor from the EPA eGRID2023 workbook, read cell for cell. The American grid runs from about 0.02 kg CO₂-e per kWh in Vermont to about 0.89 in West Virginia, a spread of nearly forty times, so a national average would overstate half the country and understate the other half. Scope 3 adds the eGRID grid gross loss of 4.2 per cent. US gas and road fuels use the EPA GHG Emission Factors Hub defaults. New Zealand electricity, gas, road fuels and hotel nights come from the MfE Measuring Emissions Catalogue 2026, including its separate transmission-loss factor. One New Zealand line still rides a proxy: the fuel-cycle (scope 3) side of petrol and diesel, where the catalogue publishes no equivalent, so the Australian well-to-tank factors stand in and the table says so.',
       'Diet is a coarse estimate: it uses published UK per-day values by diet type, chosen because they separate the six diet patterns cleanly. Australian studies find the same direction (CSIRO and Ridoutt), but on different accounting boundaries, so they anchor the size of the figure. Public transport uses a UK rail factor as a stand-in until a published Australian per-passenger figure is available. On the physical NSW grid the real rail figure is higher than this proxy, because the grid is coal-heavy; measured against Sydney Trains renewable electricity contracts it is close to zero. Public transport is a small line, so the choice barely moves a total. The optional detail is the coarsest part: clothing counted by item uses the ADEME consumer-products LCA study (2018, the basis of the French Base Empreinte per-item textile factors), cross-checked against the Mistra Future Fashion per-garment assessments and the WRAP UK aggregate; the remaining goods and services are a spend-based screening estimate from the US EPA Supply Chain factors converted to Australian dollars; and hotel nights use the UK Government (DEFRA) per-room-night factors by country, priced at the destination country of the trip they belong to. The optional home line uses indicative per-square-metre upfront embodied-carbon figures for Australian dwellings (detached houses from Illankoon et al. 2023; apartments anchored on the GBCA and thinkstep-anz 2021 report), amortised over 50 years; residential figures span a wide range, so it is a screening estimate. All are labelled that way. Every factor and its source is in the tables below.',
     ],
   },
   quality: {
     title: 'How results are calculated',
     paras: [
-      'Each item is activity times a factor: kilowatt-hours times the grid factor, litres times the fuel factor, passenger-kilometres times the flight factor, and so on. Flights include the extra warming effect of burning fuel at altitude, which reasonable calculators treat differently, so this one reads a little higher than a CO₂-only figure. The 2026 factor set publishes both views, so the table below shows the without-altitude figure beside the one used; note the uplift applies to the carbon dioxide alone, so the two differ by about 1.69 times, slightly under the 1.7 the uplift itself implies. Public transport splits between rail and bus on the answer you give, because a bus carries roughly four times the carbon of a train per passenger-kilometre and pricing every fare as rail understated a bus commute badly.',
-      'Where a real bill or itinerary is not to hand, the calculator estimates: it turns spend into litres, kilometres or parcels at stated rates, or extends a metered daily average over an unbilled period. The quick-estimate path works the same way, only coarser: a typical-home preset stands in for the bills, and rough flight counts price each return at a stated representative sector length (1,100 km domestic, 2,400 km short overseas, 11,000 km long haul, each way, economy), so the range beside the total reads wider until named trips and real bills replace them. In Australia, public-transport spend is capped at the state weekly fare cap first (in NSW, the $50 Opal cap), because spending past the cap buys no extra travel; US and NZ networks cap too differently to carry one honest ceiling, so spend there is counted as given. Gas bills read in the local unit (megajoules in Australia, kilowatt-hours in New Zealand, therms in the United States) and convert to megajoules before pricing. Estimates are labelled, and replacing one with a real number tightens the range shown next to the total. A certified renewable purchase (GreenPower in Australia, a certified green-power plan elsewhere), where you have it, lowers your purchased-electricity figure, and the same netting applies to electricity an EV draws from the grid; no offsets are subtracted anywhere.',
+      'Each item is activity times a factor: kilowatt-hours times the grid factor, litres times the fuel factor, passenger-kilometres times the flight factor, and so on. Flights include the extra warming effect of burning fuel at altitude, which calculators treat differently, so this one reads a little higher than a CO₂-only figure. The 2026 factor set publishes both views, so the table below shows the without-altitude figure beside the one used; note the uplift applies to the carbon dioxide alone, so the two differ by about 1.69 times, slightly under the 1.7 the uplift itself implies. Public transport splits between rail and bus on the answer you give, because a bus carries roughly four times the carbon of a train per passenger-kilometre and pricing every fare as rail would understate a bus commute.',
+      'Where a real bill or itinerary is not to hand, the calculator estimates: it turns spend into litres, kilometres or parcels at stated rates, or extends a metered daily average over an unbilled period. The quick-estimate path works the same way, only coarser: a typical-home preset stands in for the bills, and rough flight counts price each return at a stated representative sector length (1,100 km domestic, 2,400 km short overseas, 11,000 km long haul, each way, economy), so the range beside the total reads wider until named trips and real bills replace them. In Australia, public-transport spend is capped at the state weekly fare cap first (in NSW, the $50 Opal cap), because spending past the cap buys no extra travel; US and NZ networks cap too differently to carry one ceiling, so spend there is counted as given. Gas bills read in the local unit (megajoules in Australia, kilowatt-hours in New Zealand, therms in the United States) and convert to megajoules before pricing. Estimates are labelled, and replacing one with a real number tightens the range shown next to the total. A certified renewable purchase (GreenPower in Australia, a certified green-power plan elsewhere), where you have it, lowers your purchased-electricity figure, and the same netting applies to electricity an EV draws from the grid; no offsets are subtracted anywhere.',
     ],
   },
   interpret: {
@@ -415,7 +424,7 @@ export const METHOD = {
   plan: {
     title: 'How the reductions are modelled',
     paras: [
-      'Each reduction is worked out against your own numbers, so the estimate fits your year. When you choose several, the calculator applies them in a sensible order (behaviour first, then switching to electric, then rooftop solar on the load that remains) so they add up without double-counting. Bigger changes take a year or two to fully phase in. Indicative costs sit on the same boundary as the reductions: a whole-household outlay like solar or electrifying the gas is split across the adults at home, the same way the bills are, and running-cost savings scale with your own audited use.',
+      'Each reduction is worked out against your own numbers, so the estimate fits your year. When you choose several, the calculator applies them in order (behaviour first, then switching to electric, then rooftop solar on the load that remains) so they add up without double-counting. Bigger changes take a year or two to fully phase in. Indicative costs sit on the same boundary as the reductions: a whole-household outlay like solar or electrifying the gas is split across the adults at home, the same way the bills are, and running-cost savings scale with your own audited use.',
       'The background grid keeps getting cleaner in both lines, because that happens whether or not you act. Offsets and green-power products are left out of the reductions on purpose: they retire certificates; the activity still happens.',
     ],
   },
@@ -429,7 +438,7 @@ export const METHOD = {
   equiv: {
     title: 'How the everyday equivalences are worked out',
     paras: [
-      'The reveal offers the total re-counted in everyday things: beef burgers, flat whites, hot showers, dryer loads, kilometres of driving, phone charges and a familiar domestic flight. Each is the same tonnes divided by a per-item figure, stated with its assumptions in the table below. They are display conversions only: they never change any number, and the units are deliberately things a person chooses, so the scale of the year lands in decisions you recognise.',
+      'The reveal offers the total re-counted in everyday things: beef burgers, flat whites, hot showers, dryer loads, kilometres of driving, phone charges and a familiar domestic flight. Each is the same tonnes divided by a per-item figure, stated with its assumptions in the table below. They are display conversions only: they never change any number, and the units are things a person chooses.',
       'Where an equivalence depends on the grid or a fuel it derives live from the same factor tables the calculator prices from, with the NSW grid and metro gas as the stated reference case. The food items use Poore & Nemecek 2018 means, the same source as the per-kilogram reference table. The reveal also invites a guess at the total before it lands; the guess is kept on the page for the comparison and stored nowhere.',
     ],
   },
@@ -457,18 +466,29 @@ export const METHOD = {
         items: [
           'Accommodation other than hotels (short-stay rentals, hostels, staying with friends). Hotel nights are counted at a country-average factor, so the specific hotel makes no difference.',
           'Financial and professional services, and any spending the screening factors above do not cover. The goods estimate is a screening tool, so it catches the shape of the basket.',
-          'Still queued, because the numbers could not be verified to this page’s standard in this edition: household waste to landfill, pets (dog and cat food), the embodied emissions of building or buying a car, mains water supply, an Australian spend-based factor set to replace the US one, and published Australian rail and bus figures to replace the UK proxies. Each stays out until its source can be read, and is recorded in the research trail for the next refresh. (Several items queued here previously shipped once their sources were obtained and read: the garment-count clothing option, the home-embodied line for a new build, and now the whole 2026 factor refresh below.)',
-          'Closed in this edition, having previously been queued: state-level US electricity, now read from the eGRID2023 workbook for all fifty states, the District of Columbia and Puerto Rico; the New Zealand grid factor and its separate transmission-loss factor, now read from the MfE catalogue; New Zealand gas and road-fuel combustion factors, which no longer borrow Australia\'s; a New Zealand per-room-night hotel figure, which the UK table lists but leaves blank and the New Zealand catalogue publishes; and a bus factor, so public transport is no longer priced entirely as rail.',
-          'What is still a stated proxy, and where each one bites: the fuel-cycle (scope 3) side of New Zealand petrol and diesel uses Australian well-to-tank factors, because no New Zealand equivalent is published. US gas fuel-cycle is not counted at all, so that line understates. Rideshare and public transport outside Australia keep the Australian and UK per-kilometre figures. The Australian electricity, gas and fuel factors are checked against published summaries of the 2025 National Greenhouse Accounts only, which is the largest single verification gap left on this page.',
+          'Still queued, because the numbers could not be verified to this page\'s standard in this edition: household waste to landfill, pets (dog and cat food), the embodied emissions of building or buying a car, mains water supply, an Australian spend-based factor set to replace the US one, and published Australian rail and bus figures to replace the UK proxies. Each stays out until its source can be read, and is recorded in the research trail for the next refresh.',
+          'What is still a stated proxy, and where each one bites: the fuel-cycle (scope 3) side of New Zealand petrol and diesel uses Australian well-to-tank factors, because no New Zealand equivalent is published. US gas fuel-cycle is not counted at all, so that line understates. Rideshare and public transport outside Australia keep the Australian and UK per-kilometre figures. The Australian electricity, gas and fuel factors carry the NGA Factors 2025 values but were checked against published summaries and a mirrored copy, not read from DCCEEW\'s workbook. That is the largest verification gap left on this page.',
         ],
       },
+    ],
+  },
+  // The change log, kept apart from the method so the method reads as a
+  // statement of what the calculator does now.
+  changes: {
+    title: 'Changes in this edition',
+    items: [
+      'Flights, freight, hotel nights, rail and bus moved to the UK Government conversion factors 2026 edition. The Australian electricity, gas and fuel lines did not change edition and stay on the NGA Factors 2025 values.',
+      'US electricity is now priced per state, read from the eGRID2023 workbook for all fifty states, the District of Columbia and Puerto Rico.',
+      'New Zealand electricity (with its separate transmission-loss factor), gas, road-fuel combustion and hotel nights now come from the MfE Measuring Emissions Catalogue 2026, in place of the Australian stand-ins used before. The UK hotel table lists New Zealand but leaves it blank.',
+      'Public transport gained a bus factor, so it is no longer priced entirely as rail.',
+      'Two items that were queued now ship with their sources read: the garment-count clothing option and the home-embodied line for a new build.',
     ],
   },
 };
 
 // Compact pointer to the how-it-works page, which lives on its own page.
 export const METHOD_LINK = {
-  tag: '04 / How it works',
+  tag: '03 / How it works',
   title: ['How the', 'calculator works'],
   body: 'The boundary, the factor sources, the arithmetic behind each line, and what the total leaves out. It lives on its own page, with the full factor tables the calculator prices from.',
   cta: 'See how it works',
@@ -501,7 +521,7 @@ export const TOASTS = {
 };
 
 export const SHARE = {
-  // {who} is a possessive ("Ada’s" or "My"); {label} is the period.
+  // {who} is a possessive ("Ada's" or "My"); {label} is the period.
   bannerTitle: '{who} {label} carbon emissions',
   bannerBody: 'Someone shared their footprint summary with you. Totals and categories only; their details stayed in their browser.',
   // The character verdict carried on the link, when the sharer's audit had one.
@@ -541,3 +561,11 @@ export const DASH_UI = {
 };
 
 export const fmtT = (t, dp = 1) => (Math.round(t * 10 ** dp) / 10 ** dp).toFixed(dp);
+// A year against a benchmark, in one format site-wide: under the benchmark it
+// reads as a percentage ("57%"), over it as a multiple ("5.8×").
+export const fmtRatio = (total, base) => {
+  const r = base > 0 ? total / base : 0;
+  return r < 1
+    ? { v: String(Math.round(r * 100)), unit: '%' }
+    : { v: (Math.round(r * 10) / 10).toFixed(1), unit: '×' };
+};

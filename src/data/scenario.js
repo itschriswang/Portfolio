@@ -33,7 +33,7 @@ export const SECTOR_PROFILES = {
     label: 'Textile Retail', FY20: 42000, FY25: 35000, FY26: 34000,
     SH: { s2: 0.08, lv: 0.40, hv: 0.10, plant: 0.42 },
     curve: 'textile', levers: 'textile',
-    desc: 'Textile retail: purchased goods dominate. Raw-material production and Tier-2 wet processing are roughly four-fifths of a value-chain footprint that is ~95% Scope 3. Own-operations renewables cut Scope 2 quickly; materials substitution ramps steadily; supplier decarbonisation (coal phase-out in dyeing and finishing) carries the largest, back-loaded prize; freight mode shift trims logistics.',
+    desc: 'Textile retail: purchased goods dominate. Raw-material production and Tier-2 wet processing are roughly four-fifths of a value-chain footprint that is ~95% Scope 3. Own-operations renewables cut Scope 2 quickly; materials substitution ramps steadily; supplier decarbonisation (coal phase-out in dyeing and finishing) carries the largest, back-loaded reduction; freight mode shift trims logistics.',
   },
   infrastructure: {
     label: 'Infrastructure Services', FY20: 198000, FY25: 158000, FY26: 152000,
@@ -43,7 +43,9 @@ export const SECTOR_PROFILES = {
   },
 };
 
-export const HIST_BASE = [347000, 359000, 361000, 337000, 299000, 277000];
+// Generic FY20 to FY25 shape, as a multiple of each profile's FY25 figure.
+// Rounded and smoothed so it follows no single organisation's history.
+export const HIST_SHAPE = [1.25, 1.28, 1.27, 1.2, 1.09, 1];
 
 export const F = {
   grid: {
@@ -180,13 +182,12 @@ export const chartLabels = (() => {
 // set ('base' | 'textile') and its lever-label key.
 export function resolveSector(sectorKey) {
   const prof = SECTOR_PROFILES[sectorKey] || SECTOR_PROFILES.property;
-  const scale = prof.FY25 / 277000;
   return {
     mode: prof.curve,
     levers: prof.levers,
     FY20: prof.FY20, FY25: prof.FY25, FY26: prof.FY26,
     SH: prof.SH,
-    HIST: HIST_BASE.map((h) => Math.round(h * scale)),
+    HIST: HIST_SHAPE.map((h) => Math.round(h * prof.FY25)),
     desc: prof.desc,
     label: prof.label,
   };
@@ -257,11 +258,11 @@ export function runModel(scn) {
       key: 'base',
       label: 'FY20 Baseline',
       value: kt(FY20),
-      note: 'Reported \u00b7 the anchor every change below is measured against',
+      note: 'Illustrative \u00b7 every change below is measured against it',
     },
     {
       key: 'fy26',
-      label: 'FY26 Actuals',
+      label: 'FY26 (illustrative)',
       value: kt(FY26),
       base: anchor,
       change: [signed(d26), pct1(d26 / FY20 * 100)],
@@ -295,7 +296,7 @@ export function runModel(scn) {
     : Math.abs(Math.round(pct)) + '% above the FY20 baseline';
   const verdict = pct >= 50
     ? 'ahead of a 1.5°C-aligned interim cut of ~50%.'
-    : 'short of a 1.5°C-aligned interim cut of ~50%, and the gap is the conversation.';
+    : 'short of a 1.5°C-aligned interim cut of ~50%.';
   const takeaway = {
     head: 'These levers land FY30 at ',
     value: Math.round(net30 / 1000) + 'k tCO₂-e',
