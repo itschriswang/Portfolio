@@ -58,7 +58,6 @@ export const COVER = {
   start: 'Calculate your own',
   // The field behind the words, explained: one dot is ten kilograms.
   startNote: 'Every dot is 10 kg of carbon',
-  scrollCue: 'Scroll to begin',
 };
 
 export const YEAR = {
@@ -293,8 +292,8 @@ export const BENCH_ST = {
       own: 'At your pace, a whole year of the 2.5 t benchmark was used up by {date}. Day {day} of 365; everything after ran over.',
     },
     within: {
-      example: 'I stayed inside the 2.5 t benchmark all year. That almost never happens.',
-      own: 'You stayed inside the 2.5 t benchmark all year. That almost never happens.',
+      example: 'I stayed inside the 2.5 t benchmark all year.',
+      own: 'You stayed inside the 2.5 t benchmark all year.',
     },
   },
   caveat: 'The national and world averages count a wider basket than the core survey does. The optional detail step adds some of it back (clothes, gadgets, services), and hotel nights ride along with your trips; even then a few things stay out, so the real gap is if anything bigger.',
@@ -466,7 +465,7 @@ export const CHARACTER_ST = {
   metersAria: 'Three readings: size {weight}, focus {shape}, timing {rhythm}.',
   badge: {
     kicker: 'Rare result',
-    note: 'Inside the 2.5 t lifestyle benchmark, which almost nobody is.',
+    note: 'Inside the 2.5 t lifestyle benchmark.',
   },
   topEntry: 'Biggest single item: {label}, {t} t on its own.',
   // The verdict's bridge to action: the label is the screenshot moment, so

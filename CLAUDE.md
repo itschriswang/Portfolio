@@ -45,7 +45,7 @@ built as a React + Vite multi-page app and deployed to GitHub Pages.
 | `public/` | Shared static assets (logos, favicon, `robots.txt`, `sitemap.xml`, and the Open Graph share cards: the profile card `og-image.png` plus one generated per-page card, `og-<page>.png`), plus `404.html` — hand-written, self-contained and outside the build, because GitHub Pages serves it for any unresolved path at any depth so it cannot use the relative asset paths the built pages rely on. Its tokens are a deliberate copy of the `:root` block in `global.css`. |
 | `scripts/og/` | Share-thumbnail generator. `cards.mjs` (per-page copy and motifs), `draw.js` (the shared canvas renderer), `generate.mjs` (headless-Chromium harness). `npm run og:cards` writes the `og-*.png` cards into `public/`. Not part of the site build. |
 | `tests/` | The engine's test suite, on Node's built-in runner with no test dependency added. `support/resolve-hook.mjs` lets Node read the app's extensionless imports as they are, so nothing in `src/` is shaped to suit the runner. Covers the pure layer only (`src/footprint/lib/` and `data/`), because Node cannot parse JSX. See `tests/README.md`. Not built or deployed. |
-| `docs/` | Non-app material: `skill-reference/` and research source data. Not built or deployed. No personal or career material — see Career record below. |
+| `docs/` | Non-app material: `skill-reference/` and research source data. Not built or deployed. No personal or career material; see Personal material below. |
 
 ## Conventions
 
@@ -237,10 +237,8 @@ paths relative so both the domain root and a `/Portfolio/` sub-path work.
 Australian English. No em dashes. No en dash clause separators in prose. Active
 voice. Written in Chris's voice.
 
-## Career record
+## Personal material
 
-Chris's career-achievement record, job-search material and DOCX rebuild notes live
-in the separate private `itschriswang/Career_Achievement_Record` repository, not
-here. This repository is public. Personal career material, application drafts and
+This repository is public. Personal career material, application drafts and
 anything naming colleagues or internal employer data does not belong in it, in
 `docs/` or anywhere else.

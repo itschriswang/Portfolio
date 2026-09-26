@@ -156,10 +156,6 @@ export function Cover({ d, voice, onStart, reduced }) {
           <span className="st-cover-note-dot" aria-hidden="true" />{COVER.startNote}
         </p>
       </motion.div>
-      <div className="st-cue" aria-hidden="true">
-        <span>{COVER.scrollCue}</span>
-        <span className="st-cue-line" />
-      </div>
     </section>
   );
 }

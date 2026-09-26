@@ -227,15 +227,15 @@ removes a caveat.
 
 `docs/data-sources/README.md` states the policy: to avoid redistributing third
 parties' copyrighted reports, full report PDFs are **not** stored in this repo.
-The August 2026 upload added about 175 MB of exactly those, which took `.git`
-past 240 MB on a public repository.
 
-Now that every figure has been extracted with a page or cell citation, the
-source PDFs have served their purpose. The consistent position is to remove them
-from the working tree and keep the citations plus the links above. Note that
-removing them from the tree does not remove them from git history; that needs a
-history rewrite, which is a separate decision.
+In September 2026 the company reports added by the August upload (NAB, APA,
+Santos, Brambles, Evolution Mining, Aristocrat, James Hardie), the EV Council
+and Carbon Trust papers, the loose PDFs at the repository root and five exact
+duplicates were removed from the working tree. Every figure taken from them
+already carries a page or cell citation and a link. Government and
+open-licensed datasets (DEFRA, eGRID, EPA, MfE, AER, AEMO, CER, DCCEEW, EDGAR,
+ATO, RBA, IRD, EIA) stay as working provenance.
 
-Government publications (DEFRA, eGRID, EPA, MfE, AER, AEMO, CER, DCCEEW, EDGAR)
-are generally open-licensed and are the safer ones to keep. Company reports and
-paid or restricted research are the ones the policy is really about.
+Removing a file from the tree does not remove it from git history; any removed
+report can be recovered with `git show <commit>:<path>` from a commit before the
+removal. Purging history is a separate decision.

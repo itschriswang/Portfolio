@@ -119,7 +119,7 @@ export const ABATEMENT_OPTIONS = [
     id: 'diet-low',
     category: 'diet',
     action: 'Medium meat to low meat',
-    detail: 'Meat under 50 g a day on average. The factor set treats diet coarsely and says so; the direction and rough size hold across the LCA literature.',
+    detail: 'Meat under 50 g a day on average. The factor set treats diet coarsely, so read this for direction and rough size only.',
     effort: 'low',
     source: 'Scarborough et al. 2014 per-day factors; grocery saving indicative $300/yr (less red meat, more legumes).',
     applicable: (st) => st.dietPerDay > 4.67,
