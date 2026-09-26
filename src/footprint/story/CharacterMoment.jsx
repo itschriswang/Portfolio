@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import CarbonField, { EmblemDots } from './CarbonField';
 import { fmtT } from '../data/copy';
+import { prefersReducedMotion } from '../../utils/media';
 import { CHARACTER_ST, fill } from '../data/storyCopy';
 import {
   CHARACTERS, BADGE, WEIGHT_ROWS, TEMPERAMENT_COLS,
@@ -8,8 +9,10 @@ import {
 } from '../data/characters';
 import { lighten } from '../lib/emblem';
 
+// Reduced motion: the hidden state is already the visible one.
+const RM = prefersReducedMotion();
 const rise = {
-  hidden: { opacity: 0, y: 28 },
+  hidden: RM ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 },
   visible: (i = 0) => ({
     opacity: 1, y: 0,
     transition: { duration: 0.55, delay: i * 0.12, ease: [0.25, 1, 0.5, 1] },

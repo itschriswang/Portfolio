@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Grain, ScrollProgress, SkipLink, useHashLanding, useStickyNavHeight } from '../components/Chrome';
 import SplitText from '../components/SplitText';
@@ -60,16 +60,35 @@ function WorkNav() {
   );
 }
 
+// A wide table scrolls sideways inside its own frame on narrow screens. The
+// frame is a named, focusable region so a keyboard user can reach it and
+// scroll it with the arrow keys, and a short hint shows only while there is
+// something to scroll to.
 function DataTable({ data }) {
+  const ref = useRef(null);
+  const [overflows, setOverflows] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return undefined;
+    const check = () => setOverflows(el.scrollWidth > el.clientWidth + 1);
+    check();
+    if (typeof ResizeObserver === 'undefined') return undefined;
+    const ro = new ResizeObserver(check);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
   return (
-    <div className="scroll-x">
-      <table className="c-table">
-        <thead><tr>{data.head.map((h, i) => <th key={i}>{h}</th>)}</tr></thead>
-        <tbody>
-          {data.rows.map((r, i) => <tr key={i}>{r.map((c, j) => <td key={j}>{c}</td>)}</tr>)}
-        </tbody>
-      </table>
-    </div>
+    <>
+      <div className="scroll-x" ref={ref} tabIndex={0} role="region" aria-label={data.caption}>
+        <table className={`c-table cols-${data.head.length}`}>
+          <thead><tr>{data.head.map((h, i) => <th key={i} scope="col">{h}</th>)}</tr></thead>
+          <tbody>
+            {data.rows.map((r, i) => <tr key={i}>{r.map((c, j) => <td key={j}>{c}</td>)}</tr>)}
+          </tbody>
+        </table>
+      </div>
+      {overflows && <p className="scroll-hint" aria-hidden="true">Scroll sideways for more columns <span>→</span></p>}
+    </>
   );
 }
 

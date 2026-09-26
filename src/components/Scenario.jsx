@@ -14,7 +14,7 @@ const LEVERS = [
   { key: 'grid', lc: 'var(--indigo)', sc: 'var(--indigo)', opts: ['base', 'faster', 'slower', 'off'] },
   { key: 'lv', lc: 'var(--matcha)', sc: 'var(--accent-ink)', opts: ['base', 'faster', 'slower'] },
   { key: 'hv', lc: 'var(--amber)', sc: 'var(--amber-ink)', opts: ['base', 'faster', 'slower'] },
-  { key: 'plant', lc: 'var(--berry)', sc: 'var(--berry)', opts: ['base', 'faster', 'slower', 'off'] },
+  { key: 'plant', lc: 'var(--berry)', sc: 'var(--berry-ink)', opts: ['base', 'faster', 'slower', 'off'] },
 ];
 const OPT_LABEL = { base: 'Base', faster: 'Faster', slower: 'Slower', off: 'Off' };
 const REV_OPTS = [
@@ -24,23 +24,27 @@ const REV_OPTS = [
 ];
 
 const LEGEND_SWATCH = [
-  '<span class="cl-swatch line" style="color:#0F172A"></span>',
+  '<span class="cl-swatch line" style="color:#17190D"></span>',
   '<span class="cl-swatch" style="background:rgba(99,91,255,0.45)"></span>',
   '<span class="cl-swatch" style="background:rgba(155,170,30,0.55)"></span>',
   '<span class="cl-swatch" style="background:rgba(255,149,0,0.5)"></span>',
   '<span class="cl-swatch" style="background:rgba(255,59,96,0.45)"></span>',
-  '<span class="cl-swatch dash" style="color:rgba(15,23,42,0.5)"></span>',
-  '<span class="cl-swatch dash" style="color:#475569"></span>',
+  '<span class="cl-swatch dash" style="color:rgba(23,25,13,0.5)"></span>',
+  '<span class="cl-swatch dash" style="color:#535648"></span>',
 ];
 
-function Seg({ value, options, onChange, sc, small }) {
+// A row of mutually exclusive option buttons. The group carries the lever's
+// name and each button its pressed state, so assistive tech hears
+// "Grid decarbonisation, group. Faster, toggle button, pressed" rather than
+// four anonymous "Base" buttons.
+function Seg({ value, options, onChange, sc, small, label }) {
   return (
-    <div className={'seg-row' + (small ? ' seg-sm' : '')} role="group" style={small ? { '--sc': sc } : undefined}>
+    <div className={'seg-row' + (small ? ' seg-sm' : '')} role="group" aria-label={label} style={small ? { '--sc': sc } : undefined}>
       {options.map((o) => {
         const v = typeof o === 'string' ? o : o.v;
         const l = typeof o === 'string' ? OPT_LABEL[o] : o.l;
         return (
-          <button key={v} type="button" className={'seg-btn' + (value === v ? ' on' : '')} onClick={() => onChange(v)}>
+          <button key={v} type="button" className={'seg-btn' + (value === v ? ' on' : '')} aria-pressed={value === v} onClick={() => onChange(v)}>
             {l}
           </button>
         );
@@ -71,13 +75,13 @@ export default function Scenario() {
       data: {
         labels: chartLabels,
         datasets: [
-          { label: 'Net emissions', data: [], borderColor: '#0F172A', borderWidth: 2.5, backgroundColor: 'rgba(15,23,42,0.10)', fill: 'origin', pointRadius: 0, tension: 0.15 },
+          { label: 'Net emissions', data: [], borderColor: '#17190D', borderWidth: 2.5, backgroundColor: 'rgba(23,25,13,0.10)', fill: 'origin', pointRadius: 0, tension: 0.15 },
           { label: 'Grid Decarbonisation', data: [], borderColor: 'transparent', borderWidth: 0, backgroundColor: 'rgba(99,91,255,0.28)', fill: '-1', pointRadius: 0, tension: 0.15 },
           { label: 'LV Fleet', data: [], borderColor: 'transparent', borderWidth: 0, backgroundColor: 'rgba(181,196,43,0.38)', fill: '-1', pointRadius: 0, tension: 0.15 },
           { label: 'HV Fleet', data: [], borderColor: 'transparent', borderWidth: 0, backgroundColor: 'rgba(255,149,0,0.30)', fill: '-1', pointRadius: 0, tension: 0.15 },
           { label: 'Plant Electrification', data: [], borderColor: 'transparent', borderWidth: 0, backgroundColor: 'rgba(255,59,96,0.26)', fill: '-1', pointRadius: 0, tension: 0.15 },
-          { label: 'Business as usual', data: [], borderColor: 'rgba(15,23,42,0.45)', borderWidth: 1.5, borderDash: [5, 4], backgroundColor: 'transparent', fill: false, pointRadius: 0, tension: 0 },
-          { label: 'Actuals', data: [], borderColor: '#475569', borderWidth: 1.5, borderDash: [2, 3], backgroundColor: 'transparent', fill: false, pointRadius: 3, tension: 0, pointBackgroundColor: '#475569' },
+          { label: 'Business as usual', data: [], borderColor: 'rgba(23,25,13,0.45)', borderWidth: 1.5, borderDash: [5, 4], backgroundColor: 'transparent', fill: false, pointRadius: 0, tension: 0 },
+          { label: 'History (illustrative)', data: [], borderColor: '#535648', borderWidth: 1.5, borderDash: [2, 3], backgroundColor: 'transparent', fill: false, pointRadius: 3, tension: 0, pointBackgroundColor: '#535648' },
         ],
       },
       options: {
@@ -87,14 +91,14 @@ export default function Scenario() {
           legend: { display: false },
           tooltip: {
             callbacks: { label: (c) => c.dataset.label + ': ' + Math.round(c.raw).toLocaleString() + ' tCO₂-e' },
-            backgroundColor: 'rgba(15,23,42,0.96)', titleColor: '#F8FAFC', bodyColor: 'rgba(248,250,252,0.85)',
+            backgroundColor: 'rgba(23,25,13,0.96)', titleColor: '#F9FAF6', bodyColor: 'rgba(249,250,246,0.85)',
             titleFont: { family: "'JetBrains Mono',monospace", size: 11 }, bodyFont: { family: "'JetBrains Mono',monospace", size: 11 },
             borderColor: 'rgba(181,196,43,0.5)', borderWidth: 1,
           },
         },
         scales: {
-          x: { grid: { color: 'rgba(15,23,42,0.05)' }, ticks: { font: { family: "'JetBrains Mono',monospace", size: 10 }, color: '#64748B', callback: (v, i) => (i % 5 === 0 ? 'FY' + (2020 + i) : '') } },
-          y: { grid: { color: 'rgba(15,23,42,0.05)' }, title: { display: true, text: 'tCO₂-e', font: { size: 10 }, color: '#64748B' }, ticks: { font: { family: "'JetBrains Mono',monospace", size: 10 }, color: '#64748B', callback: (v) => (v / 1000).toFixed(0) + 'k' } },
+          x: { grid: { color: 'rgba(23,25,13,0.05)' }, ticks: { font: { family: "'JetBrains Mono',monospace", size: 11 }, color: '#626557', callback: (v, i) => (i % 5 === 0 ? 'FY' + (2020 + i) : '') } },
+          y: { grid: { color: 'rgba(23,25,13,0.05)' }, title: { display: true, text: 'tCO₂-e', font: { size: 11 }, color: '#626557' }, ticks: { font: { family: "'JetBrains Mono',monospace", size: 11 }, color: '#626557', callback: (v) => (v / 1000).toFixed(0) + 'k' } },
         },
       },
     });
@@ -189,7 +193,7 @@ export default function Scenario() {
               <p className="scn-step-sub">Each profile loads a different emissions mix and its own set of abatement levers.</p>
               <div className="seg-profiles" role="group" aria-label="Operating profile">
                 {SECTOR_OPTIONS.map((o) => (
-                  <button key={o.value} type="button" className={'seg-btn' + (scn.sector === o.value ? ' on' : '')} onClick={() => set('sector', o.value)}>{o.label}</button>
+                  <button key={o.value} type="button" className={'seg-btn' + (scn.sector === o.value ? ' on' : '')} aria-pressed={scn.sector === o.value} onClick={() => set('sector', o.value)}>{o.label}</button>
                 ))}
               </div>
               <p className="sector-desc">{sectorDesc}</p>
@@ -205,13 +209,13 @@ export default function Scenario() {
                   <div className="lever-card" key={lv.key} style={{ '--lc': lv.lc }}>
                     <div className="lever-top"><span className="lever-dot" aria-hidden="true" /><span className="lever-name">{labels[lv.key].name}</span></div>
                     <div className="lever-src">{labels[lv.key].src}</div>
-                    <Seg value={scn[lv.key]} options={lv.opts} onChange={(v) => set(lv.key, v)} sc={lv.sc} small />
+                    <Seg value={scn[lv.key]} options={lv.opts} onChange={(v) => set(lv.key, v)} sc={lv.sc} small label={labels[lv.key].name} />
                   </div>
                 ))}
                 <div className="lever-card lever-card-rev" style={{ '--lc': 'var(--step-comms)' }}>
                   <div className="lever-top"><span className="lever-dot" aria-hidden="true" /><span className="lever-name">Volume or revenue growth</span></div>
                   <div className="lever-src">Scales gross emissions before abatement is applied</div>
-                  <Seg value={scn.rev} options={REV_OPTS} onChange={(v) => set('rev', v)} sc="var(--step-comms)" small />
+                  <Seg value={scn.rev} options={REV_OPTS} onChange={(v) => set('rev', v)} sc="var(--step-comms)" small label="Volume or revenue growth" />
                 </div>
               </div>
             </div>

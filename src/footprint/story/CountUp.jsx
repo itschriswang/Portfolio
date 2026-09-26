@@ -19,12 +19,14 @@ export function CountUp({ value, decimals = 1, duration = 0.9, delay = 0, classN
   useEffect(() => {
     const el = ref.current;
     if (!el) return undefined;
-    if (!inView) { el.textContent = fmt(shown.current, decimals); return undefined; }
+    // Reduced motion shows the real figure at once, in view or not; the
+    // count-up is the only thing that waits for the viewport.
     if (prefersReducedMotion()) {
       shown.current = value;
       el.textContent = fmt(value, decimals);
       return undefined;
     }
+    if (!inView) { el.textContent = fmt(shown.current, decimals); return undefined; }
     const from = shown.current;
     const controls = animate(from, value, {
       duration: from === 0 ? duration : 0.45,

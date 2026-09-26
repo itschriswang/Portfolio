@@ -34,15 +34,15 @@ function Figures({ active }) {
       <div className={'sfig' + (active === 2 ? ' on' : '')}>
         <div className="sfig-kick">Phase 03 · Model the pathway</div>
         <svg className="sfig-chart" viewBox="0 0 340 150" xmlns="http://www.w3.org/2000/svg">
-          <line x1="10" y1="130" x2="330" y2="130" stroke="#E2E8F0" strokeWidth="1" />
-          <line x1="10" y1="90" x2="330" y2="90" stroke="#E2E8F0" strokeWidth="1" />
-          <line x1="10" y1="50" x2="330" y2="50" stroke="#E2E8F0" strokeWidth="1" />
+          <line className="sfig-grid" x1="10" y1="130" x2="330" y2="130" />
+          <line className="sfig-grid" x1="10" y1="90" x2="330" y2="90" />
+          <line className="sfig-grid" x1="10" y1="50" x2="330" y2="50" />
           <polyline className="sfig-bau" points="10,28 330,42" />
           <path className="sfig-path" d="M10,28 C90,32 150,52 210,84 C260,110 300,122 330,127" />
-          <text x="10" y="16" fontFamily="JetBrains Mono,monospace" fontSize="8" fill="#64748B" letterSpacing="0.08em">FY25</text>
-          <text x="304" y="16" fontFamily="JetBrains Mono,monospace" fontSize="8" fill="#64748B" letterSpacing="0.08em">FY50</text>
-          <text x="240" y="38" fontFamily="JetBrains Mono,monospace" fontSize="8" fill="#64748B">BAU</text>
-          <text x="240" y="95" fontFamily="JetBrains Mono,monospace" fontSize="8" fill="#8BAD1F">NET PATHWAY</text>
+          <text className="sfig-t" x="10" y="16" fontSize="13" letterSpacing="0.06em">FY25</text>
+          <text className="sfig-t" x="330" y="16" fontSize="13" letterSpacing="0.06em" textAnchor="end">FY50</text>
+          <text className="sfig-t" x="240" y="30" fontSize="13">BAU</text>
+          <text className="sfig-t sfig-t-acc" x="30" y="80" fontSize="13">NET PATHWAY</text>
         </svg>
         <div className="sfig-cap" style={{ marginTop: '1rem', marginBottom: 0 }}>Toggle-based levers, each tied to a published source</div>
       </div>
@@ -94,7 +94,7 @@ export default function CaseStudy() {
         {CASE_STEPS.map((s, i) => (
           <div className="sstep" data-fig={i} key={i} ref={(el) => (stepRefs.current[i] = el)}>
             <div className="sstep-num">{s.num}</div>
-            <div className="sstep-title">{s.title}</div>
+            <h3 className="sstep-title">{s.title}</h3>
             <p className="sstep-body">{s.body}</p>
             <div className="sstep-src">{s.src}</div>
           </div>

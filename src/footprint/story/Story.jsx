@@ -164,19 +164,45 @@ export function goToMoment(id) {
   el.focus({ preventScroll: true });
 }
 
+// The rail is one stop in the tab order, not twelve: the dot for the chapter
+// on screen takes focus, and the arrow keys walk the rest (a roving tabindex),
+// so a keyboard user reaches the cover's call to action straight away.
 function ChapterRail({ active, chapters }) {
+  const [cursor, setCursor] = useState(null);
+  const refs = useRef({});
+  const current = cursor || active;
+  const onKeyDown = (e) => {
+    const ids = chapters.map((c) => c.id);
+    const i = Math.max(0, ids.indexOf(current));
+    let j = null;
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') j = Math.min(ids.length - 1, i + 1);
+    else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') j = Math.max(0, i - 1);
+    else if (e.key === 'Home') j = 0;
+    else if (e.key === 'End') j = ids.length - 1;
+    if (j == null) return;
+    e.preventDefault();
+    setCursor(ids[j]);
+    refs.current[ids[j]]?.focus();
+  };
   return (
-    <nav className="st-rail" aria-label={CHROME.progressLabel}>
+    <nav
+      className="st-rail"
+      aria-label={CHROME.progressLabel}
+      onKeyDown={onKeyDown}
+      onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget)) setCursor(null); }}
+    >
       {chapters.map((c) => (
         <button
           key={c.id}
+          ref={(el) => { refs.current[c.id] = el; }}
           type="button"
           className={'st-rail-dot' + (active === c.id ? ' on' : '')}
           aria-label={c.label}
           aria-current={active === c.id ? 'step' : undefined}
+          tabIndex={current === c.id ? 0 : -1}
           onClick={() => goToMoment(c.id)}
         >
-          <span className="st-rail-label">{c.label}</span>
+          <span className="st-rail-label" aria-hidden="true">{c.label}</span>
         </button>
       ))}
     </nav>
@@ -227,11 +253,16 @@ export default function Story({ profile, agg, macc, voice, onStart, onSkip, onEn
     return true;
   }), [d, voice]);
 
-  // "03 · Your guess" style section tags, numbered by on-screen position.
-  const tags = useMemo(() => chapters.reduce((acc, c, i) => {
-    if (TAG_TEXT[c.id]) acc[c.id] = String(i).padStart(2, '0') + ' · ' + TAG_TEXT[c.id];
-    return acc;
-  }, {}), [chapters]);
+  // "03 · Your guess" style section tags, numbered by position among the
+  // tagged chapters only: an untagged moment (the cover, the total, the
+  // hotspots) never consumes a number, so the sequence runs without gaps.
+  const tags = useMemo(() => {
+    let n = 0;
+    return chapters.reduce((acc, c) => {
+      if (TAG_TEXT[c.id]) { n += 1; acc[c.id] = String(n).padStart(2, '0') + ' · ' + TAG_TEXT[c.id]; }
+      return acc;
+    }, {});
+  }, [chapters]);
 
   // Track the active chapter for the rail. Re-registered whenever the
   // chapter set changes, so moments that appear or vanish after a log edit
@@ -277,7 +308,7 @@ export default function Story({ profile, agg, macc, voice, onStart, onSkip, onEn
   return (
     <div className="st-root" ref={rootRef}>
       {chromeOn && (
-        <div className="st-chrome">
+        <header className="st-chrome">
           <a href="../" className="st-home" aria-label="Back to the profile"><Mark /></a>
           <div className="st-chrome-right">
             {/* The worked example keeps a way in on screen the whole way
@@ -287,7 +318,7 @@ export default function Story({ profile, agg, macc, voice, onStart, onSkip, onEn
             )}
             <button type="button" className="st-skip" onClick={onSkip}>{CHROME.skip} ↓</button>
           </div>
-        </div>
+        </header>
       )}
       {chromeOn && <ChapterRail active={active} chapters={chapters} />}
       {chromeOn && <NextChapter active={active} chapters={chapters} />}

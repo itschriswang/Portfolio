@@ -66,6 +66,9 @@ export const PLAN = {
   tag: '02 / What if',
   title: ['Replay the year', 'differently'],
   sub: 'A sandbox. Every change here is priced against your own audited numbers above: flip one on and see the year you could have had, and the decade that follows. Offsets and green-power products are left out of the options: they retire certificates; the activity still happens.',
+  // Worked-example voice: the sandbox opens on the changes I have committed
+  // to, so say so rather than let "3 changes on" contradict the needle above.
+  subExample: 'A sandbox, priced against my own audited numbers above. It opens with the three changes I have committed to already on; the flight ones are still off. Flip any of them and see the year I could have had, and the decade that follows. Offsets and green-power products are left out of the options: they retire certificates; the activity still happens.',
   scenarioTitle: 'Where it goes from here',
   scenarioSub: 'Two lines. The lower one is the version of the year you just built, carried forward; the upper dashed one is where things stay if nothing changes. They sit together until you switch a change on. The grid keeps getting cleaner in the background either way, and bigger changes take longer to phase in.',
   budgetLabel: '1.5°C lifestyle benchmark · 2.5 t a person',
@@ -85,10 +88,15 @@ export const PLAN = {
   whyLabel: 'Why it matters',
   effortLabel: 'Difficulty',
   carouselLabel: 'Reduction options',
+  carouselCount: '{n} options',
   prev: 'Previous options',
   next: 'More options',
   impact: {
     label: 'Switched on so far',
+    labelExample: 'My committed changes, on to start',
+    // Worked-example voice: my year, my pocket.
+    lineExample: '{n} change{s} on. By 2030 this version of my year lands at {at2030} t, down {pct}% from the {bau2030} t on the do-nothing line',
+    savesExample: 'about ${n} a year back in my pocket',
     none: 'Nothing switched on yet. Flip a change and watch the line pull away from "if nothing changes".',
     line: '{n} change{s} on. By 2030 this version of you lands at {at2030} t, down {pct}% from the {bau2030} t on the do-nothing line',
     over: '{gap} t over the 2.5 t benchmark',
@@ -101,6 +109,7 @@ export const PLAN = {
   // impact.over / impact.within so the two readouts can never disagree.
   takeaway: {
     lead: 'By FY{year} your choices land you at',
+    leadExample: 'By FY{year} these choices land me at',
     mid: 'next to {bau} t if nothing changes. At 2030 that reads {at2030} t,',
     over: 'still',
     within: 'which is',
@@ -552,3 +561,11 @@ export const DASH_UI = {
 };
 
 export const fmtT = (t, dp = 1) => (Math.round(t * 10 ** dp) / 10 ** dp).toFixed(dp);
+// A year against a benchmark, in one format site-wide: under the benchmark it
+// reads as a percentage ("57%"), over it as a multiple ("5.8×").
+export const fmtRatio = (total, base) => {
+  const r = base > 0 ? total / base : 0;
+  return r < 1
+    ? { v: String(Math.round(r * 100)), unit: '%' }
+    : { v: (Math.round(r * 10) / 10).toFixed(1), unit: '×' };
+};

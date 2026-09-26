@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform, useVelocity, useSpring, useMotionValue, animate } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform, useVelocity, useSpring, useMotionValue, useReducedMotion, animate } from 'framer-motion';
 import { HERO, yearsSince } from '../data/content';
 import SplitText from './SplitText';
 import ContourField from './ContourField';
@@ -13,25 +13,32 @@ function formatYears(v) {
   return Number.isInteger(floored) ? String(floored) : floored.toFixed(1);
 }
 
-function Counter({ target, suffix }) {
+function Counter({ target, suffix, still }) {
   const ref = useRef(null);
   const mv = useMotionValue(0);
   useEffect(() => {
+    // Under reduced motion the figure is simply there, not counted up to.
+    if (still) {
+      if (ref.current) ref.current.textContent = formatYears(target) + suffix;
+      return undefined;
+    }
     const controls = animate(mv, target, {
       duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.4,
       onUpdate: (v) => { if (ref.current) ref.current.textContent = formatYears(v) + suffix; },
     });
     return controls.stop;
-  }, [target, suffix, mv]);
-  return <span ref={ref}>0{suffix}</span>;
+  }, [target, suffix, mv, still]);
+  return <span ref={ref}>{still ? formatYears(target) : 0}{suffix}</span>;
 }
 
-function RoleCycle({ roles }) {
+function RoleCycle({ roles, still }) {
   const [idx, setIdx] = useState(0);
+  // Reduced motion: the first role holds still and the cycle never starts.
   useEffect(() => {
+    if (still) { setIdx(0); return undefined; }
     const id = setInterval(() => setIdx((i) => (i + 1) % roles.length), 3200);
     return () => clearInterval(id);
-  }, [roles.length]);
+  }, [roles.length, still]);
   return (
     // The cycling text is decorative motion: announcing a new job title every
     // 3.2s would spam assistive tech, so the animated span is hidden from it
@@ -64,6 +71,9 @@ export default function Hero() {
   const baseY = useTransform(scrollY, [0, 600], [0, 80]);
   const velY = useTransform(smoothVel, [-1500, 0, 1500], [-24, 0, 24]);
   const lowerY = useTransform(scrollY, [0, 600], [0, 140]);
+  // Parallax and the scroll-speed nudge are decorative, so under reduced
+  // motion the transforms are simply not bound and the hero stays put.
+  const still = useReducedMotion();
 
   return (
     <section id="about" ref={sectionRef}>
@@ -78,12 +88,12 @@ export default function Hero() {
       />
       <ContourField />
 
-      <motion.div className="canvas matrix hero-grid" style={{ y: baseY }}>
-        <motion.h1 className="hero-name display" style={{ y: velY }}>
+      <motion.div className="canvas matrix hero-grid" style={still ? undefined : { y: baseY }}>
+        <motion.h1 className="hero-name display" style={still ? undefined : { y: velY }}>
           <SplitText text={HERO.name[0]} /> <SplitText text={HERO.name[1]} accentIndex={0} />
         </motion.h1>
         <div className="hero-side">
-          <RoleCycle roles={HERO.roles} />
+          <RoleCycle roles={HERO.roles} still={still} />
           <div className="hero-meta">
             <span><Icon name="pin" size={26} className="fpi-lead" />{HERO.location}</span>
           </div>
@@ -92,8 +102,8 @@ export default function Hero() {
 
       <motion.div
         className="canvas matrix hero-lower"
-        style={{ y: lowerY }}
-        initial={{ opacity: 0, y: 30 }}
+        style={still ? undefined : { y: lowerY }}
+        initial={still ? false : { opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.25, ease: [0.25, 1, 0.5, 1] }}
       >
@@ -109,12 +119,9 @@ export default function Hero() {
           {HERO.instruments.map((it) => (
             <div className="instr" key={it.id}>
               <div className="instr-lbl">{it.label[0]}<br />{it.label[1]}</div>
-              <div className="instr-val"><Counter target={yearsSince(it.start)} suffix={it.suffix} /></div>
+              <div className="instr-val"><Counter target={yearsSince(it.start)} suffix={it.suffix} still={still} /></div>
             </div>
           ))}
-        </div>
-        <div className="scroll-hint" aria-hidden="true" style={{ gridColumn: '1 / -1' }}>
-          <span className="scroll-hint-line" />Scroll to explore
         </div>
       </motion.div>
     </section>

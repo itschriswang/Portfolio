@@ -24,7 +24,7 @@ import Story from './story/Story';
 import Dashboard from './Dashboard';
 import Plan from './Plan';
 import Onboarding from './Onboarding';
-import { FootprintNav, FootprintFooter } from './Nav';
+import { FootprintNav } from './Nav';
 import Icon from '../components/Icons';
 import SiteFooter from '../components/SiteFooter';
 
@@ -453,14 +453,15 @@ export default function FootprintApp() {
         )}
 
         <Dashboard agg={agg} period={profile.period} compareAgg={compareAgg} comparePeriod={comparePeriod} isExample={isExample} country={profile.settings.country} />
-        {!archived && <Plan macc={macc} pathway={pathway} plan={profile.plan} onToggle={onToggle} />}
+        {!archived && <Plan macc={macc} pathway={pathway} plan={profile.plan} onToggle={onToggle} voice={voice} />}
         {!isExample && !archived && (
           <DataControls onExport={onExport} onImportFile={onImportFile} onReset={onReset} onShare={onShare} />
         )}
         <MethodLink />
       </main>
 
-      <FootprintFooter />
+      {/* One footer, one contentinfo landmark: the site footer carries the
+          way home that the compact strip used to duplicate. */}
       <SiteFooter base="../" />
       </div>
 

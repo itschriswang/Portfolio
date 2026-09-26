@@ -84,61 +84,164 @@ export const BASELINE_SECTORS = {
   },
 };
 
-// Ported verbatim from the original drawSankey(): returns an SVG markup string.
-export function buildSankey(s1p, s2p, s3p, cat1p, cat4p, cat13p) {
-  const TH = 140, yS = 40, yE = 180;
-  const s1h = Math.max(7, (s1p / 100) * TH);
-  const s2h = Math.max(5, (s2p / 100) * TH);
+// The Sankey figure as an SVG markup string. Two layouts:
+//  - wide (container 900px and up): the original 720 x 220 composition, with
+//    every font floored so it renders at 12px or more at the measured width;
+//  - narrow (below 900px): drawn at the container's own pixel width, one unit
+//    per pixel, so labels hold at 12 to 13px on a phone instead of shrinking
+//    to 5px with a fixed viewBox. It drops the unlabelled source bar on small
+//    screens and gives the Scope 3 categories a right-hand label column.
+// Colours come from classes in work.css (.sk-*), so the figure uses the
+// site's warm tokens rather than hard-coded slate hex.
+const esc = (t) => t.replace(/&/g, '&amp;');
+const CATS = [
+  ['CAT 1', 'Purchased goods & services'],
+  ['CAT 4', 'Transport & distribution'],
+  ['CAT 13', 'Downstream leased assets'],
+];
+
+function sankeyLabel(s1p, s2p, s3p, cat1p, cat4p, cat13p) {
+  return 'Emissions flow diagram. Scope 1 ' + s1p.toFixed(1) + '%, Scope 2 ' + s2p.toFixed(1)
+    + '%, Scope 3 ' + s3p.toFixed(1) + '% of the total footprint. Scope 3 flows to Category 1, purchased goods and services, '
+    + cat1p.toFixed(1) + '%; Category 4, transport and distribution, ' + cat4p.toFixed(1)
+    + '%; Category 13, downstream leased assets, ' + cat13p.toFixed(1) + '%.';
+}
+
+// Word-wrap a description into lines of at most n characters.
+function wrap(text, n) {
+  const lines = [];
+  let cur = '';
+  text.split(' ').forEach((w) => {
+    if (!cur) cur = w;
+    else if ((cur + ' ' + w).length <= n) cur += ' ' + w;
+    else { lines.push(cur); cur = w; }
+  });
+  if (cur) lines.push(cur);
+  return lines;
+}
+
+const band = (x1, x2, a1, a2, b1, b2, cls, op) => {
+  const mx = (x1 + x2) / 2;
+  return '<path d="M' + x1 + ',' + a1 + ' C' + mx + ',' + a1 + ' ' + mx + ',' + b1 + ' ' + x2 + ',' + b1
+    + ' L' + x2 + ',' + b2 + ' C' + mx + ',' + b2 + ' ' + mx + ',' + a2 + ' ' + x1 + ',' + a2 + ' Z" class="' + cls + '" fill-opacity="' + op + '"/>';
+};
+const rect = (x, y, w, h, cls, op) => '<rect x="' + x + '" y="' + y.toFixed(1) + '" width="' + w + '" height="' + h.toFixed(1) + '" class="' + cls + '" fill-opacity="' + op + '"/>';
+const text = (x, y, size, cls, body, extra = '') => '<text x="' + x + '" y="' + Math.round(y) + '" font-size="' + size + '" class="' + cls + '"' + extra + '>' + esc(body) + '</text>';
+
+function splitHeights(TH, s1p, s2p, cat, min) {
+  const s1h = Math.max(min.s1, (s1p / 100) * TH);
+  const s2h = Math.max(min.s2, (s2p / 100) * TH);
   const s3h = TH - s1h - s2h;
-  const s1y = yS, s2y = s1y + s1h, s3y = s2y + s2h;
-  const totalCat = cat1p + cat4p + cat13p || 1;
-  let c1h = Math.max(12, (cat1p / totalCat) * s3h);
-  const c4h = Math.max(10, (cat4p / totalCat) * s3h);
+  const totalCat = cat[0] + cat[1] + cat[2] || 1;
+  let c1h = Math.max(min.c1, (cat[0] / totalCat) * s3h);
+  const c4h = Math.max(min.c4, (cat[1] / totalCat) * s3h);
   let c13h = s3h - c1h - c4h;
-  if (c13h < 8) { c13h = 8; c1h = s3h - c4h - c13h; }
-  const c1y = s3y, c4y = c1y + c1h, c13y = c4y + c4h;
-  const acc = '#75821D', accM = 'rgba(117,130,29,0.55)';
-  let s = '<svg viewBox="0 0 720 220" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;min-height:280px;max-width:100%" role="img" aria-label="Emissions flow diagram">';
-  s += '<path d="M36,' + s1y + ' C130,' + s1y + ' 130,' + s1y + ' 220,' + s1y + ' L220,' + (s1y + s1h) + ' C130,' + (s1y + s1h) + ' 130,' + (s1y + s1h) + ' 36,' + (s1y + s1h) + ' Z" fill="rgba(117,130,29,0.35)"/>';
-  s += '<path d="M36,' + s2y + ' C130,' + s2y + ' 130,' + s3y + ' 220,' + s2y + ' L220,' + (s2y + s2h) + ' C130,' + (s2y + s2h) + ' 130,' + s3y + ' 36,' + (s2y + s2h) + ' Z" fill="rgba(117,130,29,0.18)"/>';
-  s += '<path d="M36,' + s3y + ' C130,' + s3y + ' 130,' + s3y + ' 220,' + s3y + ' L220,' + yE + ' C130,' + yE + ' 130,' + yE + ' 36,' + yE + ' Z" fill="rgba(15,23,42,0.07)"/>';
-  s += '<path d="M236,' + s3y + ' C358,' + s3y + ' 358,' + s3y + ' 480,' + s3y + ' L480,' + (c1y + c1h) + ' C358,' + (c1y + c1h) + ' 358,' + (c1y + c1h) + ' 236,' + (c1y + c1h) + ' Z" fill="rgba(15,23,42,0.11)"/>';
-  s += '<path d="M236,' + (c1y + c1h) + ' C358,' + (c1y + c1h) + ' 358,' + (c1y + c1h) + ' 480,' + (c1y + c1h) + ' L480,' + (c4y + c4h) + ' C358,' + (c4y + c4h) + ' 358,' + (c4y + c4h) + ' 236,' + (c4y + c4h) + ' Z" fill="rgba(15,23,42,0.07)"/>';
-  s += '<path d="M236,' + (c4y + c4h) + ' C358,' + (c4y + c4h) + ' 358,' + (c4y + c4h) + ' 480,' + (c4y + c4h) + ' L480,' + yE + ' C358,' + yE + ' 358,' + yE + ' 236,' + yE + ' Z" fill="rgba(15,23,42,0.05)"/>';
-  s += '<rect x="20" y="' + yS + '" width="16" height="' + TH + '" fill="rgba(15,23,42,0.28)"/>';
-  s += '<rect x="220" y="' + s1y + '" width="16" height="' + s1h + '" fill="' + acc + '"/>';
-  s += '<rect x="220" y="' + s2y + '" width="16" height="' + s2h + '" fill="' + accM + '"/>';
-  s += '<rect x="220" y="' + s3y + '" width="16" height="' + s3h + '" fill="rgba(15,23,42,0.38)"/>';
-  s += '<rect x="480" y="' + c1y + '" width="16" height="' + c1h + '" fill="rgba(15,23,42,0.34)"/>';
-  s += '<rect x="480" y="' + c4y + '" width="16" height="' + c4h + '" fill="rgba(15,23,42,0.26)"/>';
-  s += '<rect x="480" y="' + c13y + '" width="16" height="' + c13h + '" fill="rgba(15,23,42,0.18)"/>';
-  const s1cy = (s1y + s1h / 2 + 3).toFixed(0), s2cy = (s2y + s2h / 2 + 3).toFixed(0), s3ty = (s3y + 13).toFixed(0), s3py = (s3y + 33).toFixed(0), s3sy = (s3y + 49).toFixed(0);
-  s += '<text x="240" y="' + s1cy + '" font-family="JetBrains Mono,monospace" font-size="9" fill="' + acc + '" letter-spacing="0.08em">SCOPE 1</text>';
-  s += '<text x="315" y="' + s1cy + '" font-family="JetBrains Mono,monospace" font-size="9" fill="' + acc + '" text-anchor="end">' + s1p.toFixed(1) + '%</text>';
-  s += '<text x="240" y="' + s2cy + '" font-family="JetBrains Mono,monospace" font-size="9" fill="#75821D">SCOPE 2</text>';
-  s += '<text x="315" y="' + s2cy + '" font-family="JetBrains Mono,monospace" font-size="9" fill="#75821D" text-anchor="end">' + s2p.toFixed(1) + '%</text>';
+  if (c13h < min.c13) { c13h = min.c13; c1h = s3h - c4h - c13h; }
+  return { s1h, s2h, s3h, ch: [c1h, c4h, c13h] };
+}
+
+function wideSankey(s1p, s2p, s3p, cat, width, label) {
+  const TH = 140, yS = 40, yE = 180;
+  // Floor every font so it renders at 12px or more at the measured width.
+  const scale = width ? width / 720 : 1;
+  const f = (n) => +Math.max(n, 12 / scale).toFixed(1);
+  const { s1h, s2h, s3h, ch } = splitHeights(TH, s1p, s2p, cat, { s1: 7, s2: 5, c1: 14, c4: 14, c13: 14 });
+  const s1y = yS, s2y = s1y + s1h, s3y = s2y + s2h;
+  const cy = [s3y, s3y + ch[0], s3y + ch[0] + ch[1]];
+  let s = '<svg class="sk-svg" viewBox="0 0 720 220" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="' + label + '">';
+  s += band(36, 220, s1y, s1y + s1h, s1y, s1y + s1h, 'sk-acc', 0.35);
+  s += band(36, 220, s2y, s2y + s2h, s2y, s2y + s2h, 'sk-acc', 0.18);
+  s += band(36, 220, s3y, yE, s3y, yE, 'sk-ink', 0.07);
+  s += band(236, 480, cy[0], cy[0] + ch[0], cy[0], cy[0] + ch[0], 'sk-ink', 0.11);
+  s += band(236, 480, cy[1], cy[1] + ch[1], cy[1], cy[1] + ch[1], 'sk-ink', 0.07);
+  s += band(236, 480, cy[2], yE, cy[2], yE, 'sk-ink', 0.05);
+  s += rect(20, yS, 16, TH, 'sk-ink', 0.28);
+  s += rect(220, s1y, 16, s1h, 'sk-acc', 1);
+  s += rect(220, s2y, 16, s2h, 'sk-acc', 0.55);
+  s += rect(220, s3y, 16, s3h, 'sk-ink', 0.38);
+  s += rect(480, cy[0], 16, ch[0], 'sk-ink', 0.34);
+  s += rect(480, cy[1], 16, ch[1], 'sk-ink', 0.26);
+  s += rect(480, cy[2], 16, ch[2], 'sk-ink', 0.18);
+  const ls = ' letter-spacing="0.08em"';
+  s += text(240, s1y + s1h / 2 + 3, f(9), 'sk-t-acc', 'SCOPE 1', ls);
+  s += text(330, s1y + s1h / 2 + 3, f(9), 'sk-t-acc', s1p.toFixed(1) + '%', ' text-anchor="end"');
+  s += text(240, s2y + s2h / 2 + 3, f(9), 'sk-t-acc', 'SCOPE 2', ls);
+  s += text(330, s2y + s2h / 2 + 3, f(9), 'sk-t-acc', s2p.toFixed(1) + '%', ' text-anchor="end"');
   if (s3h > 30) {
-    s += '<text x="240" y="' + s3ty + '" font-family="JetBrains Mono,monospace" font-size="9" fill="#64748B">SCOPE 3</text>';
-    s += '<text x="240" y="' + s3py + '" font-family="JetBrains Mono,monospace" font-size="20" font-weight="bold" fill="#0F172A">' + s3p.toFixed(1) + '%</text>';
-    if (s3h > 50) s += '<text x="240" y="' + s3sy + '" font-family="JetBrains Mono,monospace" font-size="8" fill="#64748B">of total footprint</text>';
+    s += text(240, s3y + 13, f(9), 'sk-t-mute', 'SCOPE 3', ls);
+    s += text(240, s3y + 33, f(20), 'sk-t-strong', s3p.toFixed(1) + '%', ' font-weight="700"');
+    if (s3h > 50) s += text(240, s3y + 49, f(8), 'sk-t-mute', 'of total footprint');
   }
-  const catLabel = (label, desc, pct, cy, ch) => {
-    if (ch < 14) return;
-    const ly = (cy + 11).toFixed(0), dy = (cy + 21).toFixed(0), py = (cy + 34).toFixed(0);
-    s += '<text x="500" y="' + ly + '" font-family="JetBrains Mono,monospace" font-size="8" fill="#64748B" letter-spacing="0.05em">' + label + '</text>';
-    if (ch > 44) {
-      s += '<text x="500" y="' + dy + '" font-family="JetBrains Mono,monospace" font-size="7" fill="#64748B">' + desc + '</text>';
-      s += '<text x="500" y="' + py + '" font-family="JetBrains Mono,monospace" font-size="11" font-weight="bold" fill="#0F172A">' + pct.toFixed(1) + '%</text>';
-    } else {
-      s += '<text x="700" y="' + ly + '" font-family="JetBrains Mono,monospace" font-size="10" font-weight="bold" fill="#0F172A" text-anchor="end">' + pct.toFixed(1) + '%</text>';
-      if (ch > 26) s += '<text x="500" y="' + dy + '" font-family="JetBrains Mono,monospace" font-size="7" fill="#64748B">' + desc + '</text>';
+  // Every category value sits in the same right-hand column, on the label line.
+  CATS.forEach(([lab, desc], i) => {
+    if (ch[i] < 14) return;
+    const ly = cy[i] + 11;
+    s += text(500, ly, f(8), 'sk-t-mute', lab, ' letter-spacing="0.05em"');
+    s += text(700, ly, f(10), 'sk-t-strong', cat[i].toFixed(1) + '%', ' font-weight="700" text-anchor="end"');
+    if (ch[i] > 26) s += text(500, cy[i] + 21, f(7), 'sk-t-mute', desc);
+  });
+  return s + '</svg>';
+}
+
+function narrowSankey(s1p, s2p, s3p, cat, width, label) {
+  const W = Math.max(300, Math.round(width));
+  const TH = W < 520 ? 300 : 260, yS = 8, yE = yS + TH, H = yE + 8;
+  const NW = 12;
+  const withSource = W >= 560;
+  const xS = withSource ? Math.round(W * 0.2) : 0;
+  const labelW = Math.round(Math.min(260, Math.max(150, W * 0.42)));
+  const xC = W - labelW - NW - 10;
+  const { s1h, s2h, s3h, ch } = splitHeights(TH, s1p, s2p, cat, { s1: 16, s2: 16, c1: 18, c4: 18, c13: 18 });
+  const s1y = yS, s2y = s1y + s1h, s3y = s2y + s2h;
+  const cy = [s3y, s3y + ch[0], s3y + ch[0] + ch[1]];
+  let s = '<svg class="sk-svg" viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="' + label + '">';
+  if (withSource) {
+    s += band(NW, xS, s1y, s1y + s1h, s1y, s1y + s1h, 'sk-acc', 0.35);
+    s += band(NW, xS, s2y, s2y + s2h, s2y, s2y + s2h, 'sk-acc', 0.18);
+    s += band(NW, xS, s3y, yE, s3y, yE, 'sk-ink', 0.07);
+    s += rect(0, yS, NW, TH, 'sk-ink', 0.28);
+  }
+  const x0 = xS + NW;
+  s += band(x0, xC, cy[0], cy[0] + ch[0], cy[0], cy[0] + ch[0], 'sk-ink', 0.11);
+  s += band(x0, xC, cy[1], cy[1] + ch[1], cy[1], cy[1] + ch[1], 'sk-ink', 0.07);
+  s += band(x0, xC, cy[2], yE, cy[2], yE, 'sk-ink', 0.05);
+  s += rect(xS, s1y, NW, s1h, 'sk-acc', 1);
+  s += rect(xS, s2y, NW, s2h, 'sk-acc', 0.55);
+  s += rect(xS, s3y, NW, s3h, 'sk-ink', 0.38);
+  s += rect(xC, cy[0], NW, ch[0], 'sk-ink', 0.34);
+  s += rect(xC, cy[1], NW, ch[1], 'sk-ink', 0.26);
+  s += rect(xC, cy[2], NW, ch[2], 'sk-ink', 0.18);
+  const lx = x0 + 8, rx = xC - 8, ls = ' letter-spacing="0.06em"';
+  s += text(lx, s1y + s1h / 2 + 4, 12, 'sk-t-acc', 'SCOPE 1', ls);
+  s += text(rx, s1y + s1h / 2 + 4, 13, 'sk-t-acc', s1p.toFixed(1) + '%', ' font-weight="700" text-anchor="end"');
+  s += text(lx, s2y + s2h / 2 + 4, 12, 'sk-t-acc', 'SCOPE 2', ls);
+  s += text(rx, s2y + s2h / 2 + 4, 13, 'sk-t-acc', s2p.toFixed(1) + '%', ' font-weight="700" text-anchor="end"');
+  s += text(lx, s3y + 20, 12, 'sk-t-mute', 'SCOPE 3', ls);
+  s += text(lx, s3y + 46, 24, 'sk-t-strong', s3p.toFixed(1) + '%', ' font-weight="700"');
+  if (s3h > 80) s += text(lx, s3y + 66, 12, 'sk-t-mute', 'of total footprint');
+  const cx = xC + NW + 8, perLine = Math.floor((W - cx) / 7.3);
+  CATS.forEach(([lab, desc], i) => {
+    const top = cy[i];
+    s += text(cx, top + 15, 12, 'sk-t-mute', lab, ' letter-spacing="0.05em"');
+    s += text(W, top + 15, 13, 'sk-t-strong', cat[i].toFixed(1) + '%', ' font-weight="700" text-anchor="end"');
+    // The description shows whole or not at all: half a phrase reads as a
+    // different category.
+    const lines = wrap(desc, perLine);
+    if (top + 31 + (lines.length - 1) * 15 + 3 <= top + ch[i]) {
+      lines.forEach((line, j) => { s += text(cx, top + 31 + j * 15, 12, 'sk-t-mute', line); });
     }
-  };
-  catLabel('CAT 1', 'Purchased goods &amp; services', cat1p, c1y, c1h);
-  catLabel('CAT 4', 'Transport &amp; distribution', cat4p, c4y, c4h);
-  catLabel('CAT 13', 'Downstream leased assets', cat13p, c13y, c13h);
-  s += '</svg>';
-  return s;
+  });
+  return s + '</svg>';
+}
+
+// width: the container's measured width in px. Omitted, the wide layout is
+// returned at its original sizes.
+export function buildSankey(s1p, s2p, s3p, cat1p, cat4p, cat13p, width) {
+  const cat = [cat1p, cat4p, cat13p];
+  const label = sankeyLabel(s1p, s2p, s3p, cat1p, cat4p, cat13p);
+  return width && width < 900
+    ? narrowSankey(s1p, s2p, s3p, cat, width, label)
+    : wideSankey(s1p, s2p, s3p, cat, width, label);
 }
 
 export const ROADMAP_INTRO = 'A three-stage method for moving from emissions data to a sequenced decarbonisation roadmap with CAPEX implications.';

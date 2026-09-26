@@ -294,6 +294,17 @@ function Stack({ d, w, h, still }) {
     run += sw;
     return s;
   });
+  // Three labels share one baseline: the first segment's at the left edge,
+  // the second's at its own segment, the last end-anchored at the right. On a
+  // narrow plate the middle one runs into its neighbours ("DiEverything
+  // else"), so it is only drawn when it clears both by 8px. The mono face
+  // advances 0.6em a glyph, so the widths are known without measuring.
+  const labelW = (t) => String(t).length * 9 * 0.6;
+  const secondL = segs[1].x;
+  const secondR = secondL + labelW(d.parts[1].label);
+  const showSecond =
+    secondL >= X0 + labelW(d.parts[0].label) + 8 &&
+    secondR + 8 <= X0 + W - labelW(d.parts[5].label);
   return (
     <>
       <Figure x={X0} y={20} value={`${d.totalT} t`} label="CO2e, one real year" />
@@ -309,7 +320,7 @@ function Stack({ d, w, h, still }) {
       ))}
       <T x={X0 + 8} y={BY + BH / 2 + 5} size={13} fill="#1A2A0B" weight={700} font={DISP}>{d.parts[0].pct}%</T>
       <T x={X0} y={BY + BH + 15} size={9} fill="var(--tc)">{d.parts[0].label}</T>
-      <T x={segs[1].x} y={BY + BH + 15} size={9} fill={INK}>{d.parts[1].label}</T>
+      {showSecond && <T x={segs[1].x} y={BY + BH + 15} size={9} fill={INK}>{d.parts[1].label}</T>}
       <T x={X0 + W} y={BY + BH + 15} size={9} anchor="end" fill={INK}>{d.parts[5].label}</T>
     </>
   );

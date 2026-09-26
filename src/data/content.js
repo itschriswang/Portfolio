@@ -59,7 +59,7 @@ export const BIO_PARAS = [
 
 export const OUTCOMES = [
   { color: 'var(--accent-ink)', num: '+35', small: '%', what: 'GRESB Infrastructure score in year one, with global ranking up 63%', where: 'Major Australian energy distributor · FY22 submission I led · WSP' },
-  { color: 'var(--indigo)', num: '153', small: ' suppliers', what: 'Shortlisted from 13,391 for CDP Supply Chain, at 93.5% contact coverage', where: 'Python pipeline over raw spend data · Downer Group' },
+  { color: 'var(--indigo-ink)', num: '153', small: ' suppliers', what: 'Shortlisted from 13,391 for CDP Supply Chain, at 93.5% contact coverage', where: 'Python pipeline over raw spend data · Downer Group' },
   { color: 'var(--amber-ink)', num: '3', small: ' BUs', what: 'Moved to subcontractor diesel templates that generate the platform upload', where: 'Replaced manual supplier sorting and matching · Downer Group' },
 ];
 

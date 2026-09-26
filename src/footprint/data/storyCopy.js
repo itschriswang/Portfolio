@@ -96,9 +96,11 @@ export const GUESS = {
   // benchmark label off the bench data, so an American or New Zealand audit
   // sees its own average, never Australia's.
   refs: [
-    { id: 'home', unit: 't a person', note: 'per person, all greenhouse gases' },
-    { id: 'global', label: 'World average', unit: 't a person', note: 'per person, all greenhouse gases' },
-    { id: 'budget', label: '1.5°C lifestyle benchmark', unit: 't a person', note: 'where a year needs to be by 2030' },
+    // The unit stays beside its number ("22.3 t"); "per person" rides in the
+    // note, so the big figure never wraps mid-phrase.
+    { id: 'home', unit: 't', note: 'per person, all greenhouse gases' },
+    { id: 'global', label: 'World average', unit: 't', note: 'per person, all greenhouse gases' },
+    { id: 'budget', label: '1.5°C lifestyle benchmark', unit: 't', note: 'per person: where a year needs to be by 2030' },
   ],
   cont: 'See where I land',
   contOwn: 'Take a guess',
@@ -312,7 +314,7 @@ export const NEEDLE = {
   // instead of double counting.
   live: {
     label: { example: 'My year, rebuilt', own: 'Your year, rebuilt' },
-    none: 'All three are off. Tap a card and watch the number fall.',
+    none: 'None of these three is on yet. Tap a card and watch the number fall.',
     cut: '{cut} t off · down {pct}%',
     note: 'Changes overlap, so together they are priced as a sequence and counted once.',
     benchTick: '2.5 t benchmark',
