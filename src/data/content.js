@@ -58,8 +58,8 @@ export const BIO_PARAS = [
 ];
 
 export const OUTCOMES = [
-  { color: 'var(--accent-ink)', from: '1,930', num: '1,111', small: ' t', what: "A consultant's abatement claim, recalculated from first principles to the figure I could stand behind, before it set incentive targets", where: 'Group reviewer · 15 initiatives · Downer Group' },
-  { color: 'var(--indigo-ink)', from: '134', num: '3', small: ' open holds', what: 'Left on the CDP 2026 response by the time the signatory saw it, through one sign-off pack. Submitted on time', where: '21-item walk-through · 137 fields checked against FY25 · Downer Group' },
+  { color: 'var(--accent-ink)', num: '×57', small: '', what: 'Supplier spend overstated about 57 times, found during PwC assurance and traced to its source field in three days', where: 'FY26 Scope 3 · Downer Group' },
+  { color: 'var(--indigo-ink)', num: 'All', small: ' NSW Government entities', what: 'Covered by the emissions accounting guidelines I co-developed under NSW Treasury\'s reporting framework', where: 'NGERS · AASB S2 · GHG Protocol · WSP' },
   { color: 'var(--amber-ink)', num: '+63', small: '%', what: 'GRESB Infrastructure global ranking in year one, with the score up 35%', where: 'Major Australian energy distributor · FY22 submission I led · WSP' },
 ];
 
