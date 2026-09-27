@@ -92,13 +92,6 @@ export default function Experience() {
                   ))}
                 </div>
               </div>
-              <ul className="exp-bullets">
-                {exp.bullets.map((b, i) => (
-                  b.section
-                    ? <li key={i} style={{ paddingLeft: 0 }}><span className="exp-section-lbl">{b.section}</span></li>
-                    : <li key={i} className="has-mark">{b.text}</li>
-                ))}
-              </ul>
             </div>
           ))}
 
@@ -120,11 +113,6 @@ export default function Experience() {
                 ))}
               </div>
             </div>
-            <ul className="exp-bullets">
-              {EDUCATION.bullets.map((b, i) => (
-                <li key={i} className="has-mark"><strong className="exp-bullet-lead">{b.lead}</strong>{b.text}</li>
-              ))}
-            </ul>
           </div>
 
           {/* Nodes, one per entry + education, positioned in layout effect. */}

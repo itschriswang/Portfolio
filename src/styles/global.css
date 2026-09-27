@@ -891,7 +891,7 @@ section { position:relative; }
 .exp-entry:first-child{ border-top:none; padding-top:0; }
 .exp-entry::after{ content:''; position:absolute; left:0; bottom:0; right:0; height:1px; background:var(--matcha); opacity:0; transition:opacity 0.4s; }
 .exp-entry:hover::after{ opacity:0.45; }
-.exp-hd{ display:grid; gap:1rem; margin-bottom:1.25rem; }
+.exp-hd{ display:grid; gap:1rem; }
 @media(min-width:640px){ .exp-hd{ grid-template-columns:1fr auto; align-items:start; } }
 .exp-logo{ display:block; width:auto; object-fit:contain; object-position:left center; margin-bottom:0.75rem; height:26px; }
 .exp-logo.logo-downer{ height:30px; } .exp-logo.logo-wsp{ height:20px; } .exp-logo.logo-defence{ height:56px; margin-left:-6px; }
@@ -901,16 +901,10 @@ section { position:relative; }
 .exp-meta-row{ display:flex; justify-content:space-between; align-items:baseline; gap:1rem; flex-wrap:wrap; }
 .exp-role-title{ font-weight:700; font-size:0.85rem; color:var(--slate); }
 .exp-date{ font-family:var(--mono); font-size:11px; color:var(--mid); white-space:nowrap; }
-.exp-bullets{ list-style:none; display:flex; flex-direction:column; gap:0.6rem; }
-.exp-bullets li{ font-size:0.86rem; font-weight:400; color:var(--ink-2); line-height:1.7; padding-left:1.1rem; position:relative; }
-.exp-bullets li.has-mark::before{ content:'›'; position:absolute; left:0; color:var(--matcha); font-size:1rem; line-height:1.5; }
-.exp-section-lbl{ font-family:var(--mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent-ink); font-weight:600; display:block; margin-top:1.1rem; padding-left:0; }
 
 /* Education entry: same layout as the roles above. An eyebrow label stands in
-   for the employer logo so the header aligns; a bold lead-in labels each fact. */
+   for the employer logo so the header aligns. */
 .exp-eyebrow{ font-family:var(--mono); font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent-ink); font-weight:600; margin-bottom:0.6rem; }
-.exp-bullet-lead{ font-weight:600; color:var(--slate); }
-.exp-bullet-lead::after{ content:': '; color:var(--subtle); font-weight:400; }
 
 /* ============================================================================
    SITE FOOTER — big lime card with a folder-tab silhouette, signup, and links.

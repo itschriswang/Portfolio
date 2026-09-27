@@ -280,23 +280,6 @@ export const EXPERIENCE = [
     logo: 'Downer_Group_logo.svg.png', logoClass: 'logo-downer', logoAlt: 'Downer Group logo', logoW: 252, logoH: 90,
     org: 'Downer Group', dept: 'Group Environment, Sustainability & Reporting',
     roles: [{ title: 'Senior Sustainability Advisor', date: 'Mar 2026 - Present' }],
-    bullets: [
-      { section: 'Facilitation and stakeholder influence' },
-      { text: 'Designed and ran an ESG Impact Report content workshop for ten environment and sustainability managers, including a General Manager, then coordinated section authors through Workiva for the annual report.' },
-      { text: 'Co-developed an all-employee climate eLearn with an external learning designer and took it from storyboard review to a staged rollout plan, with the first cohort from November 2026.' },
-      { section: 'Data tools and systems' },
-      { text: 'Built a toggle-based net zero pathway model to FY2050 on government and research-sourced lever assumptions. Its outputs went into the Reasonable Grounds board papers and the FY26 Annual Report decarbonisation graphs.' },
-      { text: 'Designed subcontractor diesel reporting templates with embedded calculation logic that generate the Envizi upload, replacing manual supplier sorting and matching across three business units.' },
-      { text: 'Developed an independent GHG recalculation module with operational control boundary filtering to support external assurance.' },
-      { text: 'Rebuilt the subcontractor diesel estimation pipeline with proxy rate calculations, prior-period response pooling and CPI adjustment.' },
-      { text: 'Built a Python pipeline that took raw spend data across 13,391 suppliers to a 153-supplier CDP Supply Chain shortlist at 93.5% contact coverage.' },
-      { text: 'Redesigned the FY emissions data review tools with cross-BU anomaly detection, site completeness tracking and emission factor checks.' },
-      { section: 'Reporting and governance' },
-      { text: 'Data manager, reviewer and uploader for Downer Group\'s FY26 NGER report, due 31 October 2026.' },
-      { text: 'Managed the response to a statutory notice under the Petroleum and Other Fuels Reporting Act 2017: the first return inside the ten-day window, then monthly returns to 30 June 2026.' },
-      { text: 'Took over a handover portfolio of more than 12 workstreams in the first month and set its priorities and timelines.' },
-      { text: 'Set up fortnightly check-ins with environment managers in three business units within the first six weeks.' },
-    ],
   },
   {
     mark: 'WSP', clr: 'wsp',
@@ -307,13 +290,6 @@ export const EXPERIENCE = [
       { title: 'Design Consultant', date: 'Oct 2023 - Oct 2025' },
       { title: 'Consultant', date: 'Feb 2022 - Oct 2023' },
     ],
-    bullets: [
-      { text: 'Led the FY22 GRESB Infrastructure submission for a major Australian energy distributor on behalf of its institutional investor: score up 35% and global ranking up 63% in year one.' },
-      { text: 'Co-developed emissions accounting guidelines for all NSW Government entities under NSW Treasury\'s reporting framework, drawing on NGERS, AASB S2 and the GHG Protocol.' },
-      { text: 'Coordinated and delivered life cycle assessments for more than ten high-rise developments across NSW, Queensland and Victoria, and for transport infrastructure, with carbon reduction options and procurement advice for developers, engineers and builders.' },
-      { text: 'Automated LCA data downloads and material linking in Python, saving about four hours per study, and built reporting tools that saved more than 13 labour hours on one project.' },
-      { text: 'Delivered first emissions baselines for government and private sector clients, with client workshops on data collection that fed their decarbonisation strategies.' },
-    ],
   },
   {
     // No logo: the Defence lockup is the Commonwealth Coat of Arms, which is
@@ -322,26 +298,17 @@ export const EXPERIENCE = [
     eyebrow: 'Government', eyebrowIcon: 'building',
     org: 'Department of Defence', dept: 'Capital Facilities and Infrastructure',
     roles: [{ title: 'Assistant Project Officer', date: 'Mar 2020 - Feb 2022' }],
-    bullets: [
-      { text: 'Administered contracts totalling $1.3 billion across five capital facilities projects in Sydney and Darwin.' },
-    ],
   },
 ];
 
 // Rendered with the same entry layout as EXPERIENCE so education reads as a
-// peer of the employment history, not an isolated card. org/dept/roles mirror
-// the shape of an EXPERIENCE entry; bullets carry a bold lead-in label.
+// peer of the employment history. The track record lists roles only; outcomes
+// live in the tailored CV sent with each application.
 export const EDUCATION = {
   mark: 'UNSW', clr: 'unsw',
   org: 'University of New South Wales',
   dept: 'Bachelor of Engineering (Civil with Architecture)',
-  roles: [{ title: 'Honours Class 1' }],
-  bullets: [
-    { lead: 'Honours', text: "First Class, Dean's Honours List." },
-    { lead: 'Thesis · 92/100', text: 'Vertical Greenery Systems and the Indoor Setting.' },
-    { lead: 'Leadership', text: 'President, CEVSOC 2021 · Arc Club of the Year · executive team of 56, 2,000-member society.' },
-    { lead: 'Capstone', text: 'Sustainable infrastructure masterplanning · Green Star, NABERS, Envision.' },
-  ],
+  roles: [{ title: "Honours Class 1, Dean's Honours List", date: '2022' }],
 };
 
 // The footer is the site's single closing statement. The old standalone
