@@ -58,9 +58,9 @@ export const BIO_PARAS = [
 ];
 
 export const OUTCOMES = [
-  { color: 'var(--accent-ink)', num: '+35', small: '%', what: 'GRESB Infrastructure score in year one, with global ranking up 63%', where: 'Major Australian energy distributor · FY22 submission I led · WSP' },
-  { color: 'var(--indigo-ink)', num: '153', small: ' suppliers', what: 'Shortlisted from 13,391 for CDP Supply Chain, at 93.5% contact coverage', where: 'Python pipeline over raw spend data · Downer Group' },
-  { color: 'var(--amber-ink)', num: '3', small: ' BUs', what: 'Moved to subcontractor diesel templates that generate the platform upload', where: 'Replaced manual supplier sorting and matching · Downer Group' },
+  { color: 'var(--accent-ink)', from: '1,930', num: '1,111', small: ' t', what: "A consultant's abatement claim, recalculated from first principles to the figure I could stand behind, before it set incentive targets", where: 'Group reviewer · 15 initiatives · Downer Group' },
+  { color: 'var(--indigo-ink)', from: '134', num: '3', small: ' open holds', what: 'Left on the CDP 2026 response by the time the signatory saw it, through one sign-off pack. Submitted on time', where: '21-item walk-through · 137 fields checked against FY25 · Downer Group' },
+  { color: 'var(--amber-ink)', num: '+63', small: '%', what: 'GRESB Infrastructure global ranking in year one, with the score up 35%', where: 'Major Australian energy distributor · FY22 submission I led · WSP' },
 ];
 
 export const PIPELINE = [
@@ -82,8 +82,10 @@ export const PIPELINE = [
   },
   {
     step: 'report', n: '03', label: 'Reporting', icon: 'chart', color: 'var(--step-report)',
-    desc: 'Regulatory reporting and disclosure across NGER, AASB S2, GRESB and CDP. For Downer Group\'s FY26 NGER report, due in October 2026, I am the data manager, reviewer and uploader.',
+    desc: 'Statutory reporting and disclosure across NGER, AASB S2, GRESB and CDP, built so an assurer or a regulator can follow every figure back to its source.',
     examples: [
+      { title: 'NGER statutory report', body: 'Data manager, reviewer and uploader for Downer Group\'s FY26 National Greenhouse and Energy Reporting submission. Rebuilt the dataset by script into a calculation workbook with facility threshold checks, a factor register and a change log, and wrote the review standard down before lodging: 26 rules, each with its threshold and source, tied to 61 automated controls and a verification script.', outcome: 'FY26 NGER report to the Clean Energy Regulator, Downer Group' },
+      { title: 'AASB S2 climate statement: physical risk', body: 'Built the physical risk and opportunity model behind the FY26 climate statement, with basis of preparation paragraphs and an audit trail from finance extract to report wording. When the method question stalled, produced three complete versions with six decision questions and a recommended answer to each, so management could sign one off in one meeting.', outcome: 'FY26 climate statement under AASB S2, Downer Group' },
       { title: 'GRESB Infrastructure Assessment', body: 'Led the FY22 GRESB Infrastructure submission for a major Australian energy distributor on behalf of its institutional investor. Built the procedures for data collection, materiality assessment, gap analysis, mock scoring and submission compilation.', outcome: 'Score up 35% and global ranking up 63% in year one, WSP in Australia' },
       { title: 'NSW Government emissions accounting guidelines', body: 'Co-developed emissions accounting guidelines for all NSW Government entities under NSW Treasury\'s reporting framework. Reviewed NGERS, AASB S2 and the GHG Protocol, and ran the stakeholder engagement.', outcome: 'Guidelines for every NSW Government entity, WSP in Australia' },
       { title: 'Statutory fuel reporting notice', body: 'Managed the response to a statutory notice under the Petroleum and Other Fuels Reporting Act 2017. Interpreted the requirements, coordinated diesel capacity and reserves data across business units, and delivered the first return inside the ten-day window.', outcome: 'Monthly returns kept up to 30 June 2026, Downer Group' },

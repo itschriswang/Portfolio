@@ -423,6 +423,8 @@ section { position:relative; }
 .outcome:hover{ background:color-mix(in srgb, var(--lime-wash) 45%, var(--white)); }
 .outcome-what, .outcome-where{ padding:0 1.6rem; }
 .outcome-num{ font-family:var(--disp); font-size:clamp(2.4rem,6vw,3.4rem); font-weight:700; line-height:1; color:var(--oc,var(--accent-ink)); letter-spacing:-0.03em; margin-bottom:0.9rem; padding:1.3rem 1.6rem 0.9rem; background:color-mix(in srgb, var(--oc,var(--accent-ink)) 15%, var(--white)); }
+.outcome-from{ font-size:0.42em; font-weight:600; letter-spacing:0; color:var(--mid); margin-right:0.4em; display:inline-flex; gap:0.35em; vertical-align:0.55em; }
+.outcome-from s{ text-decoration-thickness:2px; }
 .outcome-num small{ font-size:0.42em; font-weight:600; letter-spacing:0; }
 .outcome-what{ font-weight:600; font-size:0.88rem; color:var(--slate); margin-bottom:0.3rem; line-height:1.4; }
 .outcome-where{ font-family:var(--mono); font-size:11px; color:var(--mid); letter-spacing:0.02em; line-height:1.5; }

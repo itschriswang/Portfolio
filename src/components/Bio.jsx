@@ -34,7 +34,7 @@ export default function Bio() {
                 className="outcome" key={i} style={{ '--oc': o.color }}
                 custom={i} variants={reveal} initial={still ? false : 'hidden'} whileInView="visible" viewport={{ once: true, margin: '-40px' }}
               >
-                <div className="outcome-num">{o.num}<small>{o.small}</small></div>
+                <div className="outcome-num">{o.from && <span className="outcome-from"><s>{o.from}</s><span className="sr-only"> cut to </span><span aria-hidden="true">→</span></span>}{o.num}<small>{o.small}</small></div>
                 <div className="outcome-what">{o.what}</div>
                 <div className="outcome-where">{o.where}</div>
               </motion.div>
