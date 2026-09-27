@@ -58,7 +58,7 @@ export const BIO_PARAS = [
 ];
 
 export const OUTCOMES = [
-  { color: 'var(--accent-ink)', num: '×57', small: '', what: 'Supplier spend overstated about 57 times. I spotted it against the invoices and had the source-system cause confirmed in three days', where: 'Caught mid-assurance · FY26 Scope 3 · Downer Group' },
+  { color: 'var(--accent-ink)', num: '×57', small: '', what: 'Supplier spend overstated about 57 times, buried where the totals would never show it. I caught it against the invoices and proved it was a system fault, not a typo', where: 'Caught mid-assurance · FY26 Scope 3 · Downer Group' },
   { color: 'var(--indigo-ink)', num: 'All', small: ' NSW Government entities', what: 'Covered by the emissions accounting guidelines I co-developed under NSW Treasury\'s reporting framework', where: 'NGERS · AASB S2 · GHG Protocol · WSP' },
   { color: 'var(--amber-ink)', num: '+63', small: '%', what: 'GRESB Infrastructure global ranking in year one, with the score up 35%', where: 'Major Australian energy distributor · FY22 submission I led · WSP' },
 ];
