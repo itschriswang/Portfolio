@@ -58,9 +58,9 @@ export const BIO_PARAS = [
 ];
 
 export const OUTCOMES = [
-  { color: 'var(--accent-ink)', num: '×57', small: '', what: 'Supplier spend overstated about 57 times, buried where the totals would never show it. I caught it against the invoices and proved it was a system fault', where: 'Caught mid-assurance · FY26 Scope 3 · Downer Group' },
+  { color: 'var(--accent-ink)', num: '×57', small: '', what: 'One purchasing entity\'s spend overstated about 57 times, buried where the totals would never show it. I caught it against the invoices and proved it was a system fault', where: 'Caught mid-assurance · FY26 Scope 3 · Downer Group' },
   { color: 'var(--indigo-ink)', num: 'All', small: ' NSW Government entities', what: 'Covered by the emissions accounting guidelines I co-developed under NSW Treasury\'s reporting framework', where: 'NGERS · AASB S2 · GHG Protocol · WSP' },
-  { color: 'var(--amber-ink)', num: '+63', small: '%', what: 'GRESB Infrastructure global ranking in year one, with the score up 35%', where: 'Major Australian energy distributor · FY22 submission I led · WSP' },
+  { color: 'var(--amber-ink)', num: '+63', small: '%', what: 'GRESB Infrastructure global ranking in year one, with the score up 35%', where: 'Major NSW electricity distribution network · FY22 submission I led · WSP' },
 ];
 
 export const PIPELINE = [
@@ -86,7 +86,7 @@ export const PIPELINE = [
     examples: [
       { title: 'NGER statutory report', body: 'Data manager, reviewer and uploader for Downer Group\'s FY26 National Greenhouse and Energy Reporting submission. Rebuilt the dataset by script into a calculation workbook with facility threshold checks, a factor register and a change log, and wrote the review standard down before lodging: 26 rules, each with its threshold and source, tied to 61 automated controls and a verification script.', outcome: 'FY26 NGER report to the Clean Energy Regulator, Downer Group' },
       { title: 'AASB S2 climate statement: physical risk', body: 'Built the physical risk and opportunity model behind the FY26 climate statement, with basis of preparation paragraphs and an audit trail from finance extract to report wording. When the method question stalled, produced three complete versions with six decision questions and a recommended answer to each, so management could sign one off in one meeting.', outcome: 'FY26 climate statement under AASB S2, Downer Group' },
-      { title: 'GRESB Infrastructure Assessment', body: 'Led the FY22 GRESB Infrastructure submission for a major Australian energy distributor on behalf of its institutional investor. Built the procedures for data collection, materiality assessment, gap analysis, mock scoring and submission compilation.', outcome: 'Score up 35% and global ranking up 63% in year one, WSP in Australia' },
+      { title: 'GRESB Infrastructure Assessment', body: 'Led the FY22 GRESB Infrastructure submission for a major NSW electricity distribution network on behalf of its institutional investor. Built the procedures for data collection, materiality assessment, gap analysis, mock scoring and submission compilation.', outcome: 'Score up 35% and global ranking up 63% in year one, WSP in Australia' },
       { title: 'NSW Government emissions accounting guidelines', body: 'Co-developed emissions accounting guidelines for all NSW Government entities under NSW Treasury\'s reporting framework. Reviewed NGERS, AASB S2 and the GHG Protocol, and ran the stakeholder engagement.', outcome: 'Guidelines for every NSW Government entity, WSP in Australia' },
       { title: 'Statutory fuel reporting notice', body: 'Managed the response to a statutory notice under the Petroleum and Other Fuels Reporting Act 2017. Interpreted the requirements, coordinated diesel capacity and reserves data across business units, and delivered the first return inside the ten-day window.', outcome: 'Monthly returns kept up to 30 June 2026, Downer Group' },
     ],
@@ -104,7 +104,7 @@ export const PIPELINE = [
     step: 'comms', n: '05', label: 'Communication', icon: 'people', color: 'var(--step-comms)',
     desc: 'Technical analysis turned into board papers, all-employee training and public disclosure.',
     examples: [
-      { title: 'Climate change eLearn', body: 'Co-developed an all-employee climate eLearn with an external learning designer, covering GHG accounting fundamentals, decarbonisation levers and role-specific actions. Took it from storyboard review to a staged rollout plan.', outcome: 'First cohort from November 2026, Downer Group' },
+      { title: 'Climate change eLearn', body: 'Co-developed an all-employee climate eLearn with an external learning designer, covering mitigation and adaptation, GHG emissions, decarbonisation and role-specific actions. Took it from concept to a staged rollout plan.', outcome: 'First cohort from November 2026, Downer Group' },
       { title: 'ESG Impact Report workshop', body: 'Designed and ran a content workshop for ten environment and sustainability managers, including a General Manager, drawing out the case studies in one session. Then coordinated section authors through the Workiva cycle to sign-off.', outcome: 'Annual ESG Impact Report, Downer Group' },
     ],
   },
