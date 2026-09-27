@@ -15,7 +15,7 @@
 #work-intro{ background:linear-gradient(168deg,var(--lime-soft) 0%,var(--lime-wash) 34%,var(--bg) 82%); border-bottom:1px solid var(--rule-dk); padding:clamp(3.5rem,9vw,6rem) 0 clamp(3rem,7vw,5rem); overflow:hidden; }
 .wi-title{ font-size:clamp(2.8rem,9.5vw,7rem); line-height:0.82; letter-spacing:-0.05em; margin:1.2rem 0 1.2rem; }
 .wi-title em{ color:var(--forest-ink); font-style:normal; }
-.wi-sub{ font-size:clamp(0.95rem,1.4vw,1.15rem); font-weight:400; color:#3f5133; max-width:560px; line-height:1.7; margin-bottom:1.75rem; padding-left:1.2rem; border-left:3px solid var(--forest-ink); }
+.wi-sub{ font-size:clamp(0.95rem,1.4vw,1.15rem); font-weight:400; color:#3f5133; max-width:560px; line-height:1.7; margin-bottom:1.75rem; }
 .wi-back{ font-family:var(--mono); font-size:12px; padding:0.65rem 0; letter-spacing:0.18em; text-transform:uppercase; color:var(--w-ink2); text-decoration:none; display:inline-flex; align-items:center; gap:0.5rem; transition:color 0.3s var(--ease); }
 .wi-back:hover{ color:var(--forest); }
 .wi-back span{ color:var(--matcha); }
