@@ -569,10 +569,14 @@ section { position:relative; }
 .seg-profiles .seg-btn.on{ background:var(--forest); color:var(--lime-bright); font-weight:600; box-shadow:0 6px 16px rgba(33,48,15,0.18); }
 /* Small (lever) selectors fill their card as an even grid rather than a
    wrapping flex — a wrapping flex left ragged grey where short buttons didn't
-   reach the edge. An odd final option spans the full row so no empty cell shows. */
-.seg-sm{ margin-top:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); width:100%; }
+   reach the edge. The first option is the lever's default and takes the full
+   top row; the alternatives share the row beneath, one column each
+   (--seg-alt, set by Seg in Scenario.jsx). A plain two-column grid used to
+   leave whichever option came last alone on a full-width row, so an arbitrary
+   choice ("Slower", "+3.0% / yr") looked like the default. */
+.seg-sm{ margin-top:0; display:grid; grid-template-columns:repeat(var(--seg-alt,2),minmax(0,1fr)); width:100%; }
 .seg-sm .seg-btn{ font-size:0.74rem; padding:0.5rem 0.85rem; width:100%; text-align:center; }
-.seg-sm .seg-btn:last-child:nth-child(odd){ grid-column:1 / -1; }
+.seg-sm .seg-btn:first-child{ grid-column:1 / -1; }
 /* Each lever keeps its own colour when active — the same hue as its dot and
    its wedge in the chart, so the toggle you just pressed is easy to find
    again at a glance. */
@@ -665,6 +669,13 @@ section { position:relative; }
   .scn-controls .lever-card{ padding:0.85rem 1rem; }
   .scn-controls .lever-src{ margin-bottom:0.6rem; }
   .scn-controls .seg-row{ margin-top:auto; }
+  /* The rail leaves a lever with three alternatives (Off, Slower, Faster)
+     about 150px for them at 1024px, too little for three equal columns at
+     full padding. So the columns size to their labels (the short "Off" gives
+     room to the other two) and the side padding tightens. They even out again
+     as soon as there is room, and the rail's height does not change. */
+  .scn-controls .seg-sm{ grid-template-columns:repeat(var(--seg-alt,2),minmax(max-content,1fr)); }
+  .scn-controls .seg-sm .seg-btn{ padding-left:0.3rem; padding-right:0.3rem; }
   /* Tighten the result stack. Chart height is fixed rather than viewport-height-based:
      the controls rail's height comes from its own content reflowing with width, not
      from window height, so a vh-based chart size drifted out of sync with it on

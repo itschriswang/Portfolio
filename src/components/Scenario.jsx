@@ -10,16 +10,20 @@ import SplitText from './SplitText';
 import Icon from './Icons';
 import { prefersReducedMotion } from '../utils/media';
 
+// Every selector lists the lever's default first. The default takes the full
+// top row of its card and the alternatives share the row beneath, least to most
+// ambitious (see .seg-sm in global.css), so the wide button is always the
+// setting the model starts from.
 const LEVERS = [
-  { key: 'grid', lc: 'var(--indigo)', sc: 'var(--indigo)', opts: ['base', 'faster', 'slower', 'off'] },
-  { key: 'lv', lc: 'var(--matcha)', sc: 'var(--accent-ink)', opts: ['base', 'faster', 'slower'] },
-  { key: 'hv', lc: 'var(--amber)', sc: 'var(--amber-ink)', opts: ['base', 'faster', 'slower'] },
-  { key: 'plant', lc: 'var(--berry)', sc: 'var(--berry-ink)', opts: ['base', 'faster', 'slower', 'off'] },
+  { key: 'grid', lc: 'var(--indigo)', sc: 'var(--indigo)', opts: ['base', 'off', 'slower', 'faster'] },
+  { key: 'lv', lc: 'var(--matcha)', sc: 'var(--accent-ink)', opts: ['base', 'slower', 'faster'] },
+  { key: 'hv', lc: 'var(--amber)', sc: 'var(--amber-ink)', opts: ['base', 'slower', 'faster'] },
+  { key: 'plant', lc: 'var(--berry)', sc: 'var(--berry-ink)', opts: ['base', 'off', 'slower', 'faster'] },
 ];
 const OPT_LABEL = { base: 'Base', faster: 'Faster', slower: 'Slower', off: 'Off' };
 const REV_OPTS = [
-  { v: 'flat', l: 'Flat' },
   { v: 'moderate', l: '+1.5% / yr' },
+  { v: 'flat', l: 'Flat' },
   { v: 'high', l: '+3.0% / yr' },
 ];
 
@@ -39,7 +43,7 @@ const LEGEND_SWATCH = [
 // four anonymous "Base" buttons.
 function Seg({ value, options, onChange, sc, small, label }) {
   return (
-    <div className={'seg-row' + (small ? ' seg-sm' : '')} role="group" aria-label={label} style={small ? { '--sc': sc } : undefined}>
+    <div className={'seg-row' + (small ? ' seg-sm' : '')} role="group" aria-label={label} style={small ? { '--sc': sc, '--seg-alt': options.length - 1 } : undefined}>
       {options.map((o) => {
         const v = typeof o === 'string' ? o : o.v;
         const l = typeof o === 'string' ? OPT_LABEL[o] : o.l;
