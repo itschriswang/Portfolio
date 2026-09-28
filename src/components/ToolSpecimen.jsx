@@ -26,8 +26,9 @@ import { prefersReducedMotion } from '../utils/media';
 const INK = 'rgba(210,223,206,0.34)';
 const RULE = 'rgba(210,223,206,0.16)';
 const LBL = 'rgba(210,223,206,0.82)';
-const MONO = "'JetBrains Mono','Courier New',monospace";
-const DISP = "'Space Grotesk',sans-serif";
+// The same stacks as --mono and --disp in global.css, fallbacks included.
+const MONO = "'JetBrains Mono',ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace";
+const DISP = "'Space Grotesk','Space Grotesk Fallback',system-ui,sans-serif";
 
 const VIEW = { once: true, margin: '-40px' };
 const EASE = [0.25, 1, 0.5, 1];

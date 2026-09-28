@@ -23,8 +23,18 @@
     They are duplicated on purpose. This page is outside the build, so it cannot
     import them, and a hardcoded copy that drifts is better than a 404 that
     fails to load its own styles.
+
+    For the same reason this is the one page that still loads its fonts from
+    Google: the built pages self-host them (src/styles/fonts.css), but those
+    files carry build hashes this page cannot know. The metric-matched Arial
+    fallbacks are copied from fonts.css, so a blocked request still reads
+    close to the real thing.
   -->
   <style>
+    @font-face{ font-family:'Space Grotesk Fallback'; font-weight:100 500; src:local('Arial'),local('ArialMT'),local('Liberation Sans'),local('LiberationSans'); size-adjust:110.94%; ascent-override:88.69%; descent-override:26.32%; line-gap-override:0%; }
+    @font-face{ font-family:'Space Grotesk Fallback'; font-weight:600 900; src:local('Arial Bold'),local('Arial-BoldMT'),local('Liberation Sans Bold'),local('LiberationSans-Bold'); size-adjust:102.52%; ascent-override:95.99%; descent-override:28.48%; line-gap-override:0%; }
+    @font-face{ font-family:'Inter Fallback'; font-weight:100 500; src:local('Arial'),local('ArialMT'),local('Liberation Sans'),local('LiberationSans'); size-adjust:107.35%; ascent-override:90.24%; descent-override:22.47%; line-gap-override:0%; }
+    @font-face{ font-family:'Inter Fallback'; font-weight:600 900; src:local('Arial Bold'),local('Arial-BoldMT'),local('Liberation Sans Bold'),local('LiberationSans-Bold'); size-adjust:101.12%; ascent-override:95.80%; descent-override:23.85%; line-gap-override:0%; }
     :root{
       --matcha:#B5C42B;
       --lime-soft:#E9F2C2;
@@ -39,9 +49,9 @@
       --subtle:oklch(0.682 0.018 118);
       --rule-dk:oklch(0.853 0.013 118);
       --rule-lt:oklch(0.917 0.008 118);
-      --sans:'Inter',system-ui,sans-serif;
-      --mono:'JetBrains Mono','Courier New',monospace;
-      --disp:'Space Grotesk',sans-serif;
+      --sans:'Inter','Inter Fallback',system-ui,sans-serif;
+      --mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;
+      --disp:'Space Grotesk','Space Grotesk Fallback',system-ui,sans-serif;
       --ease:cubic-bezier(0.25,1,0.5,1);
       --gut:6vw;
     }

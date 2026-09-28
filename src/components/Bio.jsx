@@ -1,6 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion';
-import { BIO_PARAS, OUTCOMES } from '../data/content';
-import SplitText from './SplitText';
+import { BIO_PARAS, OUTCOMES, OUTCOMES_HEAD, PIPELINE_INTRO } from '../data/content';
 import Pipeline from './Pipeline';
 import Icon from './Icons';
 
@@ -26,8 +25,8 @@ export default function Bio() {
       </div>
 
       <div className="canvas">
-        <div className="outcomes" aria-label="Selected outcomes">
-          <div className="outcomes-head"><Icon name="chart" size={30} />Selected outcomes</div>
+        <div className="outcomes">
+          <h2 className="sub-head"><Icon name="chart" size={30} />{OUTCOMES_HEAD}</h2>
           <div className="outcomes-grid">
             {OUTCOMES.map((o, i) => (
               <motion.div
@@ -43,8 +42,8 @@ export default function Bio() {
         </div>
 
         <div className="pipe-head">
-          <h2 className="pipe-title"><SplitText text="How the work fits together" /></h2>
-          <p className="pipe-sub">Five stages, from raw data to board narrative. Open a stage to see delivered examples.</p>
+          <h2 className="sub-head"><Icon name="loop" size={30} />{PIPELINE_INTRO.head}</h2>
+          <p className="pipe-sub">{PIPELINE_INTRO.sub}</p>
         </div>
         <Pipeline />
       </div>

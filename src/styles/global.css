@@ -6,6 +6,9 @@
    preserved; the tint reads as cohesion, not as colour. Do NOT "restore" the
    old cool-blue hex values — the green lean is deliberate.
    ============================================================================ */
+/* The faces themselves, self-hosted (see fonts.css for why). An @import has to
+   come before every other rule, so it sits here rather than beside --sans. */
+@import './fonts.css';
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 /* color-scheme is declared even though the site is light-only: without it a
    visitor whose OS is in dark mode gets browser-painted UI (scrollbars, native
@@ -93,9 +96,13 @@ html { scroll-behavior: smooth; overflow-x: clip; color-scheme: light; }
   --step-report:var(--amber);
   --step-strategy:var(--berry);
   --step-comms:#7A5A8A;
-  --sans:'Inter',system-ui,sans-serif;
-  --mono:'JetBrains Mono','Courier New',monospace;
-  --disp:'Space Grotesk',sans-serif;
+  /* Each web font is followed by its metric-matched Arial fallback (fonts.css),
+     then the platform's own face. The mono stack falls back to the system
+     monospace rather than Courier New, whose thin typewriter strokes made
+     every label look broken when the web font was missing. */
+  --sans:'Inter','Inter Fallback',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;
+  --disp:'Space Grotesk','Space Grotesk Fallback',system-ui,sans-serif;
   --ease:cubic-bezier(0.25,1,0.5,1);
   /* Employer brand colours — timeline rail + nodes match each logo */
   --downer:#8DC63F;
@@ -108,10 +115,11 @@ html { scroll-behavior: smooth; overflow-x: clip; color-scheme: light; }
      Everything that has to clear the bar — anchor landings, focus scrolling —
      measures from this one number rather than re-guessing it.
      useStickyNavHeight (Chrome.jsx) overwrites this with the bar's real height
-     on mount and on resize, because it is not 53px everywhere: the eight nav
-     links do not fit one row between about 680px and 750px, where the bar
-     becomes 71px and then 104px. The value here is the pre-measurement
-     fallback. */
+     on mount and on resize, because it is not 53px everywhere: the open
+     mobile menu is taller, and a longer label or another link would wrap the
+     row (the old eight links did, between about 680px and 750px). The six
+     links today hold one row from 681px up. The value here is the
+     pre-measurement fallback. */
   --nav-h:53px;
   /* Z-index scale */
   --z-nav:40;
@@ -218,7 +226,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible{
 
 /* Helpers for components that previously used inline styles */
 .bio-matrix{ row-gap:0; }
-.princ-headline{ font-size:clamp(2.4rem,7vw,5.2rem); margin-top:1.2rem; max-width:14ch; letter-spacing:-0.04em; }
+.princ-headline{ max-width:14ch; }
 
 /* ============================================================================
    EDITORIAL CANVAS — raw viewport grid + asymmetric 12-col matrix
@@ -257,6 +265,12 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible{
   font-family:var(--disp); font-weight:700;
   line-height:0.85; letter-spacing:-0.04em; color:var(--slate);
 }
+/* One headline size for every numbered section on the home page (My practice,
+   Decarb model, Tools, Experience), so no section reads louder or quieter than
+   its neighbours. They used to run at three different sizes, and the decarb
+   model had none. .tools-headline keeps the same clamp for /lab/'s h1. */
+.sec-title{ font-size:clamp(2.2rem,6.4vw,4.6rem); letter-spacing:-0.04em; }
+.sec-tag + .sec-title{ margin-top:1.2rem; }
 .kicker {
   font-family:var(--mono); font-size:11px; letter-spacing:0.16em;
   text-transform:uppercase; color:var(--mid); font-weight:500;
@@ -294,17 +308,22 @@ section { position:relative; }
 /* Editorial underline: wipes in from the left on hover, holds on the active link. */
 .nav-links a::after{ content:''; position:absolute; left:0.7rem; right:0.7rem; bottom:0.2rem; height:1px; background:var(--matcha); transform:scaleX(0); transform-origin:left; transition:transform 0.3s var(--ease); }
 .nav-links a:hover::after, .nav-links a.active::after{ transform:scaleX(1); }
+/* The page links (Work samples, Life Footprint) leave the page, the anchors
+   before them do not, so a hairline sits between the two groups. It marks the
+   first page link only, whatever the count on either side. */
+.nav-links a:not(.nav-page) + a.nav-page{ margin-left:0.9rem; }
+.nav-links a:not(.nav-page) + a.nav-page::before{ content:''; position:absolute; left:-0.5rem; top:50%; width:1px; height:0.95rem; transform:translateY(-50%); background:var(--rule-dk); }
 
-/* Nine links is one more than the row fits between the hamburger breakpoint
-   and about 1200px, so the padding and tracking tighten through that band
-   rather than letting the bar drop to two rows. */
-@media(min-width:681px) and (max-width:1200px){
-  .nav-links a{ padding-left:0.45rem; padding-right:0.45rem; letter-spacing:0.06em; }
-  .nav-links a::after{ left:0.45rem; right:0.45rem; }
-}
-@media(min-width:681px) and (max-width:1000px){
+/* The six links fit one row at full spacing from about 840px. Between the
+   hamburger breakpoint and there, the padding, tracking, link gap and group
+   divider all tighten so the bar holds one row rather than dropping to two.
+   Measured with the self-hosted faces: one row at every width from 681px. */
+@media(min-width:681px) and (max-width:860px){
+  .nav-links{ column-gap:0.1rem; }
   .nav-links a{ padding-left:0.3rem; padding-right:0.3rem; letter-spacing:0.03em; }
   .nav-links a::after{ left:0.3rem; right:0.3rem; }
+  .nav-links a:not(.nav-page) + a.nav-page{ margin-left:0.5rem; }
+  .nav-links a:not(.nav-page) + a.nav-page::before{ left:-0.3rem; }
 }
 
 /* Hamburger — hidden on desktop */
@@ -320,6 +339,10 @@ section { position:relative; }
   .nav-links.open{ display:flex; }
   .nav-links a{ padding:0.75rem 0; border-bottom:1px solid var(--rule-lt); letter-spacing:0.15em; justify-content:flex-start; }
   .nav-links a:last-child{ border-bottom:none; }
+  /* Stacked, the two groups part with a gap and a full-strength rule instead. */
+  .nav-links a:not(.nav-page) + a.nav-page{ margin-left:0; margin-top:0.6rem; border-top:1px solid var(--rule-dk); }
+  .nav-links a:not(.nav-page):has(+ a.nav-page){ border-bottom:none; }
+  .nav-links a:not(.nav-page) + a.nav-page::before{ display:none; }
   /* The wipe underline is a desktop affordance; mobile uses the row dividers. */
   .nav-links a::after{ display:none; }
 }
@@ -411,8 +434,11 @@ section { position:relative; }
 .bio-text + .bio-text{ margin-top:1rem; }
 
 .outcomes{ margin:clamp(2.5rem,6vw,4rem) 0 0; }
-.outcomes-head{ font-family:var(--mono); font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--slate); font-weight:600; margin-bottom:1rem; display:flex; align-items:center; gap:0.75rem; }
-.outcomes-head::after{ content:''; flex:1; height:1px; background:var(--rule-lt); }
+/* The subhead inside a section: icon, mono label, hairline to the edge. The
+   profile section carries two (Selected outcomes, How the work fits together),
+   and they share it so neither reads as a section of its own. */
+.sub-head{ font-family:var(--mono); font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--slate); font-weight:600; line-height:1.4; margin-bottom:1rem; display:flex; align-items:center; gap:0.75rem; }
+.sub-head::after{ content:''; flex:1; height:1px; background:var(--rule-lt); }
 .outcomes-grid{ display:grid; grid-template-columns:1fr; gap:1px; background:var(--rule-dk); border:1px solid var(--rule-dk); border-radius:var(--r-xl); overflow:hidden; box-shadow:var(--shadow-soft); }
 @media(min-width:640px){ .outcomes-grid{ grid-template-columns:repeat(3,1fr); } }
 /* Stat card — one shared language for every metric tile on the site: flat
@@ -430,7 +456,6 @@ section { position:relative; }
 .outcome-where{ font-family:var(--mono); font-size:11px; color:var(--mid); letter-spacing:0.02em; line-height:1.5; }
 
 .pipe-head{ margin-top:clamp(3rem,7vw,5rem); margin-bottom:1.5rem; }
-.pipe-title{ font-family:var(--disp); font-size:clamp(1.8rem,4.6vw,3rem); font-weight:700; letter-spacing:-0.035em; color:var(--slate); line-height:0.92; margin-bottom:0.6rem; }
 .pipe-sub{ font-size:0.92rem; font-weight:400; color:var(--ink-2); line-height:1.7; max-width:56ch; }
 .pipe-sub strong{ font-weight:600; color:var(--slate); }
 
@@ -504,8 +529,7 @@ section { position:relative; }
 /* Warm brand-tinted wash instead of a heavy cold grey — the results read as
    premium cards on a soft surface, not tiles on a slab. */
 #scenario{ background:radial-gradient(ellipse 90% 55% at 100% 0%,rgba(181,196,43,0.06) 0%,transparent 60%),var(--bg); border-top:1px solid var(--rule-lt); border-bottom:1px solid var(--rule-dk); padding:clamp(5rem,11vw,8.5rem) 0; overflow:clip; }
-.tool-decl{ font-family:var(--sans); font-size:clamp(1.2rem,2.8vw,1.8rem); font-weight:400; color:var(--slate); max-width:640px; line-height:1.4; margin-bottom:0.75rem; }
-.tool-decl strong{ font-weight:700; color:var(--accent-ink); }
+#scenario .sec-title + .tool-sub{ margin-top:1.5rem; }
 .tool-sub{ font-size:0.85rem; font-weight:400; color:var(--mid); max-width:600px; line-height:1.65; margin-bottom:0.75rem; }
 /* BASIS STRIP — what the numbers below are, stated before them.
    The illustrative-model caveat used to be an 11px grey line under the
@@ -545,10 +569,14 @@ section { position:relative; }
 .seg-profiles .seg-btn.on{ background:var(--forest); color:var(--lime-bright); font-weight:600; box-shadow:0 6px 16px rgba(33,48,15,0.18); }
 /* Small (lever) selectors fill their card as an even grid rather than a
    wrapping flex — a wrapping flex left ragged grey where short buttons didn't
-   reach the edge. An odd final option spans the full row so no empty cell shows. */
-.seg-sm{ margin-top:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); width:100%; }
+   reach the edge. The first option is the lever's default and takes the full
+   top row; the alternatives share the row beneath, one column each
+   (--seg-alt, set by Seg in Scenario.jsx). A plain two-column grid used to
+   leave whichever option came last alone on a full-width row, so an arbitrary
+   choice ("Slower", "+3.0% / yr") looked like the default. */
+.seg-sm{ margin-top:0; display:grid; grid-template-columns:repeat(var(--seg-alt,2),minmax(0,1fr)); width:100%; }
 .seg-sm .seg-btn{ font-size:0.74rem; padding:0.5rem 0.85rem; width:100%; text-align:center; }
-.seg-sm .seg-btn:last-child:nth-child(odd){ grid-column:1 / -1; }
+.seg-sm .seg-btn:first-child{ grid-column:1 / -1; }
 /* Each lever keeps its own colour when active — the same hue as its dot and
    its wedge in the chart, so the toggle you just pressed is easy to find
    again at a glance. */
@@ -641,6 +669,13 @@ section { position:relative; }
   .scn-controls .lever-card{ padding:0.85rem 1rem; }
   .scn-controls .lever-src{ margin-bottom:0.6rem; }
   .scn-controls .seg-row{ margin-top:auto; }
+  /* The rail leaves a lever with three alternatives (Off, Slower, Faster)
+     about 150px for them at 1024px, too little for three equal columns at
+     full padding. So the columns size to their labels (the short "Off" gives
+     room to the other two) and the side padding tightens. They even out again
+     as soon as there is room, and the rail's height does not change. */
+  .scn-controls .seg-sm{ grid-template-columns:repeat(var(--seg-alt,2),minmax(max-content,1fr)); }
+  .scn-controls .seg-sm .seg-btn{ padding-left:0.3rem; padding-right:0.3rem; }
   /* Tighten the result stack. Chart height is fixed rather than viewport-height-based:
      the controls rail's height comes from its own content reflowing with width, not
      from window height, so a vh-based chart size drifted out of sync with it on
@@ -874,7 +909,11 @@ section { position:relative; }
 /* ============================================================================
    EXPERIENCE + TIMELINE RAIL
    ============================================================================ */
-#experience{ background:radial-gradient(ellipse 70% 50% at 5% 90%,rgba(99,91,255,0.03) 0%,transparent 65%),var(--bg); padding:clamp(4rem,9vw,7rem) 0 clamp(5.5rem,12vw,9rem); }
+/* Plain page ground, deliberately. This section used to carry a faint indigo
+   glow anchored near its bottom-left corner. The section's lower edge cut the
+   glow off, leaving a visible straight line just above the footer card, and it
+   was the one blue tint among neutrals that lean matcha. */
+#experience{ background:var(--bg); padding:clamp(4rem,9vw,7rem) 0 clamp(5.5rem,12vw,9rem); }
 .exp-timeline{ position:relative; padding-left:3.4rem; margin-top:2.5rem; }
 .exp-timeline::before{ content:''; position:absolute; left:17px; top:4px; bottom:4px; width:2px; background:var(--rule-lt); }
 .exp-rail-fill{ position:absolute; left:17px; top:4px; bottom:4px; width:2px; background:linear-gradient(180deg,var(--downer) 0%,var(--downer) 26%,var(--wsp) 42%,var(--wsp) 60%,var(--defence) 74%,var(--defence) 86%,var(--unsw) 100%); transform-origin:top; }

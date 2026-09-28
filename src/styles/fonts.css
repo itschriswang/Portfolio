@@ -1,0 +1,62 @@
+/* ============================================================================
+   FONTS — self-hosted, imported once at the top of global.css, so every page
+   that loads global.css (all of them) gets the same faces.
+
+   These used to come from Google Fonts. That is a third-party request a
+   corporate web filter can block or stall, and when it failed every heading
+   dropped to Arial and every label to Courier New. The site's readers are
+   largely on corporate networks (the same reason the fashion logos stopped
+   using DuckDuckGo), so the faces now ship with the build and load from the
+   site's own origin.
+
+   The weights are exactly the ones the Google request asked for: Space
+   Grotesk 300 to 700, Inter 300 to 600, JetBrains Mono 400 and 500 plus 400
+   italic. CSS elsewhere asks for heavier weights (Inter 700, mono 600 and
+   700), which the browser already resolves to the nearest face here, so
+   adding a heavier file would change how that text renders. Each import
+   carries every unicode subset with its unicode-range, the same split Google
+   serves, so a visitor still downloads only the subsets a page uses (the
+   "No." sign, for one, comes from Inter's Cyrillic subset).
+   ============================================================================ */
+@import '@fontsource/space-grotesk/300.css';
+@import '@fontsource/space-grotesk/400.css';
+@import '@fontsource/space-grotesk/500.css';
+@import '@fontsource/space-grotesk/600.css';
+@import '@fontsource/space-grotesk/700.css';
+@import '@fontsource/inter/300.css';
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/jetbrains-mono/400.css';
+@import '@fontsource/jetbrains-mono/500.css';
+@import '@fontsource/jetbrains-mono/400-italic.css';
+
+/* Metric-matched fallbacks. While a face is still loading (font-display:
+   swap), or if it never arrives, text renders in Arial resized to the web
+   font's average glyph width and line metrics, so the swap does not reflow
+   the page. Values are computed from the font files themselves: average
+   width weighted by English letter frequency, against Arial's widths
+   (Liberation Sans is metric-identical, so it is listed as well). Regular
+   and bold Arial differ in width, so each family carries a regular face for
+   300 to 500 and a bold face for 600 up. Where neither local font exists the
+   stack moves on to system-ui. */
+@font-face {
+  font-family:'Space Grotesk Fallback'; font-weight:100 500;
+  src:local('Arial'), local('ArialMT'), local('Liberation Sans'), local('LiberationSans');
+  size-adjust:110.94%; ascent-override:88.69%; descent-override:26.32%; line-gap-override:0%;
+}
+@font-face {
+  font-family:'Space Grotesk Fallback'; font-weight:600 900;
+  src:local('Arial Bold'), local('Arial-BoldMT'), local('Liberation Sans Bold'), local('LiberationSans-Bold');
+  size-adjust:102.52%; ascent-override:95.99%; descent-override:28.48%; line-gap-override:0%;
+}
+@font-face {
+  font-family:'Inter Fallback'; font-weight:100 500;
+  src:local('Arial'), local('ArialMT'), local('Liberation Sans'), local('LiberationSans');
+  size-adjust:107.35%; ascent-override:90.24%; descent-override:22.47%; line-gap-override:0%;
+}
+@font-face {
+  font-family:'Inter Fallback'; font-weight:600 900;
+  src:local('Arial Bold'), local('Arial-BoldMT'), local('Liberation Sans Bold'), local('LiberationSans-Bold');
+  size-adjust:101.12%; ascent-override:95.80%; descent-override:23.85%; line-gap-override:0%;
+}

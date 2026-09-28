@@ -15,7 +15,7 @@ export default function Principles() {
     <section id="principles">
       <div className="canvas">
         <div className="sec-tag" data-idx="01 / "><Icon name="leaf" size={30} />My practice</div>
-        <h2 className="display princ-headline">
+        <h2 className="display sec-title princ-headline">
           <SplitText text="How I work" accentIndex={1} />
         </h2>
         <div className="princ-grid">
