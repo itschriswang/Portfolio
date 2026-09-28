@@ -8,6 +8,12 @@ built as a React + Vite multi-page app and deployed to GitHub Pages.
 - React 18 + Vite 5, `framer-motion` for motion, `chart.js` for the scenario
   model, `ogl` for the hero aurora (WebGL), plus a hand-written canvas renderer
   (contour field).
+- Fonts are self-hosted from `@fontsource` (Space Grotesk, Inter, JetBrains
+  Mono), imported once in `src/styles/fonts.css` with metric-matched Arial
+  fallbacks. No page requests Google Fonts except the out-of-build `404.html`.
+  Import only the weights already listed there: CSS asks for heavier weights
+  that currently resolve to the nearest loaded face, and adding one changes
+  how that text renders.
 - Public pages: the main profile (`index.html` → `src/main.jsx` → `App.jsx`), a
   standalone work-samples page (`work/index.html` → `src/work/main.jsx`) at
   `/work/`, the Life Footprint dashboard (`footprint/index.html` →
@@ -41,8 +47,8 @@ built as a React + Vite multi-page app and deployed to GitHub Pages.
 | `src/data/` | Content and model inputs: `content.js` (all editorial copy, including footer links, the public `TOOLS` index, the unlisted `PRIVATE_TOOLS` index and the gate's copy), `scenario.js` (decarbonisation model), `specimens.js` (the small slices of each tool's real data that the tool-card charts are drawn from). |
 | `src/hooks/` | `useMagnetic` — cursor-follow interaction. |
 | `src/utils/` | `media.js` — `prefersReducedMotion()` / `canHover()` guards. `clipboard.js` — the one `copyText()` helper, with the hidden-textarea fallback. |
-| `src/styles/global.css` | Design tokens + all main-page styles. |
-| `public/` | Shared static assets (logos, favicon, `robots.txt`, `sitemap.xml`, and the Open Graph share cards: the profile card `og-image.png` plus one generated per-page card, `og-<page>.png`), plus `404.html` — hand-written, self-contained and outside the build, because GitHub Pages serves it for any unresolved path at any depth so it cannot use the relative asset paths the built pages rely on. Its tokens are a deliberate copy of the `:root` block in `global.css`. |
+| `src/styles/global.css` | Design tokens + all main-page styles. Imports `fonts.css` (the self-hosted faces and their fallbacks) first. |
+| `public/` | Shared static assets (logos, favicon, `robots.txt`, `sitemap.xml`, and the Open Graph share cards: the profile card `og-image.png` plus one generated per-page card, `og-<page>.png`), plus `404.html` — hand-written, self-contained and outside the build, because GitHub Pages serves it for any unresolved path at any depth so it cannot use the relative asset paths the built pages rely on. Its tokens are a deliberate copy of the `:root` block in `global.css`, and its font fallbacks a copy of those in `fonts.css`. |
 | `scripts/og/` | Share-thumbnail generator. `cards.mjs` (per-page copy and motifs), `draw.js` (the shared canvas renderer), `generate.mjs` (headless-Chromium harness). `npm run og:cards` writes the `og-*.png` cards into `public/`. Not part of the site build. |
 | `tests/` | The engine's test suite, on Node's built-in runner with no test dependency added. `support/resolve-hook.mjs` lets Node read the app's extensionless imports as they are, so nothing in `src/` is shaped to suit the runner. Covers the pure layer only (`src/footprint/lib/` and `data/`), because Node cannot parse JSX. See `tests/README.md`. Not built or deployed. |
 | `docs/` | Non-app material: `skill-reference/` and research source data. Not built or deployed. No personal or career material; see Personal material below. |
@@ -180,9 +186,11 @@ built as a React + Vite multi-page app and deployed to GitHub Pages.
   every page, so anything scrolled to the top of the viewport lands under it.
   That clearance is expressed once, as `scroll-margin-top:calc(var(--nav-h) +
   0.75rem)` in `global.css`, and `--nav-h` is measured from the live bar by
-  `useStickyNavHeight()` (`Chrome.jsx`) rather than hardcoded, because the eight
-  nav links wrap to two rows between about 680px and 750px and the bar is 71px
-  then 104px there. Anything else pinned at the top of a page is measured the
+  `useStickyNavHeight()` (`Chrome.jsx`) rather than hardcoded, because the bar
+  is not one height everywhere: the six nav links hold one 53px row from 681px
+  up (the tightening band in the NAV block of `global.css` is tuned to that),
+  but a longer label or another link reopens a two-row band, as the old eight
+  did between about 680px and 750px. Anything else pinned at the top of a page is measured the
   same way, by `useStickyBarHeight()` in the same file: it takes the bars that
   share `top:0`, publishes the tallest as a custom property, and treats a bar the
   stylesheet has left static at that breakpoint as no headroom at all. That is

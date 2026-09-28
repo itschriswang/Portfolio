@@ -4,7 +4,7 @@
 
 import { useEffect, useState } from 'react';
 import { NAV_LINKS } from '../data/content';
-import { useStickyNavHeight } from '../components/Chrome';
+import { navLinkClass, useStickyNavHeight } from '../components/Chrome';
 import { FOOTER, NAV_UI } from './data/copy';
 import Mark from '../components/Mark';
 
@@ -31,7 +31,7 @@ export function FootprintNav({ home = '../' }) {
             // from the method page it climbs back up to the dashboard.
             const href = self && home === '../' ? './' : home + l.href;
             return (
-              <a key={l.label} href={href} className={self ? 'active' : undefined} aria-current={self ? 'true' : undefined} onClick={() => setMenuOpen(false)}>
+              <a key={l.label} href={href} className={navLinkClass(l, self)} aria-current={self ? 'true' : undefined} onClick={() => setMenuOpen(false)}>
                 {l.label}
               </a>
             );

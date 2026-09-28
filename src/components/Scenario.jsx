@@ -167,7 +167,9 @@ export default function Scenario() {
     <section id="scenario">
       <div className="canvas">
         <div className="sec-tag" data-idx="02 / "><Icon name="target" size={30} />Decarbonisation scenario model</div>
-        <p className="tool-decl" style={{ marginTop: '1.5rem' }}>Set the levers, then read the result.</p>
+        <h2 className="display sec-title">
+          <SplitText text={SCENARIO_UI.title} accentIndex={SCENARIO_UI.titleAccent} />
+        </h2>
         <p className="tool-sub">{labels.sub}</p>
         {/* The state of the data, said before the data: a basis of preparation
             compressed to one paragraph, the same thing every tool page on this

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Grain, ScrollProgress, SkipLink, useHashLanding, useStickyNavHeight } from '../components/Chrome';
+import { Grain, ScrollProgress, SkipLink, navLinkClass, useHashLanding, useStickyNavHeight } from '../components/Chrome';
 import SplitText from '../components/SplitText';
 import { NAV_LINKS } from '../data/content';
 import {
@@ -41,7 +41,7 @@ function WorkNav() {
             // page, sibling sub-pages) is reached via the parent directory.
             const active = l.href === 'work/';
             const href = active ? './' : '../' + l.href;
-            return <a key={l.label} href={href} className={active ? 'active' : undefined} aria-current={active ? 'true' : undefined}>{l.label}</a>;
+            return <a key={l.label} href={href} className={navLinkClass(l, active)} aria-current={active ? 'true' : undefined}>{l.label}</a>;
           })}
         </div>
         <button

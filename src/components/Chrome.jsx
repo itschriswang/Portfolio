@@ -20,11 +20,12 @@ export function SkipLink() {
 //
 // Measured rather than hardcoded, for the same reason the footer's tab notch is
 // (see useEquidistantNotch in SiteFooter.jsx): a constant goes stale. The bar is
-// 53px at most widths, but the eight nav links do not fit one row between about
-// 680px and 750px, where it goes to 71px and then 104px, and any future label
-// change moves that band. A ResizeObserver on the bar itself is right at every
-// width without anyone having to remember to re-measure. The CSS keeps 53px as
-// the value before this runs.
+// 53px at every width from 681px with today's six links, but the old eight did
+// not fit one row between about 680px and 750px (the bar went to 71px, then
+// 104px), and any future label or link can open a band like that again. The
+// open mobile menu is taller still. A ResizeObserver on the bar itself is right
+// at every width without anyone having to remember to re-measure. The CSS keeps
+// 53px as the value before this runs.
 //
 // The same measurement serves anything pinned at the top of a page, so it is
 // written once here. More than one bar can share top:0 and overlap (the
@@ -126,6 +127,14 @@ export function useHashLanding() {
   }, []);
 }
 
+// Class for one NAV_LINKS entry, shared by every nav on the site (home, work,
+// footprint and the tool pages). A link to another page carries `nav-page`,
+// which is what sets the page links apart from the in-page anchors (see NAV in
+// global.css); the link for where the reader is carries `active`.
+export function navLinkClass(link, active) {
+  return [link.external && 'nav-page', active && 'active'].filter(Boolean).join(' ') || undefined;
+}
+
 export function ScrollProgress() {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.4 });
@@ -207,7 +216,7 @@ export function Nav() {
               <a
                 key={l.href}
                 href={l.href}
-                className={isActive ? 'active' : undefined}
+                className={navLinkClass(l, isActive)}
                 aria-current={isActive ? 'true' : undefined}
                 onClick={(e) => onClick(e, l.href)}
               >

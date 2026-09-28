@@ -66,7 +66,7 @@ export default function Experience() {
     <section id="experience">
       <div className="canvas">
         <div className="sec-tag" data-idx="04 / "><Icon name="building" size={30} />Experience</div>
-        <h2 className="display" style={{ fontSize: 'clamp(2rem,6vw,4.5rem)', marginTop: '1.2rem' }}>
+        <h2 className="display sec-title">
           <SplitText text="Track record" accentIndex={1} />
         </h2>
 

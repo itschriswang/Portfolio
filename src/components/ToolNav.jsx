@@ -8,7 +8,7 @@
 
 import { useEffect, useState } from 'react';
 import { NAV_LINKS } from '../data/content';
-import { useStickyNavHeight } from './Chrome';
+import { navLinkClass, useStickyNavHeight } from './Chrome';
 import Mark from './Mark';
 
 export function ToolNav({ home = '../' }) {
@@ -28,7 +28,7 @@ export function ToolNav({ home = '../' }) {
         <a href={home} className="nav-logo"><Mark label="Chris Wang, home" /></a>
         <div className={`nav-links${menuOpen ? ' open' : ''}`} id="nav-links">
           {NAV_LINKS.map((l) => (
-            <a key={l.label} href={home + l.href}>{l.label}</a>
+            <a key={l.label} href={home + l.href} className={navLinkClass(l, false)}>{l.label}</a>
           ))}
         </div>
         <button

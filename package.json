@@ -12,6 +12,9 @@
     "og:cards": "node scripts/og/generate.mjs"
   },
   "dependencies": {
+    "@fontsource/inter": "^5.3.0",
+    "@fontsource/jetbrains-mono": "^5.3.0",
+    "@fontsource/space-grotesk": "^5.3.0",
     "chart.js": "^4.4.1",
     "framer-motion": "^11.3.0",
     "ogl": "^1.0.11",

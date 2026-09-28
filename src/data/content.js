@@ -1,13 +1,16 @@
 // All editorial copy for the home page, plus the shared footer, tool index and
 // gate copy. Components only lay these strings out.
 
+// The in-page anchors run in the order the sections sit on the home page, and
+// each label matches the sec-tag the link lands on. The hero needs no link (the
+// logo is the way back to the top), and neither does the Tools band, whose two
+// cards are the two page links. Page links (`external`) come last and render
+// apart from the anchors (see navLinkClass in Chrome.jsx).
 export const NAV_LINKS = [
-  { href: '#about', label: 'About' },
-  { href: '#bio', label: 'Capabilities' },
+  { href: '#bio', label: 'Profile' },
   { href: '#principles', label: 'My practice' },
-  { href: '#experience', label: 'Experience' },
   { href: '#scenario', label: 'Decarb model' },
-  { href: '#tools', label: 'Tools' },
+  { href: '#experience', label: 'Experience' },
   { href: 'work/', label: 'Work samples', external: true },
   { href: 'footprint/', label: 'Life Footprint', external: true },
 ];
@@ -62,6 +65,14 @@ export const OUTCOMES = [
   { color: 'var(--indigo-ink)', num: 'All', small: ' NSW Government entities', what: 'Covered by the emissions accounting guidelines I co-developed under NSW Treasury\'s reporting framework', where: 'NGERS · AASB S2 · GHG Protocol · WSP' },
   { color: 'var(--amber-ink)', num: '+63', small: '%', what: 'GRESB Infrastructure global ranking in year one, with the score up 35%', where: 'Major NSW electricity distribution network · FY22 submission I led · WSP' },
 ];
+
+// The two subheads inside the profile section. They share one quiet style
+// (.sub-head) so neither reads as a numbered section of its own.
+export const OUTCOMES_HEAD = 'Selected outcomes';
+export const PIPELINE_INTRO = {
+  head: 'How the work fits together',
+  sub: 'Five stages, from raw data to board narrative. Open a stage to see delivered examples.',
+};
 
 export const PIPELINE = [
   {
@@ -125,6 +136,10 @@ export const PRINCIPLES = [
 // the most important sentence in the section.
 // ---------------------------------------------------------------------------
 export const SCENARIO_UI = {
+  // The section headline, at the same size as every other numbered section's.
+  // `titleAccent` is the word index SplitText picks out in matcha.
+  title: 'Model the pathway',
+  titleAccent: 2,
   basis: {
     label: 'Illustrative',
     text: 'Nothing in this model is client data. The operating profiles are scaled to published peer disclosures and each lever names its basis, but no figure here belongs to an organisation I have worked for. Read it as a demonstration of method rather than as a result.',
@@ -330,10 +345,9 @@ export const FOOTER = {
   // so moving a page behind the gate can empty a column without leaving a gap.
   columns: [
     {
-      head: 'Profile', icon: 'people',
+      head: 'About', icon: 'people',
       links: [
-        { label: 'About', href: '#about' },
-        { label: 'Capabilities', href: '#bio' },
+        { label: 'Profile', href: '#bio' },
         { label: 'My practice', href: '#principles' },
         { label: 'Experience', href: '#experience' },
       ],
