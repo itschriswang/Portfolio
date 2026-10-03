@@ -6,6 +6,50 @@ import { PLAN, EFFORT_LABELS, fmtT, listOf } from './data/copy';
 import { fill } from './data/storyCopy';
 import { prefersReducedMotion } from '../utils/media';
 import { PathwayChart, MaccChart, PATHWAY_COLORS } from './charts';
+import { buildReminderIcs, icsStamp, reminderDate } from './lib/reminder';
+
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const longDate = (iso) => {
+  const [y, m, d] = iso.split('-').map(Number);
+  return d + ' ' + MONTHS[m - 1] + ' ' + y;
+};
+
+// The return loop, own audit only: a calendar file for next year's check-in.
+function Reminder({ periodEnd, total, actions }) {
+  const [saved, setSaved] = useState(false);
+  const date = reminderDate(periodEnd);
+  const onSave = () => {
+    const url = window.location.origin + window.location.pathname;
+    const ics = buildReminderIcs({
+      date,
+      title: PLAN.remind.eventTitle,
+      description: fill(PLAN.remind.eventBody, { t: fmtT(total), list: actions.length ? listOf(actions) : PLAN.remind.noneOn }),
+      url,
+      uid: 'footprint-' + date + '-' + Math.random().toString(36).slice(2, 10) + '@itschriswang.com',
+      stamp: icsStamp(),
+    });
+    const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+    const href = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = href;
+    a.download = PLAN.remind.file;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(href);
+    setSaved(true);
+  };
+  return (
+    <section className="fp-card fp-remind" aria-labelledby="fp-remind-h">
+      <h3 className="fp-card-head" id="fp-remind-h">{PLAN.remind.title}</h3>
+      <p className="fp-card-sub">{fill(PLAN.remind.body, { date: longDate(date) })}</p>
+      <div className="fp-ctrl-row">
+        <button type="button" className="btn btn-secondary" onClick={onSave}>{PLAN.remind.cta}</button>
+        <span className="fp-note" role="status">{saved ? PLAN.remind.done : ''}</span>
+      </div>
+    </section>
+  );
+}
 import Icon from '../components/Icons';
 
 // A cut as a share of the year: whole percentages, small-but-real shown as "<1".
@@ -51,7 +95,7 @@ function OptionCard({ r, on, baseline, onToggle }) {
   );
 }
 
-export default function Plan({ macc, pathway, plan, onToggle, voice = 'own', dwellingNudge, onDwellingAnswer }) {
+export default function Plan({ macc, pathway, plan, onToggle, voice = 'own', dwellingNudge, onDwellingAnswer, periodEnd, total }) {
   const trackRef = useRef(null);
   const plannerRef = useRef(null);
   const impactRef = useRef(null);
@@ -247,6 +291,13 @@ export default function Plan({ macc, pathway, plan, onToggle, voice = 'own', dwe
               </>
             )}
           </div>
+          {voice === 'own' && periodEnd && (
+            <Reminder
+              periodEnd={periodEnd}
+              total={total}
+              actions={macc.filter((r) => r.applicable && plan.enabled.includes(r.id)).map((r) => r.action)}
+            />
+          )}
         </div>
       </div>
     </section>

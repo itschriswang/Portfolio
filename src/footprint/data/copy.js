@@ -56,6 +56,16 @@ export const DASH = {
   trendSub: 'tCO₂-e per month, stacked by category. Bills spread across the months they cover; dated trips land where they happened; undated estimates spread evenly.',
   trendEmpty: 'No month-by-month story yet: every item here is a typical-year estimate spread evenly, so the months would all read the same. Add a real date to a flight or a bill and this chart fills in by month.',
   worstLabel: 'worst month',
+  // The company lens, kept off the reveal: Scope 3 runs past 90% for almost
+  // anyone without a car, so it is a reference line here, not a story.
+  scopes: {
+    label: 'By scope',
+    items: [
+      { n: '1', tag: 'Scope 1 · what you burn', body: 'Gas burned at home, and fuel in your own car.' },
+      { n: '2', tag: 'Scope 2 · energy you buy', body: 'Your electricity: a power station burns the fuel on your behalf.' },
+      { n: '3', tag: 'Scope 3 · everything else', body: 'Flights, food, freight, rideshare, goods and services: your choices, emitted somewhere else.' },
+    ],
+  },
   catTitle: 'By category',
   catSub: 'Annual tCO₂-e by category, and its share of the total. The biggest one or two decide most of the result.',
   flightCallout: 'No car, a modest apartment, transit everywhere, and none of it matters next to the flying. The flights are the footprint, so any real plan has to start there.',
@@ -63,6 +73,19 @@ export const DASH = {
 };
 
 export const PLAN = {
+  // The return loop: one calendar file for the day after next year's window
+  // closes, carrying the changes switched on and this year's total. Built in
+  // the browser and saved by it; nothing is sent anywhere.
+  remind: {
+    title: 'Check in next year',
+    body: 'Pick the changes you will actually make, then put a reminder in your calendar for {date}, the day after next year\'s audit window closes. Come back, run the year again and see whether it moved. Your guess is kept for the comparison.',
+    cta: 'Add a reminder to my calendar',
+    done: 'Reminder saved. Open it to add it to your calendar.',
+    file: 'life-footprint-check-in.ics',
+    eventTitle: 'Life Footprint: run the year again',
+    eventBody: 'Last year came to {t} t CO2-e. Changes switched on: {list}. Run the audit again and see whether the year moved.',
+    noneOn: 'none yet',
+  },
   tag: '02 / What if',
   title: ['Replay the year', 'differently'],
   sub: 'A sandbox. Every change here is priced against your own audited numbers above: flip one on and see the year you could have had, and the decade that follows. Offsets and green-power products are left out of the options: they retire certificates; the activity still happens.',
@@ -445,7 +468,8 @@ export const METHOD = {
   interpret: {
     title: 'How to read the result',
     paras: [
-      'The total is compared against three published benchmarks: your home country\'s per-person average (Australian, American or New Zealand), the world average, and a 1.5°C-aligned lifestyle benchmark of 2.5 t a person by 2030. The two averages are national figures that count whole economies, so they are broader than a personal footprint. The 2.5 t figure is a lifestyle benchmark of the same kind this calculator estimates.',
+      'The total is compared against three published benchmarks: your home country\'s per-person average (Australian, American or New Zealand), the world average, and a 1.5°C-aligned lifestyle benchmark of 2.5 t a person by 2030. The two averages are national figures that count whole economies, mining, farming and industry included, so they are broader than a personal footprint, and most personal totals land under them. The 2.5 t figure is a lifestyle benchmark of the same kind this calculator estimates. Before you guess your own number, the reveal also shows my worked example\'s total, priced live on this same calculator, as the one bearing on exactly your boundary. All of them are marked on the guess slider.',
+      'The reveal\'s decisions moment adds up your trips (flights, the hotel nights recorded on them, and taxis taken abroad) against everything else in the year. It then re-counts your biggest trip in your own everyday lines: months of your own diet line, years of your own getting around at home, years of your own share of the power and gas. Each rate is your audit divided out, so a line you did not log drops out, and nothing uses an outside average. The split by scope sits in the detail below the reveal.',
       'By default this calculator leaves out the wider basket of goods and services, so a core total understates a full consumption footprint. The optional detail step adds a screening estimate of that basket (clothing, electronics, entertainment, health, other); even with it switched on a few things stay out, so the gap to the benchmark is if anything larger than it looks.',
     ],
   },
@@ -453,7 +477,9 @@ export const METHOD = {
     title: 'How the reductions are modelled',
     paras: [
       'Each reduction is worked out against your own numbers, so the estimate fits your year. When you choose several, the calculator applies them in order (behaviour first, then switching to electric, then rooftop solar on the load that remains) so they add up without double-counting. Bigger changes take a year or two to fully phase in. Indicative costs sit on the same boundary as the reductions: a whole-household outlay like solar or electrifying the gas is split across the adults at home, the same way the bills are, and running-cost savings scale with your own audited use.',
+      'The flight changes work on trips, not on individual flight records. Flights logged as one trip (a return, or a multi-leg circuit) count together, a rough count of several returns counts as that many separate trips, and hotel nights recorded on a trip go with it. Dropping the biggest overseas trip removes all of its flights and its hotel nights. Taking it somewhere closer keeps the hotel nights and re-prices the flights as one economy return at the representative 2,400 km short overseas sector, with the altitude effect. Both act on the same trip, so switching both on counts the larger cut once; combining two trips then draws from the trips that are left.',
       'The background grid keeps getting cleaner in both lines, because that happens whether or not you act. Offsets and green-power products are left out of the reductions on purpose: they retire certificates; the activity still happens.',
+      'The plan can save a reminder to your calendar for the day after next year\'s audit window closes, listing the changes you switched on. The file is built in your browser and saved by it. So is your guess: it stays with the audit in this browser, and when the year closes it is kept with that year so the next reveal can show how it went.',
     ],
   },
   character: {
@@ -505,6 +531,9 @@ export const METHOD = {
   changes: {
     title: 'Changes in this edition',
     items: [
+      'The flight changes in the plan now act on trips rather than flight records. Before, dropping "the biggest international return" on a rough count of several returns removed all of them at once, and averaging trips mixed one-way legs and short hops into the mean. A dropped trip now takes its hotel nights with it, and a new option takes the biggest trip somewhere closer instead of cancelling it.',
+      'The reveal\'s scopes chapter became a decisions chapter (trips against everything else, and the biggest trip in your own units). The scope split moved to the detail below.',
+      'The benchmarks now name what the national averages count, and a visitor\'s own reveal adds my worked example\'s total as a like-for-like bearing. The guess slider carries every benchmark as a mark.',
       'Flights, freight, hotel nights, rail and bus moved to the UK Government conversion factors 2026 edition. The Australian electricity, gas and fuel lines did not change edition and stay on the NGA Factors 2025 values.',
       'US electricity is now priced per state, read from the eGRID2023 workbook for all fifty states, the District of Columbia and Puerto Rico.',
       'New Zealand electricity (with its separate transmission-loss factor), gas, road-fuel combustion and hotel nights now come from the MfE Measuring Emissions Catalogue 2026, in place of the Australian stand-ins used before. The UK hotel table lists New Zealand but leaves it blank.',
@@ -549,6 +578,15 @@ export const TOASTS = {
   auditDeleted: 'Deleted from this browser.',
   auditLive: 'Your footprint is ready. It saves to this browser as you edit.',
   backupImported: 'Backup restored.',
+};
+
+// Overlaying a shared link on the dashboard's category bars.
+export const FRIEND = {
+  // {who} is a possessive ("Ada's") or empty for an unnamed link.
+  overlay: 'Overlay {who}{label}',
+  someone: 'the shared ',
+  note: 'The shared link carries the total and the top four categories only, so smaller categories show no diamond.',
+  forget: 'Forget the shared link',
 };
 
 export const SHARE = {

@@ -25,11 +25,14 @@ const fadeUp = {
 
 // The working detail below the reveal: the exact numbers, the year month by
 // month, and the split by category. The reveal tells the story; this is the
-// spreadsheet behind it, so it does not re-tell the scopes or the result
-// label. The two benchmark tiles are the exception: a visitor who skipped
-// the reveal still deserves a verdict, not just a number.
-export default function Dashboard({ agg, period, compareAgg, comparePeriod, isExample, country }) {
-  const [compareOn, setCompareOn] = useState(false);
+// spreadsheet behind it, so it does not re-tell the result label. The two
+// benchmark tiles are the exception: a visitor who skipped the reveal still
+// deserves a verdict, not just a number. The scope split lives here rather
+// than in the reveal, for the reader who thinks in a company's terms.
+// `compares` lists the overlays on offer (the other audit, a shared link);
+// at most one shows at a time.
+export default function Dashboard({ agg, period, compares = [], country }) {
+  const [compareId, setCompareId] = useState(null);
   const total = agg.total;
   const homeAvg = homeAverageFor(country);
   const cats = CATEGORIES
@@ -38,7 +41,9 @@ export default function Dashboard({ agg, period, compareAgg, comparePeriod, isEx
   const ranked = [...cats].sort((a, b) => b.t - a.t);
   const flightsDominate = ranked.length && ranked[0].id === 'flight' && ranked[0].t / (total || 1) > 0.4;
 
-  const compare = compareOn && compareAgg ? compareAgg : null;
+  const active = compares.find((c) => c.id === compareId) || null;
+  const compare = active ? active.agg : null;
+  const comparePeriod = active ? active.period : null;
   const rows = compare
     ? [
       ...ranked,
@@ -50,7 +55,6 @@ export default function Dashboard({ agg, period, compareAgg, comparePeriod, isEx
     ranked.length ? ranked[0].t : 1,
     compare ? Math.max(...Object.values(compare.byCategory), 0) : 0,
   ) || 1;
-  const compareLabel = isExample ? DASH_EXTRA.compare.vsOwn : DASH_EXTRA.compare.vsExample;
 
   return (
     <section id="fp-dash">
@@ -119,15 +123,20 @@ export default function Dashboard({ agg, period, compareAgg, comparePeriod, isEx
               <div className="fp-card-head">{DASH.catTitle}</div>
               <div className="fp-card-sub">{DASH.catSub}</div>
             </div>
-            {compareAgg && (
-              <button
-                type="button"
-                className={'fp-compare' + (compareOn ? ' on' : '')}
-                aria-pressed={compareOn}
-                onClick={() => setCompareOn((v) => !v)}
-              >
-                {compareLabel}
-              </button>
+            {compares.length > 0 && (
+              <div className="fp-compare-row">
+                {compares.map((c) => (
+                  <button
+                    key={c.id}
+                    type="button"
+                    className={'fp-compare' + (compareId === c.id ? ' on' : '')}
+                    aria-pressed={compareId === c.id}
+                    onClick={() => setCompareId((v) => (v === c.id ? null : c.id))}
+                  >
+                    {c.label}
+                  </button>
+                ))}
+              </div>
             )}
           </div>
           <div className="fp-cats">
@@ -162,14 +171,35 @@ export default function Dashboard({ agg, period, compareAgg, comparePeriod, isEx
           </div>
           {compare && (
             <p className="fp-note">
-              {DASH_EXTRA.compare.note}{' '}
+              {active.note || DASH_EXTRA.compare.note}{' '}
               {comparePeriod ? fill(DASH_EXTRA.compare.overlaid, { label: comparePeriod.label, t: fmtT(compare.total) }) : ''}
+              {active.onForget && (
+                <>
+                  {' '}
+                  <button type="button" className="fp-linkbtn" onClick={() => { setCompareId(null); active.onForget(); }}>{active.forgetLabel}</button>
+                </>
+              )}
             </p>
           )}
           {ranked.length > 0 && (
             <p className="fp-callout fp-callout-card">{flightsDominate ? DASH.flightCallout : DASH.genericCallout}</p>
           )}
         </motion.div>
+
+        {total > 0 && (
+          <motion.div className="fp-scopes" {...fadeUp} role="list" aria-label={DASH.scopes.label}>
+            {DASH.scopes.items.map((sc) => (
+              <div className="fp-scope" role="listitem" key={sc.n}>
+                <div className="fp-scope-tag">{sc.tag}</div>
+                <div className="fp-scope-v">
+                  {fmtT(agg.byScope[sc.n] || 0, 2)}<span> t</span>{' '}
+                  <em>{Math.round(((agg.byScope[sc.n] || 0) / total) * 100)}%</em>
+                </div>
+                <div className="fp-scope-b">{sc.body}</div>
+              </div>
+            ))}
+          </motion.div>
+        )}
       </div>
     </section>
   );

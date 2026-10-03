@@ -19,46 +19,82 @@
 // (rooftop solar) act on whatever load is left. The MACC bars are each
 // option alone; the pathway line is the sequenced combination.
 
+import { FLIGHT_FACTORS, FLIGHT_DISTANCE_UPLIFT, ROUGH_FLIGHT_KM } from './factors';
+import { biggestIntlTrip, domesticTrips, intlTrips, meanFlightT } from '../lib/trips';
+
 export const APPLY_ORDER = [
-  'combine-trips', 'one-less-international', 'skip-one-domestic',
+  'one-less-international', 'closer-trip', 'combine-trips', 'skip-one-domestic',
   'uber-to-pt', 'halve-km', 'diet-low', 'diet-veg', 'sea-not-air', 'fewer-parcels',
   'electrify-gas', 'ev-switch',
   'solar',
 ];
 
-const intlItineraries = (st) => st.flights.filter((f) => (f.meta || {}).band !== 'domestic');
-const domItineraries = (st) => st.flights.filter((f) => (f.meta || {}).band === 'domestic');
+// The closer trip: one economy return at the representative short overseas
+// sector the rough counts already use (about four hours each way), with RF,
+// through the same factor and distance uplift the engine prices flights at.
+export const CLOSER_TRIP = {
+  km: ROUGH_FLIGHT_KM.short,
+  t: (ROUGH_FLIGHT_KM.short * 2 * FLIGHT_DISTANCE_UPLIFT * FLIGHT_FACTORS.shortIntl.withRF.economy) / 1000,
+};
 
+// The flight levers act on trips, not ledger rows (lib/trips.js): a rough
+// count of three returns is three trips, and a five-leg circuit is one.
+// "Drop" and "go closer" both act on the same biggest overseas trip and take
+// the larger of their two cuts, so both on never cuts two trips.
 export const ABATEMENT_OPTIONS = [
   {
     id: 'one-less-international',
     category: 'flight',
-    action: 'Drop the biggest international return',
-    detail: 'Drops the single largest overseas return in the year, assuming the year would otherwise repeat. The hardest change here, and on a flight-heavy year the only one that moves the total by whole tonnes.',
+    // Two options act on this same trip; the reveal shows only the larger.
+    target: 'biggest-intl-trip',
+    action: 'Drop the biggest overseas trip',
+    detail: 'Drops the single largest overseas trip in the year, every leg of it, and the hotel nights booked on it, assuming the year would otherwise repeat. The hardest change here, and on a flight-heavy year the only one that moves the total by whole tonnes.',
     effort: 'high',
-    source: 'Reduction is your own largest international entry at the DEFRA factor; saving is an indicative $900 economy return fare.',
-    applicable: (st) => intlItineraries(st).length > 0,
+    source: 'Reduction is your own largest overseas trip (all its legs and attached hotel nights) at the DEFRA factors; saving is an indicative $900 economy return fare.',
+    applicable: (st) => intlTrips(st.trips).length > 0,
     apply: (st, p) => {
-      const intl = intlItineraries(st);
-      if (!intl.length) return;
-      const biggest = intl.reduce((a, b) => (a.tco2e > b.tco2e ? a : b));
-      st.droppedFlightT += biggest.tco2e * p;
+      const trip = biggestIntlTrip(st.trips);
+      if (!trip) return;
+      st.tripCutFlightT = Math.max(st.tripCutFlightT, trip.flightT * p);
+      st.tripCutHotelT = Math.max(st.tripCutHotelT, trip.hotelT * p);
     },
     cost: () => -900,
+  },
+  {
+    id: 'closer-trip',
+    category: 'flight',
+    target: 'biggest-intl-trip',
+    action: 'Take the biggest trip somewhere closer',
+    detail: 'Keep the week away and fly less far: the biggest long-haul trip in the year re-priced as one short overseas return, about four hours each way. The hotel nights stay, because you are still away.',
+    effort: 'med',
+    source: 'Reduction is your largest overseas trip at the DEFRA factors, less one economy return at the representative 2,400 km short overseas sector with RF; saving is an indicative $400 cheaper fare.',
+    applicable: (st) => {
+      const trip = biggestIntlTrip(st.trips);
+      return !!trip && trip.longHaul && trip.flightT - CLOSER_TRIP.t > 0.05;
+    },
+    apply: (st, p) => {
+      const trip = biggestIntlTrip(st.trips);
+      if (!trip || !trip.longHaul) return;
+      st.tripCutFlightT = Math.max(st.tripCutFlightT, Math.max(0, trip.flightT - CLOSER_TRIP.t) * p);
+    },
+    cost: () => -400,
   },
   {
     id: 'combine-trips',
     category: 'flight',
     action: 'Combine two overseas trips into one',
-    detail: 'Two shorter trips combined into one longer one saves a whole long-haul return. Same holidays, one fewer flight.',
+    detail: 'Two shorter trips combined into one longer one saves a whole overseas trip\'s flights. Same holidays, one fewer set of flights.',
     effort: 'med',
-    source: 'Reduction is your mean international itinerary at the DEFRA factor; saving is an indicative $800 return fare, offset by nothing except planning.',
-    applicable: (st) => intlItineraries(st).length >= 2,
+    source: 'Reduction is your mean overseas trip (all its legs) at the DEFRA factors; saving is an indicative $800 return fare, offset by nothing except planning.',
+    applicable: (st) => intlTrips(st.trips).length >= 2,
     apply: (st, p) => {
-      const intl = intlItineraries(st);
-      if (intl.length < 2) return;
-      const avg = intl.reduce((s, f) => s + f.tco2e, 0) / intl.length;
-      st.droppedFlightT += avg * p;
+      // With the biggest trip already dropped or moved, the two combined
+      // come from the trips that are left, so the levers never overlap.
+      const intl = intlTrips(st.trips);
+      const big = biggestIntlTrip(st.trips);
+      const pool = st.tripCutFlightT > 0 ? intl.filter((t) => t !== big) : intl;
+      if (pool.length < 2) return;
+      st.droppedFlightT += meanFlightT(pool) * p;
     },
     cost: () => -800,
   },
@@ -66,15 +102,14 @@ export const ABATEMENT_OPTIONS = [
     id: 'skip-one-domestic',
     category: 'flight',
     action: 'Skip one domestic return (rail or video)',
-    detail: 'One average domestic return from your year taken by train, or joined by video.',
+    detail: 'One average domestic trip from your year taken by train, or joined by video.',
     effort: 'low',
-    source: 'Reduction is your mean domestic itinerary at the DEFRA domestic factor; saving is an indicative $350 return fare.',
-    applicable: (st) => domItineraries(st).length > 0,
+    source: 'Reduction is your mean domestic trip at the DEFRA domestic factor; saving is an indicative $350 return fare.',
+    applicable: (st) => domesticTrips(st.trips).length > 0,
     apply: (st, p) => {
-      const dom = domItineraries(st);
+      const dom = domesticTrips(st.trips);
       if (!dom.length) return;
-      const avg = dom.reduce((s, f) => s + f.tco2e, 0) / dom.length;
-      st.droppedFlightT += avg * p;
+      st.droppedFlightT += meanFlightT(dom) * p;
     },
     cost: () => -350,
   },

@@ -19,8 +19,13 @@ export const CHROME = {
 // "In context" (st-bench) sits right after the total lands, not several
 // chapters later: the personal overshoot line is the single most persuasive
 // sentence in the reveal, and it hits hardest while the number is still
-// fresh, before the detail chapters (equivalences, scopes, hotspots) that
+// fresh, before the detail chapters (equivalences, trips, hotspots) that
 // explain where it came from.
+// "Decisions" (st-trips) took the place of the scopes chapter. Scope 3 runs
+// past 90% for almost anyone without a car, so that chapter told every
+// visitor the same thing; how much of the year a few bookings decided is
+// different for everyone, and it says where to act. The scope split now
+// sits in the dashboard for the reader who wants it.
 export const CHAPTERS = [
   { id: 'st-cover', label: 'Open' },
   { id: 'st-year', label: 'The year' },
@@ -29,7 +34,7 @@ export const CHAPTERS = [
   { id: 'st-total', label: 'The number' },
   { id: 'st-bench', label: 'In context' },
   { id: 'st-equiv', label: 'In real things' },
-  { id: 'st-scopes', label: 'Where it comes from' },
+  { id: 'st-trips', label: 'Decisions' },
   { id: 'st-hotspots', label: 'Hotspots' },
   { id: 'st-grid', label: 'Your grid' },
   { id: 'st-months', label: 'Worst month' },
@@ -87,10 +92,11 @@ export const YEAR = {
 // with context instead of arriving cold, most-to-least.
 export const GUESS = {
   tag: 'Your benchmarks',
-  headline: { example: 'Three numbers to hold on to', own: 'Three numbers to hold on to' },
+  // The visitor's own reveal adds a fourth bearing: my year, on this calculator.
+  headline: { example: 'Three numbers to hold on to', own: 'Four numbers to hold on to' },
   sub: {
     example: 'Before you see my total, here is what a year of carbon looks like for other people. Keep these in mind.',
-    own: 'Before your total, here is what a year of carbon looks like for other people. Keep these in mind.',
+    own: 'Before your total, here is what a year of carbon looks like for other people, mine included. Keep these in mind.',
   },
   // The home row carries no label here: it reads the home country's own
   // benchmark label off the bench data, so an American or New Zealand audit
@@ -98,9 +104,13 @@ export const GUESS = {
   refs: [
     // The unit stays beside its number ("22.3 t"); "per person" rides in the
     // note, so the big figure never wraps mid-phrase.
-    { id: 'home', unit: 't', note: 'per person, all greenhouse gases' },
-    { id: 'global', label: 'World average', unit: 't', note: 'per person, all greenhouse gases' },
+    { id: 'home', unit: 't', note: 'per person, the whole economy: mining, farming and industry included' },
+    { id: 'global', label: 'World average', unit: 't', note: 'per person, the whole world economy' },
     { id: 'budget', label: '1.5°C lifestyle benchmark', unit: 't', note: 'per person: where a year needs to be by 2030' },
+    // Own voice only: a year measured on this calculator, so the one bearing
+    // on exactly the same boundary as the visitor's own. Read live from the
+    // worked example, never typed.
+    { id: 'peer', label: 'Chris\'s year', unit: 't', note: 'measured on this same calculator, so the closest like-for-like', ownOnly: true },
   ],
   cont: 'See where I land',
   contOwn: 'Take a guess',
@@ -112,11 +122,24 @@ export const GUESS = {
 export const LOCKIN = {
   tag: 'Your guess',
   headline: 'Before it lands, call it',
-  sub: 'Slide to what you reckon your year adds up to, then lock it in. The three benchmarks above are your bearings.',
+  sub: 'Slide to what you reckon your year adds up to, then lock it in. The benchmarks are marked on the scale as your bearings.',
   sliderLabel: 'Your guess, tonnes of CO₂-e',
+  // The bearings travel with the guess: each benchmark marked on the track,
+  // so nobody has to hold three numbers from the previous screen in their head.
+  marks: {
+    budget: '1.5°C',
+    global: 'World',
+    peer: 'Chris',
+    // The home mark reads the country off the benchmark data.
+    home: { AU: 'Australia', NZ: 'NZ', US: 'US' },
+  },
+  marksAria: 'Marked on the scale: {list}.',
   unit: 't CO₂-e',
   lock: 'Lock it in',
   locked: 'Locked at {g} t. The number is next.',
+  // A returning visitor sees how last year's guess went before making this
+  // year's. Read from the closed year, which keeps its guess.
+  lastYear: 'Last year you guessed {g} t and your audit landed at {t} t.',
   skip: 'No guess, just show me',
   cta: 'Reveal the number',
 };
@@ -142,7 +165,10 @@ export const TOTAL = {
   guess: {
     kicker: 'Your guess',
     under: 'You guessed {g} t. Under by {d} t: your year runs bigger than you thought.',
-    over: 'You guessed {g} t. Over by {d} t: your year is smaller than you feared.',
+    // Most guesses anchor on the national average and land high, so "over"
+    // is the common result. It should not read as a pass: the national
+    // figure counts the whole economy, and the 2.5 t line is the one to beat.
+    over: 'You guessed {g} t. Over by {d} t: smaller than you feared, though the line that matters is still the 2.5 t benchmark.',
     close: 'You guessed {g} t. Within {pct}% of the audit.',
   },
 };
@@ -173,45 +199,49 @@ export const EQUIV_ST = {
   },
 };
 
-export const SCOPES = {
-  tag: 'Where it comes from',
-  headline: 'Three places emissions come from',
-  gloss: {
-    example: 'Companies sort their emissions into Scope 1, 2 and 3: what they burn, the energy they buy, and everything caused by their choices further down the chain. The same three buckets work for a person.',
-    own: 'Companies sort their emissions into Scope 1, 2 and 3: what they burn, the energy they buy, and everything else their choices cause. The same three buckets work for a person.',
+// Decisions, not days. Most people picture their footprint as a daily
+// habit; for anyone who flies, a handful of bookings usually decides most of
+// it. Numbers come from lib/decisions.js. Hotel nights and taxis abroad count
+// with the trips. The exchange rows re-count the biggest trip in the
+// visitor's own everyday lines: their meals, their commute, their bills.
+export const TRIPS_ST = {
+  tag: 'Decisions, not days',
+  headline: {
+    example: '{n} {trips} made {pct}% of my year',
+    own: '{n} {trips} made {pct}% of your year',
   },
-  items: [
-    {
-      n: '1',
-      name: 'Scope 1 · what you burn',
-      plain: { example: 'Fuel I burn myself', own: 'Fuel you burn yourself' },
-      line: {
-        example: 'The gas heating my water and cooktop. If I had a car, the petrol I burned would sit here too.',
-        own: 'Gas burned at home, and petrol if you drive. Fuel you light directly.',
-      },
-    },
-    {
-      n: '2',
-      name: 'Scope 2 · energy you buy',
-      plain: { example: 'Electricity I buy', own: 'Electricity you buy' },
-      line: {
-        example: 'The electricity for my apartment. A power station burns the fuel; the emissions are still mine.',
-        own: 'Your electricity. A power station burns the fuel on your behalf.',
-      },
-    },
-    {
-      n: '3',
-      name: 'Scope 3 · everything else',
-      plain: { example: 'Caused by me, made elsewhere', own: 'Caused by you, made elsewhere' },
-      line: {
-        example: 'Flights, food, freight, rideshare, goods and services. Caused by my choices, but the emissions happen somewhere else.',
-        own: 'Flights, food, freight, rideshare, goods and services. Your choices, emitted somewhere else.',
-      },
-    },
-  ],
+  tripWord: ['trip', 'trips'],
+  sub: {
+    example: 'Flights, the hotel nights on them and the taxis abroad came to {trip} t. Everything else in the year, from the power bill to the groceries, came to {rest} t.',
+    own: 'Flights, the hotel nights on them and any taxis abroad came to {trip} t. Everything else in your year, from the power bill to the groceries, came to {rest} t.',
+  },
+  bar: { trips: 'Trips', rest: 'Everything else' },
+  barAria: 'Trips {trip} tonnes, everything else {rest} tonnes.',
   punch: {
-    example: 'of my year is Scope 3: things my choices set in motion, but that happen out of sight.',
-    own: 'of your year is Scope 3: things your choices set in motion, but that happen out of sight.',
+    over: {
+      example: 'A few booking decisions outweighed the rest of my year, {x} times over.',
+      own: 'A few booking decisions outweighed the rest of your year, {x} times over.',
+    },
+    under: {
+      example: 'The everyday still outweighs the trips, so the daily lines are where most of the tonnes sit.',
+      own: 'Your everyday still outweighs your trips, so the daily lines are where most of your tonnes sit.',
+    },
+  },
+  exchange: {
+    title: { example: 'My biggest trip, in my own currency', own: 'Your biggest trip, in your own currency' },
+    lead: '{name}: {t} t. The same carbon as',
+    rows: {
+      food: {
+        months: { example: '{n} months of everything I eat', own: '{n} months of everything you eat' },
+        years: { example: '{n} years of everything I eat', own: '{n} years of everything you eat' },
+      },
+      ground: { years: { example: '{n} years of getting around at home', own: '{n} years of getting around at home' } },
+      home: { years: { example: '{n} years of my share of the power and gas', own: '{n} years of your share of the power and gas' } },
+    },
+    note: {
+      example: 'Every rate here is my own year divided out, not an outside average.',
+      own: 'Every rate here is your own year divided out, not an outside average.',
+    },
   },
 };
 
@@ -363,6 +393,12 @@ export const NEEDLE = {
     off: 'Off',
   },
   cta: 'Open the what-if machine',
+  // Worked example only: what the plan has switched on, set against the
+  // flight changes it has left off. Both from lib/decisions.js.
+  decision: {
+    kicker: 'The decision',
+    line: 'The changes I have committed to take {c} t a year off. The flight changes I have left switched off would take {o} t. That gap is the decision still in front of me.',
+  },
 };
 
 export const OUTRO = {
@@ -376,6 +412,12 @@ export const OUTRO = {
   explore: 'See the detail below',
   start: 'Calculate your own',
   again: 'Watch it again',
+  // Worked example only: the bridge for the reader who came for the
+  // professional work rather than their own number.
+  bridge: {
+    line: 'Under the playful parts, this is a company carbon inventory in miniature: a stated boundary, published factors, data-quality tiers, a cost curve and a pathway.',
+    cta: 'See my work samples',
+  },
 };
 
 export const SHARE_ST = {
@@ -584,6 +626,14 @@ export const CARD_TEXT = {
   ofYear: '% OF THE YEAR',
   benchNote: 'National figures cover a wider boundary than this calculator.',
   counted: 'SELF-COUNTED',
+};
+
+// Counts in a headline read as words up to twelve ("Five trips"), numerals
+// after that.
+const NUM_WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
+export const countWord = (n, capital = false) => {
+  const w = n >= 0 && n < NUM_WORDS.length ? NUM_WORDS[n] : String(n);
+  return capital ? w.charAt(0).toUpperCase() + w.slice(1) : w;
 };
 
 // Small helpers shared by story components.

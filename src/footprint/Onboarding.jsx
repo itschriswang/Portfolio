@@ -160,16 +160,19 @@ export function buildProfileFromOnboarding(a) {
   // Hotel nights ride with their trip: priced at the destination country's
   // per-room-night factor and dated to the same month, so the trip's stay
   // uses the trip's own data instead of a generic home-country count.
-  a.flights.forEach((fl) => {
+  // Each card is one trip: the flight and its hotel nights share a trip key,
+  // so the plan's "drop the biggest trip" takes the nights with it.
+  a.flights.forEach((fl, idx) => {
     const meta = flightMeta(fl);
     if (!meta) return;
     const dated = !!fl.month;
+    const trip = 'card-' + idx;
     entries.push(E({
       category: 'flight',
       date: dated ? fl.month : period.end,
       ...(dated ? {} : { period_months: 12 }),
       label: flightLabel(fl),
-      meta: { ...meta, ...(dated ? { synthetic: false } : {}) },
+      meta: { ...meta, trip, ...(dated ? { synthetic: false } : {}) },
       notes: dated
         ? 'From the guided audit, dated to the month you gave. Swap in the exact itinerary when you have it.'
         : 'From the guided audit: a typical-year itinerary, spread across the year. Log the real trip with its date to replace it.',
@@ -181,7 +184,7 @@ export function buildProfileFromOnboarding(a) {
         date: dated ? fl.month : period.end,
         ...(dated ? {} : { period_months: 12 }),
         label: 'Hotel nights, ' + to.city + ' (onboarding)',
-        meta: { nights: Math.round(fl.nights), country: to.country, ...(dated ? { synthetic: false } : {}) },
+        meta: { trip, nights: Math.round(fl.nights), country: to.country, ...(dated ? { synthetic: false } : {}) },
         notes: 'From the guided audit: ' + Math.round(fl.nights) + ' night' + (fl.nights > 1 ? 's' : '')
           + ' on the ' + to.city + ' trip, priced at the ' + to.country + ' per-room-night factor.',
       }));

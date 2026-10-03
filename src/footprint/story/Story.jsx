@@ -2,15 +2,18 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { prefersReducedMotion } from '../../utils/media';
 import { CATEGORIES, categoryById, countryOf } from '../data/factors';
 import { gridSwapFor, modeSwapFor } from '../lib/swaps';
+import { tripShare, commitmentSplit } from '../lib/decisions';
+import { aggregate } from '../lib/engine';
+import { buildSeedProfile } from '../data/seedProfile';
 import { BENCHMARKS, homeAverageFor } from '../data/benchmarks';
 import {
   CHROME, CHAPTERS, CATEGORY_QUIPS, BENCH_ST,
-  YEAR, GUESS, LOCKIN, EQUIV_ST, SCOPES, MONTHS_ST, CHARACTER_ST, GRID_ST, NEEDLE, OUTRO,
+  YEAR, GUESS, LOCKIN, EQUIV_ST, TRIPS_ST, MONTHS_ST, CHARACTER_ST, GRID_ST, NEEDLE, OUTRO,
 } from '../data/storyCopy';
 import { classifyCharacter } from '../data/characters';
 import {
   Cover, YearTicker, ReferencePoints, LockIn, TotalReveal, Equivalences,
-  Scopes, Hotspots, GridSwap, WorstMonth, Bench, Needle, Outro,
+  Trips, Hotspots, GridSwap, WorstMonth, Bench, Needle, Outro,
 } from './moments';
 import CharacterMoment from './CharacterMoment';
 import Mark from '../../components/Mark';
@@ -22,7 +25,7 @@ const TAG_TEXT = {
   'st-guess': GUESS.tag,
   'st-lockin': LOCKIN.tag,
   'st-equiv': EQUIV_ST.tag,
-  'st-scopes': SCOPES.tag,
+  'st-trips': TRIPS_ST.tag,
   'st-months': MONTHS_ST.tag,
   'st-bench': BENCH_ST.tag,
   'st-grid': GRID_ST.tag,
@@ -34,6 +37,14 @@ const TAG_TEXT = {
 const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 // Distils the audit into the handful of numbers the story tells.
+// The worked example's total, the one benchmark measured on exactly this
+// calculator's boundary. Priced live, so a factor refresh moves it too.
+let peerTotal = null;
+const examplePeerTotal = () => {
+  if (peerTotal == null) peerTotal = aggregate(buildSeedProfile()).total;
+  return peerTotal;
+};
+
 function buildStoryData(profile, agg, macc, voice) {
   const ranked = CATEGORIES
     .map((c) => ({ ...c, t: agg.byCategory[c.id] || 0 }))
@@ -121,13 +132,33 @@ function buildStoryData(profile, agg, macc, voice) {
     { id: 'mealDays', v: tally('diet', (m) => m.days || 0) },
   ].filter((t) => t.v > 0).slice(0, 4);
 
+  // The guess slider's bearings: the same benchmarks as the cards above it,
+  // plus (for a visitor's own audit) the worked example's year.
+  const country = countryOf(profile.settings);
+  const peer = voice === 'own' ? { id: 'peer', label: GUESS.refs.find((r) => r.id === 'peer').label, t: examplePeerTotal() } : null;
+  const marks = [
+    { id: 'budget', label: LOCKIN.marks.budget, t: bench.find((b) => b.id === 'budget').t },
+    { id: 'global', label: LOCKIN.marks.global, t: bench.find((b) => b.id === 'global').t },
+    { id: 'home', label: LOCKIN.marks.home[country] || homeAvg.short, t: homeAvg.tco2e },
+    ...(peer ? [{ id: 'peer', label: LOCKIN.marks.peer, t: peer.t }] : []),
+  ];
+
   const gridSwap = gridSwapFor(profile, agg);
   const modeSwap = modeSwapFor(profile);
 
   const effortLabel = { low: 'Easy', med: 'Moderate', high: 'Harder' };
+  // Three cards, never two ways of changing the same trip: options that
+  // share a target keep only the larger, so the third card says something new.
+  const targets = new Set();
   const needle = macc
     .filter((r) => r.applicable && r.reduction > 0.05)
     .sort((a, b) => b.reduction - a.reduction)
+    .filter((r) => {
+      if (!r.target) return true;
+      if (targets.has(r.target)) return false;
+      targets.add(r.target);
+      return true;
+    })
     .slice(0, 3)
     .map((r) => ({
       ...r,
@@ -146,7 +177,10 @@ function buildStoryData(profile, agg, macc, voice) {
     total: agg.total,
     tallies,
     planetX: kmFlown / 40075, // mean equatorial circumference, km
-    byScope: agg.byScope,
+    peer,
+    marks,
+    trips: tripShare(profile, agg),
+    commit: voice === 'example' ? commitmentSplit(profile, agg) : null,
     ranked,
     tickerEntries,
     monthly,
@@ -236,14 +270,16 @@ function NextChapter({ active, chapters }) {
 // Act I: the reveal. A continuous scroll of full-screen moments above the
 // working dashboard. Purely presentational: it reads the same aggregates the
 // dashboard reads and never touches the store.
-export default function Story({ profile, agg, macc, voice, onStart, onSkip, onEnd, onFinish, onPlan, onCopyLink }) {
+export default function Story({ profile, agg, macc, voice, onStart, onSkip, onEnd, onFinish, onPlan, onCopyLink, onGuessLock, lastYear }) {
   const reduced = useMemo(() => prefersReducedMotion(), []);
   const d = useMemo(() => buildStoryData(profile, agg, macc, voice), [profile, agg, macc, voice]);
   const character = useMemo(() => classifyCharacter(agg), [agg]);
   const [active, setActive] = useState('st-cover');
   const [chromeOn, setChromeOn] = useState(true);
   // The lock-in guess (own voice only). Locked means locked: the verdict on
-  // the total moment reads from it, and it never travels anywhere.
+  // the total moment reads from it. It is kept on the audit in this browser
+  // (onGuessLock), so next year's lock-in can show how it went; it never
+  // leaves the device.
   const [guess, setGuess] = useState(10);
   const [guessLocked, setGuessLocked] = useState(false);
   const rootRef = useRef(null);
@@ -257,6 +293,7 @@ export default function Story({ profile, agg, macc, voice, onStart, onSkip, onEn
     if (c.id === 'st-grid') return !!d.gridSwap;
     if (c.id === 'st-needle') return d.needle.length > 0;
     if (c.id === 'st-hotspots') return d.ranked.length > 0;
+    if (c.id === 'st-trips') return !!d.trips;
     return true;
   }), [d, voice]);
 
@@ -337,14 +374,15 @@ export default function Story({ profile, agg, macc, voice, onStart, onSkip, onEn
         <LockIn
           tags={tags} goTo={goToMoment}
           guess={guess} setGuess={setGuess} locked={guessLocked}
-          onLock={() => setGuessLocked(true)}
+          marks={d.marks} lastYear={lastYear}
+          onLock={() => { setGuessLocked(true); if (onGuessLock) onGuessLock(guess); }}
           onSkip={() => setGuessLocked(false)}
         />
       )}
       <TotalReveal d={d} voice={voice} guess={guessLocked ? guess : null} onCopyLink={onCopyLink} reduced={reduced} />
       <Bench d={d} voice={voice} tags={tags} />
       {d.total > 0.005 && <Equivalences d={d} voice={voice} tags={tags} />}
-      <Scopes d={d} voice={voice} tags={tags} />
+      <Trips d={d} voice={voice} tags={tags} />
       <Hotspots d={d} voice={voice} tags={tags} reduced={reduced} />
       <GridSwap d={d} tags={tags} />
       <WorstMonth d={d} voice={voice} tags={tags} />

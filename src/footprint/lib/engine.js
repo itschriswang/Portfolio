@@ -17,6 +17,7 @@ import {
   QUALITY_TIERS, qualityOf,
 } from '../data/factors';
 import { ABATEMENT_OPTIONS, APPLY_ORDER } from '../data/abatement';
+import { tripsOf } from './trips';
 
 let idCounter = 0;
 export const newId = (prefix = 'e') =>
@@ -351,6 +352,9 @@ export function rolloverProfile(profile, todayIso) {
     entries: profile.entries,
     plan: { ...profile.plan },
     settingsAtClose: { ...profile.settings },
+    // The lock-in guess closes with its year, so next year's reveal can say
+    // how it went. Absent when no guess was locked.
+    ...(Number.isFinite(profile.guess) ? { guess: profile.guess } : {}),
     factorSetAtClose: vintages.length ? vintages.join(' + ') : FACTOR_SET.id,
     closedAt: todayIso,
   };
@@ -373,6 +377,7 @@ export function rolloverProfile(profile, todayIso) {
       note: skipped > 0 ? 'Nothing was logged for ' + skipped + ' intervening year' + (skipped > 1 ? 's' : '') + '; the gap is carried, not filled.' : undefined,
     },
     entries,
+    guess: undefined,
     pastYears: [...(profile.pastYears || []), past],
   };
 }
@@ -387,8 +392,8 @@ export function baselineState(profile, agg) {
   let kwh = 0, mj = 0, kmCar = 0, kmEv = 0, litres = 0, kmRide = 0, kmPt = 0, kmBus = 0;
   let dietDays = 0, freightAirT = 0, freightOtherT = 0, otherT = 0, goodsT = 0, dwellingT = 0;
   const flights = [];
-  for (const e of profile.entries) {
-    if (e.date < profile.period.start || e.date > profile.period.end) continue;
+  const inWindow = profile.entries.filter((e) => e.date >= profile.period.start && e.date <= profile.period.end);
+  for (const e of inWindow) {
     const m = e.meta || {};
     if (e.category === 'electricity') kwh += (m.kwh || 0) * (m.wholeHousehold ? share : 1);
     else if (e.category === 'gas') mj += (m.mj || 0) * (m.wholeHousehold ? share : 1);
@@ -444,8 +449,13 @@ export function baselineState(profile, agg) {
     evShare: kmCar > 0 ? kmEv / kmCar : 0,
     solarReduction: 0, seaShift: 0,
     flights,
+    // The flight levers reason about trips (what a person books or skips),
+    // not ledger rows; see lib/trips.js. A trip's attached hotel nights ride
+    // inside goodsT, so a dropped trip takes them out of that band.
+    trips: tripsOf(inWindow),
     flightT: flights.reduce((t, f) => t + f.tco2e, 0),
     droppedFlightT: 0,
+    tripCutFlightT: 0, tripCutHotelT: 0,
     dietPerDay: DIET_TYPES[dietType].perDay,
     dietDays: dietDays || 365,
     freightAirT, freightOtherT, otherT, goodsT, dwellingT,
@@ -477,15 +487,16 @@ export function stateEmissions(st, yearOffset) {
     + st.kmRide * ROAD_MODES.rideshare.perKm
     + st.kmPt * ROAD_MODES.pt.perKm
     + (st.kmBus || 0) * ROAD_MODES.bus.perKm) / 1000;
-  const flight = Math.max(0, st.flightT - st.droppedFlightT);
+  const flight = Math.max(0, st.flightT - st.droppedFlightT - (st.tripCutFlightT || 0));
+  const goods = Math.max(0, (st.goodsT || 0) - (st.tripCutHotelT || 0));
   const diet = (st.dietPerDay * st.dietDays) / 1000;
   // The sea-shift residual derives from the freight table itself, so a
   // factor refresh reaches the pathway without a hand edit here.
   const freight = st.freightAirT * (1 - (st.seaShift || 0) * (1 - FREIGHT_MODES.sea.perTonneKm / FREIGHT_MODES.air.perTonneKm)) + st.freightOtherT;
 
   return {
-    total: elec + gas + road + flight + diet + freight + st.otherT + (st.goodsT || 0) + (st.dwellingT || 0),
-    byCategory: { electricity: elec, gas, road, flight, diet, freight, other: st.otherT, goods: st.goodsT || 0, dwelling: st.dwellingT || 0 },
+    total: elec + gas + road + flight + diet + freight + st.otherT + goods + (st.dwellingT || 0),
+    byCategory: { electricity: elec, gas, road, flight, diet, freight, other: st.otherT, goods, dwelling: st.dwellingT || 0 },
   };
 }
 
@@ -541,7 +552,7 @@ export function maccData(profile, agg) {
     const reduction = Math.max(0, before - stateEmissions(st, 0).total);
     const cost = opt.cost(base);
     rows.push({
-      id: opt.id, category: opt.category, action: opt.action, effort: opt.effort,
+      id: opt.id, category: opt.category, action: opt.action, effort: opt.effort, target: opt.target,
       source: opt.source, detail: opt.detail, applicable,
       reduction: round(reduction, 3),
       cost: Math.round(cost),
