@@ -57,7 +57,7 @@
 .st-year { background: var(--bg); }
 .st-guess { background: #F4F6EE; border-top: 1px solid var(--rule-lt); border-bottom: 1px solid var(--rule-lt); }
 .st-total, .st-outro { background: var(--st-dark); color: var(--st-dark-ink); }
-.st-scopes { background: var(--bg); }
+.st-trips { background: var(--bg); }
 .st-hot { background: #F4F6EE; border-top: 1px solid var(--rule-lt); }
 .st-months { background: var(--band); }
 .st-bench { background: var(--bg); border-top: 1px solid var(--rule-lt); }
@@ -79,7 +79,6 @@
 .st-punch-num { font-size: 1.6em; font-weight: 700; color: var(--accent-ink); }
 .st-punch-pct { font-size: 1.1em; font-weight: 700; color: var(--accent-ink); margin-right: 0.15em; }
 /* On the scopes moment the percentage IS the insight: give it the display slot. */
-.st-scopes .st-punch-num { display: block; font-size: clamp(3.4rem, 10vw, 6.5rem); line-height: 0.9; margin-bottom: 0.15em; }
 .st-punch-sm { font-size: clamp(1rem, 1.8vw, 1.2rem); font-weight: 500; color: var(--slate); line-height: 1.6; max-width: 620px; margin-top: 1.8rem; }
 .st-caveat { font-family: var(--sans); font-size: 0.8125rem; color: var(--fp-ink-2); margin-top: 1rem; max-width: 560px; line-height: 1.6; text-wrap: pretty; }
 
@@ -278,6 +277,21 @@
 .st-slider .rng-input::-webkit-slider-thumb { background: var(--matcha); border-color: var(--st-dark); }
 .st-slider .rng-input::-moz-range-thumb { background: var(--matcha); border-color: var(--st-dark); }
 .st-guess-ctas { display: flex; gap: 1rem; justify-content: center; align-items: center; flex-wrap: wrap; }
+/* The benchmarks marked on the guess track. Same width and half-thumb inset
+   as the slider above, so a mark sits exactly where that value lands; two
+   rows so close neighbours never overprint. */
+.st-guess-marks { position: relative; width: min(520px, 86vw); height: 2.9rem; margin: -1.1rem auto 1.4rem; }
+.st-guess-marks-in { position: absolute; top: 0; bottom: 0; left: 14px; right: 14px; }
+.st-guess-mark {
+  position: absolute; top: 0; transform: translateX(-50%);
+  font-family: var(--mono); font-size: 11px; color: var(--fp-ink-2); white-space: nowrap;
+  display: flex; flex-direction: column; align-items: center; gap: 0.15rem;
+}
+.st-guess-mark i { display: block; width: 1px; height: 0.45rem; background: var(--mid); }
+.st-guess-mark b { font-weight: 700; color: var(--slate); }
+.st-guess-mark.r1 { top: 1.35rem; }
+.st-guess-mark.r1 i { height: 1.8rem; margin-top: -1.35rem; }
+.st-lastyear { font-size: 0.95rem; color: var(--slate); font-weight: 600; margin: 1rem auto 0; max-width: 520px; }
 
 .st-quiet {
   font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.1em; text-transform: uppercase;
@@ -356,14 +370,23 @@
 .st-total .st-share:hover, .st-outro .st-share:hover { color: var(--matcha); border-color: var(--matcha); }
 
 /* ---- Scopes ---- */
-.st-scope-rows { display: flex; flex-direction: column; gap: 1.6rem; margin: 2.2rem 0; }
-.st-scope-row { display: grid; grid-template-columns: auto 1fr; gap: 1.2rem; align-items: start; }
-.st-scope-n { font-family: var(--disp); font-weight: 700; font-size: clamp(2.6rem, 6vw, 4rem); line-height: 0.9; min-width: 1.2em; color: var(--accent-ink); }
-.st-scope-name { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mid); font-weight: 700; margin-bottom: 0.3rem; }
-.st-scope-val { font-family: var(--disp); font-weight: 700; font-size: clamp(1.6rem, 3.6vw, 2.4rem); color: var(--slate); line-height: 1.05; font-variant-numeric: tabular-nums; }
-.st-scope-line { font-size: 0.9rem; font-weight: 300; color: var(--fp-ink-2); line-height: 1.65; max-width: 480px; margin-top: 0.35rem; }
-.st-scope-bar { display: flex; height: 14px; border-radius: 4px; overflow: hidden; gap: 2px; background: var(--white); }
-.st-scope-bar span { display: block; height: 100%; border-radius: 2px; }
+/* Decisions, not days: one two-part bar (trips against everything else),
+   then the biggest trip re-counted in the visitor's own lines. */
+.st-trip-bar { display: flex; gap: 2px; margin: 2.2rem 0 0; height: 22px; }
+.st-trip-seg { display: block; height: 100%; border-radius: 3px; }
+.st-trip-seg.trips, .st-trip-legend i.trips { background: var(--fp-flight, #635BFF); }
+.st-trip-seg.rest, .st-trip-legend i.rest { background: #C9D37E; }
+.st-trip-legend { display: flex; flex-wrap: wrap; gap: 0.5rem 1.8rem; margin-top: 0.8rem; }
+.st-trip-legend span { display: inline-flex; align-items: baseline; gap: 0.5rem; }
+.st-trip-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; align-self: center; }
+.st-trip-legend em { font-style: normal; font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; color: var(--fp-ink-2); }
+.st-trip-legend b { font-family: var(--disp); font-size: clamp(1.1rem, 2.6vw, 1.4rem); font-weight: 700; color: var(--slate); font-variant-numeric: tabular-nums; }
+.st-exchange { margin-top: 2.4rem; max-width: 640px; }
+.st-exchange-title { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mid); font-weight: 700; }
+.st-exchange-lead { font-family: var(--disp); font-weight: 600; font-size: clamp(1.1rem, 2.4vw, 1.35rem); color: var(--slate); margin-top: 0.5rem; }
+.st-exchange-rows { list-style: none; padding: 0; margin: 1rem 0 0; display: flex; flex-direction: column; gap: 0.7rem; }
+.st-exchange-rows li { display: grid; grid-template-columns: 4.2rem 1fr; gap: 1rem; align-items: baseline; font-size: 1rem; color: var(--fp-ink-2); line-height: 1.45; }
+.st-exchange-n { font-weight: 700; font-size: clamp(1.8rem, 4.4vw, 2.6rem); line-height: 1; color: var(--accent-ink); font-variant-numeric: tabular-nums; text-align: right; }
 
 /* ---- Hotspots ---- */
 .st-hot-title { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 var(--gut); gap: 0.9rem; }
@@ -644,7 +667,9 @@
   background: var(--rule-dk); border: 1px solid var(--rule-dk);
   margin: 2rem auto 1.8rem; max-width: 760px;
 }
-@media (max-width: 559px) { .st-ref-cards { grid-template-columns: 1fr; } }
+/* Four bearings (a visitor's own audit adds the worked example) sit two by two. */
+.st-ref-cards.st-ref-four { grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 559px) { .st-ref-cards, .st-ref-cards.st-ref-four { grid-template-columns: 1fr; } }
 .st-ref-card { background: var(--white); padding: 1.7rem 1.5rem; display: flex; flex-direction: column; gap: 0.45rem; text-align: left; }
 /* The figure and its unit hold one line ("22.3 t"); nothing wraps inside it. */
 .st-ref-v { font-size: clamp(3rem, 7.5vw, 4.4rem); font-weight: 700; line-height: 1; color: var(--slate); font-variant-numeric: tabular-nums; white-space: nowrap; }
@@ -769,6 +794,9 @@
 .st-lockin .st-center { text-align: center; }
 .st-lockin .st-line, .st-lockin .st-h2 { margin-left: auto; margin-right: auto; }
 /* The disabled treatment now comes from the shared control (see .rng in global.css). */
+.st-decision { margin-top: 1.6rem; }
+.st-bridge { font-size: 0.95rem; color: var(--st-dark-mid); line-height: 1.65; max-width: 600px; margin: 1.6rem 0 0; }
+.st-bridge a { color: var(--lime-bright); font-weight: 600; text-underline-offset: 3px; }
 .st-locked {
   font-size: 0.95rem; font-weight: 600; color: var(--slate); line-height: 1.6; text-align: left;
 }

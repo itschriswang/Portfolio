@@ -5,7 +5,7 @@ import Aurora from '../components/Aurora';
 import ContourField from '../components/ContourField';
 import SplitText from '../components/SplitText';
 import { buildSeedProfile, SEED_SETTINGS } from './data/seedProfile';
-import { INTRO, MODE, PLAN, SHARE, DATA_CTRL, TOASTS, YEARS, METHOD_LINK, fmtT, listOf } from './data/copy';
+import { INTRO, MODE, PLAN, SHARE, FRIEND, DATA_CTRL, TOASTS, YEARS, METHOD_LINK, fmtT, listOf } from './data/copy';
 import { DASH_EXTRA, fill } from './data/storyCopy';
 import { CATEGORIES, categoryById } from './data/factors';
 import { CHARACTERS, classifyCharacter } from './data/characters';
@@ -15,7 +15,7 @@ import { lighten } from './lib/emblem';
 import { aggregate, projectPathway, maccData, rolloverProfile } from './lib/engine';
 import {
   loadOwnProfile, saveOwnProfile, clearOwnProfile, exportProfile, parseImported,
-  encodeSnapshot, decodeSnapshot, storySeen, markStorySeen,
+  encodeSnapshot, decodeSnapshot, storySeen, markStorySeen, loadFriend, saveFriend,
 } from './lib/store';
 import { prefersReducedMotion } from '../utils/media';
 import { copyText } from '../utils/clipboard';
@@ -96,6 +96,13 @@ export default function FootprintApp() {
   const [onboarding, setOnboarding] = useState(false);
   const [toast, setToast] = useState('');
   const [snapshot, setSnapshot] = useState(() => decodeSnapshot());
+  // A shared link stays available as a dashboard overlay after the banner is
+  // dismissed: comparing with someone you know beats a national average.
+  const [friend, setFriend] = useState(() => {
+    const s = decodeSnapshot();
+    if (s) { saveFriend(s); return s; }
+    return loadFriend();
+  });
   // The reveal story opens for first-time visitors; shared-snapshot links and
   // returning visitors land straight on the dashboard.
   const [storyOpen, setStoryOpen] = useState(() => !decodeSnapshot() && !storySeen());
@@ -152,6 +159,54 @@ export default function FootprintApp() {
     return own ? aggregate(isExample ? own : seed) : null;
   }, [own, isExample, seed, archived]);
   const comparePeriod = archived ? own.period : (own ? (isExample ? own.period : seed.period) : null);
+
+  // The overlays the category card offers: the other audit (year over year,
+  // or own against the example), and a shared link when there is one. A
+  // link carries category labels, mapped back to ids here.
+  const compares = useMemo(() => {
+    const list = [];
+    if (compareAgg) {
+      list.push({
+        id: 'audit',
+        label: isExample ? DASH_EXTRA.compare.vsOwn : DASH_EXTRA.compare.vsExample,
+        agg: compareAgg,
+        period: comparePeriod,
+      });
+    }
+    if (friend) {
+      const byCategory = {};
+      for (const [label, t] of friend.cats) {
+        const c = CATEGORIES.find((x) => x.label === label);
+        if (c) byCategory[c.id] = t;
+      }
+      list.push({
+        id: 'friend',
+        label: fill(FRIEND.overlay, { who: friend.name ? friend.name + "'s " : FRIEND.someone, label: friend.label || '' }).trim(),
+        agg: { total: friend.total, byCategory },
+        period: { label: (friend.name ? friend.name + "'s " : '') + (friend.label || '') },
+        note: FRIEND.note,
+        onForget: () => { saveFriend(null); setFriend(null); },
+        forgetLabel: FRIEND.forget,
+      });
+    }
+    return list;
+  }, [compareAgg, comparePeriod, isExample, friend]);
+
+  // The guess, kept on the open audit so next year's lock-in can say how it
+  // went. Only a visitor's own open year records one.
+  const onGuessLock = (g) => {
+    if (isExample || archived || !own) return;
+    updateOwn((p) => ({ ...p, guess: g }));
+  };
+  const lastYear = useMemo(() => {
+    if (isExample || archived || !own) return null;
+    const past = (own.pastYears || [])[(own.pastYears || []).length - 1];
+    if (!past || !Number.isFinite(past.guess)) return null;
+    const total = past.entries
+      .filter((e) => e.date >= past.start && e.date <= past.end)
+      .reduce((t, e) => t + (e.tco2e || 0), 0);
+    return { guess: past.guess, total };
+  }, [isExample, archived, own]);
 
   const updateOwn = (fn) => {
     setOwn((p) => {
@@ -338,6 +393,8 @@ export default function FootprintApp() {
           onFinish={onStoryFinish}
           onPlan={onStoryPlan}
           onCopyLink={onShare}
+          onGuessLock={onGuessLock}
+          lastYear={lastYear}
         />
       )}
 
@@ -481,11 +538,12 @@ export default function FootprintApp() {
           </div>
         )}
 
-        <Dashboard agg={agg} period={profile.period} compareAgg={compareAgg} comparePeriod={comparePeriod} isExample={isExample} country={profile.settings.country} />
+        <Dashboard agg={agg} period={profile.period} compares={compares} country={profile.settings.country} />
         {!archived && (
           <Plan
             macc={macc} pathway={pathway} plan={profile.plan} onToggle={onToggle} voice={voice}
             dwellingNudge={dwellingNudge} onDwellingAnswer={onDwellingAnswer}
+            periodEnd={isExample ? null : profile.period.end} total={agg.total}
           />
         )}
         {!isExample && !archived && (

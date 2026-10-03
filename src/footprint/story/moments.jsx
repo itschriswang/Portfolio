@@ -11,11 +11,10 @@ import { categoryShapes } from '../data/shapes';
 import ShareSheet from './ShareSheet';
 import { renderShare } from '../lib/shareCard';
 import { EQUIVALENCES, equivCount } from '../data/equivalences';
-import { baselineState, stateEmissions } from '../lib/engine';
-import { ABATEMENT_OPTIONS, APPLY_ORDER } from '../data/abatement';
+import { sequencedCut } from '../lib/decisions';
 import {
-  CHROME, COVER, YEAR, GUESS, LOCKIN, TOTAL, EQUIV_ST, SCOPES, HOTSPOTS_ST,
-  MONTHS_ST, BENCH_ST, GRID_ST, NEEDLE, OUTRO, SHARE_ST, fill, ratioPhrase,
+  CHROME, COVER, YEAR, GUESS, LOCKIN, TOTAL, EQUIV_ST, TRIPS_ST, HOTSPOTS_ST,
+  MONTHS_ST, BENCH_ST, GRID_ST, NEEDLE, OUTRO, SHARE_ST, fill, ratioPhrase, countWord,
 } from '../data/storyCopy';
 
 // Standard whileInView reveal used by the calm moments. Under reduced motion
@@ -256,15 +255,16 @@ export function YearTicker({ d, voice, tags, reduced }) {
 // asked people to guess against nothing.
 // ---------------------------------------------------------------------------
 export function ReferencePoints({ d, voice, tags, goTo }) {
+  const refs = GUESS.refs.filter((r) => !r.ownOnly || (voice === 'own' && d.peer));
   return (
     <section className="st-moment st-guess" id="st-guess" aria-label="Your benchmarks">
       <motion.div className="st-center st-wide" initial="hidden" whileInView="visible" viewport={inView}>
         <motion.div className="sec-tag" data-idx="" variants={rise}>{tags['st-guess']}</motion.div>
         <motion.h2 className="st-h2 display" variants={rise} custom={1}>{GUESS.headline[voice]}</motion.h2>
         <motion.p className="st-line" variants={rise} custom={2}>{GUESS.sub[voice]}</motion.p>
-        <div className="st-ref-cards">
-          {GUESS.refs.map((r, i) => {
-            const b = d.bench.find((x) => x.id === r.id);
+        <div className={'st-ref-cards' + (refs.length === 4 ? ' st-ref-four' : '')}>
+          {refs.map((r, i) => {
+            const b = r.id === 'peer' ? d.peer : d.bench.find((x) => x.id === r.id);
             return (
               <motion.div className="st-ref-card" key={r.id} variants={rise} custom={3 + i}>
                 <div className="st-ref-v display">
@@ -292,23 +292,55 @@ export function ReferencePoints({ d, voice, tags, goTo }) {
 // guess is display-only theatre, but it is the single most memorable stat the
 // reveal produces, so locked means locked; the verdict waits on the total.
 // ---------------------------------------------------------------------------
-export function LockIn({ tags, goTo, guess, setGuess, locked, onLock, onSkip }) {
+const GUESS_MIN = 0.5;
+const GUESS_MAX = 40;
+
+export function LockIn({ tags, goTo, guess, setGuess, locked, onLock, onSkip, marks = [], lastYear }) {
+  // Marks alternate between two rows by value, so close neighbours (the
+  // 2.5 t line and the world average) never print over each other.
+  const placed = [...marks]
+    .filter((m) => m.t >= GUESS_MIN && m.t <= GUESS_MAX)
+    .sort((a, b) => a.t - b.t)
+    .map((m, i) => ({ ...m, row: i % 2, left: ((m.t - GUESS_MIN) / (GUESS_MAX - GUESS_MIN)) * 100 }));
+  const marksText = placed.length
+    ? fill(LOCKIN.marksAria, { list: placed.map((m) => m.label + ' ' + fmtT(m.t) + ' t').join(', ') })
+    : '';
   return (
     <section className="st-moment st-lockin" id="st-lockin" aria-label="Your guess">
       <motion.div className="st-center" initial="hidden" whileInView="visible" viewport={inView}>
         <motion.div className="sec-tag" data-idx="" variants={rise}>{tags['st-lockin']}</motion.div>
         <motion.h2 className="st-h2 display" variants={rise} custom={1}>{LOCKIN.headline}</motion.h2>
         <motion.p className="st-line" variants={rise} custom={2}>{LOCKIN.sub}</motion.p>
+        {lastYear && (
+          <motion.p className="st-lastyear" variants={rise} custom={2.5}>
+            {fill(LOCKIN.lastYear, { g: fmtT(lastYear.guess), t: fmtT(lastYear.total) })}
+          </motion.p>
+        )}
         <motion.div className="st-guess-box" variants={rise} custom={3}>
           <div className="st-guess-num display" aria-hidden="true">{fmtT(guess)}<span> {LOCKIN.unit}</span></div>
           <Range
             className="st-slider"
-            min={0.5} max={40} step={0.5} value={guess}
+            min={GUESS_MIN} max={GUESS_MAX} step={0.5} value={guess}
             aria-label={LOCKIN.sliderLabel}
             aria-valuetext={fmtT(guess) + ' tonnes'}
+            aria-describedby={marksText ? 'st-guess-marks-desc' : undefined}
             disabled={locked}
             onChange={(e) => setGuess(Number(e.target.value))}
           />
+          {placed.length > 0 && (
+            <>
+              <div className="st-guess-marks" aria-hidden="true">
+                <div className="st-guess-marks-in">
+                  {placed.map((m) => (
+                    <span key={m.id} className={'st-guess-mark r' + m.row} style={{ left: m.left + '%' }}>
+                      <i /><span><b>{m.label}</b> {fmtT(m.t)}</span>
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <span id="st-guess-marks-desc" className="sr-only">{marksText}</span>
+            </>
+          )}
           <div className="st-guess-ctas">
             {locked ? (
               <>
@@ -508,43 +540,59 @@ export function Equivalences({ d, voice, tags }) {
 }
 
 // ---------------------------------------------------------------------------
-// 4 · Scopes
+// 4 · Decisions, not days: how much of the year a handful of trips decided,
+// then the biggest trip re-counted in the visitor's own everyday lines.
+// Numbers from lib/decisions.js; skipped when nothing was flown.
 // ---------------------------------------------------------------------------
-// Light-to-dark matcha steps for the stacked scope bar (light scene).
-const SCOPE_STEPS = ['#DCE3A8', '#B5C42B', '#75821D'];
+const fmtUnits = (v) => (v >= 10 ? String(Math.round(v)) : (Math.round(v * 10) / 10).toString());
 
-export function Scopes({ d, voice, tags }) {
+export function Trips({ d, voice, tags }) {
+  const tr = d.trips;
+  if (!tr) return null;
   const total = Math.max(d.total, 0.001);
-  const s3pct = Math.round((d.byScope['3'] / total) * 100);
+  const tripPct = Math.min(100, (tr.tripT / total) * 100);
+  const word = tr.count === 1 ? TRIPS_ST.tripWord[0] : TRIPS_ST.tripWord[1];
+  const ex = TRIPS_ST.exchange;
   return (
-    <section className="st-moment st-scopes" id="st-scopes" aria-label="The three scopes">
+    <section className="st-moment st-trips" id="st-trips" aria-label="Decisions, not days">
       <motion.div className="st-center st-wide" initial="hidden" whileInView="visible" viewport={inView}>
-        <motion.div className="sec-tag" data-idx="" variants={rise}>{tags['st-scopes']}</motion.div>
-        <motion.h2 className="st-h2 display" variants={rise} custom={1}>{SCOPES.headline}</motion.h2>
-        <motion.p className="st-line" variants={rise} custom={1.5}>{SCOPES.gloss[voice]}</motion.p>
-        <div className="st-scope-rows">
-          {SCOPES.items.map((s, i) => (
-            <motion.div className="st-scope-row" key={s.n} variants={rise} custom={2 + i}>
-              <span className="st-scope-n" aria-hidden="true">{s.n}</span>
-              <div>
-                <div className="st-scope-name">{s.name}</div>
-                <div className="st-scope-plain">{s.plain[voice]}</div>
-                <div className="st-scope-val">
-                  <CountUp value={d.byScope[s.n] || 0} decimals={2} duration={1.2} delay={i * 0.15} /> t
-                </div>
-                <p className="st-scope-line">{s.line[voice]}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-        <motion.div className="st-scope-bar" variants={rise} custom={5} role="img"
-          aria-label={`Scope 1 ${fmtT(d.byScope['1'], 2)} tonnes, scope 2 ${fmtT(d.byScope['2'], 2)} tonnes, scope 3 ${fmtT(d.byScope['3'], 2)} tonnes.`}>
-          {['1', '2', '3'].map((n, i) => (
-            <span key={n} style={{ width: `${Math.max(1, ((d.byScope[n] || 0) / total) * 100)}%`, background: SCOPE_STEPS[i] }} />
-          ))}
+        <motion.div className="sec-tag" data-idx="" variants={rise}>{tags['st-trips']}</motion.div>
+        <motion.h2 className="st-h2 display" variants={rise} custom={1}>
+          {fill(TRIPS_ST.headline[voice], { n: countWord(tr.count, true), trips: word, pct: tr.pct })}
+        </motion.h2>
+        <motion.p className="st-line" variants={rise} custom={1.5}>
+          {fill(TRIPS_ST.sub[voice], { trip: fmtT(tr.tripT), rest: fmtT(tr.restT) })}
+        </motion.p>
+        <motion.div className="st-trip-bar" variants={rise} custom={2} role="img"
+          aria-label={fill(TRIPS_ST.barAria, { trip: fmtT(tr.tripT, 2), rest: fmtT(tr.restT, 2) })}>
+          <span className="st-trip-seg trips" style={{ width: Math.max(1, tripPct) + '%' }} />
+          <span className="st-trip-seg rest" style={{ width: Math.max(1, 100 - tripPct) + '%' }} />
         </motion.div>
-        <motion.p className="st-punch" variants={rise} custom={6}>
-          <CountUp value={s3pct} decimals={0} duration={1.3} className="st-punch-num" /><span className="st-punch-pct">%</span> {SCOPES.punch[voice]}
+        {/* Labels sit under the bar, not inside it: a thin segment would
+            otherwise clip its own name on a phone. */}
+        <motion.div className="st-trip-legend" variants={rise} custom={2.2} aria-hidden="true">
+          <span><i className="trips" /><em>{TRIPS_ST.bar.trips}</em> <b>{fmtT(tr.tripT)} t</b></span>
+          <span><i className="rest" /><em>{TRIPS_ST.bar.rest}</em> <b>{fmtT(tr.restT)} t</b></span>
+        </motion.div>
+        {tr.exchange.length > 0 && (
+          <motion.div className="st-exchange" variants={rise} custom={3}>
+            <div className="st-exchange-title">{ex.title[voice]}</div>
+            <p className="st-exchange-lead">{fill(ex.lead, { name: tr.biggest.name, t: fmtT(tr.biggest.t) })}</p>
+            <ul className="st-exchange-rows">
+              {tr.exchange.map((r) => (
+                <li key={r.id}>
+                  <span className="st-exchange-n display">{fmtUnits(r.value)}</span>
+                  <span>{fill(ex.rows[r.id][r.unit][voice], { n: '' }).trim()}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="st-caveat">{ex.note[voice]}</p>
+          </motion.div>
+        )}
+        <motion.p className="st-punch" variants={rise} custom={4}>
+          {tr.ratio != null && tr.ratio >= 1
+            ? fill(TRIPS_ST.punch.over[voice], { x: (Math.round(tr.ratio * 10) / 10).toString() })
+            : TRIPS_ST.punch.under[voice]}
         </motion.p>
       </motion.div>
     </section>
@@ -829,18 +877,7 @@ export function GridSwap({ d, tags }) {
 // ---------------------------------------------------------------------------
 export function Needle({ d, profile, agg, voice, tags, onPlan }) {
   const [on, setOn] = useState(() => new Set());
-  const base = useMemo(() => baselineState(profile, agg), [profile, agg]);
-  const before = useMemo(() => stateEmissions({ ...base, addedKwh0: 0 }, 0).total, [base]);
-  const reduction = useMemo(() => {
-    if (!on.size) return 0;
-    const st = { ...base, addedKwh0: 0 };
-    for (const id of APPLY_ORDER) {
-      if (!on.has(id)) continue;
-      const opt = ABATEMENT_OPTIONS.find((o) => o.id === id);
-      if (opt && opt.applicable(base)) opt.apply(st, 1);
-    }
-    return Math.max(0, before - stateEmissions(st, 0).total);
-  }, [base, before, on]);
+  const reduction = useMemo(() => sequencedCut(profile, agg, [...on]), [profile, agg, on]);
   const newTotal = Math.max(0, agg.total - reduction);
   const disp = useAnimatedNumber(newTotal);
   const pct = agg.total > 0 ? Math.round((reduction / agg.total) * 100) : 0;
@@ -904,6 +941,12 @@ export function Needle({ d, profile, agg, voice, tags, onPlan }) {
               swapped: fmtT(d.modeSwap.swapped, 2),
             })}{' '}
             {fill(NEEDLE.modeSwap.tail, { x: d.modeSwap.ratio })}
+          </motion.p>
+        )}
+        {voice === 'example' && d.commit && (
+          <motion.p className="st-benchnote st-decision" variants={rise} custom={7}>
+            <strong>{NEEDLE.decision.kicker}. </strong>
+            {fill(NEEDLE.decision.line, { c: fmtT(d.commit.committed), o: fmtT(d.commit.open) })}
           </motion.p>
         )}
         <motion.div className="st-share-row" variants={rise} custom={8}>
@@ -977,6 +1020,12 @@ export function Outro({ d, voice, character, tags, onStart, onExplore, onReplay,
             <GalleryCard key={c.key} kind={c.kind} fy={d.fy} data={c.data} linkedIn={c.linkedIn} label={c.label} />
           ))}
         </motion.div>
+
+        {voice === 'example' && (
+          <motion.p className="st-bridge" variants={rise} custom={3.5}>
+            {OUTRO.bridge.line} <a href="../work/">{OUTRO.bridge.cta} →</a>
+          </motion.p>
+        )}
 
         <motion.div className="st-share-row" variants={rise} custom={4}>
           {onCopyLink && <CopyButton className="btn btn-secondary" onCopy={onCopyLink} label={SHARE_ST.copyLink} doneLabel={SHARE_ST.copyLinkDone} iconSize={16} />}

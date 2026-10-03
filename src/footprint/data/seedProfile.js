@@ -54,27 +54,28 @@ export function buildSeedProfile() {
     E({ id: 'seed-rd2', quality: 'estimated', date: '2025-12-31', category: 'road', label: 'Rideshare, Oct to Dec', period_months: 3, meta: { mode: 'rideshare', km: 164 }, notes: 'Spend-converted.' }),
     E({ id: 'seed-rd3', quality: 'estimated', date: '2026-03-31', category: 'road', label: 'Rideshare, Jan to Mar', period_months: 3, meta: { mode: 'rideshare', km: 106 }, notes: 'Spend-converted.' }),
     E({ id: 'seed-rd4', quality: 'estimated', date: '2026-06-30', category: 'road', label: 'Rideshare, Apr to Jun', period_months: 3, meta: { mode: 'rideshare', km: 175 }, notes: 'Spend-converted.' }),
-    E({ id: 'seed-rd5', quality: 'estimated', date: '2026-01-31', category: 'road', label: 'Taxis abroad (Tokyo, Seoul, Manila, Cebu)', meta: { mode: 'taxi', km: 320 }, notes: 'Trip taxis on the January travel, spend-converted at local rates. Coarse.' }),
+    E({ id: 'seed-rd5', quality: 'estimated', date: '2026-01-31', category: 'road', label: 'Taxis abroad (Tokyo, Seoul, Manila, Cebu)', meta: { abroad: true, mode: 'taxi', km: 320 }, notes: 'Trip taxis on the January travel, spend-converted at local rates. Coarse.' }),
     E({ id: 'seed-rd6', quality: 'estimated', date: '2025-12-31', category: 'road', label: 'Trains and buses, Jul to Dec', period_months: 6, meta: { mode: 'pt', km: 2600 }, notes: 'Fares converted at about 25c per km. Indicative rail factor; the daily commute lives here.' }),
     E({ id: 'seed-rd7', quality: 'estimated', date: '2026-06-30', category: 'road', label: 'Trains and buses, Jan to Jun', period_months: 6, meta: { mode: 'pt', km: 2600 }, notes: 'Fares converted at about 25c per km.' }),
 
     // Flights: the whole story. Every itinerary at UK Government (DESNZ)
     // per-pax-km factors, radiative forcing included, great-circle distance
-    // plus 8% uplift.
-    E({ id: 'seed-fl1', quality: 'metered', date: '2025-07-06', category: 'flight', label: 'Sydney to Seoul return, July trip', meta: { km: 8317, return: true, band: 'longIntl', cabin: 'economy' }, notes: 'Economy.' }),
-    E({ id: 'seed-fl2', quality: 'metered', date: '2025-08-16', category: 'flight', label: 'Sydney to Uluru return', meta: { km: 2024, return: true, band: 'domestic', cabin: 'economy' }, notes: 'Domestic factor with RF.' }),
+    // plus 8% uplift. meta.trip groups the legs into the five trips they
+    // were booked as, so the levers and the reveal count trips, not rows.
+    E({ id: 'seed-fl1', quality: 'metered', date: '2025-07-06', category: 'flight', label: 'Sydney to Seoul return, July trip', meta: { trip: 'seoul', tripName: 'Seoul in July', km: 8317, return: true, band: 'longIntl', cabin: 'economy' }, notes: 'Economy.' }),
+    E({ id: 'seed-fl2', quality: 'metered', date: '2025-08-16', category: 'flight', label: 'Sydney to Uluru return', meta: { trip: 'uluru', tripName: 'Uluru in August', km: 2024, return: true, band: 'domestic', cabin: 'economy' }, notes: 'Domestic factor with RF.' }),
     // January: one long circuit through North Asia, then the Manila trip. This
     // is why January is the worst month by a distance.
-    E({ id: 'seed-fl3', quality: 'metered', date: '2026-01-05', category: 'flight', label: 'Sydney to Tokyo, January circuit', meta: { km: 7823, return: false, band: 'longIntl', cabin: 'economy' }, notes: 'Economy. First leg of the January circuit.' }),
-    E({ id: 'seed-fl4', quality: 'metered', date: '2026-01-08', category: 'flight', label: 'Tokyo to Shanghai', meta: { km: 1766, return: false, band: 'shortIntl', cabin: 'economy' }, notes: 'Short-haul band.' }),
-    E({ id: 'seed-fl5', quality: 'metered', date: '2026-01-11', category: 'flight', label: 'Shanghai to Tokyo', meta: { km: 1766, return: false, band: 'shortIntl', cabin: 'economy' }, notes: 'Short-haul band.' }),
-    E({ id: 'seed-fl6', quality: 'metered', date: '2026-01-14', category: 'flight', label: 'Tokyo to Seoul', meta: { km: 1160, return: false, band: 'shortIntl', cabin: 'economy' }, notes: 'Short-haul band.' }),
-    E({ id: 'seed-fl7', quality: 'metered', date: '2026-01-18', category: 'flight', label: 'Seoul to Sydney', meta: { km: 8317, return: false, band: 'longIntl', cabin: 'economy' }, notes: 'Economy. Home from the circuit.' }),
-    E({ id: 'seed-fl8', quality: 'metered', date: '2026-01-22', category: 'flight', label: 'Sydney to Manila return, January trip', meta: { km: 6264, return: true, band: 'longIntl', cabin: 'economy' }, notes: 'Economy.' }),
-    E({ id: 'seed-fl9', quality: 'metered', date: '2026-01-24', category: 'flight', label: 'Manila to Cebu return', meta: { km: 571, return: true, band: 'shortIntl', cabin: 'economy' }, notes: 'Short-haul band.' }),
-    E({ id: 'seed-fl10', quality: 'metered', date: '2026-01-26', category: 'flight', label: 'Philippines domestic hops (two legs)', meta: { km: 1100, return: false, band: 'shortIntl', cabin: 'economy' }, notes: 'Two budget-carrier legs, combined distance.' }),
-    E({ id: 'seed-fl11', quality: 'metered', date: '2026-04-05', category: 'flight', label: 'Sydney to Singapore, April trip', meta: { km: 6288, return: false, band: 'longIntl', cabin: 'economy' }, notes: 'One way.' }),
-    E({ id: 'seed-fl12', quality: 'metered', date: '2026-04-11', category: 'flight', label: 'Singapore to Sydney', meta: { km: 6288, return: false, band: 'longIntl', cabin: 'economy' }, notes: 'One way, home from Singapore.' }),
+    E({ id: 'seed-fl3', quality: 'metered', date: '2026-01-05', category: 'flight', label: 'Sydney to Tokyo, January circuit', meta: { trip: 'circuit', tripName: 'The January circuit', km: 7823, return: false, band: 'longIntl', cabin: 'economy' }, notes: 'Economy. First leg of the January circuit.' }),
+    E({ id: 'seed-fl4', quality: 'metered', date: '2026-01-08', category: 'flight', label: 'Tokyo to Shanghai', meta: { trip: 'circuit', km: 1766, return: false, band: 'shortIntl', cabin: 'economy' }, notes: 'Short-haul band.' }),
+    E({ id: 'seed-fl5', quality: 'metered', date: '2026-01-11', category: 'flight', label: 'Shanghai to Tokyo', meta: { trip: 'circuit', km: 1766, return: false, band: 'shortIntl', cabin: 'economy' }, notes: 'Short-haul band.' }),
+    E({ id: 'seed-fl6', quality: 'metered', date: '2026-01-14', category: 'flight', label: 'Tokyo to Seoul', meta: { trip: 'circuit', km: 1160, return: false, band: 'shortIntl', cabin: 'economy' }, notes: 'Short-haul band.' }),
+    E({ id: 'seed-fl7', quality: 'metered', date: '2026-01-18', category: 'flight', label: 'Seoul to Sydney', meta: { trip: 'circuit', km: 8317, return: false, band: 'longIntl', cabin: 'economy' }, notes: 'Economy. Home from the circuit.' }),
+    E({ id: 'seed-fl8', quality: 'metered', date: '2026-01-22', category: 'flight', label: 'Sydney to Manila return, January trip', meta: { trip: 'manila', tripName: 'Manila and Cebu', km: 6264, return: true, band: 'longIntl', cabin: 'economy' }, notes: 'Economy.' }),
+    E({ id: 'seed-fl9', quality: 'metered', date: '2026-01-24', category: 'flight', label: 'Manila to Cebu return', meta: { trip: 'manila', km: 571, return: true, band: 'shortIntl', cabin: 'economy' }, notes: 'Short-haul band.' }),
+    E({ id: 'seed-fl10', quality: 'metered', date: '2026-01-26', category: 'flight', label: 'Philippines domestic hops (two legs)', meta: { trip: 'manila', km: 1100, return: false, band: 'shortIntl', cabin: 'economy' }, notes: 'Two budget-carrier legs, combined distance.' }),
+    E({ id: 'seed-fl11', quality: 'metered', date: '2026-04-05', category: 'flight', label: 'Sydney to Singapore, April trip', meta: { trip: 'singapore', tripName: 'Singapore in April', km: 6288, return: false, band: 'longIntl', cabin: 'economy' }, notes: 'One way.' }),
+    E({ id: 'seed-fl12', quality: 'metered', date: '2026-04-11', category: 'flight', label: 'Singapore to Sydney', meta: { trip: 'singapore', km: 6288, return: false, band: 'longIntl', cabin: 'economy' }, notes: 'One way, home from Singapore.' }),
 
     // Freight: the online shopping habit, counted in full.
     E({ id: 'seed-fr1', quality: 'estimated', date: '2026-06-30', category: 'freight', label: 'International parcels, air express (est. 75 kg)', period_months: 12, meta: { mode: 'air', tonneKm: 600 }, notes: 'About 25 consolidated overseas orders at roughly 3 kg each, air freighted about 8,000 km. Sea consolidation would cut this by around 90 percent; that toggle is in the plan.' }),
@@ -94,12 +95,13 @@ export function buildSeedProfile() {
 
     // Hotel nights: the same trips as the flights above, at the DEFRA
     // per-room-night country factors. Coarse night counts, labelled estimates.
+    // Each carries its trip key, except Seoul, whose nights span two trips.
     E({ id: 'seed-ht1', quality: 'estimated', date: '2026-06-30', category: 'hotel', label: 'Hotel nights, South Korea (Seoul)', period_months: 12, meta: { nights: 6, country: 'KR' }, notes: 'July and the January circuit, priced at the DEFRA per-room-night factor. Estimate.' }),
-    E({ id: 'seed-ht2', quality: 'estimated', date: '2026-06-30', category: 'hotel', label: 'Hotel nights, Japan (Tokyo)', period_months: 12, meta: { nights: 3, country: 'JP' }, notes: 'January circuit. Estimate.' }),
-    E({ id: 'seed-ht3', quality: 'estimated', date: '2026-06-30', category: 'hotel', label: 'Hotel nights, China (Shanghai)', period_months: 12, meta: { nights: 2, country: 'CN' }, notes: 'January circuit. Estimate.' }),
-    E({ id: 'seed-ht4', quality: 'estimated', date: '2026-06-30', category: 'hotel', label: 'Hotel nights, Philippines (Manila, Cebu)', period_months: 12, meta: { nights: 5, country: 'PH' }, notes: 'January trip. Estimate.' }),
-    E({ id: 'seed-ht5', quality: 'estimated', date: '2026-06-30', category: 'hotel', label: 'Hotel nights, Singapore', period_months: 12, meta: { nights: 3, country: 'SG' }, notes: 'April trip. Estimate.' }),
-    E({ id: 'seed-ht6', quality: 'estimated', date: '2026-06-30', category: 'hotel', label: 'Hotel nights, Australia (Uluru)', period_months: 12, meta: { nights: 2, country: 'AU' }, notes: 'August trip. Estimate.' }),
+    E({ id: 'seed-ht2', quality: 'estimated', date: '2026-06-30', category: 'hotel', label: 'Hotel nights, Japan (Tokyo)', period_months: 12, meta: { trip: 'circuit', nights: 3, country: 'JP' }, notes: 'January circuit. Estimate.' }),
+    E({ id: 'seed-ht3', quality: 'estimated', date: '2026-06-30', category: 'hotel', label: 'Hotel nights, China (Shanghai)', period_months: 12, meta: { trip: 'circuit', nights: 2, country: 'CN' }, notes: 'January circuit. Estimate.' }),
+    E({ id: 'seed-ht4', quality: 'estimated', date: '2026-06-30', category: 'hotel', label: 'Hotel nights, Philippines (Manila, Cebu)', period_months: 12, meta: { trip: 'manila', nights: 5, country: 'PH' }, notes: 'January trip. Estimate.' }),
+    E({ id: 'seed-ht5', quality: 'estimated', date: '2026-06-30', category: 'hotel', label: 'Hotel nights, Singapore', period_months: 12, meta: { trip: 'singapore', nights: 3, country: 'SG' }, notes: 'April trip. Estimate.' }),
+    E({ id: 'seed-ht6', quality: 'estimated', date: '2026-06-30', category: 'hotel', label: 'Hotel nights, Australia (Uluru)', period_months: 12, meta: { trip: 'uluru', nights: 2, country: 'AU' }, notes: 'August trip. Estimate.' }),
   ];
 
   return {

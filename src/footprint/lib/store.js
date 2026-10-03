@@ -66,6 +66,28 @@ export function markStorySeen() {
   try { window.localStorage.setItem(STORY_KEY, 'seen'); } catch { /* session-only */ }
 }
 
+// A friend's shared summary, kept so it can be overlaid on the visitor's own
+// dashboard after they run their audit. Only what the link itself carried
+// (total and top categories); cleared on request.
+
+const FRIEND_KEY = 'cw-footprint-friend-v1';
+
+export function loadFriend() {
+  try {
+    const s = JSON.parse(window.localStorage.getItem(FRIEND_KEY) || 'null');
+    return s && Number.isFinite(s.total) && Array.isArray(s.cats) ? s : null;
+  } catch {
+    return null;
+  }
+}
+
+export function saveFriend(snapshot) {
+  try {
+    if (snapshot) window.localStorage.setItem(FRIEND_KEY, JSON.stringify(snapshot));
+    else window.localStorage.removeItem(FRIEND_KEY);
+  } catch { /* session-only */ }
+}
+
 // ---- Export / import -------------------------------------------------------
 
 export function exportProfile(profile) {
@@ -110,6 +132,7 @@ export function parseImported(text) {
     period: p.period,
     entries: sanitiseEntries(p.entries),
     plan: p.plan && Array.isArray(p.plan.enabled) ? p.plan : { enabled: [] },
+    ...(Number.isFinite(p.guess) ? { guess: p.guess } : {}),
     pastYears: Array.isArray(p.pastYears)
       ? p.pastYears
         .filter((y) => y && y.label && y.start && y.end && Array.isArray(y.entries))
