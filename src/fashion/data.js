@@ -1784,7 +1784,7 @@ export function scoreCircularity(g, choices) {
 }
 
 export const COPY = {
-  brand: 'OPENWEAVE',
+  brand: 'Cost Per Wear',
   strap: 'Fashion brand transparency, in plain English',
   byline: 'A working tool by Chris Wang',
   backLabel: 'itschriswang.com',
@@ -1802,6 +1802,9 @@ export const COPY = {
     countTemplate: '{n} brands and companies tracked',
     kbdHint: 'Press / to search from anywhere',
     recentLabel: 'Recently viewed',
+    // The three swing tags drawn beside the headline, by brand id. Their
+    // parent, segment and score come from the brand records.
+    tagIds: ['uniqlo', 'gucci', 'kmart-australia'],
   },
 
   // At-a-glance stat band under the hero.
@@ -1824,6 +1827,7 @@ export const COPY = {
     notFoundBody: 'We could not match that to a brand on file. It may be spelled differently, sold under a parent company, or simply not added yet. Add it to the research backlog below.',
     parentLabel: 'Parent company',
     segmentLabel: 'Segment',
+    searchAgainLabel: 'Search again',
     hqLabel: 'Headquarters',
     familyLabel: 'Sister brands in this group',
     familyHint: 'The same owner reports for all of these. Tap to switch.',
@@ -1894,6 +1898,11 @@ export const COPY = {
     },
     sortLabel: 'Sort',
     resultTemplate: '{n} shown',
+    resultPartTemplate: '{shown} of {n} shown',
+    scoreKey: 'The figure on each tag is its Fashion Transparency Index 2023 score out of 100. TBC means in scope but not yet verified; n/a means the index never assessed it.',
+    showAllTemplate: 'Show all {n}',
+    showFewer: 'Show fewer',
+    noMatch: 'No brands match those filters.',
     groupsLede: 'Every tracked company grouped under its owner, largest holding first. Tap a brand to open it.',
     groupBrandsTemplate: '{n} brands on file',
     groupAvgLabel: 'Mean FTI of scored brands',
@@ -1920,7 +1929,7 @@ export const COPY = {
     lede: 'The lookup tells you what a brand says. The studio shows you what a garment costs the world, and where. Build one, follow it, then design its second life.',
     estimator: {
       idx: '05',
-      icon: 'spark',
+      icon: 'shirt',
       title: 'Carbon footprint estimator',
       sub: 'Build a garment, watch it cost',
       lede: 'Pick the cut, the size, the cloth and where it is made. Carbon dioxide equivalent gathers around the garment as you work: fibre, dyeing, assembly and transport each emit their own stream.',
@@ -1953,7 +1962,7 @@ export const COPY = {
       rows: {
         ef: { label: 'Carbon to make', unit: 'kg CO2e / kg fibre', icon: 'flame' },
         waterL: { label: 'Water to grow', unit: 'litres / kg fibre', icon: 'drop' },
-        microMg: { label: 'Sheds in the wash', unit: 'mg / wash', icon: 'spark' },
+        microMg: { label: 'Sheds in the wash', unit: 'mg / wash', icon: 'wash' },
         wears: { label: 'Life expectancy', unit: 'relative to cotton', icon: 'clock' },
         decayYr: { label: 'Buried breakdown', unit: 'years to break down', icon: 'bin' },
       },
@@ -2080,7 +2089,7 @@ export const COPY = {
   },
 
   footer: {
-    method: 'Method: brand ownership from corporate filings and official brand pages. Transparency scores are the Fashion Transparency Index 2023, published by Fashion Revolution, which rates public disclosure only; 2023 was the final edition of that index, and its successor, What Fuels Fashion, is linked from every brand card until its scores are ingested from the primary report. Climate-target status is drawn from the Science Based Targets initiative’s Companies Taking Action export, 6 August 2026 snapshot, and counts only a near-term target the SBTi records as validated; memberships from The Fashion Pact and B Lab. Per-field disclosure statuses are tracked in the repository and marked "Needs research" until a source is confirmed. Garment studio figures are indicative estimates assembled from published life cycle assessment literature (including Mistra Future Fashion’s six-garment study and ADEME’s consumer-goods LCAs), freight and petrol-car factors from the DESNZ and Defra 2026 conversion factors, and public grid intensity data, rounded and simplified so they can be manipulated live. Nothing here is assured reporting, a product footprint, or advice about a real brand.',
+    method: 'Brand ownership is drawn from corporate filings and official brand pages. Transparency scores are the Fashion Transparency Index 2023, published by Fashion Revolution, which rates public disclosure only; 2023 was the final edition of that index, and its successor, What Fuels Fashion, is linked from every brand card until its scores are ingested from the primary report. Climate-target status is drawn from the Science Based Targets initiative’s Companies Taking Action export, 6 August 2026 snapshot, and counts only a near-term target the SBTi records as validated; memberships from The Fashion Pact and B Lab. Per-field disclosure statuses are tracked in the repository and marked "Needs research" until a source is confirmed. Garment studio figures are indicative estimates assembled from published life cycle assessment literature (including Mistra Future Fashion’s six-garment study and ADEME’s consumer-goods LCAs), freight and petrol-car factors from the DESNZ and Defra 2026 conversion factors, and public grid intensity data, rounded and simplified so they can be manipulated live. Nothing here is assured reporting, a product footprint, or advice about a real brand.',
     attributionLabel: 'Data and attribution',
     attribution: 'This tool reproduces published figures with attribution, and claims none of them as its own. Fashion Transparency Index scores are © Fashion Revolution CIC, used for reference under their public research. Science Based Targets initiative data © SBTi. Certification and membership marks belong to their owners: The Fashion Pact, B Lab (B Corp), and the brands named. Company ownership is a matter of public record. Cost Per Wear is an independent, non-commercial reference tool and is not affiliated with, or endorsed by, any brand or organisation named. Every figure links to its source so you can check it. If you own a listing and something is wrong, it can be corrected.',
     sourcesLabel: 'Sources',

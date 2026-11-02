@@ -30,10 +30,12 @@ const fmtInt = (v) => Math.round(v).toLocaleString('en-AU');
 function StudioHead({ c }) {
   return (
     <>
-      <div className="sec-tag" data-idx={`${c.idx} / `}>
-        {c.icon && <Icon name={c.icon} size={30} />}{c.sub}
+      <div className="ow-sechead">
+        <div className="sec-tag" data-idx={`${c.idx} / `}>
+          {c.icon && <Icon name={c.icon} size={30} />}{c.sub}
+        </div>
+        <h2 className="display ow-h2">{c.title}</h2>
       </div>
-      <h2 className="display ow-h2">{c.title}</h2>
       <p className="ow-lede">{c.lede}</p>
     </>
   );
