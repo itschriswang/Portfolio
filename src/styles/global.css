@@ -19,7 +19,9 @@
 html { scroll-behavior: smooth; overflow-x: clip; color-scheme: light; }
 
 :root {
-  /* Corporate Vibrant — SaaS Design System */
+  /* Accent fills. Matcha is the brand hue; indigo, berry and amber are its
+     companions for series, steps and status. They are fills first; text on a
+     light surface takes the darker -ink twins below. */
   --matcha:#B5C42B;
   --indigo:#635BFF;
   --berry:#FF3B60;
@@ -398,7 +400,7 @@ section { position:relative; }
 .hero-cta{ grid-column:1 / 8; display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1.5rem; }
 /* Confident solid blocks (lime, then forest) replacing the earlier
    translucent-wash tiles — the pairing already proven in the footer card. */
-.instr-stack{ grid-column:9 / 13; display:grid; grid-template-columns:1fr 1fr; gap:0.7rem; margin-top:0.2rem; }
+.instr-stack{ grid-column:9 / 13; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0.7rem; margin-top:0.2rem; }
 @media(max-width:680px){
   .hero-prop{ grid-column:1 / 4; grid-row:1; font-size:0.95rem; }
   .hero-cta{ grid-column:1 / 5; grid-row:2; }
@@ -440,7 +442,7 @@ section { position:relative; }
 .sub-head{ font-family:var(--mono); font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--slate); font-weight:600; line-height:1.4; margin-bottom:1rem; display:flex; align-items:center; gap:0.75rem; }
 .sub-head::after{ content:''; flex:1; height:1px; background:var(--rule-lt); }
 .outcomes-grid{ display:grid; grid-template-columns:1fr; gap:1px; background:var(--rule-dk); border:1px solid var(--rule-dk); border-radius:var(--r-xl); overflow:hidden; box-shadow:var(--shadow-soft); }
-@media(min-width:640px){ .outcomes-grid{ grid-template-columns:repeat(3,1fr); } }
+@media(min-width:640px){ .outcomes-grid{ grid-template-columns:repeat(3,minmax(0,1fr)); } }
 /* Stat card — one shared language for every metric tile on the site: flat
    white surface with a full-bleed tinted band behind the number, so the figure
    sits ON its accent colour instead of under a floating hairline (a border-top
@@ -475,12 +477,23 @@ section { position:relative; }
 .pipe-step:hover{ background:var(--lime-wash); }
 .pipe-step:focus-visible{ outline:2px solid var(--matcha); outline-offset:-2px; }
 .pipe-n{ font-family:var(--mono); font-size:11px; letter-spacing:0.06em; font-weight:700; color:color-mix(in srgb, var(--pc,var(--matcha)) 50%, var(--slate)); background:color-mix(in srgb, var(--pc,var(--matcha)) 14%, var(--white)); border-radius:var(--r-pill); padding:0.3rem 0.6rem; flex-shrink:0; }
-/* The step hue at full strength is a fill (the icon accent, the numeral
-   pill). As text it is mixed half with --slate, which keeps the hue family
-   and clears 5:1 on white and the lime-wash hover for all five steps. */
-.pipe-label{ font-family:var(--mono); font-size:0.82rem; letter-spacing:0.08em; text-transform:uppercase; font-weight:600; color:color-mix(in srgb, var(--pc,var(--slate)) 50%, var(--slate)); }
+/* The step hue lives on the numeral chip only. The labels used to take it
+   too, mixed half with --slate, which put five tinted uppercase words in a
+   column with nothing to say by their colour that the chip beside them had
+   not already said. */
+.pipe-label{ font-family:var(--mono); font-size:0.82rem; letter-spacing:0.08em; text-transform:uppercase; font-weight:600; color:var(--slate); }
 .pipe-step-right{ display:flex; align-items:center; gap:0.6rem; margin-left:auto; flex-shrink:0; }
 .pipe-badge{ font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--mid); background:var(--band); border:1px solid var(--rule-dk); padding:0.25rem 0.7rem; border-radius:var(--r-pill); white-space:nowrap; transition:background 0.2s,color 0.2s,border-color 0.2s; }
+/* On a phone the row holds chip, label, count and chevron on one line, as it
+   does on desktop: the glyph steps aside (the chip already numbers and colours
+   the stage) and the spacing tightens, so "Calculation" and "Communication"
+   no longer drop their count to a second line from 360px up. */
+@media(max-width:560px){
+  .pipe-step{ gap:0.6rem; }
+  .pipe-step > .fpi{ display:none; }
+  .pipe-label{ letter-spacing:0.04em; }
+  .pipe-badge{ padding-inline:0.55rem; }
+}
 .pipe-step:hover .pipe-badge, .pipe-step.open .pipe-badge{ background:rgba(181,196,43,0.14); color:var(--accent-ink); border-color:rgba(181,196,43,0.35); }
 .pipe-chevron{ font-size:0.7rem; color:var(--subtle); transition:transform 0.32s var(--ease),color 0.2s; line-height:1; }
 .pipe-step.open .pipe-chevron{ transform:rotate(180deg); color:var(--matcha); }
@@ -520,7 +533,9 @@ section { position:relative; }
   }
 }
 .princ-main{ display:flex; flex-direction:column; }
-.princ-title{ font-family:var(--disp); font-size:clamp(1.05rem,2.2vw,1.35rem); font-weight:700; color:var(--slate); line-height:1.2; margin-bottom:0.75rem; letter-spacing:-0.02em; }
+/* Icon and title sit as one row, so a title that wraps keeps its own left
+   edge rather than running back under the glyph. */
+.princ-title{ display:flex; align-items:center; gap:0.6rem; font-family:var(--disp); font-size:clamp(1.05rem,2.2vw,1.35rem); font-weight:700; color:var(--slate); line-height:1.2; margin-bottom:0.75rem; letter-spacing:-0.02em; }
 .princ-body{ font-size:0.85rem; font-weight:400; color:var(--ink-2); line-height:1.75; }
 
 /* ============================================================================
@@ -583,7 +598,7 @@ section { position:relative; }
 .seg-sm .seg-btn.on{ background:var(--sc,var(--slate)); color:#fff; }
 
 .lever-deck{ display:grid; grid-template-columns:1fr; gap:1px; background:var(--rule-dk); border:1px solid var(--rule-dk); margin-top:1.25rem; border-radius:var(--r-lg); overflow:hidden; box-shadow:var(--shadow-soft); }
-@media(min-width:720px){ .lever-deck{ grid-template-columns:1fr 1fr; } }
+@media(min-width:720px){ .lever-deck{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
 .lever-card{ background:var(--white); padding:1.25rem 1.4rem; display:flex; flex-direction:column; }
 .lever-card-rev{ grid-column:1/-1; }
 .lever-top{ display:flex; align-items:center; gap:0.55rem; margin-bottom:0.25rem; }
@@ -595,10 +610,11 @@ section { position:relative; }
    neighbouring cards land at different heights instead of sharing a row. */
 .lever-card .seg-row{ border-color:var(--rule-lt); background:var(--rule-lt); margin-top:auto; }
 
-.takeaway{ position:relative; background:linear-gradient(150deg,var(--lime-wash),var(--white) 70%); padding:1.15rem 1.5rem 1.15rem 1.75rem; margin-top:1.25rem; margin-bottom:1.5rem; font-family:var(--disp); font-size:clamp(1.05rem,2.6vw,1.4rem); font-weight:600; line-height:1.45; color:var(--slate); letter-spacing:-0.01em; border-radius:var(--r-md); box-shadow:0 6px 20px rgba(33,48,15,0.10),0 1px 2px rgba(23,25,13,0.04); }
-/* Inset rounded gradient bar — sits inside the rounded box, never meeting the curve. */
-.takeaway::before{ content:''; position:absolute; left:0.8rem; top:1.05rem; bottom:1.05rem; width:4px; border-radius:var(--r-pill); background:linear-gradient(180deg,var(--forest-ink),var(--matcha)); }
-.takeaway em{ font-style:normal; color:#75821D; }
+/* The headline result. A full hairline and the lime wash mark it; it used to
+   carry a gradient bar down its left edge as well, the side stripe the house
+   rules leave off cards and callouts. */
+.takeaway{ position:relative; background:linear-gradient(150deg,var(--lime-wash),var(--white) 70%); border:1px solid var(--rule-dk); padding:1.15rem 1.5rem; margin-top:1.25rem; margin-bottom:1.5rem; font-family:var(--disp); font-size:clamp(1.05rem,2.6vw,1.4rem); font-weight:600; line-height:1.45; color:var(--slate); letter-spacing:-0.01em; border-radius:var(--r-md); box-shadow:0 6px 20px rgba(33,48,15,0.10),0 1px 2px rgba(23,25,13,0.04); }
+.takeaway em{ font-style:normal; color:var(--accent-ink); }
 .takeaway .tk-note{ display:block; font-family:var(--sans); font-size:11px; font-weight:400; color:var(--mid); margin-top:0.35rem; letter-spacing:0; line-height:1.5; }
 
 /* RUN SUMMARY — the settings the panel's figures came out of, so a screenshot
@@ -609,13 +625,13 @@ section { position:relative; }
 .scn-frame-chip b{ font-weight:700; color:var(--slate); }
 .scn-frame-profile{ font-weight:700; color:var(--accent-ink); background:var(--lime-wash); border-color:var(--lime); }
 
-.kpi-strip{ display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--rule-dk); border:1px solid var(--rule-dk); margin-bottom:1.5rem; border-radius:var(--r-md); overflow:hidden; box-shadow:var(--shadow-soft); }
-@media(min-width:580px){ .kpi-strip{ grid-template-columns:repeat(4,1fr); } }
+.kpi-strip{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1px; background:var(--rule-dk); border:1px solid var(--rule-dk); margin-bottom:1.5rem; border-radius:var(--r-md); overflow:hidden; box-shadow:var(--shadow-soft); }
+@media(min-width:580px){ .kpi-strip{ grid-template-columns:repeat(4,minmax(0,1fr)); } }
 .kpi{ background:var(--white); padding:1.15rem 1.3rem; position:relative; }
-/* The two live figures are the answer — tinted and top-accented so they read
-   as the primary result, the static baselines as supporting context. */
+/* The two live figures are the answer, so they sit on the lime wash and the
+   static baselines on white. The tint alone carries it: a 2px rule across
+   their top edge said the same thing twice. */
 .kpi.live{ background:var(--lime-wash); }
-.kpi.live::before{ content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--forest-ink); }
 .kpi-l{ font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--mid); margin-bottom:0.35rem; font-weight:600; }
 .kpi-v{ font-family:var(--disp); font-size:1.55rem; font-weight:700; color:var(--slate); line-height:1; }
 .kpi.live .kpi-l{ color:var(--forest-ink); }
@@ -644,15 +660,19 @@ section { position:relative; }
 .cl-swatch.line{ height:0; border-top:2px solid currentColor; width:16px; }
 .cl-swatch.dash{ height:0; border-top:2px dashed currentColor; width:16px; }
 
-.contrib-card{ background:var(--white); border:1px solid var(--rule-dk); padding:1.25rem 1.5rem; border-radius:var(--r-xl); box-shadow:var(--shadow-soft); }
-.contrib-head{ font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--mid); margin-bottom:1.1rem; padding-bottom:0.75rem; border-bottom:1px solid var(--rule-dk); font-weight:600; }
-.cbar{ display:grid; grid-template-columns:max-content 1fr max-content; gap:0.75rem; align-items:center; margin-bottom:0.7rem; }
-@media(max-width:559px){ .cbar{ gap:0.5rem; } }
-.cbar:last-child{ margin-bottom:0; }
+/* Headed like the chart card above it (title, then a sub-line with the
+   unit), rather than with a sentence-long uppercase label that also turned
+   tCO2-e into TCO2-E. The rows share one grid, so every bar starts on the same
+   line and the values stand in one column. */
+.contrib-card{ background:var(--white); border:1px solid var(--rule-dk); padding:1.4rem 1.4rem 1.25rem; border-radius:var(--r-xl); box-shadow:var(--shadow-soft); }
+.contrib-sub{ padding-bottom:0.85rem; border-bottom:1px solid var(--rule-lt); }
+.cbar-list{ display:grid; grid-template-columns:max-content minmax(0,1fr) max-content; gap:0.7rem 0.75rem; align-items:center; }
+@media(max-width:559px){ .cbar-list{ column-gap:0.5rem; } }
+.cbar{ display:contents; }
 .cbar-name{ font-size:0.78rem; font-weight:600; }
 .cbar-name.grid{ color:var(--indigo); } .cbar-name.lv{ color:var(--accent-ink); } .cbar-name.hv{ color:var(--amber-ink); } .cbar-name.plant{ color:var(--berry-ink); }
 .cbar-track{ height:6px; background:var(--rule-lt); overflow:hidden; border-radius:var(--r-pill); }
-.cbar-fill{ height:100%; transition:width 0.35s var(--ease); }
+.cbar-fill{ height:100%; width:100%; transform-origin:left; transition:transform 0.35s var(--ease); }
 .cbar-val{ font-family:var(--mono); font-size:0.7rem; color:var(--ink-2); text-align:right; }
 
 /* Desktop: controls + results side by side so the whole model fits one viewport. */
@@ -744,7 +764,7 @@ section { position:relative; }
   background:rgba(210,223,206,0.16);
   border:1px solid rgba(210,223,206,0.16); border-radius:var(--r-lg); overflow:hidden;
 }
-@media(min-width:820px){ .tools-rules{ grid-template-columns:repeat(3,1fr); } }
+@media(min-width:820px){ .tools-rules{ grid-template-columns:repeat(3,minmax(0,1fr)); } }
 .tools-rule{ background:rgba(255,255,255,0.03); padding:1.3rem 1.4rem 1.45rem; }
 .tools-rule-head{
   display:flex; align-items:center; font-family:var(--mono); font-size:11px;
@@ -779,46 +799,16 @@ section { position:relative; }
   background:rgba(255,255,255,0.045);
   border:1px solid rgba(210,223,206,0.18); border-radius:var(--r-xl);
   padding:1.5rem 1.5rem 1.35rem; overflow:hidden;
-  transition:background 0.35s var(--ease),border-color 0.35s var(--ease),transform 0.35s var(--ease),box-shadow 0.35s var(--ease);
+  transition:background 0.35s var(--ease),border-color 0.35s var(--ease);
 }
+/* Hover is a surface step and the card's own accent in its border. The card
+   used to lift 3px, grow a shadow, run a coloured stub across its top edge
+   and send a conic sweep round its border as well; the accent now lives in
+   the numeral and the border, and nothing moves. */
 .tool-card:hover{
   background:rgba(255,255,255,0.075); border-color:color-mix(in srgb,var(--tc) 55%,transparent);
-  transform:translateY(-3px); box-shadow:0 18px 40px rgba(0,0,0,0.28);
 }
 .tool-card:focus-visible{ outline:2px solid var(--lime-bright); outline-offset:3px; box-shadow:none; }
-/* Colour spine: a stub at rest that runs the full card width on hover, so each
-   tool keeps its own identity without eight competing coloured surfaces. */
-.tool-rule{
-  position:absolute; top:0; left:0; right:0; height:2px; background:var(--tc);
-  transform:scaleX(0.13); transform-origin:left;
-  transition:transform 0.5s var(--ease);
-}
-.tool-card:hover .tool-rule, .tool-card:focus-visible .tool-rule{ transform:scaleX(1); }
-/* Border sweep: one conic pass around the card in its own accent when the
-   cursor lands, then gone. Runs once, never idles: eight looping borders would
-   be noise, one finite sweep on the card under the pointer is a power-on.
-   The ring is a masked conic gradient over the card's own border. */
-@property --tc-sweep{ syntax:"<angle>"; inherits:false; initial-value:0deg; }
-.tool-card::after{
-  content:""; position:absolute; inset:0; border-radius:inherit; padding:1px;
-  background:conic-gradient(from var(--tc-sweep,0deg),
-    transparent 0deg, var(--tc) 45deg, transparent 90deg);
-  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite:xor;
-  mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  mask-composite:exclude;
-  opacity:0; pointer-events:none;
-}
-@media (prefers-reduced-motion: no-preference){
-  .tool-card:hover::after{ animation:tc-sweep 1s linear forwards; }
-}
-@keyframes tc-sweep{
-  0%{ --tc-sweep:0deg; opacity:0; }
-  12%{ opacity:1; }
-  82%{ opacity:1; }
-  100%{ --tc-sweep:360deg; opacity:0; }
-}
-
 .tool-top{ display:flex; align-items:center; gap:0.8rem; margin-bottom:0.85rem; }
 .tool-n{
   font-family:var(--disp); font-size:1.5rem; font-weight:700; line-height:1;
@@ -899,11 +889,13 @@ section { position:relative; }
   color:var(--sage-2);
 }
 
+/* A sentence (on /lab/, a short paragraph), so it is set in sentence case.
+   Run in uppercase tracked mono it read as a long eyebrow. */
 .tools-note{
   margin-top:clamp(1.6rem,3.5vw,2.4rem); padding-top:1.2rem;
   border-top:1px solid rgba(210,223,206,0.16);
-  font-family:var(--mono); font-size:11px; letter-spacing:0.06em;
-  text-transform:uppercase; color:var(--sage-2);
+  font-family:var(--mono); font-size:12px; letter-spacing:0.01em; line-height:1.7;
+  color:var(--sage-2);
 }
 
 /* ============================================================================
@@ -916,7 +908,9 @@ section { position:relative; }
 #experience{ background:var(--bg); padding:clamp(4rem,9vw,7rem) 0 clamp(5.5rem,12vw,9rem); }
 .exp-timeline{ position:relative; padding-left:3.4rem; margin-top:2.5rem; }
 .exp-timeline::before{ content:''; position:absolute; left:17px; top:4px; bottom:4px; width:2px; background:var(--rule-lt); }
-.exp-rail-fill{ position:absolute; left:17px; top:4px; bottom:4px; width:2px; background:linear-gradient(180deg,var(--downer) 0%,var(--downer) 26%,var(--wsp) 42%,var(--wsp) 60%,var(--defence) 74%,var(--defence) 86%,var(--unsw) 100%); transform-origin:top; }
+/* Painted by Experience.jsx in hard bands, one employer colour from each node
+   to the next. The flat fill here only shows before that first paint. */
+.exp-rail-fill{ position:absolute; left:17px; top:4px; bottom:4px; width:2px; background:var(--subtle); transform-origin:top; }
 .exp-node{ position:absolute; left:18px; transform:translateX(-50%); width:38px; height:38px; border-radius:50%; background:var(--bg); border:2px solid var(--rule-dk); display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:8px; font-weight:700; letter-spacing:0.05em; color:var(--subtle); transition:border-color 0.45s var(--ease),color 0.45s var(--ease),transform 0.45s var(--ease); z-index:1; }
 .exp-node.lit{ border-color:var(--nclr); color:var(--nclr); transform:translateX(-50%) scale(1.08); }
 @media(max-width:699px){
@@ -1028,9 +1022,9 @@ section { position:relative; }
   flex:0 0 auto; display:inline-flex; align-items:center; gap:0.55rem; font-family:var(--sans); font-weight:600; font-size:0.9rem;
   letter-spacing:-0.01em; text-decoration:none; cursor:pointer; background:var(--forest); color:var(--lime-bright);
   border-radius:var(--r-pill); padding:0.8rem 1.6rem; box-shadow:0 8px 24px rgba(33,48,15,0.16);
-  transition:background 0.25s var(--ease),transform 0.2s var(--ease);
+  transition:background 0.25s var(--ease);
 }
-.footer-cta-btn:hover{ background:var(--forest-2); transform:translateY(-1px); }
+.footer-cta-btn:hover{ background:var(--forest-2); }
 a.footer-cta-btn[target="_blank"]::after{ content:none; }
 .footer-cta-btn .li-icon{ width:18px; height:18px; }
 .li-icon{ display:block; flex-shrink:0; }
@@ -1042,10 +1036,10 @@ a.footer-cta-btn[target="_blank"]::after{ content:none; }
    SiteFooter.jsx. The width follows the count at the same 240px per column the
    three-column layout was drawn at, so removing a column narrows the block
    instead of stretching what is left across the same span. */
-.footer-cols{ display:grid; grid-template-columns:repeat(2,1fr); gap:1.8rem 1.2rem; margin-top:clamp(1.8rem,4vw,2.6rem); }
+.footer-cols{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1.8rem 1.2rem; margin-top:clamp(1.8rem,4vw,2.6rem); }
 @media(min-width:620px){
   .footer-cols{
-    grid-template-columns:repeat(var(--footer-col-n,3),1fr);
+    grid-template-columns:repeat(var(--footer-col-n,3),minmax(0,1fr));
     max-width:calc(var(--footer-col-n,3) * 240px);
   }
 }
@@ -1198,10 +1192,10 @@ a.footer-cta-btn[target="_blank"]::after{ content:none; }
    an outlined pill that fills with a lime wash on hover. */
 .page-home .btn, .page-work .btn{
   border-radius:var(--r-pill); padding:0.8rem 1.7rem; letter-spacing:-0.01em;
-  transition:background 0.3s var(--ease),border-color 0.3s var(--ease),color 0.3s var(--ease),transform 0.25s var(--ease),box-shadow 0.3s var(--ease);
+  transition:background 0.3s var(--ease),border-color 0.3s var(--ease),color 0.3s var(--ease);
 }
 .page-home .btn-primary, .page-work .btn-primary{ background:var(--forest); color:var(--lime-bright); border-color:var(--forest); }
-.page-home .btn-primary:hover, .page-work .btn-primary:hover{ background:var(--forest-2); border-color:var(--forest-2); transform:translateY(-1px); box-shadow:0 8px 22px rgba(33,48,15,0.22); }
+.page-home .btn-primary:hover, .page-work .btn-primary:hover{ background:var(--forest-2); border-color:var(--forest-2); }
 .page-home .btn-secondary, .page-work .btn-secondary{ border-color:var(--forest-ink); color:var(--forest); }
 .page-home .btn-secondary:hover, .page-work .btn-secondary:hover{ border-color:var(--forest); color:var(--forest); background:var(--lime-soft); }
 /* The home page's section-index digit sits on light backgrounds only, so it

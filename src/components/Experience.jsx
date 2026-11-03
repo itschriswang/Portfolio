@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { EXPERIENCE, EDUCATION } from '../data/content';
+import { EXPERIENCE, EDUCATION, EXPERIENCE_INTRO } from '../data/content';
 import SplitText from './SplitText';
 import Icon from './Icons';
 import { prefersReducedMotion } from '../utils/media';
@@ -21,18 +21,23 @@ export default function Experience() {
     const marks = [...EXPERIENCE, EDUCATION];
     let railLen = 1;
 
-    // Map the rail gradient to actual node positions so each node sits exactly
-    // on its own colour, guarantees the UNSW node reads yellow, not black.
+    // Paint the rail in hard bands from each node to the next, so every stretch
+    // is one employer's colour and no stretch blends two of them into a hue
+    // neither brand uses. The bands start at the nodes' real positions.
     function paintRail() {
-      const stops = [`var(--${marks[0].clr}) 0%`];
-      entries.forEach((en, i) => {
+      const pcts = entries.map((en) => {
         const pt = parseFloat(getComputedStyle(en).paddingTop) || 0;
         const center = en.offsetTop + pt + 2;
-        const pct = Math.max(0, Math.min(100, (center / railLen) * 100));
-        stops.push(`var(--${marks[i].clr}) ${pct.toFixed(1)}%`);
+        return Math.max(0, Math.min(100, (center / railLen) * 100));
       });
-      stops.push(`var(--${marks[marks.length - 1].clr}) 100%`);
-      fill.style.background = `linear-gradient(180deg, ${stops.join(', ')})`;
+      const stops = [];
+      marks.forEach((m, i) => {
+        const from = i === 0 ? 0 : pcts[i];
+        const to = i + 1 < marks.length ? pcts[i + 1] : 100;
+        if (from === undefined || to === undefined) return;
+        stops.push(`var(--${m.clr}) ${from.toFixed(1)}%`, `var(--${m.clr}) ${to.toFixed(1)}%`);
+      });
+      if (stops.length) fill.style.background = `linear-gradient(180deg, ${stops.join(', ')})`;
     }
 
     function layout() {
@@ -65,9 +70,9 @@ export default function Experience() {
   return (
     <section id="experience">
       <div className="canvas">
-        <div className="sec-tag" data-idx="04 / "><Icon name="building" size={30} />Experience</div>
+        <div className="sec-tag" data-idx={EXPERIENCE_INTRO.idx}><Icon name="building" size={30} />{EXPERIENCE_INTRO.tag}</div>
         <h2 className="display sec-title">
-          <SplitText text="Track record" accentIndex={1} />
+          <SplitText text={EXPERIENCE_INTRO.title} accentIndex={EXPERIENCE_INTRO.titleAccent} />
         </h2>
 
         <div className="exp-timeline" ref={tlRef}>
@@ -100,7 +105,7 @@ export default function Experience() {
           <div className="exp-entry exp-entry-edu" ref={(el) => (entryRefs.current[EXPERIENCE.length] = el)}>
             <div className="exp-hd">
               <div>
-                <div className="exp-eyebrow"><Icon name="book" size={28} className="fpi-lead" />Education</div>
+                <div className="exp-eyebrow"><Icon name="book" size={28} className="fpi-lead" />{EXPERIENCE_INTRO.education}</div>
                 <div className="exp-org-name">{EDUCATION.org}</div>
                 <div className="exp-dept">{EDUCATION.dept}</div>
               </div>

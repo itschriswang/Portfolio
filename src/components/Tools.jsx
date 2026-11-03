@@ -14,7 +14,7 @@ export default function Tools() {
   return (
     <section id="tools">
       <div className="canvas">
-        <div className="sec-tag" data-idx={TOOLS_INTRO.idx}><Icon name="spark" size={30} />{TOOLS_INTRO.tag}</div>
+        <div className="sec-tag" data-idx={TOOLS_INTRO.idx}><Icon name="calc" size={30} />{TOOLS_INTRO.tag}</div>
 
         <div className="tools-head">
           <h2 className="display sec-title tools-headline">

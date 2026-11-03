@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion';
-import { PRINCIPLES } from '../data/content';
+import { PRINCIPLES, PRINCIPLES_INTRO } from '../data/content';
 import Icon from './Icons';
 import SplitText from './SplitText';
 
@@ -14,9 +14,9 @@ export default function Principles() {
   return (
     <section id="principles">
       <div className="canvas">
-        <div className="sec-tag" data-idx="01 / "><Icon name="leaf" size={30} />My practice</div>
+        <div className="sec-tag" data-idx={PRINCIPLES_INTRO.idx}><Icon name="book" size={30} />{PRINCIPLES_INTRO.tag}</div>
         <h2 className="display sec-title princ-headline">
-          <SplitText text="How I work" accentIndex={1} />
+          <SplitText text={PRINCIPLES_INTRO.title} accentIndex={PRINCIPLES_INTRO.titleAccent} />
         </h2>
         <div className="princ-grid">
           {PRINCIPLES.map((p, i) => (
@@ -26,7 +26,7 @@ export default function Principles() {
             >
               <div className="princ-num">{p.num}</div>
               <div className="princ-main">
-                <div className="princ-title">{p.icon && <Icon name={p.icon} size={36} className="fpi-lead" />}{p.title}</div>
+                <div className="princ-title">{p.icon && <Icon name={p.icon} size={36} />}<span>{p.title}</span></div>
                 <div className="princ-body">{p.body}</div>
               </div>
             </motion.div>

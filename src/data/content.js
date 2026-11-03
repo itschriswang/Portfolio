@@ -54,6 +54,9 @@ export const HERO = {
   ],
 };
 
+// The profile's section label, in the rail beside the bio.
+export const BIO_TAG = { tag: 'Profile', idx: '00 / ' };
+
 export const BIO_PARAS = [
   `${yearsInWords(SUSTAINABILITY_START)} in sustainability, at WSP and now Downer Group, after two years delivering capital infrastructure projects at the Department of Defence. The work covers GHG accounting, regulatory reporting, decarbonisation modelling and supply chain emissions.`,
   'I build the data infrastructure behind sustainability commitments: GHG inventories with documented methodology, Scope 1-3 baselines that hold up under external assurance, decarbonisation models with traceable lever assumptions, and reporting systems the team can run without me.',
@@ -84,7 +87,7 @@ export const PIPELINE = [
     ],
   },
   {
-    step: 'calc', n: '02', label: 'Calculation', icon: 'spark', color: 'var(--step-calc)',
+    step: 'calc', n: '02', label: 'Calculation', icon: 'calc', color: 'var(--step-calc)',
     desc: 'GHG inventory preparation and Scope 1-3 accounting aligned to the GHG Protocol and NGER, with the method documented for external assurance and reuse across reporting cycles.',
     examples: [
       { title: 'GHG recalculation module', body: 'Independent recalculation module with operational control boundary filtering, built to reconcile Group-level emissions calculations against Envizi outputs.', outcome: 'Group Scope 1 and 2 reconciled to the reporting platform ahead of external limited assurance, Downer Group' },
@@ -121,9 +124,13 @@ export const PIPELINE = [
   },
 ];
 
+// The section's label and headline. `titleAccent` is the word index SplitText
+// picks out in matcha.
+export const PRINCIPLES_INTRO = { tag: 'My practice', idx: '01 / ', title: 'How I work', titleAccent: 1 };
+
 export const PRINCIPLES = [
   { num: '01', icon: 'list', title: 'Data integrity comes before the narrative', body: 'A net zero commitment is a claim, and it is only as credible as the inventory behind it: defensible, independently verifiable, and documented before anyone writes the narrative.' },
-  { num: '02', icon: 'spark', title: 'Build it for the team to keep', body: 'I build models and processes the internal team owns and understands, so the next reporting cycle does not depend on me being in the room.' },
+  { num: '02', icon: 'people', title: 'Build it for the team to keep', body: 'I build models and processes the internal team owns and understands, so the next reporting cycle does not depend on me being in the room.' },
   { num: '03', icon: 'target', title: 'Ambition backed by evidence, gaps named', body: 'Pathway models need lever assumptions from published data, with the uncertainty stated beside each figure. Carbon credits belong on residual hard-to-abate emissions only, once near-term reduction has been done.' },
 ];
 
@@ -136,6 +143,8 @@ export const PRINCIPLES = [
 // the most important sentence in the section.
 // ---------------------------------------------------------------------------
 export const SCENARIO_UI = {
+  tag: 'Decarbonisation scenario model',
+  idx: '02 / ',
   // The section headline, at the same size as every other numbered section's.
   // `titleAccent` is the word index SplitText picks out in matcha.
   title: 'Model the pathway',
@@ -148,6 +157,22 @@ export const SCENARIO_UI = {
   // Labels for the run summary that captions the result panel.
   frameLead: 'This run',
   frameGrowth: 'Growth',
+  // The three steps, in reading order: controls on the left, result on the right.
+  steps: [
+    { num: 'Step 01', title: 'Choose an operating profile', sub: 'Each profile loads a different emissions mix and its own set of abatement levers.' },
+    { num: 'Step 02', title: 'Set the abatement levers', sub: 'Card colours match the wedges in the chart.' },
+    { num: 'Step 03', title: 'Read the result', sub: 'The headline recalculates as you move the levers.' },
+  ],
+  growth: { name: 'Volume or revenue growth', src: 'Scales gross emissions before abatement is applied' },
+  chartSub: 'tCO\u2082-e per year \u00b7 coloured wedges show the abatement each lever contributes against business\u2011as\u2011usual',
+  // The contribution card takes the same title and sub-line shape as the
+  // chart card above it.
+  contrib: {
+    title: 'Abatement contribution by lever at FY30',
+    sub: 'Interim target year \u00b7 tCO\u2082-e avoided vs gross pathway',
+  },
+  foot: 'More of the method, shown on illustrative data: emissions baseline, decarbonisation roadmap, MCA prioritisation and lifecycle carbon.',
+  footCta: 'View work samples \u2192',
 };
 
 // ---------------------------------------------------------------------------
@@ -265,7 +290,7 @@ export const PRIVATE_TOOLS = [
     scope: '6 indicators · reviewed quarterly, date on the page',
   },
   {
-    n: '06', icon: 'spark', color: 'var(--amber)',
+    n: '06', icon: 'clock', color: 'var(--amber)',
     name: 'Sustainability Daily', spec: 'daily', span: 3, href: '../daily/',
     what: 'Two daily puzzles: guess the footprint, and call the greenwash. Both rotate deterministically by date, and streaks stay in your browser.',
     proves: 'Making a factor set legible to a non-specialist, and applying the ACCC greenwashing principles consistently enough to survive being graded every day.',
@@ -288,6 +313,9 @@ export const GATE = {
   back: 'Back to the site',
   homeAria: 'Chris Wang, home',
 };
+
+// The track record's label and headline, and the eyebrow on the education entry.
+export const EXPERIENCE_INTRO = { tag: 'Experience', idx: '04 / ', title: 'Track record', titleAccent: 1, education: 'Education' };
 
 export const EXPERIENCE = [
   {
@@ -331,7 +359,7 @@ export const EDUCATION = {
 // primary LinkedIn action. There is deliberately no second LinkedIn CTA.
 export const FOOTER = {
   wordmark: 'Chris Wang',
-  availability: 'Happy to talk emissions reporting, assurance and decarbonisation modelling.',
+  availability: 'Happy to talk emissions reporting, assurance and decarbonisation modelling',
   // Merged from the former Contact section.
   location: 'Melbourne, Australia · flexible on working arrangements',
   ctaLabel: 'Connect on LinkedIn',

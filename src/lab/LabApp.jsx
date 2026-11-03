@@ -18,7 +18,7 @@ function Bench() {
       <Grain />
       <main id="main" className="tools-band lab">
         <div className="canvas">
-          <div className="sec-tag" data-idx={LAB.idx}><Icon name="spark" size={30} />{LAB.tag}</div>
+          <div className="sec-tag" data-idx={LAB.idx}><Icon name="calc" size={30} />{LAB.tag}</div>
 
           <div className="tools-head">
             <h1 className="display tools-headline">
