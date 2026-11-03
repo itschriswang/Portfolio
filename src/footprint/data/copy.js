@@ -498,6 +498,9 @@ export const METHOD = {
   },
   factorsTitle: 'The factors it uses',
   factorsSub: 'These tables are the exact factors the calculator prices from.',
+  // Long tables open on their first rows; every row is one click away.
+  tableShowAll: 'Show all {n} rows',
+  tableShowFewer: 'Show fewer rows',
   exclusions: {
     title: 'What it still leaves out',
     groups: [

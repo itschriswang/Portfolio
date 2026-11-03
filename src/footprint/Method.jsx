@@ -3,7 +3,7 @@
 // never drift from the maths. Any change to the engine, factors, reduction
 // options or pathway model must land here in the same change (see CLAUDE.md).
 
-import { useId } from 'react';
+import { useId, useState } from 'react';
 import SplitText from '../components/SplitText';
 import {
   ELECTRICITY, ELECTRICITY_SOURCE, ELECTRICITY_SOURCE_NZ, ELECTRICITY_SOURCE_US,
@@ -20,8 +20,18 @@ import { EQUIVALENCES, EQUIV_SOURCE } from './data/equivalences';
 import { METHOD } from './data/copy';
 import Icon from '../components/Icons';
 
+// A table longer than this opens on its first PREVIEW_ROWS rows, with a
+// button for the rest: the US grid alone is 53 rows, which made the page a
+// scroll through state names before anyone reached diet or freight.
+const LONG_TABLE = 16;
+const PREVIEW_ROWS = 10;
+
 function FTable({ caption, head, rows, source }) {
   const capId = useId();
+  const bodyId = useId();
+  const long = rows.length > LONG_TABLE;
+  const [open, setOpen] = useState(false);
+  const shown = long && !open ? rows.slice(0, PREVIEW_ROWS) : rows;
   return (
     <div className="fp-ftable">
       <div className="fp-ftable-cap" id={capId}>{caption}</div>
@@ -30,9 +40,14 @@ function FTable({ caption, head, rows, source }) {
       <div className="fp-scroll-x" tabIndex={0} role="region" aria-labelledby={capId}>
         <table className="fp-table">
           <thead><tr>{head.map((h, i) => <th key={i}>{h}</th>)}</tr></thead>
-          <tbody>{rows.map((r, i) => <tr key={i}>{r.map((c, j) => <td key={j}>{c}</td>)}</tr>)}</tbody>
+          <tbody id={bodyId}>{shown.map((r, i) => <tr key={i}>{r.map((c, j) => <td key={j}>{c}</td>)}</tr>)}</tbody>
         </table>
       </div>
+      {long && (
+        <button type="button" className="fp-linkbtn fp-table-more" aria-expanded={open} aria-controls={bodyId} onClick={() => setOpen((v) => !v)}>
+          {open ? METHOD.tableShowFewer : METHOD.tableShowAll.replace('{n}', rows.length)}
+        </button>
+      )}
       {source && <div className="fp-ftable-src">{source.name}. {source.detail}{' '}
         {source.url && <a href={source.url} target="_blank" rel="noopener noreferrer">Source</a>}
       </div>}

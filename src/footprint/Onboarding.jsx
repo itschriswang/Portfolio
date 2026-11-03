@@ -1065,7 +1065,7 @@ export default function Onboarding({ onDone, onBuilt, onCancel }) {
         <h3 ref={headRef} tabIndex={-1}>{ONBOARD.advanced.title}</h3>
       </div>
       <p>{ONBOARD.advanced.sub}</p>
-      <p className="ob-optnote"><Icon name="spark" size={28} className="ob-label-i" />{ONBOARD.advanced.optional}</p>
+      <p className="ob-optnote"><Icon name="bag" size={28} className="ob-label-i" />{ONBOARD.advanced.optional}</p>
       {/* The skip lives at the top too: nobody should have to scroll a wall
           of optional sliders to find out they can decline it. */}
       <button type="button" className="fp-linkbtn ob-skiptop" onClick={() => { skipAdvanced(); setStep(6); }}>
@@ -1141,10 +1141,10 @@ export default function Onboarding({ onDone, onBuilt, onCancel }) {
       {/* Deliberately spoiler-free: no number here. The total, its shape and
           its context all belong to the reveal below. */}
       <div className="ob-stephead">
-        <span className="ob-stephead-i" aria-hidden="true"><Icon name="spark" size={52} /></span>
+        <span className="ob-stephead-i" aria-hidden="true"><Icon name="check" size={52} /></span>
         <h3 ref={headRef} tabIndex={-1}>{OB.done.title}</h3>
       </div>
-      <p className="ob-done-ready"><Icon name="spark" size={32} className="ob-label-i" />{OB.done.ready}</p>
+      <p className="ob-done-ready">{OB.done.ready}</p>
       <p>{OB.done.sub}</p>
       <div className="ob-done-ctas">
         <button type="button" className="btn btn-primary fp-btn" onClick={() => onDone(doneProfile, { watch: true })}>{OB.done.watch} →</button>
@@ -1183,7 +1183,7 @@ export default function Onboarding({ onDone, onBuilt, onCancel }) {
   const expressPane = (
     <div key="express">
       <div className="ob-stephead">
-        <span className="ob-stephead-i" aria-hidden="true"><Icon name="spark" size={52} /></span>
+        <span className="ob-stephead-i" aria-hidden="true"><Icon name="clock" size={52} /></span>
         <h3 ref={headRef} tabIndex={-1}>{ONBOARD.express.title}</h3>
       </div>
       <p>{ONBOARD.express.sub}</p>
@@ -1294,7 +1294,7 @@ export default function Onboarding({ onDone, onBuilt, onCancel }) {
                 country facts ride the steps where country and energy land. */}
             {mode === 'full' && step < 6 && OB.factsByCountry[a.country][step] && (
               <aside className="ob-fact">
-                <span className="ob-fact-k"><Icon name="spark" size={26} className="ob-label-i" />{OB.factKicker}</span>
+                <span className="ob-fact-k"><Icon name="book" size={26} className="ob-label-i" />{OB.factKicker}</span>
                 <p>{OB.factsByCountry[a.country][step].text}</p>
                 <span className="ob-fact-src">{OB.factsByCountry[a.country][step].src}</span>
               </aside>
@@ -1309,7 +1309,7 @@ export default function Onboarding({ onDone, onBuilt, onCancel }) {
         <div className="ob-foot">
           <div className="canvas ob-foot-inner">
             <div className="ob-foot-status">
-              <span className="ob-foot-tick" aria-hidden="true"><Icon name="spark" size={28} /></span>
+              <span className="ob-foot-tick" aria-hidden="true"><Icon name="check" size={28} /></span>
               <span className="ob-foot-status-t">{stepStatus}</span>
               <span className="ob-foot-note">{OB.keepForReveal}</span>
             </div>
