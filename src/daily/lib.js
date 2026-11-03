@@ -212,7 +212,7 @@ export function guessShare(dayIndex, score, ratio, streak) {
   return [
     SHARE.guessTitle + ' #' + puzzleNumber(dayIndex),
     scoreSquares(score) + '  ' + ratioText(ratio) + '  (' + score + '/3)',
-    'Streak ' + streak + (streak > 0 ? ' 🔥' : ''),
+    SHARE.streak + ' ' + streak,
     SHARE.url,
   ].join('\n');
 }
@@ -220,8 +220,8 @@ export function guessShare(dayIndex, score, ratio, streak) {
 export function claimShare(dayIndex, correct, streak) {
   return [
     SHARE.claimTitle + ' #' + puzzleNumber(dayIndex),
-    (correct ? '✅ Called it' : '❌ Fooled me'),
-    'Streak ' + streak + (streak > 0 ? ' 🔥' : ''),
+    correct ? SHARE.claimRight : SHARE.claimWrong,
+    SHARE.streak + ' ' + streak,
     SHARE.url,
   ].join('\n');
 }

@@ -8,7 +8,7 @@ import Icon from '../components/Icons';
 import CopyButton from '../components/CopyButton';
 import PlayGrid from './PlayGrid';
 import { prefersReducedMotion } from '../utils/media';
-import { CLAIM, STATS } from './data';
+import { CLAIM, GAMES, STATS } from './data';
 import {
   claimForDay, loadState, playedToday, displayStreak, recordPlay, claimShare, copyText,
 } from './lib';
@@ -32,7 +32,6 @@ export default function ClaimGame({ dayIndex, showToast }) {
 
   const played = playedToday(state, dayIndex);
   const streak = displayStreak(state, dayIndex);
-  const isGreenwash = claim.verdict === 'greenwash';
 
   const call = (choice) => {
     const correct = choice === claim.verdict;
@@ -44,7 +43,7 @@ export default function ClaimGame({ dayIndex, showToast }) {
   // show, a clipboard the browser refused.
   const share = async () => {
     const ok = await copyText(claimShare(dayIndex, state.result.correct, state.streak));
-    if (!ok) showToast('Could not copy');
+    if (!ok) showToast(GAMES.copyFailed);
     return ok;
   };
 
@@ -52,13 +51,13 @@ export default function ClaimGame({ dayIndex, showToast }) {
     <div className="dy-card">
       <div className="dy-card-head">
         <Icon name="list" size={30} />
-        <span className="dy-card-eyebrow">Game 2</span>
+        <span className="dy-card-eyebrow">{CLAIM.eyebrow}</span>
       </div>
       <h3 className="dy-card-title">{CLAIM.title}</h3>
       <p className="dy-card-blurb">{CLAIM.blurb}</p>
 
       <div className="dy-stats">
-        <div className={streak >= 7 ? 'dy-stat dy-stat-hot' : 'dy-stat'}><div className="dy-stat-l">{STATS.streak}</div><div className="dy-stat-v">{streak}{streak > 0 && <span className="dy-flame"> 🔥</span>}</div></div>
+        <div className={streak >= 7 ? 'dy-stat dy-stat-hot' : 'dy-stat'}><div className="dy-stat-l">{STATS.streak}</div><div className="dy-stat-v">{streak}</div></div>
         <div className="dy-stat"><div className="dy-stat-l">{STATS.best}</div><div className="dy-stat-v">{state.best}</div></div>
         <div className="dy-stat"><div className="dy-stat-l">{STATS.plays}</div><div className="dy-stat-v">{state.plays}</div></div>
       </div>
@@ -74,21 +73,21 @@ export default function ClaimGame({ dayIndex, showToast }) {
         <div className="dy-calls">
           <button className="dy-call dy-call-legit" onClick={() => call('legit')}>
             {CLAIM.legitBtn}
-            <small>Specific, evidenced, qualified</small>
+            <small>{CLAIM.legitHint}</small>
           </button>
           <button className="dy-call dy-call-green" onClick={() => call('greenwash')}>
             {CLAIM.greenwashBtn}
-            <small>Vague, absolute or unbacked</small>
+            <small>{CLAIM.greenwashHint}</small>
           </button>
         </div>
       ) : (
         <Rise>
           <div className="dy-reveal">
             <div className={'dy-verdict ' + (state.result.correct ? 'dy-verdict-good' : 'dy-verdict-bad')}>
-              {state.result.correct ? '✅ ' + CLAIM.verdictRight : '❌ ' + CLAIM.verdictWrong}
+              {state.result.correct ? CLAIM.verdictRight : CLAIM.verdictWrong}
             </div>
             <p className="dy-verdict-line">
-              The claim reads as <strong>{isGreenwash ? CLAIM.greenwashLabel.toLowerCase() : CLAIM.legitLabel.toLowerCase()}</strong>.
+              {CLAIM.readsAs} <strong>{CLAIM.verdictWord[claim.verdict]}</strong>.
             </p>
 
             <div className="dy-rulebox">
@@ -96,7 +95,7 @@ export default function ClaimGame({ dayIndex, showToast }) {
               <div className="dy-rule-principle">{claim.principle}</div>
               <p className="dy-note">{claim.reasoning}</p>
               <div className="dy-src">{CLAIM.ruleLabel}: {claim.rule.name}{' '}
-                <a href={claim.rule.url} target="_blank" rel="noopener noreferrer">Source</a>
+                <a href={claim.rule.url} target="_blank" rel="noopener noreferrer">{GAMES.sourceLink}</a>
               </div>
             </div>
 

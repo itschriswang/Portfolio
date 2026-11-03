@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { SkipLink, Grain, ScrollProgress } from '../components/Chrome';
 import { ToolNav, ToolFooter } from '../components/ToolNav';
 import Icon from '../components/Icons';
-import { INTRO, GUESS, CLAIM, METHOD, ACCC_PRINCIPLES } from './data';
+import { INTRO, GAMES, METHOD, ACCC_PRINCIPLES } from './data';
 import { melbourneDayIndex } from './lib';
 import GuessGame from './GuessGame';
 import ClaimGame from './ClaimGame';
@@ -36,7 +36,7 @@ export default function DailyApp() {
       <main id="main-content">
         <section id="dy-intro">
           <div className="canvas">
-            <div className="sec-tag" data-idx="01"><Icon name="spark" size={32} />{INTRO.tag}</div>
+            <div className="sec-tag" data-idx="01"><Icon name="clock" size={32} />{INTRO.tag}</div>
             <h1 className="display dy-h1">{INTRO.h1a} <em>{INTRO.h1b}</em></h1>
             {INTRO.paras.map((p, i) => <p key={i} className="dy-intro-p">{p}</p>)}
             <div className="dy-chips">
@@ -47,9 +47,9 @@ export default function DailyApp() {
 
         <section id="dy-games">
           <div className="canvas">
-            <div className="sec-tag" data-idx="02"><Icon name="bolt" size={32} />Today's puzzles</div>
-            <h2 className="display dy-h2">Play both, keep both streaks</h2>
-            <p className="dy-sub">Two separate games. Each has its own mechanic, its own streak and its own shareable card. One a day, no do-overs, and the next unlocks at midnight Melbourne time.</p>
+            <div className="sec-tag" data-idx="02"><Icon name="bolt" size={32} />{GAMES.tag}</div>
+            <h2 className="display dy-h2">{GAMES.title}</h2>
+            <p className="dy-sub">{GAMES.sub}</p>
             <div className="dy-deck">
               <GuessGame dayIndex={dayIndex} showToast={showToast} />
               <ClaimGame dayIndex={dayIndex} showToast={showToast} />
@@ -76,7 +76,7 @@ export default function DailyApp() {
                 </div>
               ))}
             </div>
-            <p className="dy-updated">Last updated {METHOD.lastUpdated}. {METHOD.cadence}</p>
+            <p className="dy-updated">{METHOD.updatedLabel} {METHOD.lastUpdated}. {METHOD.cadence}</p>
           </div>
         </section>
       </main>

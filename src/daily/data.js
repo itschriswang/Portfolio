@@ -583,8 +583,18 @@ export const INTRO = {
   chips: ['New puzzle daily', 'No account', 'Stays in your browser', 'Two streaks to keep'],
 };
 
+// The band that holds both game cards (DailyApp.jsx).
+export const GAMES = {
+  tag: "Today's puzzles",
+  title: 'Play both, keep both streaks',
+  sub: 'Two separate games. Each has its own mechanic, its own streak and its own shareable card. One a day, no do-overs, and the next unlocks at midnight Melbourne time.',
+  copyFailed: 'Could not copy',
+  sourceLink: 'Source',
+};
+
 export const GUESS = {
   tag: 'Guess the Footprint',
+  eyebrow: 'Game 1',
   title: 'Guess the Footprint',
   blurb: 'One everyday thing a day. Guess its carbon footprint before the reveal, on a slider that runs from grams to tonnes. Get within one and a half times the answer for a perfect score.',
   cardKicker: "Today's item",
@@ -592,11 +602,15 @@ export const GUESS = {
   sliderLabel: 'Your guess',
   sliderHint: 'Slide from a gram to ten tonnes, or type an exact figure',
   overrideLabel: 'Or type it',
+  overridePlaceholder: 'e.g. 50',
+  unitGroupLabel: 'Guess unit',
+  rulerGuess: 'You',
+  rulerAnswer: 'Actual',
   revealAnswer: 'The answer',
   yourGuess: 'Your guess',
   sourceLabel: 'Source',
-  estimateFlag: 'Estimate. Reasoning and assumption stated above.',
-  sitFlag: 'Priced from this site\'s own Life Footprint factor tables.',
+  estimateFlag: 'Estimate: reasoning and assumption stated above',
+  sitFlag: 'Priced from this site\'s own Life Footprint factor tables',
   shareCta: 'Copy result',
   shareDone: 'Copied',
   playedNote: "You have played today. The next item unlocks at midnight, Melbourne time.",
@@ -610,15 +624,19 @@ export const GUESS = {
 
 export const CLAIM = {
   tag: 'Greenwash or Not',
+  eyebrow: 'Game 2',
   title: 'Greenwash or Not',
   blurb: 'One real-ish marketing claim a day. Call it legitimate or greenwash, then read the actual rule it does or does not break. Claims are generic composites, invented for the game.',
   cardKicker: "Today's claim",
   legitBtn: 'Legitimate',
   greenwashBtn: 'Greenwash',
-  legitLabel: 'Legitimate claim',
-  greenwashLabel: 'Greenwash',
+  legitHint: 'Specific, evidenced, qualified',
+  greenwashHint: 'Vague, absolute or unbacked',
   verdictRight: 'You called it',
   verdictWrong: 'Not this time',
+  // "The claim reads as <strong>legitimate</strong>." The word is the verdict.
+  readsAs: 'The claim reads as',
+  verdictWord: { legit: 'legitimate', greenwash: 'greenwash' },
   principleLabel: 'Principle in play',
   ruleLabel: 'The rule',
   shareCta: 'Copy result',
@@ -652,6 +670,7 @@ export const METHOD = {
   tag: 'How this works',
   title: 'Where the numbers and the rules come from',
   sub: 'The same honesty standard as the rest of the site. Every figure is either priced from this site\'s own footprint model or carries a published external source, and the two are always flagged apart.',
+  updatedLabel: 'Last updated',
   lastUpdated: '13 August 2026',
   cadence: 'Updated when the underlying footprint factors change or a new item or claim is added. New items append to the end of each pool so the daily rotation stays stable.',
   blocks: [
@@ -667,7 +686,7 @@ export const METHOD = {
       icon: 'chart',
       title: 'Guess the Footprint: the scoring',
       paras: [
-        'You are scored on the ratio between your guess and the answer, because these numbers span four orders of magnitude. Take the ratio between your guess and the answer, whichever way round. Within one and a half times scores three, the top mark. Within three times scores two. Within ten times scores one. More than ten times off scores zero.',
+        'You are scored on the ratio between your guess and the answer, taken whichever way round, because these numbers span four orders of magnitude. Within one and a half times scores three, the top mark. Within three times scores two. Within ten times scores one. More than ten times off scores zero.',
       ],
     },
     {
@@ -692,5 +711,10 @@ export const METHOD = {
 export const SHARE = {
   guessTitle: 'Guess the Footprint',
   claimTitle: 'Greenwash or Not',
+  // Plain-text share lines. The coloured squares are the one notation that
+  // survives a paste into any chat, so both games use them and nothing else.
+  streak: 'Streak',
+  claimRight: '🟩 Called it',
+  claimWrong: '🟥 Fooled me',
   url: 'https://itschriswang.com/daily/',
 };
