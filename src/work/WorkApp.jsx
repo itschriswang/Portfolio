@@ -4,9 +4,9 @@ import { Grain, ScrollProgress, SkipLink, navLinkClass, useHashLanding, useStick
 import SplitText from '../components/SplitText';
 import { NAV_LINKS } from '../data/content';
 import {
-  TABS, WORK_NARRATIVE, ROADMAP_INTRO, ROADMAP_STAGES, ROADMAP_LEVERS,
+  WORK_INTRO, SCROLL_HINT, TABS, WORK_NARRATIVE, ROADMAP_INTRO, ROADMAP_STAGES, ROADMAP_LEVERS,
   MCA_INTRO, MCA_CRITERIA, MCA_ANALYSIS, LCA,
-  CASE_INTRO,
+  CASE_HEAD, CASE_INTRO,
 } from './workData';
 import Baseline from './Baseline';
 import CaseStudy from './CaseStudy';
@@ -87,7 +87,7 @@ function DataTable({ data }) {
           </tbody>
         </table>
       </div>
-      {overflows && <p className="scroll-hint" aria-hidden="true">Scroll sideways for more columns <span>→</span></p>}
+      {overflows && <p className="scroll-hint" aria-hidden="true">{SCROLL_HINT} <span>→</span></p>}
     </>
   );
 }
@@ -135,29 +135,31 @@ function McaPanel() {
 function LcaPanel() {
   return (
     <div>
-      <div className="bl-banner">
-        <div className="bl-claim">{LCA.claim}</div>
-        <div className="bl-meta">{LCA.meta}</div>
-      </div>
-      <div className="lc-modwrap">
-        <div className="lc-modwrap-head">{LCA.modulesHead}</div>
-        <div className="lc-modules">
-          {LCA.modules.map((m) => (
-            <div className={'lcm ' + m.state} key={m.ref}>
-              <span className="lcm-ref">{m.ref}</span><span className="lcm-label">{m.label}</span>
-            </div>
-          ))}
+      <div className="lca-card">
+        <div className="bl-banner">
+          <div className="bl-claim">{LCA.claim}</div>
+          <div className="bl-meta">{LCA.meta}</div>
         </div>
-        <div className="lcm-legend">
-          {LCA.legend.map((l, i) => (
-            <div className="lcm-leg-item" key={i}><div className={'lcm-leg-dot ' + l.cls} />{l.text}</div>
-          ))}
+        <div className="lc-modwrap">
+          <div className="lc-modwrap-head">{LCA.modulesHead}</div>
+          <div className="lc-modules">
+            {LCA.modules.map((m) => (
+              <div className={'lcm ' + m.state} key={m.ref}>
+                <span className="lcm-ref">{m.ref}</span><span className="lcm-label">{m.label}</span>
+              </div>
+            ))}
+          </div>
+          <div className="lcm-legend">
+            {LCA.legend.map((l, i) => (
+              <div className="lcm-leg-item" key={i}><div className={'lcm-leg-dot ' + l.cls} />{l.text}</div>
+            ))}
+          </div>
         </div>
       </div>
-      <div className="sec-sub mt2">{LCA.methodHead}</div>
+      <div className="sec-sub">{LCA.methodHead}</div>
       <p className="panel-intro">{LCA.methodNote}</p>
       <div className="sec-sub">{LCA.pathwaysHead}</div>
-      <div className="scope-grid" style={{ marginTop: '1px' }}>
+      <div className="scope-grid">
         {LCA.pathways.map((p, i) => (
           <div className="scope-cell" key={i}><div className="scope-tag">{p.tag}</div><div className="scope-body">{p.body}</div></div>
         ))}
@@ -165,31 +167,37 @@ function LcaPanel() {
       <div className="sec-sub">{LCA.hierarchy.caption}</div>
       <DataTable data={LCA.hierarchy} />
       <div className="sec-sub mt2">{LCA.systemsHead}</div>
-      <div className="scope-grid" style={{ marginTop: '1px' }}>
+      <div className="scope-grid">
         {LCA.systems.map((s, i) => (
           <div className="scope-cell" key={i}><div className="scope-tag">{s.tag}</div><div className="scope-pct">{s.pct}</div><div className="scope-body">{s.body}</div></div>
         ))}
       </div>
       <div className="sec-sub mt2">{LCA.hotspotsCaption}</div>
-      <div className="s3-head"><span>Material / system</span><span>Share</span><span>Scale</span></div>
+      <div className="s3-head">{LCA.hotspotsHead.map((t) => <span key={t}>{t}</span>)}</div>
       {LCA.hotspots.map((h, i) => (
-        <div className="s3-row" key={i}>
+        <div className={'s3-row' + (i === 0 ? ' lead' : '')} key={i}>
           <div className="s3-name">{h.name}<span className="s3-sub">{h.sub}</span></div>
           <div className="s3-pct">{h.pct}</div>
-          <div className="s3-bar-wrap"><div className="s3-bar-fill" style={{ width: h.w + '%', background: h.bg }} /></div>
+          <div className="s3-bar-wrap"><div className="s3-bar-fill" style={{ width: h.w + '%' }} /></div>
         </div>
       ))}
       <div className="bench-wrap mt2">
         <div className="bench-head">{LCA.benchHead}</div>
         <div className="bench-scale">
           <div className="bench-bar-bg" /><div className="bench-range" />
-          <div className="bench-mark this-b"><div className="bench-mark-label">520: this building</div></div>
-          <div className="bench-mark target-b"><div className="bench-mark-label">&lt;400 target</div></div>
+          <div className="bench-mark this-b"><div className="bench-mark-label">{LCA.benchMarks.thisBuilding}</div></div>
+          <div className="bench-mark target-b"><div className="bench-mark-label">{LCA.benchMarks.target}</div></div>
         </div>
-        <div className="bench-ticks">{LCA.benchTicks.map((t, i) => <span className="bench-tick" key={i}>{t}</span>)}</div>
+        {/* Each tick sits at its own value along the scale, so the axis lines
+            up with the marks drawn against it. */}
+        <div className="bench-ticks">
+          {LCA.benchTicks.map((t, i, all) => (
+            <span className="bench-tick" key={t} style={{ left: (Number(t) / Number(all[all.length - 1])) * 100 + '%' }}>{t}</span>
+          ))}
+        </div>
         <div className="bench-legend">
           {LCA.benchLegend.map((l, i) => (
-            <div className="bench-leg-item" key={i}><div className="bench-leg-line" style={{ background: l.color }} />{l.text}</div>
+            <div className="bench-leg-item" key={i}><div className={'bench-leg-line ' + l.cls} />{l.text}</div>
           ))}
         </div>
         <div className="bench-note">{LCA.benchNote}</div>
@@ -239,17 +247,17 @@ export default function WorkApp() {
         />
         <ContourField />
         <div className="canvas" style={{ position: 'relative', zIndex: 1 }}>
-          <div className="sec-tag" data-idx="01 / "><Icon name="chart" size={30} />Work samples</div>
-          <h1 className="wi-title display"><SplitText text="Frameworks" /> <SplitText text="in practice" accentIndex={1} /></h1>
-          <p className="wi-sub">Four analytical frameworks for infrastructure, built environment and government work, each shown as an interactive example on illustrative data. Select a tab to see the method.</p>
-          <a href="../" className="wi-back"><span>←</span>&nbsp;Back to profile</a>
+          <div className="sec-tag" data-idx="01 / "><Icon name="chart" size={30} />{WORK_INTRO.tag}</div>
+          <h1 className="wi-title display"><SplitText text={WORK_INTRO.title[0]} /> <SplitText text={WORK_INTRO.title[1]} accentIndex={1} /></h1>
+          <p className="wi-sub">{WORK_INTRO.sub}</p>
+          <a href="../" className="wi-back"><span>←</span>&nbsp;{WORK_INTRO.back}</a>
         </div>
       </section>
 
       <section id="work-narrative">
         <div className="canvas">
           <div className="sec-tag" data-idx="02 / "><Icon name="book" size={30} />{WORK_NARRATIVE.tag}</div>
-          <h2 className="wn-title display"><SplitText text={WORK_NARRATIVE.title} accentIndex={1} /></h2>
+          <h2 className="w-title display"><SplitText text={WORK_NARRATIVE.title} accentIndex={1} /></h2>
           <div className="wn-body">
             {WORK_NARRATIVE.paras.map((p, i) => <p className="wn-para" key={i}>{p}</p>)}
           </div>
@@ -298,11 +306,9 @@ export default function WorkApp() {
 
       <section id="casestudy">
         <div className="canvas">
-          <div className="sec-tag" data-idx="03 / "><Icon name="book" size={30} />Case study</div>
-          <h2 className="display" style={{ fontSize: 'clamp(1.8rem,5vw,3.5rem)', marginTop: '1.2rem', marginBottom: '1rem' }}>
-            <SplitText text="Baseline to boardroom" accentIndex={2} />
-          </h2>
-          <p className="panel-intro" style={{ marginBottom: 0 }}>{CASE_INTRO}</p>
+          <div className="sec-tag" data-idx="03 / "><Icon name="book" size={30} />{CASE_HEAD.tag}</div>
+          <h2 className="w-title display"><SplitText text={CASE_HEAD.title} accentIndex={2} /></h2>
+          <p className="panel-intro">{CASE_INTRO}</p>
           <CaseStudy />
         </div>
       </section>
