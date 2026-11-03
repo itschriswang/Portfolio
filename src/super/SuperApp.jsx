@@ -7,8 +7,8 @@
 // speak for itself.
 //
 // The most restrained of the four tools: tables, quiet cards, mono labels,
-// factual chips. Flags are facts against a stated criterion, styled as a thin
-// rule and a small chip, never as a red alarm. Every field carries a
+// factual chips. Flags are facts against a stated criterion, carried by a
+// small chip in the criterion's ink, never as a red alarm. Every field carries a
 // confidence flag, and any weighting that could not be verified against the
 // disclosure CSV is named, marked pending, and never given an invented number.
 //
@@ -71,7 +71,7 @@ function FundDetail({ fund }) {
         {/* Left: what the option holds */}
         <div className="sf-panel">
           <div className="sf-panel-head">
-            <Icon name="chart" size={22} />{d.saaHead} <Conf level={fund.saaConf} />
+            <Icon name="chart" size={22} /><span className="sf-panel-title">{d.saaHead} <Conf level={fund.saaConf} /></span>
           </div>
           <p className="sf-panel-sub">{d.saaSub}</p>
           <div className="sf-growth">
@@ -86,15 +86,16 @@ function FundDetail({ fund }) {
             ))}
           </div>
           <p className="sf-note">
-            Source: {fund.saaSource.doc}{fund.saaSource.asOf ? ` (${fund.saaSource.asOf})` : ''}.{' '}
-            <a href={fund.saaSource.url} target="_blank" rel="noopener noreferrer">Fund page</a>
+            {d.sourceLabel}: {fund.saaSource.doc}
+            {fund.saaSource.asOf && !fund.saaSource.doc.includes(fund.saaSource.asOf) ? ` (${fund.saaSource.asOf})` : ''}.{' '}
+            <a href={fund.saaSource.url} target="_blank" rel="noopener noreferrer">{d.fundPageLink}</a>
           </p>
         </div>
 
         {/* Right: what the fund says */}
         <div className="sf-panel">
           <div className="sf-panel-head">
-            <Icon name="book" size={22} />{d.marketingHead} <Conf level="quote" />
+            <Icon name="book" size={22} /><span className="sf-panel-title">{d.marketingHead} <Conf level="quote" /></span>
           </div>
           <p className="sf-panel-sub">{d.marketingSub}</p>
           {/* Deliberately not a <blockquote>: these are close statements of each
@@ -106,8 +107,8 @@ function FundDetail({ fund }) {
                 <p className="sf-quote-t">{m.quote}</p>
                 <div className="sf-quote-attr">
                   {m.attribution}.{' '}
-                  <a href={m.url} target="_blank" rel="noopener noreferrer">Source</a>
-                  <span className="sf-accessed">Accessed {m.accessed}</span>
+                  <a href={m.url} target="_blank" rel="noopener noreferrer">{d.quoteSourceLink}</a>
+                  <span className="sf-accessed">{d.accessedLabel} {m.accessed}</span>
                 </div>
               </div>
             ))}
@@ -118,7 +119,7 @@ function FundDetail({ fund }) {
       {/* Top listed holdings */}
       <div className="sf-panel">
         <div className="sf-panel-head">
-          <Icon name="list" size={22} />{d.topHead} <Conf level={fund.topHoldingsConf} />
+          <Icon name="list" size={22} /><span className="sf-panel-title">{d.topHead} <Conf level={fund.topHoldingsConf} /></span>
         </div>
         <div className="sf-holdings">
           {fund.topHoldings.map((h) => (
@@ -131,7 +132,7 @@ function FundDetail({ fund }) {
       {/* Flagged holdings */}
       <div className="sf-panel">
         <div className="sf-panel-head">
-          <Icon name="target" size={22} />{d.flaggedHead}
+          <Icon name="target" size={22} /><span className="sf-panel-title">{d.flaggedHead}</span>
         </div>
         <p className="sf-panel-sub">{d.flaggedSub}</p>
         {fund.flagged.length === 0 ? (
@@ -166,11 +167,11 @@ function FundDetail({ fund }) {
       {/* Disclosure this reads from */}
       <div className="sf-panel">
         <div className="sf-panel-head">
-          <Icon name="coins" size={22} />{d.disclosureHead}
+          <Icon name="coins" size={22} /><span className="sf-panel-title">{d.disclosureHead}</span>
         </div>
-        <p className="sf-panel-sub" style={{ marginBottom: 0 }}>
-          {fund.disclosure.doc}. Holdings as at {fund.disclosure.asOf}.{' '}
-          <a href={fund.disclosure.url} target="_blank" rel="noopener noreferrer" style={{ color: '#5F6A17', fontWeight: 700 }}>Fund disclosure page</a>
+        <p className="sf-panel-sub sf-disclosure">
+          {fund.disclosure.doc}. {d.holdingsAsAt} {fund.disclosure.asOf}.{' '}
+          <a href={fund.disclosure.url} target="_blank" rel="noopener noreferrer">{d.disclosureLink}</a>
         </p>
       </div>
     </div>
@@ -228,8 +229,8 @@ export default function SuperApp() {
         {/* The tool */}
         <section id="sf-tool">
           <div className="canvas">
-            <div className="sec-tag" data-idx="02"><Icon name="list" size={32} />The tool</div>
-            <span id="sf-pick" className="sf-pick-label" style={{ marginTop: '1rem' }}>{COPY.intro.pick}</span>
+            <div className="sec-tag" data-idx="02"><Icon name="list" size={32} />{COPY.tool.tag}</div>
+            <span id="sf-pick" className="sf-pick-label">{COPY.intro.pick}</span>
             <div className="sf-pick-grid" role="group" aria-label={COPY.intro.pickAria}>
               {FUNDS.map((f) => (
                 <button
@@ -251,8 +252,8 @@ export default function SuperApp() {
         {/* What you are looking at */}
         <section id="sf-looking">
           <div className="canvas">
-            <div className="sec-tag" data-idx="03"><Icon name="book" size={32} />{COPY.looking.head}</div>
-            <h2 className="display sf-h2">What you are looking at</h2>
+            <div className="sec-tag" data-idx="03"><Icon name="book" size={32} />{COPY.looking.tag}</div>
+            <h2 className="display sf-h2">{COPY.looking.head}</h2>
             <ul className="sf-looking-list">
               {COPY.looking.points.map((p, i) => <li key={i}>{p}</li>)}
             </ul>

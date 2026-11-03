@@ -395,7 +395,11 @@ export const COPY = {
     pick: 'Pick a fund',
     pickAria: 'Choose a super fund to view its default option',
   },
+  tool: {
+    tag: 'The tool',
+  },
   looking: {
+    tag: 'Scope and limits',
     head: 'What you are looking at',
     points: [
       'The default (MySuper) option only. Most funds also offer a screened or sustainable option; those are a member\'s active choice and are not shown here.',
@@ -422,11 +426,17 @@ export const COPY = {
     criterionLabel: 'Criterion',
     basisLabel: 'Basis',
     weightingLabel: 'Weighting',
+    sourceLabel: 'Source',
+    fundPageLink: 'Fund page',
+    quoteSourceLink: 'Source',
+    accessedLabel: 'Accessed',
     disclosureHead: 'Disclosure this reads from',
+    holdingsAsAt: 'Holdings as at',
+    disclosureLink: 'Fund disclosure page',
     verifyChipAria: 'Confidence in this figure',
   },
   method: {
-    tag: 'How this is put together',
+    tag: 'Method',
     title: ['How this is', 'put together'],
     body: 'The full basis of preparation lives on its own page: the boundary, every source, how the numbers are read, the flag criteria in full, the update cadence, and the corrections policy. If you run a fund and something here is wrong, that page says how to reach me and how a correction is handled.',
     cta: 'Read the method and sources',
@@ -523,5 +533,12 @@ export const METHOD = {
   ],
   sourceTableTitle: 'The funds and their sources',
   sourceTableSub: 'Every fund in the tool, its default option, the disclosure cycle it reads from, and the fund pages used. Rendered from the same data the tool uses, so this table cannot drift from it.',
+  sourceTable: {
+    cols: ['Fund', 'Default option', 'Disclosure read', 'Fund pages used'],
+    asAt: 'as at',
+    disclosureLink: 'Disclosure',
+    guideLink: 'Investment guide',
+    sustainabilityLink: 'Sustainability',
+  },
 };
 
