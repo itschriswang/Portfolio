@@ -32,38 +32,34 @@
   line-height: 1.7; max-width: 64ch;
 }
 .pr-read {
-  font-size: 0.92rem; font-weight: 400; color: #475569; line-height: 1.75;
-  max-width: 62ch; margin-top: 1rem; padding-left: 1rem;
-  border-left: 3px solid var(--forest-ink);
+  font-size: 0.92rem; font-weight: 400; color: var(--ink-2); line-height: 1.75;
+  max-width: 62ch; margin-top: 1rem;
 }
 
 /* Last-updated stamp: prominent, top and bottom, from one data field. */
 .pr-updated {
-  display: grid; grid-template-columns: auto auto; align-items: baseline;
-  column-gap: 0.6rem; row-gap: 0.2rem;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 0.6rem;
   border: 1px solid var(--rule-dk); background: var(--white);
   border-radius: var(--r-lg); padding: 0.9rem 1.1rem;
-  max-width: 640px; box-shadow: var(--shadow-soft);
+  width: fit-content; max-width: 30rem; box-shadow: var(--shadow-soft);
 }
 .pr-updated-top { margin: 1.6rem 0 1.2rem; }
 .pr-updated-bottom { margin: 2.5rem 0 0.5rem; }
 .pr-updated-dot {
-  width: 8px; height: 8px; border-radius: 50%; background: var(--matcha);
-  grid-row: 1; align-self: center;
-  box-shadow: 0 0 0 4px rgba(181, 196, 43, 0.2);
+  width: 8px; height: 8px; border-radius: 50%; background: var(--matcha); flex: none;
 }
 .pr-updated-label {
   font-family: var(--mono); font-size: 10px; letter-spacing: 0.15em;
-  text-transform: uppercase; color: var(--mid); font-weight: 600; grid-row: 1;
+  text-transform: uppercase; color: var(--mid); font-weight: 600;
 }
 .pr-updated-date {
   font-family: var(--disp); font-size: clamp(1.2rem, 2.4vw, 1.6rem);
   font-weight: 700; color: var(--slate); letter-spacing: -0.02em;
-  grid-column: 2; grid-row: 1; justify-self: start;
+  white-space: nowrap;
 }
 .pr-updated-cadence {
-  grid-column: 1 / 3; font-family: var(--mono); font-size: 10.5px;
-  color: var(--mid); line-height: 1.6; margin-top: 0.2rem; max-width: 60ch;
+  flex: 1 1 100%; font-family: var(--mono); font-size: 10.5px;
+  color: var(--mid); line-height: 1.6; margin-top: 0.2rem;
 }
 
 /* Live grid snapshot: only rendered when a live reading arrives. */
@@ -118,7 +114,7 @@
 .pr-ref-value {
   font-family: var(--disp); font-weight: 600;
   font-size: clamp(1.4rem, 3.2vw, 2.1rem); letter-spacing: -0.02em;
-  color: var(--subtle); line-height: 1.1;
+  color: var(--mid); line-height: 1.1;
 }
 .pr-ref-note {
   font-size: 0.9rem; font-weight: 400; color: var(--mid); line-height: 1.7;
@@ -144,17 +140,19 @@
   line-height: 1.5; max-width: 46ch; margin-top: 1.1rem;
 }
 .pr-reveal-sub {
-  font-size: 0.92rem; font-weight: 400; color: #475569; line-height: 1.7;
+  font-size: 0.92rem; font-weight: 400; color: var(--ink-2); line-height: 1.7;
   max-width: 56ch; margin-top: 0.7rem;
 }
 
-/* The gap: one plain reading, set apart by a rule. */
+/* The gap: one plain reading, set apart by a full hairline above it. Some
+   readings run to a paragraph, so the size stays below the reveal label's
+   loudness and the measure opens up rather than stacking a dozen lines. */
 .pr-gap {
   font-family: var(--disp); font-weight: 500;
-  font-size: clamp(1.15rem, 2.4vw, 1.7rem); line-height: 1.35;
-  letter-spacing: -0.02em; color: var(--slate);
-  max-width: 40ch; margin-top: clamp(2rem, 5vw, 3.2rem);
-  padding-left: 1.2rem; border-left: 4px solid var(--matcha);
+  font-size: clamp(1.1rem, 2vw, 1.4rem); line-height: 1.45;
+  letter-spacing: -0.01em; color: var(--slate);
+  max-width: 52ch; margin-top: clamp(2rem, 5vw, 3.2rem);
+  padding-top: clamp(1.2rem, 3vw, 1.6rem); border-top: 1px solid var(--rule-dk);
   opacity: 0; transform: translateY(12px);
 }
 .pr-chapter.in .pr-gap {
@@ -168,14 +166,21 @@
   margin-top: clamp(1.6rem, 4vw, 2.4rem);
 }
 .pr-chip {
+  display: inline-flex; align-items: center; gap: 0.5rem;
   font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em;
-  text-transform: uppercase; font-weight: 600; color: #3F4A3C;
-  background: rgba(181, 196, 43, 0.14); border: 1px solid rgba(181, 196, 43, 0.4);
+  text-transform: uppercase; font-weight: 600; color: var(--ink-2);
+  background: var(--white); border: 1px solid var(--rule-dk);
   padding: 0.35rem 0.7rem; border-radius: var(--r-sm);
 }
-.pr-chip-sourced { background: rgba(181, 196, 43, 0.14); border-color: rgba(181, 196, 43, 0.5); color: #46520f; }
-.pr-chip-derived { background: rgba(99, 91, 255, 0.10); border-color: rgba(99, 91, 255, 0.35); color: #3b36a8; }
-.pr-chip-estimate { background: rgba(255, 149, 0, 0.10); border-color: rgba(255, 149, 0, 0.4); color: var(--amber-ink); }
+.pr-chip-k { color: var(--mid); font-weight: 500; }
+/* The status colour carries meaning, so it stays, as a dot beside the label. */
+.pr-chip-status::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%; flex: none;
+  background: var(--pr-status, var(--matcha));
+}
+.pr-chip-sourced { --pr-status: var(--matcha); }
+.pr-chip-derived { --pr-status: var(--indigo); }
+.pr-chip-estimate { --pr-status: var(--amber); }
 .pr-meta-src {
   font-family: var(--mono); font-size: 10px; color: var(--mid);
   line-height: 1.5; flex: 1 1 240px; min-width: 200px;
@@ -199,15 +204,19 @@
   font-size: clamp(1.05rem, 2vw, 1.3rem); font-weight: 400; color: #C7D0BF;
   line-height: 1.6; max-width: 56ch; margin-bottom: clamp(2rem, 5vw, 3rem);
 }
-.pr-cols { display: grid; grid-template-columns: 1fr; gap: clamp(1.6rem, 4vw, 2.6rem); }
-@media (min-width: 760px) { .pr-cols { grid-template-columns: 1fr 1fr; } }
+.pr-cols { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(1.6rem, 4vw, 2.6rem); }
+@media (min-width: 760px) { .pr-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .pr-col-head {
+  display: flex; align-items: center; gap: 0.6rem;
   font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
-  text-transform: uppercase; font-weight: 700; padding-bottom: 0.6rem;
-  margin-bottom: 1rem; border-bottom: 2px solid;
+  text-transform: uppercase; font-weight: 600; padding-bottom: 0.6rem;
+  margin-bottom: 1rem; border-bottom: 1px solid rgba(244, 246, 238, 0.16);
 }
-.pr-col-up { color: var(--matcha); border-color: var(--matcha); }
-.pr-col-down { color: var(--amber); border-color: var(--amber); }
+.pr-col-head::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%; flex: none; background: currentColor;
+}
+.pr-col-up { color: var(--matcha); }
+.pr-col-down { color: var(--amber); }
 .pr-col-list { list-style: none; display: flex; flex-direction: column; gap: 0.9rem; }
 .pr-col-list li {
   font-size: 0.95rem; font-weight: 400; color: #D6DECC; line-height: 1.65;
@@ -229,11 +238,11 @@
 .pr-h2-light { color: var(--slate); }
 .pr-h2-light em { color: var(--forest-ink); font-style: normal; }
 .pr-method-grid {
-  display: grid; grid-template-columns: 1fr; gap: 1px;
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 1px;
   background: var(--rule-dk); border: 1px solid var(--rule-dk);
   margin: 1.5rem 0; border-radius: var(--r-lg); overflow: hidden;
 }
-@media (min-width: 720px) { .pr-method-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 720px) { .pr-method-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .pr-method-block { background: var(--white); padding: 1.5rem 1.6rem; }
 .pr-method-wide { border: 1px solid var(--rule-dk); border-radius: var(--r-lg); margin-top: 1.5rem; }
 .pr-method-block h3 {
@@ -242,7 +251,7 @@
   margin-bottom: 0.85rem; display: inline-flex; align-items: center;
 }
 .pr-method-block p {
-  font-size: 0.85rem; color: #475569; line-height: 1.75;
+  font-size: 0.85rem; color: var(--ink-2); line-height: 1.75;
   margin-bottom: 0.75rem; max-width: 72ch;
 }
 .pr-method-block p:last-child { margin-bottom: 0; }
@@ -255,7 +264,7 @@
 }
 .pr-src-item:last-child { border-bottom: none; padding-bottom: 0; }
 .pr-src-name { font-family: var(--disp); font-weight: 700; font-size: 0.92rem; color: var(--slate); }
-.pr-src-detail { font-size: 0.82rem; color: #475569; line-height: 1.65; max-width: 78ch; }
+.pr-src-detail { font-size: 0.82rem; color: var(--ink-2); line-height: 1.65; max-width: 78ch; }
 .pr-src-meta { font-family: var(--mono); font-size: 10.5px; color: var(--mid); margin-top: 0.15rem; }
 .pr-src-meta a { color: var(--accent-ink); text-decoration: none; font-weight: 600; }
 .pr-src-meta a:hover { text-decoration: underline; }

@@ -18,6 +18,7 @@ export const META = {
   navLabel: 'Progress',
   // Single source of truth for the last-updated stamp, rendered top and bottom.
   updated: '13 August 2026',
+  updatedLabel: 'Last updated',
   cadence: 'Reviewed quarterly, as the national inventory and the market data refresh. Check the date above before you rely on anything below it.',
   live: {
     label: 'On the grid right now',
@@ -114,6 +115,13 @@ export const SOURCES = {
 };
 
 // Freshness labels for the status flag beside each number.
+// Small labels around each metric and source line.
+export const LABELS = {
+  period: 'Period',
+  accessed: 'Accessed',
+  sourceLink: 'Source',
+};
+
 export const STATUS = {
   sourced: 'Sourced figure',
   derived: 'Derived here',
@@ -278,6 +286,7 @@ export const SUMMARY = {
 export const METHOD = {
   tag: 'Basis of preparation',
   title: ['How this tracker', 'is built'],
+  sourcesTitle: 'Sources in full',
   sub: 'Every number above, where it comes from, how the gaps are worked out, and what the figures leave out. A claim here that is not backed by a cited release is described in words.',
   blocks: [
     {
