@@ -12,8 +12,13 @@ import Icon from '../components/Icons';
 import { prefersReducedMotion } from '../utils/media';
 import { fetchNemSnapshot } from '../lib/opennem';
 import {
-  META, INTRO, CHAPTERS, SUMMARY, METHOD, SOURCES, STATUS, FOOT,
+  META, INTRO, CHAPTERS, SUMMARY, METHOD, SOURCES, STATUS, LABELS, FOOT,
 } from './data';
+
+// Section numbers run on from the chapters: the summary, then the method.
+const pad = (n) => String(n).padStart(2, '0');
+const SUMMARY_IDX = pad(CHAPTERS.length + 1);
+const METHOD_IDX = pad(CHAPTERS.length + 2);
 
 // Count from 0 to `to` once `run` turns true. Under reduced motion it renders
 // the final value immediately and never animates.
@@ -47,8 +52,8 @@ function SourceLine({ id }) {
       <span className="pr-src-name">{s.name}</span>
       <span className="pr-src-detail">{s.detail}</span>
       <span className="pr-src-meta">
-        Accessed {s.accessed}
-        {s.url && <> · <a href={s.url} target="_blank" rel="noopener noreferrer">Source</a></>}
+        {LABELS.accessed} {s.accessed}
+        {s.url && <> · <a href={s.url} target="_blank" rel="noopener noreferrer">{LABELS.sourceLink}</a></>}
       </span>
     </li>
   );
@@ -58,7 +63,7 @@ function SourceLine({ id }) {
 function Chapter({ m, index }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-12% 0px -12% 0px' });
-  const idx = String(index + 1).padStart(2, '0');
+  const idx = pad(index + 1);
   return (
     <section
       className={'pr-chapter' + (inView ? ' in' : '')}
@@ -100,8 +105,10 @@ function Chapter({ m, index }) {
         <p className="pr-gap">{m.gap}</p>
 
         <div className="pr-meta">
-          <span className="pr-chip">Data to {m.period}</span>
-          <span className={'pr-chip pr-chip-' + m.status}>{STATUS[m.status]}</span>
+          <span className="pr-chip">
+            <span className="pr-chip-k">{LABELS.period}</span>{m.period}
+          </span>
+          <span className={'pr-chip pr-chip-status pr-chip-' + m.status}>{STATUS[m.status]}</span>
           <span className="pr-meta-src">
             {m.sources.map((id) => SOURCES[id] && SOURCES[id].name).filter(Boolean).join(' · ')}
           </span>
@@ -129,17 +136,21 @@ function LiveSnapshot() {
     })
     : null;
   return (
-    <div className="pr-live" role="status">
-      <span className="pr-live-dot" aria-hidden="true" />
-      <span className="pr-live-label">{META.live.label}</span>
-      <span className="pr-live-val">
-        {META.live.renewLabel} <strong>{Math.round(snap.renewableShare * 100)}%</strong>
-      </span>
-      <span className="pr-live-val">
-        {META.live.coalLabel} <strong>{Math.round(snap.coalShare * 100)}%</strong>
-      </span>
-      {when && <span className="pr-live-asof">{META.live.asOf} {when}</span>}
-    </div>
+    <>
+      <div className="pr-live" role="status">
+        <span className="pr-live-dot" aria-hidden="true" />
+        <span className="pr-live-label">{META.live.label}</span>
+        <span className="pr-live-val">
+          {META.live.renewLabel} <strong>{Math.round(snap.renewableShare * 100)}%</strong>
+        </span>
+        <span className="pr-live-val">
+          {META.live.coalLabel} <strong>{Math.round(snap.coalShare * 100)}%</strong>
+        </span>
+        {when && <span className="pr-live-asof">{META.live.asOf} {when}</span>}
+      </div>
+      {/* The note explains the reading, so it shows only alongside one. */}
+      <p className="pr-live-note">{META.live.note}</p>
+    </>
   );
 }
 
@@ -147,7 +158,7 @@ function UpdatedStamp({ placement }) {
   return (
     <div className={'pr-updated pr-updated-' + placement}>
       <span className="pr-updated-dot" aria-hidden="true" />
-      <span className="pr-updated-label">Last updated</span>
+      <span className="pr-updated-label">{META.updatedLabel}</span>
       <span className="pr-updated-date">{META.updated}</span>
       <span className="pr-updated-cadence">{META.cadence}</span>
     </div>
@@ -179,7 +190,6 @@ export default function ProgressApp() {
 
             <UpdatedStamp placement="top" />
             <LiveSnapshot />
-            <p className="pr-live-note">{META.live.note}</p>
 
             <div className="pr-scroll-hint" aria-hidden="true">
               <span className="pr-scroll-line" />{INTRO.scroll} ↓
@@ -195,7 +205,7 @@ export default function ProgressApp() {
         {/* Summary, on the one restrained dark band. */}
         <section className="pr-dark" aria-labelledby="pr-sum-h">
           <div className="canvas pr-dark-inner">
-            <div className="sec-tag" data-idx="07">
+            <div className="sec-tag" data-idx={SUMMARY_IDX}>
               <Icon name="target" size={32} />{SUMMARY.tag}
             </div>
             <div className="pr-kicker pr-kicker-dark">{SUMMARY.kicker}</div>
@@ -227,7 +237,7 @@ export default function ProgressApp() {
         {/* Method / basis of preparation */}
         <section id="pr-method" aria-labelledby="pr-method-h">
           <div className="canvas">
-            <div className="sec-tag" data-idx="08">
+            <div className="sec-tag" data-idx={METHOD_IDX}>
               <Icon name="book" size={32} />{METHOD.tag}
             </div>
             <h2 className="display pr-h2 pr-h2-light" id="pr-method-h">
@@ -245,7 +255,7 @@ export default function ProgressApp() {
             </div>
 
             <div className="pr-method-block pr-method-wide">
-              <h3><Icon name="list" size={32} className="fpi-lead" />Sources in full</h3>
+              <h3><Icon name="list" size={32} className="fpi-lead" />{METHOD.sourcesTitle}</h3>
               <ul className="pr-src-list">
                 {Object.keys(SOURCES).map((id) => <SourceLine key={id} id={id} />)}
               </ul>
