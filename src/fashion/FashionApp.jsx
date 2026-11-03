@@ -234,26 +234,42 @@ function ScrollProgress() {
 }
 
 // Fixed section rail with active tracking. Hidden on narrow screens (CSS).
+// The active section is the last one whose top has crossed the middle of the
+// viewport, read on scroll. An IntersectionObserver band used to do this, but
+// it only reported sections entering or leaving the band, so the last section
+// never took over and the rail sat on "Signals" through the backlog and the
+// footers. The rail steps aside once the page footer is in view.
 function SectionRail() {
   const [active, setActive] = useState(COPY.rail[0].id);
+  const [off, setOff] = useState(false);
   useEffect(() => {
-    const secs = COPY.rail.map((r) => document.getElementById(r.id)).filter(Boolean);
-    if (!secs.length || typeof IntersectionObserver === 'undefined') return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        const vis = entries.filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (vis) setActive(vis.target.id);
-      },
-      { rootMargin: '-45% 0px -45% 0px', threshold: [0, 0.5, 1] },
-    );
-    secs.forEach((s) => io.observe(s));
-    return () => io.disconnect();
+    let raf = 0;
+    const measure = () => {
+      raf = 0;
+      const mid = window.innerHeight * 0.5;
+      let current = COPY.rail[0].id;
+      COPY.rail.forEach((r) => {
+        const el = document.getElementById(r.id);
+        if (el && el.getBoundingClientRect().top <= mid) current = r.id;
+      });
+      setActive(current);
+      const foot = document.querySelector('.ow-footer');
+      setOff(!!foot && foot.getBoundingClientRect().top < window.innerHeight * 0.75);
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(measure); };
+    measure();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, []);
   const total = COPY.rail.length;
   const activeIdx = COPY.rail.findIndex((r) => r.id === active);
   return (
-    <nav className="ow-rail" aria-label="Sections">
+    <nav className={`ow-rail${off ? ' off' : ''}`} aria-label="Sections">
       <span className="ow-rail-progress" aria-hidden="true">
         {String(activeIdx + 1).padStart(2, '0')} <i>/</i> {String(total).padStart(2, '0')}
       </span>
@@ -359,27 +375,25 @@ function SearchField({ onSelect, id = 'ow-search-input', label }) {
 // =========================================================================
 // Hero
 // =========================================================================
+// The hero's three swing tags read their brands from the data set, so the
+// parent, segment and score on each tag are the lookup's own, never retyped.
 function SwingTagStack() {
-  const tags = [
-    { cls: 's1', name: 'Uniqlo', seg: 'basics', parent: 'Fast Retailing', rows: [['Parent', 'Fast Retailing'], ['Segment', 'Basics'], ['FTI 2023', '51 / 100']] },
-    { cls: 's2', name: 'Gucci', seg: 'luxury', parent: 'Kering', rows: [['Parent', 'Kering'], ['Segment', 'Luxury'], ['FTI 2023', '80 / 100']] },
-    { cls: 's3', name: 'Kmart', seg: 'department', parent: 'Wesfarmers', rows: [['Parent', 'Wesfarmers'], ['Segment', 'Value'], ['FTI 2023', '76 / 100']] },
-  ];
+  const tags = COPY.hero.tagIds.map((id) => BRAND_BY_ID[id]).filter(Boolean);
   return (
     <div className="ow-tagstack" aria-hidden="true">
-      {tags.map((t) => (
-        <div className={`ow-swing ${t.cls}`} key={t.name}>
+      {tags.map((b, i) => (
+        <div className={`ow-swing s${i + 1}`} key={b.id}>
           <div className="tag-top">
-            <BrandLogo name={t.name} segment={t.seg} size="md" />
+            <BrandLogo brand={b} size="md" />
             <div>
-              <div className="tag-brand">{t.name}</div>
-              <div className="tag-parent">{t.parent}</div>
+              <div className="tag-brand">{b.name}</div>
+              <div className="tag-parent">{b.parent}</div>
             </div>
           </div>
           <div className="tag-rule" />
-          {t.rows.map(([k, v]) => (
-            <div className="tag-row" key={k}><span>{k}</span><span>{v}</span></div>
-          ))}
+          <div className="tag-row"><span>{COPY.lookup.parentLabel}</span><span>{b.parent}</span></div>
+          <div className="tag-row"><span>{COPY.lookup.segmentLabel}</span><span>{b.segmentLabel}</span></div>
+          <div className="tag-row"><span>FTI 2023</span><span>{b.fti != null ? `${b.fti} / 100` : 'TBC'}</span></div>
         </div>
       ))}
     </div>
@@ -606,7 +620,7 @@ function LookupSection({ selected, compareIds, onSelect, onToggleCompare, onOpen
       <div className="ow-wrap">
         <SecHead c={COPY.lookup} />
         <p className="ow-lede">{COPY.lookup.lede}</p>
-        <SearchField onSelect={onSelect} id="ow-lookup-search" label="Search again" />
+        <SearchField onSelect={onSelect} id="ow-lookup-search" label={brand ? COPY.lookup.searchAgainLabel : COPY.hero.searchLabel} />
         <div style={{ height: '1.6rem' }} />
         {brand ? (
           <BrandCard
@@ -873,6 +887,13 @@ const DIR_VIEWS = [
   { id: 'groups', labelKey: 'viewGroups' },
 ];
 
+// How many tags the directory shows before "Show all". Rendering all 258 made
+// the directory a third of the page on desktop and more than half on a phone,
+// so it opens on a preview; filters and the name search still run over the
+// whole set, and typing a name shows every match.
+const DIR_PREVIEW = { wide: 20, narrow: 8 };
+const NARROW_QUERY = '(max-width: 680px)';
+
 function Directory({ onSelect, view, setView, focusGroup }) {
   const [seg, setSeg] = useState('all');
   const [auOnly, setAuOnly] = useState(false);
@@ -881,7 +902,17 @@ function Directory({ onSelect, view, setView, focusGroup }) {
   const [bcorpOnly, setBcorpOnly] = useState(false);
   const [text, setText] = useState('');
   const [sort, setSort] = useState('name');
+  const [showAll, setShowAll] = useState(false);
+  const [narrow, setNarrow] = useState(() => typeof window !== 'undefined' && !!window.matchMedia?.(NARROW_QUERY).matches);
   const focusRef = useRef(null);
+
+  useEffect(() => {
+    const mq = window.matchMedia?.(NARROW_QUERY);
+    if (!mq) return undefined;
+    const onChange = () => setNarrow(mq.matches);
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, []);
 
   // Roving tabindex with arrow-key movement, per the ARIA tabs pattern — the
   // same handler shape as FieldGuide's.
@@ -911,6 +942,10 @@ function Directory({ onSelect, view, setView, focusGroup }) {
     });
     return out;
   }, [seg, auOnly, scoredOnly, pactOnly, bcorpOnly, text, sort]);
+
+  const preview = narrow ? DIR_PREVIEW.narrow : DIR_PREVIEW.wide;
+  const capped = !showAll && !text && list.length > preview;
+  const shown = capped ? list.slice(0, preview) : list;
 
   useEffect(() => {
     if (view === 'groups' && focusGroup && focusRef.current) {
@@ -979,10 +1014,32 @@ function Directory({ onSelect, view, setView, focusGroup }) {
               <button className="ow-chip alt" aria-pressed={bcorpOnly} onClick={() => setBcorpOnly((v) => !v)}>{COPY.directory.bcorpOnly}</button>
             </div>
 
-            <p className="ow-count">{COPY.directory.resultTemplate.replace('{n}', list.length)}</p>
+            <p className="ow-count">
+              {capped
+                ? COPY.directory.resultPartTemplate.replace('{shown}', shown.length).replace('{n}', list.length)
+                : COPY.directory.resultTemplate.replace('{n}', list.length)}
+              <span className="key">{COPY.directory.scoreKey}</span>
+            </p>
             {list.length === 0
-              ? <div className="ow-empty"><p>No brands match those filters.</p></div>
-              : <div className="ow-dir-grid">{list.map((b) => <DirTag key={b.id} brand={b} onSelect={onSelect} />)}</div>}
+              ? <div className="ow-empty"><p>{COPY.directory.noMatch}</p></div>
+              : <div className="ow-dir-grid" id="ow-dir-grid">{shown.map((b) => <DirTag key={b.id} brand={b} onSelect={onSelect} />)}</div>}
+            {!text && list.length > preview && (
+              <div className="ow-dir-more">
+                <button
+                  className="ow-btn"
+                  aria-expanded={showAll}
+                  aria-controls="ow-dir-grid"
+                  onClick={() => {
+                    if (showAll) {
+                      document.getElementById('directory')?.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'start' });
+                    }
+                    setShowAll((v) => !v);
+                  }}
+                >
+                  {showAll ? COPY.directory.showFewer : COPY.directory.showAllTemplate.replace('{n}', list.length)}
+                </button>
+              </div>
+            )}
           </div>
         ) : (
           <div id="ow-dirpanel-groups" role="tabpanel" aria-labelledby="ow-dirtab-groups">

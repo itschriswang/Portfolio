@@ -334,6 +334,17 @@ const drop = (
   </>
 );
 
+// A front-loading washer; the matcha water sits in the bottom of the door.
+const wash = (
+  <>
+    <path d="M8.6 5.2 H23.4 Q25.6 5.2 25.6 7.4 V24.6 Q25.6 26.8 23.4 26.8 H8.6 Q6.4 26.8 6.4 24.6 V7.4 Q6.4 5.2 8.6 5.2 Z" />
+    <path d="M6.6 10.4 H25.4" />
+    <circle cx="10" cy="7.8" r="0.6" />
+    <circle cx="16" cy="18.4" r="5.6" />
+    <path className="fpi-fill" d="M11.2 19.6 Q13.6 18.4 16 19.6 Q18.4 20.8 20.8 19.6 Q20.2 23.4 16 23.6 Q11.8 23.4 11.2 19.6 Z" stroke="none" />
+  </>
+);
+
 // Two arrows closing a loop; one matcha arrowhead.
 const loop = (
   <>
@@ -366,7 +377,7 @@ const GLYPHS = {
   pin, people, building, flame, leaf, fuel, phone, bus, fork, box, globe, clock,
   bag, bed, coins, bin,
   chart, target, list, book,
-  tag, shirt, scissors, drop, loop,
+  tag, shirt, scissors, drop, loop, wash,
   copy, check,
 };
 

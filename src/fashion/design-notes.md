@@ -3,6 +3,13 @@
 Not built or bundled (plain `.md`). The record of what the page is for, how it
 is built, and the honesty rules it holds to.
 
+This file is a log, written in the order the page changed, and a later section
+supersedes an earlier one where they disagree. The first sections describe the
+original calico, indigo and madder build (Archivo, Instrument Serif, hard ink
+offsets, seven verified scores); the page today follows v9 onward: the site's
+own fonts and matcha palette, 258 brands with 248 scored, and the Garment
+Studio between the directory and the field guide.
+
 ## What this page is
 
 A practical fashion brand transparency lookup. You search a brand you actually
@@ -386,3 +393,56 @@ Restored deliberately: the studio now sits between the directory and the
 field guide as sections 05-08, renumbering the guide (09), signals (10) and
 backlog (11). Both ideas hold: the lookup stays the spine, the studio stays
 the speciality.
+
+## Polish pass against the unslop audit (v11)
+
+An audit of the page against the unslop skill's slop signs, run in polish mode:
+the direction stays the site's, and nothing about the data or the sections
+changed. What moved:
+
+- **The directory opens on a preview.** All 258 tags rendered at once made the
+  directory a third of the page on desktop and more than half of it on a phone
+  (about 36,000px). It now shows 20 tags (8 on a phone) with a "Show all"
+  button; the segment chips, toggles and sort still run over the whole set,
+  and typing a name shows every match. A one-line key under the count says what
+  the figure on each tag is, and what TBC and n/a mean.
+- **The hero fits a phone.** Its single column was `1fr`, which will not shrink
+  below its content, so at 390px the lead, search and eyebrow ran off the right
+  edge behind `overflow-x: clip`. Now `minmax(0, 1fr)`. The keyboard hint is
+  hidden where there is no keyboard.
+- **The swing tags read from the data.** The three tags were typed into the
+  component; they now take parent, segment and score from the brand records
+  (`COPY.hero.tagIds`). The stack is spread so each name and owner reads, and
+  the back two show only that, leaving the detail to the tag in front.
+- **The section rail is right to the end.** It tracked sections through an
+  IntersectionObserver band that never handed over to the backlog, so the rail
+  sat on "Signals" through the backlog and both footers. It now reads the last
+  section whose top has crossed the middle of the screen, steps aside when the
+  footer arrives, and its counter sits on a pale pill so it reads on the dark
+  ownership band.
+- **No side stripes.** Seven coloured `border-left` and `border-top` accents
+  (the hero lead, signals cards, backlog stats, regulation items, principles,
+  fibre rows, the air-freight warning) became a hairline, a tint or nothing, per
+  the site rule. The fibre rows mark their side of the trade-off with a status
+  dot beside the label instead.
+- **One neutral ramp.** 24 hard-coded `#475569` (the cool slate the site
+  retired) became `--ink-2`, its matcha-tinted twin, and the cool `rgba(15, 23,
+  42)` shadows became the forest-tinted ones. Meter and stage bars are one solid
+  `--forest-ink` instead of an olive-to-lime gradient.
+- **Smaller fixes.** The eyebrow said OPENWEAVE, the page's old name. The
+  supply chain's six stages sat in five columns with a hole beside Retail; they
+  now fill rows of one, two or three. The stat band under the hero had its
+  `.ow-wrap` gutter zeroed, so its first figure sat against the screen edge;
+  it now lines up with the content above. Empty states are a quiet note rather than
+  a dashed placeholder box, and the lookup's search reads "Search a fashion
+  brand" until something has been searched. The studio section heads lacked the
+  `.ow-sechead` wrapper, so each title sat against its lede. Directory tags and
+  dig-deeper links no longer lift on hover. "Sheds in the wash" had the sparkle
+  glyph; it now has a washer, added to the shared icon set, and the estimator's
+  sec-tag uses the tee.
+
+Kept on purpose: the four stream colours in the estimator (it is the page's
+moment, and each colour is one stage), the segment stitches on the monograms (a
+quiet legend), and the site-wide mono eyebrows, pill controls and footer, which
+are the brand rather than this page's choice.
+
