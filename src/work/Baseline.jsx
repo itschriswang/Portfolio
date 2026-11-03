@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import Icon from '../components/Icons';
 import { prefersReducedMotion } from '../utils/media';
-import { BASELINE_SECTORS, buildSankey } from './workData';
+import { BASELINE_COPY as C, BASELINE_SECTORS, buildSankey } from './workData';
 
 const SECTORS = Object.keys(BASELINE_SECTORS);
 
@@ -57,8 +57,8 @@ export default function Baseline() {
           decarb model, no floating divider between the selector and the split. */}
       <div className="baseline-tool">
         <div className="baseline-ctrl">
-          <span className="baseline-ctrl-lbl">Operating profile</span>
-          <div className="baseline-seg" role="group" aria-label="Operating profile">
+          <span className="baseline-ctrl-lbl">{C.profileLabel}</span>
+          <div className="baseline-seg" role="group" aria-label={C.profileLabel}>
             {SECTORS.map((k) => (
               <button key={k} type="button" className={sector === k ? 'on' : ''} aria-pressed={sector === k} onClick={() => setSector(k)}>
                 {BASELINE_SECTORS[k].label}
@@ -71,16 +71,16 @@ export default function Baseline() {
           <div className="bl-meta">{d.meta}</div>
         </div>
         <div className="scope-grid">
-          <div className="scope-cell"><div className="scope-tag"><Icon name="flame" size={30} className="fpi-lead" />Scope 1: direct</div><div className="scope-pct">{d.s1}</div><div className="scope-body">{d.s1b}</div></div>
-          <div className="scope-cell"><div className="scope-tag"><Icon name="bolt" size={30} className="fpi-lead" />Scope 2: electricity</div><div className="scope-pct">{d.s2}</div><div className="scope-body">{d.s2b}</div></div>
-          <div className="scope-cell"><div className="scope-tag"><Icon name="globe" size={30} className="fpi-lead" />Scope 3: value chain</div><div className="scope-pct">{d.s3}</div><div className="scope-body">{d.s3b}</div></div>
+          <div className="scope-cell"><div className="scope-tag"><Icon name="flame" size={30} className="fpi-lead" />{C.scopeTags[0]}</div><div className="scope-pct">{d.s1}</div><div className="scope-body">{d.s1b}</div></div>
+          <div className="scope-cell"><div className="scope-tag"><Icon name="bolt" size={30} className="fpi-lead" />{C.scopeTags[1]}</div><div className="scope-pct">{d.s2}</div><div className="scope-body">{d.s2b}</div></div>
+          <div className="scope-cell"><div className="scope-tag"><Icon name="globe" size={30} className="fpi-lead" />{C.scopeTags[2]}</div><div className="scope-pct">{d.s3}</div><div className="scope-body">{d.s3b}</div></div>
         </div>
       </div>
       <div className="sankey-band">
         <div className="sankey-band-inner">
-          <div className="sk-kicker">Fig. A · Emissions flow · FY25 baseline</div>
-          <h2 className="sk-head">Where the footprint <em>flows</em></h2>
-          <p className="sk-sub">Scope 1-3 distribution and the Scope 3 category breakdown for the selected organisation type. The value chain dominates, which is why reduction starts with suppliers and design choices.</p>
+          <div className="sk-kicker">{C.figKicker}</div>
+          <h2 className="sk-head">{C.figHead[0]} <em>{C.figHead[1]}</em></h2>
+          <p className="sk-sub">{C.figSub}</p>
           <SankeyFigure key={sector} sk={d.sk} />
         </div>
       </div>

@@ -2,6 +2,18 @@
 // page. Every figure on this page is illustrative: the samples show methods on
 // representative data, not client or employer deliverables.
 
+// The page head: section tag, the two-part headline (the second part carries
+// the accent word), the lead and the way back.
+export const WORK_INTRO = {
+  tag: 'Work samples',
+  title: ['Frameworks', 'in practice'],
+  sub: 'Four analytical frameworks for infrastructure, built environment and government work, each shown as an interactive example on illustrative data. Select a tab to see the method.',
+  back: 'Back to profile',
+};
+
+// Shown under a table only while it is wider than its frame.
+export const SCROLL_HINT = 'Scroll sideways for more columns';
+
 export const TABS = [
   { id: 'baseline', letter: 'A', label: 'Emissions baseline', icon: 'chart' },
   { id: 'roadmap', letter: 'B', label: 'Decarb roadmap', icon: 'target' },
@@ -19,6 +31,16 @@ export const WORK_NARRATIVE = {
     'From there the work runs in a fixed order. Options get quantified before any pathway is modelled, because a pathway is only as good as the levers underneath it. Targets come last, once the pathway exists, so the interim numbers are ones the roadmap can deliver.',
     'The four frameworks below follow that order, each as an interactive example on illustrative data. The case study at the end is a composite walk-through of all four.',
   ],
+};
+
+// Fixed words around the baseline tool and its Sankey figure. The figures
+// themselves come from the selected profile in BASELINE_SECTORS.
+export const BASELINE_COPY = {
+  profileLabel: 'Operating profile',
+  scopeTags: ['Scope 1: direct', 'Scope 2: electricity', 'Scope 3: value chain'],
+  figKicker: 'Fig. A · Emissions flow · FY25 baseline',
+  figHead: ['Where the footprint', 'flows'],
+  figSub: 'Scope 1-3 distribution and the Scope 3 category breakdown for the selected organisation type. The value chain dominates, which is why reduction starts with suppliers and design choices.',
 };
 
 export const BASELINE_SECTORS = {
@@ -86,7 +108,9 @@ export const BASELINE_SECTORS = {
 
 // The Sankey figure as an SVG markup string. Two layouts:
 //  - wide (container 900px and up): the original 720 x 220 composition, with
-//    every font floored so it renders at 12px or more at the measured width;
+//    every font floored so it renders at 12px or more at the measured width.
+//    The drawing runs from y 40 to 180, so the viewBox crops to 32 to 188 and
+//    the figure carries no empty band above or below it;
 //  - narrow (below 900px): drawn at the container's own pixel width, one unit
 //    per pixel, so labels hold at 12 to 13px on a phone instead of shrinking
 //    to 5px with a fixed viewBox. It drops the unlabelled source bar on small
@@ -148,7 +172,7 @@ function wideSankey(s1p, s2p, s3p, cat, width, label) {
   const { s1h, s2h, s3h, ch } = splitHeights(TH, s1p, s2p, cat, { s1: 7, s2: 5, c1: 14, c4: 14, c13: 14 });
   const s1y = yS, s2y = s1y + s1h, s3y = s2y + s2h;
   const cy = [s3y, s3y + ch[0], s3y + ch[0] + ch[1]];
-  let s = '<svg class="sk-svg" viewBox="0 0 720 220" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="' + label + '">';
+  let s = '<svg class="sk-svg" viewBox="0 32 720 156" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="' + label + '">';
   s += band(36, 220, s1y, s1y + s1h, s1y, s1y + s1h, 'sk-acc', 0.35);
   s += band(36, 220, s2y, s2y + s2h, s2y, s2y + s2h, 'sk-acc', 0.18);
   s += band(36, 220, s3y, yE, s3y, yE, 'sk-ink', 0.07);
@@ -342,19 +366,25 @@ export const LCA = {
     { tag: 'Internal fit-out', pct: '8%', body: 'Partitions, finishes, and fitments. Smallest upfront contribution. Circular economy and demountable design reduce end-of-life impact.' },
   ],
   hotspotsCaption: 'Material hotspot breakdown: upfront embodied carbon (A1-A5)',
+  hotspotsHead: ['Material / system', 'Share', 'Scale'],
+  // w is the bar length relative to the largest line. The first line is the
+  // hotspot and carries the accent; the rest share one quiet tone.
   hotspots: [
-    { name: 'In-situ concrete and precast', sub: 'Post-tensioned slabs, cores, columns', pct: '42%', w: 100, bg: 'var(--matcha)' },
-    { name: 'Reinforcing and structural steel', sub: 'Rebar, fabricated sections', pct: '23%', w: 55, bg: 'rgba(62,110,52,0.8)' },
-    { name: 'Building envelope', sub: 'Curtain wall, cladding, roofing', pct: '16%', w: 38, bg: 'rgba(62,110,52,0.6)' },
-    { name: 'MEP systems', sub: 'Mechanical, electrical, hydraulic', pct: '11%', w: 26, bg: 'rgba(62,110,52,0.4)' },
-    { name: 'Internal fit-out and other', sub: 'Partitions, finishes, landscaping', pct: '8%', w: 19, bg: 'rgba(62,110,52,0.25)' },
+    { name: 'In-situ concrete and precast', sub: 'Post-tensioned slabs, cores, columns', pct: '42%', w: 100 },
+    { name: 'Reinforcing and structural steel', sub: 'Rebar, fabricated sections', pct: '23%', w: 55 },
+    { name: 'Building envelope', sub: 'Curtain wall, cladding, roofing', pct: '16%', w: 38 },
+    { name: 'MEP systems', sub: 'Mechanical, electrical, hydraulic', pct: '11%', w: 26 },
+    { name: 'Internal fit-out and other', sub: 'Partitions, finishes, landscaping', pct: '8%', w: 19 },
   ],
   benchHead: 'Benchmark comparison: upfront embodied carbon intensity (kgCO₂-e/m² GFA)',
   benchTicks: ['0', '200', '400', '600', '800'],
+  benchMarks: { thisBuilding: '520: this building', target: '<400 target' },
+  // cls ties each legend swatch to the mark it names, so the two share one
+  // colour rule in work.css.
   benchLegend: [
-    { color: '#CBBFB4', text: 'Reference building / benchmark range (400-700 kgCO₂-e/m²)' },
-    { color: 'var(--matcha)', text: 'Illustrative building (520 kgCO₂-e/m²)' },
-    { color: 'rgba(62,110,52,0.45)', text: 'Best practice target (<400 kgCO₂-e/m²)' },
+    { cls: 'range', text: 'Reference building / benchmark range (400-700 kgCO₂-e/m²)' },
+    { cls: 'this-b', text: 'Illustrative building (520 kgCO₂-e/m²)' },
+    { cls: 'target-b', text: 'Best practice target (<400 kgCO₂-e/m²)' },
   ],
   benchNote: 'Ranges indicative for a commercial office, GFA basis, A1-A5 boundary. Method follows the GBCA Upfront Carbon Reduction calculation guide v1.1 and the NABERS Embodied Carbon Rules.',
   levers: {
@@ -374,6 +404,8 @@ export const LCA = {
   ],
 };
 
+export const CASE_HEAD = { tag: 'Case study', title: 'Baseline to boardroom' };
+
 export const CASE_INTRO = 'A composite walk-through of how the work runs, from raw fuel invoices to a pathway ready for a board paper. The figures are illustrative. Scroll through the four phases; the figure changes with each one.';
 
 export const CASE_STEPS = [
@@ -382,3 +414,31 @@ export const CASE_STEPS = [
   { num: '03', title: 'Model the pathway', body: 'A toggle-based scenario model in which each lever (grid trajectory, fleet transition, plant electrification) carries its assumption and the source behind it. Built so a non-specialist can interrogate it, and so its outputs can go straight into a board paper.', src: 'DCCEEW 2025 · NVES Act 2024 · CSIRO Net Zero Pathways' },
   { num: '04', title: 'Make it repeatable', body: 'The method gets written down before the numbers go anywhere: data sources, boundary decisions, factors and exclusions, each with its reason. Repetitive steps such as supplier matching and fuel sorting move into scripts and templates, so the next reporting cycle reruns the same logic and an assurer can follow it line by line.', src: 'Excel · Python · Envizi' },
 ];
+
+// The sticky figure beside each case step. Each kicker is built from 'Phase',
+// the step's num and its title. Phase 01 reads its scope split from the
+// infrastructure profile in BASELINE_SECTORS rather than repeating it here,
+// and every bar is drawn relative to the largest value in its own set.
+export const CASE_FIGS = {
+  phase: 'Phase',
+  baseline: {
+    cap: 'of the footprint sits in the value chain (Scope 3), illustrative infrastructure portfolio',
+    labels: ['Scope 1', 'Scope 2', 'Scope 3'],
+  },
+  roadmap: {
+    cap: 'illustrative count: initiatives long-listed, quantified, then screened with stakeholders into a sequenced roadmap',
+    bars: [
+      { label: 'Long-list', n: 27 },
+      { label: 'MCA screen', n: 15 },
+      { label: 'Roadmap', n: 9 },
+    ],
+  },
+  pathway: {
+    start: 'FY25', end: 'FY50', bau: 'BAU', net: 'NET PATHWAY',
+    cap: 'Toggle-based levers, each tied to a published source',
+  },
+  repeat: {
+    cap: 'What is in place before the numbers leave the model',
+    checks: ['Method documented for assurance', 'Repetitive steps scripted and templated', 'Next cycle reruns the same logic'],
+  },
+};
