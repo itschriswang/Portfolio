@@ -28,7 +28,6 @@
 .dy-h1 { font-size: clamp(2.4rem, 8vw, 5.6rem); line-height: 0.88; letter-spacing: -0.045em; margin: 1.2rem 0; max-width: 15ch; }
 .dy-h1 em { color: var(--forest-ink); font-style: normal; }
 .dy-intro-p { font-size: clamp(0.92rem, 1.3vw, 1.06rem); font-weight: 400; color: #3f5133; max-width: 64ch; line-height: 1.75; margin-bottom: 1rem; }
-.dy-intro-p:first-of-type { padding-left: 1.1rem; border-left: 3px solid var(--forest-ink); }
 .dy-chips { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1.4rem; }
 .dy-chip {
   font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
@@ -38,13 +37,13 @@
 
 /* ---- Section shells ---- */
 #dy-games { background: var(--bg); padding: clamp(3rem, 7vw, 5rem) 0; }
-#dy-method { background: #F4F6EE; border-top: 1px solid var(--rule-lt); padding: clamp(3rem, 7vw, 5rem) 0; }
+#dy-method { background: var(--band); border-top: 1px solid var(--rule-lt); padding: clamp(3rem, 7vw, 5rem) 0; }
 .dy-h2 { font-size: clamp(1.9rem, 5.5vw, 3.4rem); line-height: 0.92; letter-spacing: -0.04em; margin: 1.1rem 0 1rem; }
-.dy-sub { font-size: 0.92rem; font-weight: 400; color: #475569; max-width: 66ch; line-height: 1.8; margin-bottom: 1.75rem; }
+.dy-sub { font-size: 0.92rem; font-weight: 400; color: var(--ink-2); max-width: 66ch; line-height: 1.8; margin-bottom: 1.75rem; }
 
 /* ---- The two game cards ---- */
-.dy-deck { display: grid; grid-template-columns: 1fr; gap: 1.5rem; align-items: start; }
-@media (min-width: 900px) { .dy-deck { grid-template-columns: 1fr 1fr; } }
+.dy-deck { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem; align-items: start; }
+@media (min-width: 900px) { .dy-deck { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 .dy-card {
   background: var(--white); border: 1px solid var(--rule-dk); border-radius: var(--r-xl);
@@ -55,31 +54,17 @@
 .dy-card-head .fpi { color: var(--forest); }
 .dy-card-eyebrow { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mid); font-weight: 600; }
 .dy-card-title { font-family: var(--disp); font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 700; letter-spacing: -0.03em; color: var(--slate); line-height: 1; margin: 0.35rem 0 0.6rem; }
-.dy-card-blurb { font-size: 0.85rem; color: #475569; line-height: 1.7; margin-bottom: 1.1rem; max-width: 52ch; }
+.dy-card-blurb { font-size: 0.85rem; color: var(--ink-2); line-height: 1.7; margin-bottom: 1.1rem; max-width: 52ch; }
 
 /* Stats strip: streak / best / played */
-.dy-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule-dk); border: 1px solid var(--rule-dk); border-radius: var(--r-md); overflow: hidden; margin-bottom: 1.2rem; }
+.dy-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--rule-dk); border: 1px solid var(--rule-dk); border-radius: var(--r-md); overflow: hidden; margin-bottom: 1.2rem; }
 .dy-stat { background: var(--bg); padding: 0.7rem 0.85rem; }
 .dy-stat-l { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); font-weight: 600; margin-bottom: 0.25rem; }
 .dy-stat-v { font-family: var(--disp); font-size: 1.35rem; font-weight: 700; color: var(--slate); line-height: 1; font-variant-numeric: tabular-nums; }
-.dy-stat-v .dy-flame { font-size: 0.8em; }
-/* Milestone ring: from a week unbroken the streak cell carries a slow conic
-   ring, the one place on the site an infinite rotation is tonally right.
-   Inset from the cell edge so the strip's rounded corner never clips it. */
-@property --dy-ring { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
-.dy-stat-hot { position: relative; }
-.dy-stat-hot::after {
-  content: ""; position: absolute; inset: 2px; border-radius: 4px; padding: 1.5px;
-  background: conic-gradient(from var(--dy-ring, 0deg),
-    rgba(181,196,43,0) 0deg, var(--matcha) 120deg, var(--forest-ink) 180deg, rgba(181,196,43,0) 300deg);
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  mask-composite: exclude;
-  pointer-events: none;
-}
-@media (prefers-reduced-motion: no-preference) { .dy-stat-hot::after { animation: dy-ring-turn 6s linear infinite; } }
-@keyframes dy-ring-turn { to { --dy-ring: 360deg; } }
+/* Milestone: from a week unbroken the streak cell takes the lime wash. A
+   still mark: a streak is a count, not something live, so nothing here turns
+   or pulses. */
+.dy-stat-hot { background: var(--lime-soft); }
 
 /* Play history: the run behind the streak number. One cell a day for the last
    four weeks, most recent on the right. Filled by how the day scored, hollow
@@ -115,11 +100,10 @@
 .dy-guess-val { font-family: var(--disp); font-weight: 700; font-size: 1.5rem; color: var(--slate); font-variant-numeric: tabular-nums; }
 .dy-guess-val em { font-style: normal; font-family: var(--mono); font-size: 0.55em; color: var(--mid); font-weight: 500; margin-left: 0.15rem; }
 
-/* Log slider, adapted from the footprint ob-range so it feels of a piece. */
 /* The guess slider is the shared .rng control (global.css) with a fatter thumb
    and seven notches, one per decade of the log scale, so the ruler that shows
    up in the reveal is already visible while you are choosing. */
-.dy-range { --rng-thumb: 28px; --rng-track: 6px; --rng-fill: linear-gradient(90deg, var(--sage-2), var(--matcha)); }
+.dy-range { --rng-thumb: 28px; --rng-track: 6px; --rng-fill: var(--matcha); }
 .dy-range-scale { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 9px; letter-spacing: 0.06em; color: var(--subtle); margin-top: 0.1rem; }
 .dy-hint { font-family: var(--mono); font-size: 10px; color: var(--mid); line-height: 1.6; margin-top: 0.5rem; }
 
@@ -146,33 +130,32 @@
   font-family: var(--sans); font-size: 0.9rem; font-weight: 600; letter-spacing: -0.01em;
   border: 1px solid var(--forest); background: var(--forest); color: var(--lime-bright);
   border-radius: var(--r-pill); padding: 0.8rem 1.6rem; min-height: 48px; cursor: pointer;
-  text-decoration: none; transition: background 0.25s var(--ease), transform 0.2s var(--ease), box-shadow 0.3s var(--ease);
+  text-decoration: none; transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
 }
-.dy-btn:hover { background: var(--forest-2); transform: translateY(-1px); box-shadow: 0 8px 22px rgba(33, 48, 15, 0.2); }
+.dy-btn:hover { background: var(--forest-2); }
 .dy-btn:focus-visible { outline: 2px solid var(--matcha); outline-offset: 2px; }
 .dy-btn-full { width: 100%; margin-top: 1rem; }
 .dy-btn-ghost { background: transparent; color: var(--forest); border-color: var(--forest-ink); }
-.dy-btn-ghost:hover { background: var(--lime-soft); box-shadow: none; }
+.dy-btn-ghost:hover { background: var(--lime-soft); }
 
 /* ---- Claim: two big call buttons ---- */
 .dy-claim {
-  background: var(--band); border: 1px solid var(--rule-dk); border-left: 3px solid var(--matcha);
+  background: var(--band); border: 1px solid var(--rule-dk);
   border-radius: var(--r-lg); padding: 1.2rem 1.4rem; margin-bottom: 1.2rem;
 }
 .dy-claim-speaker { font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--mid); font-weight: 600; margin-bottom: 0.5rem; }
 .dy-claim-text { font-family: var(--disp); font-size: clamp(1.15rem, 2.8vw, 1.6rem); font-weight: 600; letter-spacing: -0.01em; line-height: 1.3; color: var(--slate); }
 .dy-claim-text::before { content: '\201C'; }
 .dy-claim-text::after { content: '\201D'; }
-.dy-calls { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+.dy-calls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
 .dy-call {
   font-family: var(--disp); font-size: 1rem; font-weight: 700; letter-spacing: -0.01em;
   border: 1px solid var(--rule-dk); background: var(--white); color: var(--slate);
   border-radius: var(--r-lg); padding: 1.1rem 0.75rem; min-height: 64px; cursor: pointer;
   display: flex; flex-direction: column; align-items: center; gap: 0.2rem;
-  transition: border-color 0.2s var(--ease), background 0.2s var(--ease), transform 0.15s var(--ease);
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease);
 }
 .dy-call small { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); font-weight: 500; }
-.dy-call:hover { transform: translateY(-2px); }
 .dy-call-legit:hover { border-color: var(--dy-good); background: var(--dy-good-bg); }
 .dy-call-green:hover { border-color: var(--dy-bad); background: var(--dy-bad-bg); }
 .dy-call:focus-visible { outline: 2px solid var(--matcha); outline-offset: 2px; }
@@ -182,26 +165,33 @@
 .dy-verdict { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--disp); font-weight: 700; font-size: 1.15rem; letter-spacing: -0.01em; padding: 0.5rem 0.9rem; border-radius: var(--r-pill); margin-bottom: 1rem; }
 .dy-verdict-good { color: var(--forest); background: var(--dy-good-bg); border: 1px solid rgba(94, 107, 30, 0.4); }
 .dy-verdict-bad { color: var(--dy-bad); background: var(--dy-bad-bg); border: 1px solid rgba(199, 39, 74, 0.35); }
-.dy-verdict-line { font-size: 0.88rem; color: #475569; line-height: 1.65; margin-bottom: 1rem; }
+.dy-verdict-line { font-size: 0.88rem; color: var(--ink-2); line-height: 1.65; margin-bottom: 1rem; }
 
 /* The log ruler: guess vs answer on the same scale. */
 .dy-ruler { position: relative; margin: 2.2rem 0 2.6rem; }
-.dy-ruler-track { position: relative; height: 8px; border-radius: 4px; background: linear-gradient(90deg, var(--sage-soft), var(--sage-2)); }
-.dy-ruler-tick { position: absolute; top: 10px; transform: translateX(-50%); font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.04em; color: var(--subtle); white-space: nowrap; }
+.dy-ruler-track { position: relative; height: 8px; border-radius: 4px; background: var(--sage-soft); }
+.dy-ruler-tick { position: absolute; top: 10px; transform: translateX(-50%); font-family: var(--mono); font-size: 9px; letter-spacing: 0.04em; color: var(--subtle); white-space: nowrap; }
 .dy-ruler-tick::before { content: ''; position: absolute; left: 50%; top: -10px; width: 1px; height: 8px; background: var(--rule-dk); }
-.dy-marker { position: absolute; top: -6px; transform: translateX(-50%); width: 20px; height: 20px; border-radius: 50%; border: 3px solid var(--white); box-shadow: 0 2px 6px rgba(15, 23, 42, 0.25); }
+.dy-marker { position: absolute; top: -6px; transform: translateX(-50%); width: 20px; height: 20px; border-radius: 50%; border: 3px solid var(--white); box-shadow: 0 2px 6px rgba(33, 48, 15, 0.25); }
 .dy-marker-guess { background: var(--indigo); }
 .dy-marker-answer { background: var(--forest); }
 .dy-marker-lbl { position: absolute; transform: translateX(-50%); font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.04em; white-space: nowrap; }
-.dy-marker-lbl-guess { top: -34px; color: var(--indigo); }
+.dy-marker-lbl-guess { top: -34px; color: var(--indigo-ink); }
 .dy-marker-lbl-answer { top: 22px; color: var(--forest); }
 .dy-marker-lbl em { font-style: normal; display: block; font-weight: 500; color: var(--mid); }
+/* Eight decade labels crowd a phone-width track, so below 480px every other
+   one keeps its tick line and drops its label. Both ends keep theirs. */
+@media (max-width: 480px) { .dy-ruler-tick-minor { color: transparent; } }
 
-.dy-score-squares { font-family: var(--mono); font-size: 1.3rem; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+/* Score pips inside the verdict pill: three squares filled to the score, in
+   the play grid's tones, so the reveal reads the way the share text does. */
+.dy-pips { display: inline-flex; gap: 3px; }
+.dy-pip { width: 10px; height: 10px; border-radius: 2px; box-shadow: inset 0 0 0 1px currentColor; opacity: 0.45; }
+.dy-pip.is-on { background: currentColor; opacity: 1; }
 .dy-answer-big { font-family: var(--disp); font-weight: 700; font-size: clamp(1.8rem, 5vw, 2.6rem); letter-spacing: -0.03em; color: var(--forest); line-height: 1; }
 .dy-answer-big small { font-family: var(--mono); font-size: 0.9rem; font-weight: 500; letter-spacing: 0.02em; color: var(--mid); }
 .dy-answer-k { font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mid); font-weight: 600; margin: 0.8rem 0 0.2rem; }
-.dy-note { font-size: 0.86rem; color: #475569; line-height: 1.7; margin-top: 0.9rem; max-width: 60ch; }
+.dy-note { font-size: 0.86rem; color: var(--ink-2); line-height: 1.7; margin-top: 0.9rem; max-width: 60ch; }
 .dy-flag { display: inline-block; font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.04em; color: var(--mid); background: var(--band); border: 1px solid var(--rule-dk); border-radius: var(--r-pill); padding: 0.2rem 0.65rem; margin-top: 0.9rem; }
 .dy-flag-est { color: var(--amber-ink); border-color: rgba(181, 106, 0, 0.4); background: rgba(255, 149, 0, 0.06); }
 
@@ -220,25 +210,30 @@
 .dy-toast {
   position: fixed; bottom: 1.2rem; left: 50%; transform: translateX(-50%) translateY(8px); z-index: 90;
   background: var(--slate); color: #F1F5EC; font-family: var(--mono); font-size: 11px; letter-spacing: 0.04em;
-  padding: 0.7rem 1.1rem; border-left: 3px solid var(--matcha); box-shadow: 0 8px 30px rgba(15, 23, 42, 0.35);
+  padding: 0.7rem 1.1rem; border-radius: var(--r-sm); box-shadow: 0 8px 24px rgba(33, 48, 15, 0.25);
   max-width: 92vw; opacity: 0; pointer-events: none; transition: opacity 0.25s var(--ease), transform 0.25s var(--ease);
 }
 .dy-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
 /* ---- Method / honesty ---- */
-.dy-method-grid { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--rule-dk); border: 1px solid var(--rule-dk); border-radius: var(--r-lg); overflow: hidden; margin-bottom: 1.5rem; }
-@media (min-width: 800px) { .dy-method-grid { grid-template-columns: 1fr 1fr; } }
+/* One block per row, so a short block never sits beside a long one with a
+   void under it. From 800px a block lays its paragraphs side by side; the
+   heading and the principle chips run across both columns. */
+.dy-method-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1px; background: var(--rule-dk); border: 1px solid var(--rule-dk); border-radius: var(--r-lg); overflow: hidden; margin-bottom: 1.5rem; }
 .dy-method-block { background: var(--white); padding: 1.4rem 1.5rem; }
+@media (min-width: 800px) {
+  .dy-method-block { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2rem; align-items: start; }
+  .dy-method-block h3, .dy-principles { grid-column: 1 / -1; justify-self: start; }
+}
 .dy-method-block h3 { font-family: var(--disp); font-size: 1rem; font-weight: 700; color: var(--slate); padding-bottom: 0.5rem; border-bottom: 2px solid var(--matcha); margin-bottom: 0.75rem; display: inline-flex; align-items: center; gap: 0.45rem; }
-.dy-method-block p { font-size: 0.82rem; color: #475569; line-height: 1.75; margin-bottom: 0.75rem; max-width: 72ch; }
+.dy-method-block p { font-size: 0.82rem; color: var(--ink-2); line-height: 1.75; margin-bottom: 0.75rem; max-width: 72ch; }
 .dy-principles { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.4rem 0 0.5rem; }
 .dy-principle { font-family: var(--mono); font-size: 10px; letter-spacing: 0.03em; color: #3F4A3C; background: rgba(181, 196, 43, 0.12); border: 1px solid rgba(94, 107, 30, 0.28); border-radius: var(--r-pill); padding: 0.28rem 0.7rem; }
 .dy-updated { font-family: var(--mono); font-size: 10px; color: var(--mid); line-height: 1.6; margin-top: 0.4rem; }
 
 /* ---- Motion preferences ---- */
 @media (prefers-reduced-motion: reduce) {
-  .dy-btn, .dy-call, .dy-range .rng-input::-webkit-slider-thumb, .dy-unit button { transition: none; }
-  .dy-btn:hover, .dy-call:hover { transform: none; }
+  .dy-btn, .dy-call, .dy-range .rng-input::-webkit-slider-thumb, .dy-unit button, .dy-toast { transition: none; }
 }
 
 /* The compact footer strip (.fp-footer*) is styled in global.css, shared by

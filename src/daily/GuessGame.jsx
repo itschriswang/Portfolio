@@ -9,7 +9,7 @@ import Range from '../components/Range';
 import CopyButton from '../components/CopyButton';
 import PlayGrid from './PlayGrid';
 import { prefersReducedMotion } from '../utils/media';
-import { GUESS, STATS } from './data';
+import { GUESS, GAMES, STATS } from './data';
 import {
   guessForDay, scoreGuess, massText, formatMass,
   kgToLog, logToKg, clampKg, logPos, LOG_MIN, LOG_MAX, RULER_TICKS,
@@ -17,7 +17,18 @@ import {
 } from './lib';
 
 const UNIT_FACTOR = { g: 0.001, kg: 1, t: 1000 };
-const scoreSquares = (s) => ['🟥⬜⬜', '🟩⬜⬜', '🟩🟩⬜', '🟩🟩🟩'][s];
+
+// The score as three pips, filled to the score, in the play grid's own tones.
+// The same reading as the share text's squares, drawn rather than typed.
+function ScorePips({ score }) {
+  return (
+    <span className="dy-pips" aria-hidden="true">
+      {[1, 2, 3].map((n) => (
+        <span key={n} className={'dy-pip' + (n <= score ? ' is-on' : '')} />
+      ))}
+    </span>
+  );
+}
 
 // Reveal entrance, gated on reduced-motion.
 function Rise({ children }) {
@@ -40,15 +51,15 @@ function Ruler({ guessKg, answerKg }) {
     <div className="dy-ruler" aria-hidden="true">
       <div className="dy-ruler-track">
         <div className="dy-marker-lbl dy-marker-lbl-guess" style={{ left: gp + '%' }}>
-          You<em>{massText(guessKg)}</em>
+          {GUESS.rulerGuess}<em>{massText(guessKg)}</em>
         </div>
         <div className="dy-marker dy-marker-guess" style={{ left: gp + '%' }} />
         <div className="dy-marker dy-marker-answer" style={{ left: ap + '%' }} />
         <div className="dy-marker-lbl dy-marker-lbl-answer" style={{ left: ap + '%' }}>
-          Actual<em>{massText(answerKg)}</em>
+          {GUESS.rulerAnswer}<em>{massText(answerKg)}</em>
         </div>
-        {RULER_TICKS.map((t) => (
-          <div key={t.label} className="dy-ruler-tick" style={{ left: logPos(t.kg) * 100 + '%' }}>{t.label}</div>
+        {RULER_TICKS.map((t, i) => (
+          <div key={t.label} className={'dy-ruler-tick' + (i % 2 && i < RULER_TICKS.length - 1 ? ' dy-ruler-tick-minor' : '')} style={{ left: logPos(t.kg) * 100 + '%' }}>{t.label}</div>
         ))}
       </div>
     </div>
@@ -89,7 +100,7 @@ export default function GuessGame({ dayIndex, showToast }) {
   const share = async () => {
     const r = state.result;
     const ok = await copyText(guessShare(dayIndex, r.score, r.ratio, state.streak));
-    if (!ok) showToast('Could not copy');
+    if (!ok) showToast(GAMES.copyFailed);
     return ok;
   };
 
@@ -99,13 +110,13 @@ export default function GuessGame({ dayIndex, showToast }) {
     <div className="dy-card">
       <div className="dy-card-head">
         <Icon name="target" size={30} />
-        <span className="dy-card-eyebrow">Game 1</span>
+        <span className="dy-card-eyebrow">{GUESS.eyebrow}</span>
       </div>
       <h3 className="dy-card-title">{GUESS.title}</h3>
       <p className="dy-card-blurb">{GUESS.blurb}</p>
 
       <div className="dy-stats">
-        <div className={streak >= 7 ? 'dy-stat dy-stat-hot' : 'dy-stat'}><div className="dy-stat-l">{STATS.streak}</div><div className="dy-stat-v">{streak}{streak > 0 && <span className="dy-flame"> 🔥</span>}</div></div>
+        <div className={streak >= 7 ? 'dy-stat dy-stat-hot' : 'dy-stat'}><div className="dy-stat-l">{STATS.streak}</div><div className="dy-stat-v">{streak}</div></div>
         <div className="dy-stat"><div className="dy-stat-l">{STATS.best}</div><div className="dy-stat-v">{state.best}</div></div>
         <div className="dy-stat"><div className="dy-stat-l">{STATS.plays}</div><div className="dy-stat-v">{state.plays}</div></div>
       </div>
@@ -138,9 +149,9 @@ export default function GuessGame({ dayIndex, showToast }) {
           <div className="dy-override">
             <label>
               <span>{GUESS.overrideLabel}</span>
-              <input type="number" inputMode="decimal" min="0" step="any" value={typed} onChange={onType} placeholder="e.g. 50" />
+              <input type="number" inputMode="decimal" min="0" step="any" value={typed} onChange={onType} placeholder={GUESS.overridePlaceholder} />
             </label>
-            <div className="dy-unit" role="group" aria-label="Guess unit">
+            <div className="dy-unit" role="group" aria-label={GUESS.unitGroupLabel}>
               {['g', 'kg', 't'].map((u) => (
                 <button key={u} type="button" className={unit === u ? 'on' : undefined} aria-pressed={unit === u} onClick={() => onUnit(u)}>{u}</button>
               ))}
@@ -152,9 +163,9 @@ export default function GuessGame({ dayIndex, showToast }) {
       ) : (
         <Rise>
           <div className="dy-reveal">
-            <div className="dy-score-squares" aria-hidden="true">{scoreSquares(state.result.score)}</div>
             <div className={'dy-verdict ' + (state.result.score >= 2 ? 'dy-verdict-good' : 'dy-verdict-bad')}>
               {state.result.score}/3
+              <ScorePips score={state.result.score} />
             </div>
             <p className="dy-verdict-line">{GUESS.scoreLines[state.result.score]}</p>
 
@@ -170,7 +181,7 @@ export default function GuessGame({ dayIndex, showToast }) {
               </span>
             </div>
             <div className="dy-src">{GUESS.sourceLabel}: {item.source.name}{' '}
-              <a href={item.source.url} target="_blank" rel="noopener noreferrer">Source</a>
+              <a href={item.source.url} target="_blank" rel="noopener noreferrer">{GAMES.sourceLink}</a>
             </div>
 
             <div className="dy-share-row">
