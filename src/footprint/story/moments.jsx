@@ -910,7 +910,7 @@ export function Needle({ d, profile, agg, voice, tags, onPlan }) {
                 <span className="st-needle-state" aria-hidden="true">{isOn ? NEEDLE.live.on : NEEDLE.live.off}</span>
                 <span className="st-needle-t display">-<CountUp value={a.pct} decimals={0} delay={0.15 + i * 0.12} /><span className="st-needle-pct">%</span></span>
                 <span className="st-needle-of">{NEEDLE.ofYear} · {fmtT(a.reduction)} {NEEDLE.perYear}</span>
-                <span className="st-needle-name">{a.action}</span>
+                <span className="st-needle-name"><span className="fp-action-dot" aria-hidden="true" />{a.action}</span>
                 <span className="st-needle-effort">{a.effortLabel}</span>
               </motion.button>
             );

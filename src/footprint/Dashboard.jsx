@@ -66,24 +66,24 @@ export default function Dashboard({ agg, period, compares = [], country }) {
         <motion.div className="fp-kpis" {...fadeUp}>
           <div className="fp-kpi live">
             <div className="fp-kpi-l">{period.label} {DASH.kpis.total}</div>
-            <div className="fp-kpi-v"><CountUp value={total} decimals={1} duration={0.9} /><span> tCO₂-e</span></div>
+            <div className="fp-kpi-v"><CountUp value={total} decimals={1} duration={0.9} /><span className="fp-kpi-u"> tCO₂-e</span></div>
             {agg.uncertainty && agg.uncertainty.band > 0.005 && (
               <div className="fp-kpi-n">{fill(DASH.kpis.range, { low: fmtT(agg.uncertainty.low), high: fmtT(agg.uncertainty.high) })}</div>
             )}
           </div>
           <div className="fp-kpi">
             <div className="fp-kpi-l">{DASH.kpis.aus}</div>
-            <div className="fp-kpi-v">{fmtRatio(total, homeAvg.tco2e).v}<span>{fmtRatio(total, homeAvg.tco2e).unit}</span></div>
+            <div className="fp-kpi-v">{fmtRatio(total, homeAvg.tco2e).v}<span className="fp-kpi-u">{fmtRatio(total, homeAvg.tco2e).unit}</span></div>
             <div className="fp-kpi-n">{homeAvg.short} · {homeAvg.tco2e} t</div>
           </div>
           <div className="fp-kpi">
             <div className="fp-kpi-l">{DASH.kpis.budget}</div>
-            <div className="fp-kpi-v">{fmtRatio(total, BUDGET_2030.tco2e).v}<span>{fmtRatio(total, BUDGET_2030.tco2e).unit}</span></div>
+            <div className="fp-kpi-v">{fmtRatio(total, BUDGET_2030.tco2e).v}<span className="fp-kpi-u">{fmtRatio(total, BUDGET_2030.tco2e).unit}</span></div>
             <div className="fp-kpi-n">{BUDGET_2030.short} · {BUDGET_2030.tco2e} t</div>
           </div>
           <div className="fp-kpi">
             <div className="fp-kpi-l">{DASH.kpis.largest}</div>
-            <div className="fp-kpi-v">{agg.largest ? fmtT(agg.largest.tco2e) : '0'}<span> t</span></div>
+            <div className="fp-kpi-v">{agg.largest ? fmtT(agg.largest.tco2e) : '0'}<span className="fp-kpi-u"> t</span></div>
             {agg.largest && <div className="fp-kpi-n">{agg.largest.label}</div>}
           </div>
         </motion.div>

@@ -424,7 +424,7 @@ export default function FootprintApp() {
               <div className="canvas fp-snaphero-inner">
                 <div className="sec-tag" data-idx="">{fill(SHARE.bannerTitle, { who: snapshot.name ? snapshot.name + "'s" : 'My', label: snapshot.label })}</div>
                 <div className="fp-snaphero-num display">
-                  <CountUp value={snapshot.total} decimals={1} duration={1.1} /><span> t CO₂-e</span>
+                  <CountUp value={snapshot.total} decimals={1} duration={1.1} /><span className="fp-snaphero-u"> t CO₂-e</span>
                 </div>
                 {snapChar && (
                   <div className="fp-snaphero-char">
