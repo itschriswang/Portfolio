@@ -92,7 +92,7 @@ export const UI = {
     tag: 'The ledger',
     kicker: 'Company by company',
     title: ['The claimed line', 'and the record'],
-    lead: 'Filter by sector, sort by how far the reported line sits from the claimed one, and read each company on its own terms. The status chip on every card says how much of it is sourced.',
+    lead: 'Filter by sector, sort by how far the reported line sits from the claimed one, and read each company on its own terms. The status at the foot of every card says how much of it is sourced.',
     sectorLabel: 'Filter by sector',
     sectorAll: 'All sectors',
     sortLabel: 'Sort the ledger',
@@ -106,6 +106,10 @@ export const UI = {
     trackAll: 'All',
     countOne: 'company shown',
     countMany: 'companies shown',
+    // The ledger opens on a preview; filters and sorts always run over all fifty.
+    countPart: '{shown} of {n} companies shown',
+    showAll: 'Show all {n}',
+    showFewer: 'Show fewer',
     empty: 'No companies match those filters. Clear one of them to see the ledger again.',
   },
   card: {
@@ -148,6 +152,9 @@ export const UI = {
   method: {
     commonHead: 'Sources used across the page',
     perCompanyHead: 'Sources by company',
+    perCompanyCount: '{n} sources across {c} companies',
+    showAllSources: 'Show sources for all {n} companies',
+    showFewerSources: 'Show fewer',
   },
 };
 
@@ -2582,7 +2589,7 @@ export const METHOD = {
       paras: [
         'The companies are the constituents of the S&P/ASX 50 as at the June 2026 quarterly rebalance, which brought ALS in for Pro Medicus, following the March 2026 review that added Light and Wonder and PLS Group for Seek and TechnologyOne. Index membership shifts quarterly, so the tail of the list is checked at each review and the make up is stated here.',
         'Every figure was compiled from the company\'s own disclosures, its annual, sustainability, climate or transition reports, and cross checked against published summaries, regulator data and independent registers. Where a number could not be confirmed back to the company\'s own reporting it was left out, and the company is marked partial or unverified. A series read off a chart label is marked partial as well, because a printed label carries rounding a table would not.',
-        'More than half the ledger fails some part of that test, which is what the status chip on every card records.',
+        'More than half the ledger fails some part of that test, which is what the status at the foot of every card records.',
       ],
     },
     {

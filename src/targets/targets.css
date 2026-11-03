@@ -47,15 +47,14 @@
   line-height: 1.7; max-width: 66ch;
 }
 .tt-read {
-  font-size: 0.92rem; font-weight: 400; color: #475569; line-height: 1.75;
-  max-width: 62ch; margin-top: 1rem; padding-left: 1rem;
-  border-left: 3px solid var(--forest-ink);
+  font-size: 0.92rem; font-weight: 400; color: var(--ink-2); line-height: 1.75;
+  max-width: 62ch; margin-top: 1rem;
 }
 
 /* Last-updated stamp: prominent, top and bottom, from one data field. */
 .tt-updated {
-  display: grid; grid-template-columns: auto auto; align-items: baseline;
-  column-gap: 0.6rem; row-gap: 0.2rem;
+  display: flex; flex-wrap: wrap; align-items: baseline;
+  column-gap: 0.6rem; row-gap: 0.25rem;
   border: 1px solid var(--rule-dk); background: var(--white);
   border-radius: var(--r-lg); padding: 0.9rem 1.1rem;
   max-width: 640px; box-shadow: var(--shadow-soft);
@@ -64,26 +63,24 @@
 .tt-updated-bottom { margin: 2.5rem 0 0.5rem; }
 .tt-updated-dot {
   width: 8px; height: 8px; border-radius: 50%; background: var(--matcha);
-  grid-row: 1; align-self: center;
-  box-shadow: 0 0 0 4px rgba(181, 196, 43, 0.2);
+  align-self: center; flex: none;
 }
 .tt-updated-label {
   font-family: var(--mono); font-size: 10px; letter-spacing: 0.15em;
-  text-transform: uppercase; color: var(--mid); font-weight: 600; grid-row: 1;
+  text-transform: uppercase; color: var(--mid); font-weight: 600;
 }
 .tt-updated-date {
   font-family: var(--disp); font-size: clamp(1.2rem, 2.4vw, 1.6rem);
   font-weight: 700; color: var(--slate); letter-spacing: -0.02em;
-  grid-column: 2; grid-row: 1; justify-self: start;
 }
 .tt-updated-cadence {
-  grid-column: 1 / 3; font-family: var(--mono); font-size: 10.5px;
+  flex-basis: 100%; font-family: var(--mono); font-size: 11px;
   color: var(--mid); line-height: 1.6; margin-top: 0.2rem; max-width: 60ch;
 }
 
 .tt-scroll-hint {
   display: flex; align-items: center; gap: 0.6rem; font-family: var(--mono);
-  font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+  font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
   color: var(--mid); margin-top: clamp(2rem, 5vw, 3rem);
 }
 .tt-scroll-line { width: 48px; height: 1px; background: var(--rule-dk); }
@@ -94,12 +91,12 @@
   border-bottom: 1px solid var(--rule-lt);
 }
 .tt-score-grid {
-  display: grid; grid-template-columns: 1fr; gap: 1px;
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 1px;
   background: var(--rule-dk); border: 1px solid var(--rule-dk);
   border-radius: var(--r-lg); overflow: hidden; margin: 1.8rem 0 1rem;
 }
-@media (min-width: 620px) { .tt-score-grid { grid-template-columns: 1fr 1fr; } }
-@media (min-width: 1000px) { .tt-score-grid { grid-template-columns: repeat(4, 1fr); } }
+@media (min-width: 620px) { .tt-score-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1000px) { .tt-score-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .tt-score-item { background: var(--white); padding: 1.5rem 1.4rem 1.6rem; }
 .tt-score-num {
   font-family: var(--disp); font-weight: 700; color: var(--forest);
@@ -107,28 +104,28 @@
   letter-spacing: -0.05em; font-variant-numeric: tabular-nums;
 }
 .tt-score-label {
-  font-size: 0.86rem; font-weight: 400; color: #475569; line-height: 1.65;
+  font-size: 0.86rem; font-weight: 400; color: var(--ink-2); line-height: 1.65;
   margin-top: 0.7rem; max-width: 32ch;
 }
 .tt-score-note {
-  font-family: var(--mono); font-size: 10.5px; color: var(--mid);
+  font-family: var(--mono); font-size: 11px; color: var(--mid);
   line-height: 1.6; max-width: 72ch;
 }
 
 /* ---- How to read ---- */
 .tt-reading { background: #F4F6EE; padding: clamp(3rem, 8vw, 5.5rem) 0; border-bottom: 1px solid var(--rule-lt); }
 .tt-reading-grid {
-  display: grid; grid-template-columns: 1fr; gap: clamp(1.4rem, 3.5vw, 2.4rem);
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(1.4rem, 3.5vw, 2.4rem);
   margin-top: 1.8rem; align-items: start;
 }
-@media (min-width: 860px) { .tt-reading-grid { grid-template-columns: minmax(260px, 400px) 1fr; } }
+@media (min-width: 860px) { .tt-reading-grid { grid-template-columns: minmax(260px, 400px) minmax(0, 1fr); } }
 .tt-reading-demo {
   background: var(--white); border: 1px solid var(--rule-dk);
   border-radius: var(--r-lg); padding: 1rem 0.8rem; box-shadow: var(--shadow-soft);
 }
 .tt-legend { list-style: none; display: flex; flex-direction: column; gap: 1.1rem; }
 .tt-legend-item {
-  display: grid; grid-template-columns: 34px 1fr; column-gap: 0.8rem; row-gap: 0.25rem;
+  display: grid; grid-template-columns: 34px minmax(0, 1fr); column-gap: 0.8rem; row-gap: 0.25rem;
   align-items: start;
 }
 .tt-legend-mark { grid-row: 1; margin-top: 0.55em; height: 2px; background: var(--slate); border-radius: 2px; }
@@ -139,14 +136,14 @@
   height: 16px; width: 2px; margin: 0 auto; background: var(--subtle); margin-top: 0.15em;
 }
 .tt-legend-label {
-  grid-column: 2; font-family: var(--mono); font-size: 10.5px;
+  grid-column: 2; font-family: var(--mono); font-size: 11px;
   letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; color: var(--slate);
 }
 .tt-legend-body {
-  grid-column: 2; font-size: 0.86rem; color: #475569; line-height: 1.7; max-width: 64ch;
+  grid-column: 2; font-size: 0.86rem; color: var(--ink-2); line-height: 1.7; max-width: 64ch;
 }
 .tt-reading-note {
-  font-family: var(--mono); font-size: 10.5px; color: var(--mid);
+  font-family: var(--mono); font-size: 11px; color: var(--mid);
   line-height: 1.6; max-width: 72ch; margin-top: 1.6rem;
 }
 
@@ -169,17 +166,18 @@
 .tt-c-dot { fill: var(--tt-line); }
 .tt-c-now { stroke: var(--tt-rule); stroke-width: 1; stroke-dasharray: 2 3; }
 .tt-c-base { stroke: var(--tt-rule); stroke-width: 1; opacity: 0.7; }
+/* Chart text is in viewBox units, and a card renders the chart a little under
+   its 320-unit viewBox, so 11 here reads at about 10px on screen. */
 .tt-c-tick {
-  font-family: var(--mono); font-size: 9px; fill: var(--tt-label);
-  letter-spacing: 0.04em;
+  font-family: var(--mono); font-size: 11px; fill: var(--tt-label);
+  letter-spacing: 0.02em;
 }
-.tt-c-note { font-family: var(--mono); font-size: 9px; fill: var(--tt-label); }
+.tt-c-note { font-family: var(--mono); font-size: 11px; fill: var(--tt-label); }
 
 .tt-chart-empty {
-  font-family: var(--mono); font-size: 10.5px; color: var(--mid);
-  line-height: 1.6; background: var(--band); border: 1px dashed var(--rule-dk);
-  border-radius: var(--r-md); padding: 1.4rem 1rem; text-align: center;
-  min-height: 92px; display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 11px; color: var(--mid);
+  line-height: 1.6; background: var(--band); border-radius: var(--r-md);
+  padding: 0.8rem 0.95rem;
 }
 
 /* ---- The ledger ---- */
@@ -218,10 +216,21 @@
 }
 
 .tt-grid {
-  display: grid; grid-template-columns: 1fr; gap: clamp(1rem, 2.4vw, 1.5rem);
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(1rem, 2.4vw, 1.5rem);
 }
-@media (min-width: 700px) { .tt-grid { grid-template-columns: 1fr 1fr; } }
-@media (min-width: 1100px) { .tt-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 700px) { .tt-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1100px) { .tt-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+/* "Show all" under a capped list: the ledger and the per-company sources. */
+.tt-more { display: flex; justify-content: center; margin-top: clamp(1.4rem, 3vw, 2rem); }
+.tt-more-btn {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em;
+  text-transform: uppercase; font-weight: 600; color: var(--slate);
+  background: var(--white); border: 1px solid var(--rule-dk);
+  border-radius: var(--r-pill); padding: 0.7rem 1.3rem; cursor: pointer;
+  transition: border-color 160ms var(--ease), background-color 160ms var(--ease);
+}
+.tt-more-btn:hover { border-color: var(--matcha); background: var(--lime-wash); }
 
 .tt-card {
   background: var(--white); border: 1px solid var(--rule-dk);
@@ -241,7 +250,7 @@
   color: var(--slate); letter-spacing: -0.02em; line-height: 1.2;
 }
 .tt-sector {
-  font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.1em;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
   text-transform: uppercase; color: var(--mid); margin-left: auto;
 }
 .tt-target {
@@ -250,7 +259,7 @@
   font-variant-numeric: tabular-nums;
 }
 .tt-target-pre {
-  display: block; font-family: var(--mono); font-size: 9.5px; font-weight: 600;
+  display: block; font-family: var(--mono); font-size: 10px; font-weight: 600;
   letter-spacing: 0.14em; text-transform: uppercase; color: var(--mid);
   margin-bottom: 0.3rem;
 }
@@ -259,7 +268,7 @@
 }
 .tt-flags { display: flex; flex-wrap: wrap; gap: 0.3rem; }
 .tt-flag {
-  font-family: var(--mono); font-size: 9px; letter-spacing: 0.07em;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.07em;
   text-transform: uppercase; font-weight: 600; color: var(--mid);
   border: 1px solid var(--rule-dk); border-radius: var(--r-sm);
   padding: 0.2rem 0.42rem;
@@ -295,33 +304,33 @@
   border-top: 1px solid var(--rule-lt); padding-top: 0.75rem;
 }
 .tt-facts dt {
-  font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
   text-transform: uppercase; color: var(--mid); font-weight: 600;
   margin-bottom: 0.15rem;
 }
-.tt-facts dd { font-size: 0.8rem; color: #475569; line-height: 1.6; }
+.tt-facts dd { font-size: 0.8rem; color: var(--ink-2); line-height: 1.6; }
 .tt-interim { display: block; font-family: var(--mono); font-size: 10px; color: var(--slate); }
 .tt-interim em { font-style: normal; color: var(--mid); }
 .tt-note {
-  font-size: 0.84rem; color: #475569; line-height: 1.7;
-  padding-left: 0.85rem; border-left: 3px solid var(--matcha);
+  font-size: 0.84rem; color: var(--ink-2); line-height: 1.7;
+  border-top: 1px solid var(--rule-lt); padding-top: 0.75rem;
 }
 .tt-card-foot {
   display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.7rem;
   margin-top: auto; padding-top: 0.8rem; border-top: 1px solid var(--rule-lt);
 }
 .tt-chip {
-  font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.08em;
-  text-transform: uppercase; font-weight: 600; color: #3F4A3C;
-  background: rgba(181, 196, 43, 0.14); border: 1px solid rgba(181, 196, 43, 0.4);
-  padding: 0.28rem 0.55rem; border-radius: var(--r-sm);
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em;
+  text-transform: uppercase; font-weight: 600; color: var(--slate);
 }
-.tt-chip-sourced { background: rgba(181, 196, 43, 0.14); border-color: rgba(181, 196, 43, 0.5); color: #46520f; }
-.tt-chip-partial { background: rgba(99, 91, 255, 0.10); border-color: rgba(99, 91, 255, 0.35); color: #3b36a8; }
-.tt-chip-unverified { background: rgba(255, 149, 0, 0.10); border-color: rgba(255, 149, 0, 0.4); color: var(--amber-ink); }
-.tt-verified { font-family: var(--mono); font-size: 9.5px; color: var(--mid); }
+.tt-chip-dot { width: 7px; height: 7px; border-radius: 50%; flex: none; background: var(--subtle); }
+.tt-chip-sourced .tt-chip-dot { background: var(--matcha); }
+.tt-chip-partial .tt-chip-dot { background: var(--indigo); }
+.tt-chip-unverified .tt-chip-dot { background: var(--amber); }
+.tt-verified { font-family: var(--mono); font-size: 10px; color: var(--mid); }
 .tt-srccount {
-  font-family: var(--mono); font-size: 9.5px; color: var(--accent-ink);
+  font-family: var(--mono); font-size: 10px; color: var(--accent-ink);
   font-weight: 600; text-decoration: none; margin-left: auto;
 }
 .tt-srccount:hover { text-decoration: underline; }
@@ -335,8 +344,10 @@
   font-size: clamp(1rem, 1.9vw, 1.25rem); font-weight: 400; color: #C7D0BF;
   line-height: 1.65; max-width: 58ch; margin-bottom: clamp(2rem, 5vw, 3rem);
 }
-.tt-spots { display: grid; grid-template-columns: 1fr; gap: clamp(1.6rem, 4vw, 2.6rem); }
-@media (min-width: 860px) { .tt-spots { grid-template-columns: 1fr 1fr; } }
+.tt-spots { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(1.6rem, 4vw, 2.6rem); }
+/* Three cases: three columns once they fit, so the third never sits alone
+   beside an empty half. */
+@media (min-width: 1100px) { .tt-spots { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; } }
 .tt-spot {
   border: 1px solid rgba(244, 246, 238, 0.16); border-radius: var(--r-lg);
   padding: 1.4rem 1.4rem 1.5rem; background: rgba(244, 246, 238, 0.03);
@@ -361,10 +372,7 @@
   --tt-label: #A9B4A2;
 }
 .tt-dark .tt-c-claim { opacity: 0.8; }
-.tt-dark .tt-chart-empty {
-  background: rgba(244, 246, 238, 0.04); border-color: rgba(244, 246, 238, 0.18);
-  color: #A9B4A2;
-}
+.tt-dark .tt-chart-empty { background: rgba(244, 246, 238, 0.05); color: #A9B4A2; }
 .tt-spot-gap {
   font-family: var(--mono); font-size: 11px; color: #D6DECC; line-height: 1.6;
   font-variant-numeric: tabular-nums;
@@ -373,23 +381,29 @@
 
 /* ---- Summary ---- */
 .tt-summary { background: #F4F6EE; padding: clamp(3.5rem, 9vw, 6rem) 0; border-top: 1px solid var(--rule-lt); }
-.tt-cols { display: grid; grid-template-columns: 1fr; gap: clamp(1.6rem, 4vw, 2.6rem); margin-top: 2rem; }
-@media (min-width: 760px) { .tt-cols { grid-template-columns: 1fr 1fr; } }
+.tt-cols { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(1.6rem, 4vw, 2.6rem); margin-top: 2rem; }
+@media (min-width: 760px) { .tt-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .tt-col-head {
   font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
   text-transform: uppercase; font-weight: 700; padding-bottom: 0.6rem;
-  margin-bottom: 1rem; border-bottom: 2px solid;
+  margin-bottom: 1rem; border-bottom: 1px solid var(--rule-dk);
+  display: flex; align-items: center; gap: 0.55rem;
 }
-.tt-col-up { color: var(--accent-ink); border-color: var(--matcha); }
-.tt-col-down { color: var(--amber-ink); border-color: var(--amber); }
+.tt-col-head::before {
+  content: ''; width: 8px; height: 8px; border-radius: 50%; flex: none;
+}
+.tt-col-up { color: var(--accent-ink); }
+.tt-col-up::before { background: var(--matcha); }
+.tt-col-down { color: var(--amber-ink); }
+.tt-col-down::before { background: var(--amber); }
 .tt-col-list { list-style: none; display: flex; flex-direction: column; gap: 0.9rem; }
 .tt-col-list li {
-  font-size: 0.92rem; font-weight: 400; color: #475569; line-height: 1.7;
+  font-size: 0.92rem; font-weight: 400; color: var(--ink-2); line-height: 1.7;
   padding-left: 1.1rem; position: relative;
 }
 .tt-col-list li::before {
   content: ''; position: absolute; left: 0; top: 0.68em;
-  width: 6px; height: 6px; border-radius: 50%; background: var(--matcha);
+  width: 6px; height: 6px; border-radius: 50%; background: var(--subtle);
 }
 .tt-close {
   font-size: clamp(0.98rem, 1.8vw, 1.18rem); font-weight: 400; color: #3f5133;
@@ -400,11 +414,11 @@
 /* ---- Method / basis ---- */
 #tt-method { background: var(--bg); padding: clamp(4rem, 10vw, 7rem) 0; }
 .tt-method-grid {
-  display: grid; grid-template-columns: 1fr; gap: 1px;
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 1px;
   background: var(--rule-dk); border: 1px solid var(--rule-dk);
   margin: 1.5rem 0; border-radius: var(--r-lg); overflow: hidden;
 }
-@media (min-width: 720px) { .tt-method-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 720px) { .tt-method-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .tt-method-block { background: var(--white); padding: 1.5rem 1.6rem; }
 .tt-method-wide { border: 1px solid var(--rule-dk); border-radius: var(--r-lg); margin-top: 1.5rem; }
 .tt-method-block h3 {
@@ -413,7 +427,7 @@
   margin-bottom: 0.85rem; display: inline-flex; align-items: center;
 }
 .tt-method-block p {
-  font-size: 0.85rem; color: #475569; line-height: 1.75;
+  font-size: 0.85rem; color: var(--ink-2); line-height: 1.75;
   margin-bottom: 0.75rem; max-width: 72ch;
 }
 .tt-method-block p:last-child { margin-bottom: 0; }
@@ -424,16 +438,20 @@
   padding-bottom: 1rem; border-bottom: 1px solid var(--rule-lt);
 }
 .tt-src-item:last-child { border-bottom: none; padding-bottom: 0; }
-.tt-src-name { font-family: var(--disp); font-weight: 700; font-size: 0.92rem; color: var(--slate); }
-.tt-src-detail { font-size: 0.82rem; color: #475569; line-height: 1.65; max-width: 78ch; }
-.tt-src-meta { font-family: var(--mono); font-size: 10.5px; color: var(--mid); margin-top: 0.15rem; }
+.tt-src-name { font-family: var(--disp); font-weight: 700; font-size: 0.92rem; color: var(--slate); overflow-wrap: anywhere; }
+.tt-src-detail { font-size: 0.82rem; color: var(--ink-2); line-height: 1.65; max-width: 78ch; }
+.tt-src-meta { font-family: var(--mono); font-size: 11px; color: var(--mid); margin-top: 0.15rem; }
 .tt-src-meta a { color: var(--accent-ink); text-decoration: none; font-weight: 600; }
 .tt-src-meta a:hover { text-decoration: underline; }
 .tt-src-list-tight { gap: 0.6rem; }
 .tt-src-list-tight .tt-src-name { font-size: 0.84rem; }
 
-.tt-percomp { display: grid; grid-template-columns: 1fr; gap: 1.2rem 2rem; }
-@media (min-width: 780px) { .tt-percomp { grid-template-columns: 1fr 1fr; } }
+.tt-percomp { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.2rem 2rem; }
+@media (min-width: 780px) { .tt-percomp { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.tt-percomp-count {
+  font-family: var(--mono); font-size: 11px; color: var(--mid); margin: -0.2rem 0 1rem;
+  font-variant-numeric: tabular-nums;
+}
 .tt-percomp-item {
   border-top: 1px solid var(--rule-lt); padding-top: 0.8rem;
   display: flex; flex-direction: column; gap: 0.5rem;

@@ -29,6 +29,31 @@ import {
 
 const TRACK_ORDER = ['ahead', 'on', 'behind', 'na'];
 
+// How many company cards, and how many companies' source lists, show before
+// "Show all". Rendering all fifty cards made the ledger about 23,000px tall on
+// desktop, so it opens on a preview. Filters and sorts always run over the
+// whole set; only the rendering is capped.
+const PREVIEW = { wide: 6, narrow: 3 };
+const NARROW_QUERY = '(max-width: 680px)';
+
+function useNarrow() {
+  const [narrow, setNarrow] = useState(() => typeof window !== 'undefined' && !!window.matchMedia?.(NARROW_QUERY).matches);
+  useEffect(() => {
+    const mq = window.matchMedia?.(NARROW_QUERY);
+    if (!mq) return undefined;
+    const onChange = () => setNarrow(mq.matches);
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, []);
+  return narrow;
+}
+
+const fill = (tpl, vals) => Object.keys(vals).reduce((t, k) => t.replace('{' + k + '}', vals[k]), tpl);
+
+function scrollToId(id) {
+  document.getElementById(id)?.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'start' });
+}
+
 // ---------------------------------------------------------------------------
 // Small shared pieces
 // ---------------------------------------------------------------------------
@@ -220,7 +245,7 @@ function deltaText(a) {
 // One company card
 // ---------------------------------------------------------------------------
 
-function CompanyCard({ co, a }) {
+function CompanyCard({ co, a, onSources }) {
   const c = co.commitment || {};
   const hasSeries = (co.reported || []).length > 0;
   const nSrc = (co.sources || []).length;
@@ -298,9 +323,15 @@ function CompanyCard({ co, a }) {
       {co.note && <p className="tt-note">{co.note}</p>}
 
       <footer className="tt-card-foot">
-        <span className={'tt-chip tt-chip-' + co.status}>{STATUS[co.status]}</span>
+        <span className={'tt-chip tt-chip-' + co.status}>
+          <span className="tt-chip-dot" aria-hidden="true" />{STATUS[co.status]}
+        </span>
         <span className="tt-verified">{UI.card.verified} {co.verified}</span>
-        <a className="tt-srccount" href="#tt-method">
+        <a
+          className="tt-srccount"
+          href={'#tt-src-' + co.id}
+          onClick={(e) => { e.preventDefault(); onSources(co.id); }}
+        >
           {nSrc} {nSrc === 1 ? UI.card.sourceOne : UI.card.sourceMany}
         </a>
       </footer>
@@ -335,6 +366,11 @@ export default function TargetsApp() {
   const [sector, setSector] = useState('all');
   const [sort, setSort] = useState('name');
   const [track, setTrack] = useState('all');
+  const [showAll, setShowAll] = useState(false);
+  const [srcAll, setSrcAll] = useState(false);
+  const [srcTarget, setSrcTarget] = useState(null);
+  const narrow = useNarrow();
+  const preview = narrow ? PREVIEW.narrow : PREVIEW.wide;
 
   const scoreRef = useRef(null);
   const scoreInView = useInView(scoreRef, { once: true, margin: '-10% 0px' });
@@ -380,6 +416,29 @@ export default function TargetsApp() {
     else if (sort === 'gapBest') sorted.sort(byGap(-1));
     return sorted;
   }, [sector, sort, track, reads]);
+
+  const capped = !showAll && shown.length > preview;
+  const visible = capped ? shown.slice(0, preview) : shown;
+
+  const srcCapped = !srcAll && COMPANIES.length > preview;
+  const srcVisible = srcCapped ? COMPANIES.slice(0, preview) : COMPANIES;
+  const srcTotal = useMemo(() => COMPANIES.reduce((n, co) => n + (co.sources || []).length, 0), []);
+
+  // A card's "n sources" link opens the full list if the company sits past the
+  // preview, then lands on that company's entry once it has rendered.
+  const openSources = (id) => {
+    setSrcAll(true);
+    setSrcTarget(id);
+  };
+  useEffect(() => {
+    if (!srcTarget) return;
+    // Landing through the hash makes the entry :target, so it takes the nav
+    // headroom from the one scroll-margin rule in global.css.
+    const id = 'tt-src-' + srcTarget;
+    if (window.location.hash === '#' + id) scrollToId(id);
+    else window.location.hash = id;
+    setSrcTarget(null);
+  }, [srcTarget]);
 
   const scoreValues = {
     netZero: agg.withNetZero,
@@ -475,7 +534,7 @@ export default function TargetsApp() {
         </section>
 
         {/* The ledger */}
-        <section className="tt-ledger" aria-labelledby="tt-ledger-h">
+        <section className="tt-ledger" id="tt-ledger" aria-labelledby="tt-ledger-h">
           <div className="canvas tt-inner">
             <div className="sec-tag" data-idx="03">
               <Icon name="list" size={32} />{UI.ledger.tag}
@@ -537,19 +596,37 @@ export default function TargetsApp() {
               </div>
 
               <p className="tt-count" role="status">
-                {shown.length} {shown.length === 1 ? UI.ledger.countOne : UI.ledger.countMany}
+                {capped
+                  ? fill(UI.ledger.countPart, { shown: visible.length, n: shown.length })
+                  : `${shown.length} ${shown.length === 1 ? UI.ledger.countOne : UI.ledger.countMany}`}
               </p>
             </div>
 
             {shown.length === 0
               ? <p className="tt-empty">{UI.ledger.empty}</p>
               : (
-                <div className="tt-grid">
-                  {shown.map((co) => (
-                    <CompanyCard key={co.id} co={co} a={reads[co.id]} />
+                <div className="tt-grid" id="tt-grid">
+                  {visible.map((co) => (
+                    <CompanyCard key={co.id} co={co} a={reads[co.id]} onSources={openSources} />
                   ))}
                 </div>
               )}
+            {shown.length > preview && (
+              <div className="tt-more">
+                <button
+                  type="button"
+                  className="tt-more-btn"
+                  aria-expanded={showAll}
+                  aria-controls="tt-grid"
+                  onClick={() => {
+                    if (showAll) scrollToId('tt-ledger');
+                    setShowAll((v) => !v);
+                  }}
+                >
+                  {showAll ? UI.ledger.showFewer : fill(UI.ledger.showAll, { n: shown.length })}
+                </button>
+              </div>
+            )}
           </div>
         </section>
 
@@ -557,7 +634,7 @@ export default function TargetsApp() {
         <section className="tt-dark" aria-labelledby="tt-spot-h">
           <div className="canvas tt-inner">
             <div className="sec-tag" data-idx="04">
-              <Icon name="spark" size={32} />{SPOTLIGHTS.tag}
+              <Icon name="pin" size={32} />{SPOTLIGHTS.tag}
             </div>
             <div className="tt-kicker tt-kicker-dark">{SPOTLIGHTS.kicker}</div>
             <h2 className="display tt-h2" id="tt-spot-h">
@@ -644,11 +721,14 @@ export default function TargetsApp() {
               </ul>
             </div>
 
-            <div className="tt-method-block tt-method-wide">
-              <h3><Icon name="building" size={32} className="fpi-lead" />{UI.method.perCompanyHead}</h3>
-              <div className="tt-percomp">
-                {COMPANIES.map((co) => (
-                  <div className="tt-percomp-item" key={co.id}>
+            <section className="tt-method-block tt-method-wide" id="tt-percomp-block" aria-labelledby="tt-percomp-h">
+              <h3 id="tt-percomp-h"><Icon name="building" size={32} className="fpi-lead" />{UI.method.perCompanyHead}</h3>
+              <p className="tt-percomp-count">
+                {fill(UI.method.perCompanyCount, { n: srcTotal, c: COMPANIES.length })}
+              </p>
+              <div className="tt-percomp" id="tt-percomp">
+                {srcVisible.map((co) => (
+                  <div className="tt-percomp-item" id={'tt-src-' + co.id} key={co.id}>
                     <div className="tt-percomp-name">
                       <span className="tt-ticker">{co.ticker}</span>{co.name}
                     </div>
@@ -658,7 +738,23 @@ export default function TargetsApp() {
                   </div>
                 ))}
               </div>
-            </div>
+              {COMPANIES.length > preview && (
+                <div className="tt-more">
+                  <button
+                    type="button"
+                    className="tt-more-btn"
+                    aria-expanded={srcAll}
+                    aria-controls="tt-percomp"
+                    onClick={() => {
+                      if (srcAll) scrollToId('tt-percomp-block');
+                      setSrcAll((v) => !v);
+                    }}
+                  >
+                    {srcAll ? UI.method.showFewerSources : fill(UI.method.showAllSources, { n: COMPANIES.length })}
+                  </button>
+                </div>
+              )}
+            </section>
 
             <UpdatedStamp placement="bottom" />
           </div>
