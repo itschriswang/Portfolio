@@ -15,7 +15,7 @@
 .lab-back:hover{ color:var(--lime-bright); }
 .lab-name{ color:var(--sage-2); opacity:0.7; }
 .lab-lock{
-  font-family:var(--mono); font-size:10px; letter-spacing:0.08em; text-transform:uppercase;
+  font-family:var(--mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase;
   font-weight:700; color:var(--sage-2); background:transparent;
   border:1px solid rgba(210,223,206,0.28); border-radius:var(--r-pill);
   padding:0.45rem 0.9rem; min-height:36px; cursor:pointer;

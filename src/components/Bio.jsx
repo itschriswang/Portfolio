@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion';
-import { BIO_PARAS, OUTCOMES, OUTCOMES_HEAD, PIPELINE_INTRO } from '../data/content';
+import { BIO_TAG, BIO_PARAS, OUTCOMES, OUTCOMES_HEAD, PIPELINE_INTRO } from '../data/content';
 import Pipeline from './Pipeline';
 import Icon from './Icons';
 
@@ -15,7 +15,7 @@ export default function Bio() {
     <section id="bio">
       <div className="canvas matrix bio-matrix">
         <div className="bio-head">
-          <div className="sec-tag" data-idx="00 / "><Icon name="people" size={30} />Profile</div>
+          <div className="sec-tag" data-idx={BIO_TAG.idx}><Icon name="people" size={30} />{BIO_TAG.tag}</div>
         </div>
         <div className="bio-body">
           {BIO_PARAS.map((p, i) => (

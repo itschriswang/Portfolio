@@ -28,7 +28,6 @@ export default function ToolCard({ tool, index }) {
       style={{ '--tc': tool.color }}
       custom={index} variants={reveal} initial={still ? false : 'hidden'} whileInView="visible" viewport={{ once: true, margin: '-60px' }}
     >
-      <span className="tool-rule" aria-hidden="true" />
       <div className="tool-top">
         <span className="tool-n">{tool.n}</span>
         <Icon name={tool.icon} size={34} className="tool-icon" />

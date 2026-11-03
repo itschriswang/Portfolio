@@ -170,7 +170,7 @@ export default function Scenario() {
   return (
     <section id="scenario">
       <div className="canvas">
-        <div className="sec-tag" data-idx="02 / "><Icon name="target" size={30} />Decarbonisation scenario model</div>
+        <div className="sec-tag" data-idx={SCENARIO_UI.idx}><Icon name="target" size={30} />{SCENARIO_UI.tag}</div>
         <h2 className="display sec-title">
           <SplitText text={SCENARIO_UI.title} accentIndex={SCENARIO_UI.titleAccent} />
         </h2>
@@ -194,9 +194,9 @@ export default function Scenario() {
           <div className="scn-controls">
             {/* Step 01 */}
             <div className="scn-step">
-              <span className="scn-step-num"><Icon name="building" size={28} className="fpi-lead" />Step 01</span>
-              <h3 className="scn-step-title">Choose an operating profile</h3>
-              <p className="scn-step-sub">Each profile loads a different emissions mix and its own set of abatement levers.</p>
+              <span className="scn-step-num"><Icon name="building" size={28} className="fpi-lead" />{SCENARIO_UI.steps[0].num}</span>
+              <h3 className="scn-step-title">{SCENARIO_UI.steps[0].title}</h3>
+              <p className="scn-step-sub">{SCENARIO_UI.steps[0].sub}</p>
               <div className="seg-profiles" role="group" aria-label="Operating profile">
                 {SECTOR_OPTIONS.map((o) => (
                   <button key={o.value} type="button" className={'seg-btn' + (scn.sector === o.value ? ' on' : '')} aria-pressed={scn.sector === o.value} onClick={() => set('sector', o.value)}>{o.label}</button>
@@ -207,9 +207,9 @@ export default function Scenario() {
 
             {/* Step 02 */}
             <div className="scn-step">
-              <span className="scn-step-num"><Icon name="bolt" size={28} className="fpi-lead" />Step 02</span>
-              <h3 className="scn-step-title">Set the abatement levers</h3>
-              <p className="scn-step-sub">Card colours match the wedges in the chart.</p>
+              <span className="scn-step-num"><Icon name="bolt" size={28} className="fpi-lead" />{SCENARIO_UI.steps[1].num}</span>
+              <h3 className="scn-step-title">{SCENARIO_UI.steps[1].title}</h3>
+              <p className="scn-step-sub">{SCENARIO_UI.steps[1].sub}</p>
               <div className="lever-deck">
                 {LEVERS.map((lv) => (
                   <div className="lever-card" key={lv.key} style={{ '--lc': lv.lc }}>
@@ -219,9 +219,9 @@ export default function Scenario() {
                   </div>
                 ))}
                 <div className="lever-card lever-card-rev" style={{ '--lc': 'var(--step-comms)' }}>
-                  <div className="lever-top"><span className="lever-dot" aria-hidden="true" /><span className="lever-name">Volume or revenue growth</span></div>
-                  <div className="lever-src">Scales gross emissions before abatement is applied</div>
-                  <Seg value={scn.rev} options={REV_OPTS} onChange={(v) => set('rev', v)} sc="var(--step-comms)" small label="Volume or revenue growth" />
+                  <div className="lever-top"><span className="lever-dot" aria-hidden="true" /><span className="lever-name">{SCENARIO_UI.growth.name}</span></div>
+                  <div className="lever-src">{SCENARIO_UI.growth.src}</div>
+                  <Seg value={scn.rev} options={REV_OPTS} onChange={(v) => set('rev', v)} sc="var(--step-comms)" small label={SCENARIO_UI.growth.name} />
                 </div>
               </div>
             </div>
@@ -230,9 +230,9 @@ export default function Scenario() {
           {/* Step 03 */}
           <div className="scn-results">
             <div className="scn-step">
-              <span className="scn-step-num"><Icon name="chart" size={28} className="fpi-lead" />Step 03</span>
-              <h3 className="scn-step-title">Read the result</h3>
-              <p className="scn-step-sub">The headline recalculates as you move the levers.</p>
+              <span className="scn-step-num"><Icon name="chart" size={28} className="fpi-lead" />{SCENARIO_UI.steps[2].num}</span>
+              <h3 className="scn-step-title">{SCENARIO_UI.steps[2].title}</h3>
+              <p className="scn-step-sub">{SCENARIO_UI.steps[2].sub}</p>
               <p className="takeaway" aria-live="polite">
                 {result.takeaway.head}<em>{result.takeaway.value}</em>{result.takeaway.tail}
                 <span className="tk-note">{result.takeaway.note}</span>
@@ -269,27 +269,32 @@ export default function Scenario() {
               </div>
               <div className="chart-card">
                 <div className="chart-head"><div className="chart-title">{result.chartTitle}</div></div>
-                <div className="chart-sub">tCO₂-e per year · coloured wedges show the abatement each lever contributes against business‑as‑usual</div>
+                <div className="chart-sub">{SCENARIO_UI.chartSub}</div>
                 <div className="chart-wrap"><canvas ref={canvasRef} role="img" aria-label="Line chart of the modelled emissions pathway from FY2020 to FY2050, showing net emissions against business-as-usual with coloured abatement wedges per lever" /></div>
                 <div className="chart-legend" ref={legendRef} aria-hidden="true" />
               </div>
               <div className="contrib-card">
-                <div className="contrib-head">Abatement contribution by lever at FY30 (interim target year): tCO₂-e avoided vs gross pathway</div>
-                {cbars.map((c) => (
-                  <div className="cbar" key={c.key}>
-                    <div className={'cbar-name ' + c.cls}>{c.name}</div>
-                    <div className="cbar-track"><div className="cbar-fill" style={{ width: c.data.width + '%', background: c.fill }} /></div>
-                    <div className="cbar-val">{c.data.label}</div>
-                  </div>
-                ))}
+                <div className="chart-head"><div className="chart-title">{SCENARIO_UI.contrib.title}</div></div>
+                <div className="chart-sub contrib-sub">{SCENARIO_UI.contrib.sub}</div>
+                {/* One grid for all four rows, so the bars start on one line
+                    whatever the length of each lever's name. */}
+                <div className="cbar-list">
+                  {cbars.map((c) => (
+                    <div className="cbar" key={c.key}>
+                      <div className={'cbar-name ' + c.cls}>{c.name}</div>
+                      <div className="cbar-track"><div className="cbar-fill" style={{ transform: 'scaleX(' + c.data.width / 100 + ')', background: c.fill }} /></div>
+                      <div className="cbar-val">{c.data.label}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         <div className="scn-foot">
-          <p>More of the method, shown on illustrative data: emissions baseline, decarbonisation roadmap, MCA prioritisation and lifecycle carbon.</p>
-          <a href="work/" className="btn btn-primary">View work samples →</a>
+          <p>{SCENARIO_UI.foot}</p>
+          <a href="work/" className="btn btn-primary">{SCENARIO_UI.footCta}</a>
         </div>
       </div>
     </section>

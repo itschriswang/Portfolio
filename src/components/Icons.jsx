@@ -361,6 +361,17 @@ const check = (
   </>
 );
 
+// A desk calculator with a matcha readout. Stands for calculation and for the
+// tools built on it, where the sparkle used to stand in.
+const calc = (
+  <>
+    <path d="M10.4 4.8 H21.6 Q24 4.8 24 7.2 V24.8 Q24 27.2 21.6 27.2 H10.4 Q8 27.2 8 24.8 V7.2 Q8 4.8 10.4 4.8 Z" />
+    <path className="fpi-fill" d="M12 8.4 H20 Q21 8.4 21 9.4 V11.8 Q21 12.8 20 12.8 H12 Q11 12.8 11 11.8 V9.4 Q11 8.4 12 8.4 Z" />
+    <path d="M12 17.4 H12.1 M16 17.4 H16.1 M20 17.4 H20.1 M12 22.4 H12.1 M16 22.4 H16.1" strokeWidth="2.4" />
+    <path d="M20 20.6 V24.2" strokeWidth="2.4" />
+  </>
+);
+
 const GLYPHS = {
   house, bolt, car, plane, bowl, spark,
   pin, people, building, flame, leaf, fuel, phone, bus, fork, box, globe, clock,
@@ -368,6 +379,7 @@ const GLYPHS = {
   chart, target, list, book,
   tag, shirt, scissors, drop, loop,
   copy, check,
+  calc,
 };
 
 // Public component: <Icon name="bolt" size={28} />. Unknown names render

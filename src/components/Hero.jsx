@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform, useVelocity, useSpring, useMotionValue, useReducedMotion, animate } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, useReducedMotion, animate } from 'framer-motion';
 import { HERO, yearsSince } from '../data/content';
 import SplitText from './SplitText';
 import ContourField from './ContourField';
@@ -62,24 +62,17 @@ function RoleCycle({ roles, still }) {
   );
 }
 
+// The hero holds still on scroll. It used to drift at three speeds (a scroll
+// parallax plus a nudge from scroll velocity) over three blurred colour blooms;
+// none of that said anything about the work, so the one entrance below is the
+// only motion the text block has, and the aurora and contour field carry the
+// backdrop on their own.
 export default function Hero() {
-  const sectionRef = useRef(null);
-  const { scrollY } = useScroll();
-  // Velocity-driven parallax: base depth from scroll position, nudged by speed.
-  const scrollVelocity = useVelocity(scrollY);
-  const smoothVel = useSpring(scrollVelocity, { stiffness: 200, damping: 40 });
-  const baseY = useTransform(scrollY, [0, 600], [0, 80]);
-  const velY = useTransform(smoothVel, [-1500, 0, 1500], [-24, 0, 24]);
-  const lowerY = useTransform(scrollY, [0, 600], [0, 140]);
-  // Parallax and the scroll-speed nudge are decorative, so under reduced
-  // motion the transforms are simply not bound and the hero stays put.
+  // Reduced motion: the entrance is skipped and everything renders in place.
   const still = useReducedMotion();
 
   return (
-    <section id="about" ref={sectionRef}>
-      <div className="bloom-wrap" aria-hidden="true">
-        <div className="bloom bloom-a" /><div className="bloom bloom-b" /><div className="bloom bloom-c" />
-      </div>
+    <section id="about">
       <Aurora
         colorStops={['#635BFF', '#B5C42B', '#FF9500', '#FF3B60']}
         amplitude={0.6}
@@ -88,21 +81,20 @@ export default function Hero() {
       />
       <ContourField />
 
-      <motion.div className="canvas matrix hero-grid" style={still ? undefined : { y: baseY }}>
-        <motion.h1 className="hero-name display" style={still ? undefined : { y: velY }}>
+      <div className="canvas matrix hero-grid">
+        <h1 className="hero-name display">
           <SplitText text={HERO.name[0]} /> <SplitText text={HERO.name[1]} accentIndex={0} />
-        </motion.h1>
+        </h1>
         <div className="hero-side">
           <RoleCycle roles={HERO.roles} still={still} />
           <div className="hero-meta">
             <span><Icon name="pin" size={26} className="fpi-lead" />{HERO.location}</span>
           </div>
         </div>
-      </motion.div>
+      </div>
 
       <motion.div
         className="canvas matrix hero-lower"
-        style={still ? undefined : { y: lowerY }}
         initial={still ? false : { opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.25, ease: [0.25, 1, 0.5, 1] }}
