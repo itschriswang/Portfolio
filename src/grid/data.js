@@ -47,6 +47,8 @@ export const INTRO = {
   note: 'Two views, one data source. Live for the timing call, Explorer for the accounting.',
 };
 
+export const TABS_LABEL = 'Choose a view';
+
 export const TABS = [
   { id: 'live', label: 'Live' },
   { id: 'explorer', label: 'Explorer' },
@@ -113,8 +115,8 @@ export const BANDS = {
     tone: 'mid',
     kicker: 'Middle of the pack',
     verdict: 'It does not matter much today',
-    // amber. Amber-ink (#B56A00) on a faint amber wash clears 4.5:1; used for
-    // the number and label.
+    // amber. Amber-ink (var(--amber-ink)) on a faint amber wash clears 4.5:1;
+    // used for the number and label.
     logic: 'The reading sits in the middle third of the day, so shifting the load an hour or two changes very little.',
   },
   poor: {
@@ -151,7 +153,7 @@ export function mixLine({ renewableShare, coalShare, label }) {
 // state local time, daylight saving and the browser clock do not always agree,
 // so the wording stays relative.
 export function windowLine(hour) {
-  if (hour >= 22 || hour < 6) return 'Overnight base load is doing most of the work; the solar-led dip is still hours away.';
+  if (hour >= 22 || hour < 6) return 'Overnight base load is carrying the grid, and the solar-led dip is still hours away.';
   if (hour < 10) return 'Solar is climbing, so the grid usually keeps easing through the morning.';
   if (hour < 15) return 'The solar-led dip is around now and tends to hold into the early afternoon.';
   if (hour < 19) return 'The evening peak is building as solar drops away, so cleaner hours are behind you for today.';
@@ -167,12 +169,23 @@ export const LIVE_COPY = {
   hideDay: 'Hide the day',
   sparkNote: 'Intensity over the last 24 hours, oldest on the left. Gaps are intervals the feed did not return.',
   typicalSparkNote: 'Indicative daily shape for this grid, midnight on the left. Not measured data.',
+  // Axis ends and range under the day chart. The dot marks the reading above:
+  // the latest interval when live, the current hour on the indicative shape.
+  sparkEnds: { live: ['24 hours ago', 'Now'], typical: ['00:00', '23:00'] },
+  sparkRange: (lo, hi) => `Low ${lo}, high ${hi} gCO2e/kWh`,
+  sparkLabel: (label, live) => `24 hour intensity for ${label}. ${live ? 'Live estimate.' : 'Indicative pattern.'}`,
   liveState: (t) => `Live, as of ${t}`,
+  liveStateNoTime: 'Live',
   estimateTag: 'Estimate from the fuel mix',
   fallbackState: 'Live feed unavailable, showing the indicative pattern',
-  refreshing: 'Refreshing',
+  refreshing: 'Refreshing…',
   typicalNowLabel: 'Typical for this time',
-  genLabel: 'NEM generation now',
+  liveNowLabel: 'Intensity now',
+  srValue: (v) => (v != null ? `${v} grams of CO2 equivalent per kilowatt-hour.` : 'No reading available.'),
+  noValue: 'n/a',
+  regionsLabel: 'Choose a state',
+  // The figure is the selected region's total dispatch, not the whole NEM.
+  genLabel: 'Generation now',
   renewLabel: 'Renewables',
   coalLabel: 'Coal',
   estimateFootnote:
@@ -227,9 +240,12 @@ export const EXPLORER_COPY = {
   locSub: 'What the wires around you averaged over the year.',
   mktTitle: 'Market-based',
   mktSub: 'What your contract leaves you accountable for.',
+  locTag: 'Does not move',
+  mktTag: 'Moves with your contract',
   unit: 'kg CO2e/kWh',
   coverLabel: 'Consumption covered by GreenPower or a renewable PPA',
   coverHint: 'Slide to the share of your electricity backed by a contractual instrument.',
+  coverValueText: (cov) => `${cov} per cent covered`,
   lgcLabel: 'Certificates surrendered',
   lgcOn: 'Surrendered',
   lgcOff: 'Not surrendered',
@@ -242,7 +258,7 @@ export const EXPLORER_COPY = {
       return `Your location-based factor stays ${s2.toFixed(2)} because it describes the wires around you. And your market-based figure is back up at the full residual mix, because certificates that are never surrendered do not count. A green plan you cannot show was cancelled buys you no reduction on paper.`;
     }
     if (cov === 0) {
-      return `Your location-based factor stays ${s2.toFixed(2)} because it describes the wires around you. With nothing under contract yet, your market-based figure sits on the residual mix, the grid with everyone else's renewables already claimed and stripped out. Cover some consumption below and watch only the market-based side move.`;
+      return `Your location-based factor stays ${s2.toFixed(2)} because it describes the wires around you. With nothing under contract yet, your market-based figure sits on the residual mix, the grid with everyone else's renewables already claimed and stripped out. Move the coverage slider and watch only the market-based side change.`;
     }
     if (cov >= 100) {
       return `Your location-based factor stays ${s2.toFixed(2)} because it describes the wires around you. Cover every kilowatt-hour with surrendered certificates and your market-based figure falls to zero, even though the physical electricity reaching you is unchanged. Both numbers get reported, which is how a company can show a falling market-based figure and a flat location-based one in the same disclosure.`;
@@ -251,7 +267,7 @@ export const EXPLORER_COPY = {
   },
   mathTitle: 'The market-based sum',
   mathLine:
-    'Market-based = (share not covered by surrendered certificates) x residual mix factor + (covered share x 0).',
+    'Market-based = (share not covered by surrendered certificates) × residual mix factor + (covered share × 0).',
   mathNote: 'Covered electricity counts as zero. Everything else sits on the residual mix, which is dirtier than the grid average because the renewables in it belong to someone else already.',
 };
 
@@ -311,6 +327,9 @@ export const METHOD = {
   ],
   sourcesTitle: 'Sources',
   sourcesSub: 'Every figure on the page traces to one of these.',
+  sourceLink: 'Source',
+  accessed: (d) => `Accessed ${d}`,
+  lastChecked: (d) => `Last checked against these sources on ${d}.`,
 };
 
 export const METHOD_SOURCES = [NGA_SOURCE, RMF_SOURCE];

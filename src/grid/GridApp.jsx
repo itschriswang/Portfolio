@@ -1,11 +1,11 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Grain, ScrollProgress, SkipLink } from '../components/Chrome';
 import { ToolNav, ToolFooter } from '../components/ToolNav';
 import Icon from '../components/Icons';
 import Range from '../components/Range';
 import { fetchLiveIntensity, OPENNEM_SOURCE } from '../lib/opennem';
 import {
-  INTRO, TABS, REGIONS, NON_NEM_NOTE,
+  INTRO, TABS, TABS_LABEL, REGIONS, NON_NEM_NOTE,
   TYPICAL_CURVES, TYPICAL_LABEL,
   bandFor, mixLine, windowLine, LIVE_COPY,
   LOCATION_FACTORS, EXPLORER_YEARS, EXPLORER_COPY,
@@ -29,19 +29,34 @@ function rangeOf(arr) {
   return { min: Math.min(...vals), max: Math.max(...vals) };
 }
 
-// A small inline SVG sparkline. Decorative shape; the accessible summary is
-// carried by an sr-only sentence the caller supplies, plus the aria-label here.
-function Sparkline({ series, ariaLabel }) {
+// The day chart. Measured, not scaled: the plot reports its pixel width and
+// the svg takes a 1:1 viewBox from it, so the marker stays a circle at any
+// width. The dot marks the reading shown above (markIdx), the axis names both
+// ends, and the low and high of the series are printed under it. The
+// accessible summary is the aria-label here plus the note the caller renders.
+const SPARK_H = 120;
+const SPARK_PAD = 6;
+function Sparkline({ series, markIdx, ends, ariaLabel }) {
+  const plotRef = useRef(null);
+  const [w, setW] = useState(0);
+  useEffect(() => {
+    const el = plotRef.current;
+    if (!el) return undefined;
+    const measure = () => setW(Math.round(el.getBoundingClientRect().width));
+    measure();
+    if (typeof ResizeObserver === 'undefined') return undefined;
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
   const pts = series.map((v) => (typeof v === 'number' && Number.isFinite(v) ? v : null));
   const r = rangeOf(pts);
   if (!r) return null;
-  const W = 640;
-  const H = 120;
-  const pad = 6;
   const span = Math.max(1, r.max - r.min);
   const n = pts.length;
-  const x = (i) => pad + (i / Math.max(1, n - 1)) * (W - pad * 2);
-  const y = (v) => H - pad - ((v - r.min) / span) * (H - pad * 2);
+  const x = (i) => SPARK_PAD + (i / Math.max(1, n - 1)) * (w - SPARK_PAD * 2);
+  const y = (v) => SPARK_H - SPARK_PAD - ((v - r.min) / span) * (SPARK_H - SPARK_PAD * 2);
   // Build a path, breaking the line across null gaps.
   let d = '';
   let pen = false;
@@ -51,12 +66,24 @@ function Sparkline({ series, ariaLabel }) {
     pen = true;
   });
   const lastIdx = (() => { for (let i = pts.length - 1; i >= 0; i--) if (pts[i] != null) return i; return -1; })();
+  const dotIdx = markIdx != null && pts[markIdx] != null ? markIdx : lastIdx;
   return (
-    <svg className="gi-spark-svg" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none"
-      role="img" aria-label={ariaLabel} focusable="false">
-      <path className="gi-spark-line" d={d.trim()} />
-      {lastIdx >= 0 && <circle className="gi-spark-dot" cx={x(lastIdx)} cy={y(pts[lastIdx])} r="4" />}
-    </svg>
+    <>
+      <div className="gi-spark-plot" ref={plotRef}>
+        {w > 0 && (
+          <svg className="gi-spark-svg" width={w} height={SPARK_H} viewBox={`0 0 ${w} ${SPARK_H}`}
+            role="img" aria-label={ariaLabel} focusable="false">
+            <path className="gi-spark-line" d={d.trim()} />
+            {dotIdx >= 0 && <circle className="gi-spark-dot" cx={x(dotIdx)} cy={y(pts[dotIdx])} r="4" />}
+          </svg>
+        )}
+      </div>
+      <div className="gi-spark-axis">
+        <span>{ends[0]}</span>
+        <span className="gi-spark-range">{LIVE_COPY.sparkRange(Math.round(r.min), Math.round(r.max))}</span>
+        <span>{ends[1]}</span>
+      </div>
+    </>
   );
 }
 
@@ -144,7 +171,7 @@ function LiveView() {
         <h2 className="display gi-h2">{LIVE_COPY.heading}</h2>
         <p className="gi-sub">{LIVE_COPY.sub}</p>
 
-        <div className="seg-row gi-regions" role="group" aria-label="Choose a state">
+        <div className="seg-row gi-regions" role="group" aria-label={LIVE_COPY.regionsLabel}>
           {REGIONS.map((r) => (
             <button
               key={r.code}
@@ -169,7 +196,7 @@ function LiveView() {
               {model.kind === 'live' ? (
                 <span className="gi-datastate gi-datastate-live">
                   <span className="gi-dot" aria-hidden="true" />
-                  {model.asOf ? LIVE_COPY.liveState(model.asOf) : 'Live'}
+                  {model.asOf ? LIVE_COPY.liveState(model.asOf) : LIVE_COPY.liveStateNoTime}
                   <span className="gi-est-tag">{LIVE_COPY.estimateTag}</span>
                 </span>
               ) : (
@@ -177,21 +204,21 @@ function LiveView() {
                   {LIVE_COPY.fallbackState}
                 </span>
               )}
-              {loading && <span className="gi-refreshing" aria-live="polite">{LIVE_COPY.refreshing}…</span>}
+              {loading && <span className="gi-refreshing" aria-live="polite">{LIVE_COPY.refreshing}</span>}
             </div>
 
             <div className={`gi-answer-card gi-band gi-band-${model.band.tone}`}>
               <div className="gi-answer-grid">
                 <div className="gi-numblock">
                   <div className="gi-kicker">
-                    {model.kind === 'fallback' ? LIVE_COPY.typicalNowLabel : LIVE_COPY.heading}
+                    {model.kind === 'fallback' ? LIVE_COPY.typicalNowLabel : LIVE_COPY.liveNowLabel}
                   </div>
                   <div className="gi-num" aria-hidden="true">
-                    {model.value != null ? Math.round(model.value) : 'n/a'}
+                    {model.value != null ? Math.round(model.value) : LIVE_COPY.noValue}
                     <span className="gi-unit">{LIVE_COPY.unit}</span>
                   </div>
                   <p className="sr-only">
-                    {model.value != null ? Math.round(model.value) : 'no'} grams of CO2 equivalent per kilowatt-hour.
+                    {LIVE_COPY.srValue(model.value != null ? Math.round(model.value) : null)}
                   </p>
                 </div>
                 <div className="gi-verdictblock">
@@ -229,7 +256,9 @@ function LiveView() {
               <div className="gi-spark">
                 <Sparkline
                   series={model.curve}
-                  ariaLabel={`24 hour intensity for ${region.label}. ${model.kind === 'fallback' ? 'Indicative pattern.' : 'Live estimate.'}`}
+                  markIdx={model.kind === 'fallback' ? model.hour : null}
+                  ends={model.kind === 'fallback' ? LIVE_COPY.sparkEnds.typical : LIVE_COPY.sparkEnds.live}
+                  ariaLabel={LIVE_COPY.sparkLabel(region.label, model.kind === 'live')}
                 />
                 <p className="gi-note">
                   {model.kind === 'fallback' ? LIVE_COPY.typicalSparkNote : LIVE_COPY.sparkNote}
@@ -291,13 +320,13 @@ function ExplorerView() {
             <div className="gi-kicker">{EXPLORER_COPY.locTitle}</div>
             <div className="gi-pair-v">{loc.s2.toFixed(2)}<span>{EXPLORER_COPY.unit}</span></div>
             <p className="gi-pair-sub">{EXPLORER_COPY.locSub}</p>
-            <div className="gi-pair-tag gi-pair-tag-fixed">Does not move</div>
+            <div className="gi-pair-tag gi-pair-tag-fixed">{EXPLORER_COPY.locTag}</div>
           </div>
           <div className="gi-pairnum gi-pairnum-mkt">
             <div className="gi-kicker">{EXPLORER_COPY.mktTitle}</div>
             <div className="gi-pair-v">{marketBased.toFixed(2)}<span>{EXPLORER_COPY.unit}</span></div>
             <p className="gi-pair-sub">{EXPLORER_COPY.mktSub}</p>
-            <div className="gi-pair-tag gi-pair-tag-live">Moves with your contract</div>
+            <div className="gi-pair-tag gi-pair-tag-live">{EXPLORER_COPY.mktTag}</div>
           </div>
         </div>
 
@@ -314,7 +343,7 @@ function ExplorerView() {
               value={cover}
               onChange={(e) => setCover(Number(e.target.value))}
               aria-label={EXPLORER_COPY.coverLabel}
-              aria-valuetext={`${cover} per cent covered`}
+              aria-valuetext={EXPLORER_COPY.coverValueText(cover)}
             />
             <p className="gi-lever-hint">{EXPLORER_COPY.coverHint}</p>
           </div>
@@ -372,7 +401,7 @@ function MethodSection() {
           ))}
         </div>
 
-        <div className="gi-method-block gi-method-wide">
+        <div className="gi-method-block gi-method-sources">
           <h3><Icon name="list" size={30} className="fpi-lead" />{METHOD.sourcesTitle}</h3>
           <p>{METHOD.sourcesSub}</p>
           <ul className="gi-sources">
@@ -381,13 +410,13 @@ function MethodSection() {
                 <span className="gi-src-name">{s.name}</span>
                 <span className="gi-src-detail">{s.detail}</span>
                 <span className="gi-src-meta">
-                  {s.url && <a href={s.url} target="_blank" rel="noopener noreferrer">Source</a>}
-                  {s.accessed && <span className="gi-src-acc">Accessed {s.accessed}</span>}
+                  {s.url && <a href={s.url} target="_blank" rel="noopener noreferrer">{METHOD.sourceLink}</a>}
+                  {s.accessed && <span className="gi-src-acc">{METHOD.accessed(s.accessed)}</span>}
                 </span>
               </li>
             ))}
           </ul>
-          <p className="gi-note">Last checked against these sources on {LAST_UPDATED}.</p>
+          <p className="gi-note">{METHOD.lastChecked(LAST_UPDATED)}</p>
         </div>
       </div>
     </section>
@@ -415,7 +444,7 @@ export default function GridApp() {
             </div>
             <p className="gi-disc">{INTRO.note}</p>
 
-            <div className="seg-row gi-tabs" role="group" aria-label="Choose a view">
+            <div className="seg-row gi-tabs" role="group" aria-label={TABS_LABEL}>
               {TABS.map((t) => (
                 <button
                   key={t.id}
