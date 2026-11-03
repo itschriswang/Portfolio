@@ -217,6 +217,14 @@ built as a React + Vite multi-page app and deployed to GitHub Pages.
   without the keyboard behaviour behind them are worse than plain buttons.
   Prefer explicit transition property lists over `transition:all`, which
   animates layout properties by accident.
+- **Unslop runs in polish mode here.** `.claude/skills/unslop` (CC BY 4.0,
+  Damir Sokolovsky; keep the credit) is for auditing a page against its slop
+  signs, one page per change. The direction is already set by `PRODUCT.md` and
+  this file, so the skill never writes a new one: the matcha ramp, the
+  self-hosted faces, the mono eyebrows and the hand-drawn `Icons` set are the
+  brand, not slop. Where the skill and this file disagree, this file wins. Its
+  copy pass edits `src/data/` only and never moves a figure. Its visuals pass
+  generates nothing: the moments on this site are charts drawn from real data.
 
 ## Develop
 
