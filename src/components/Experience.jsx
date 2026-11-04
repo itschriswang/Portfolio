@@ -113,7 +113,7 @@ export default function Experience() {
                 {EDUCATION.roles.map((r, i) => (
                   <div className="exp-meta-row" key={i}>
                     <span className="exp-role-title">{r.title}</span>
-                    <span className="exp-date">{r.date}</span>
+                    {r.date && <span className="exp-date">{r.date}</span>}
                   </div>
                 ))}
               </div>

@@ -54,7 +54,7 @@ export const SPECIMENS = {
       { label: 'Scope 3', pct: 82.7 },
     ],
     caption: 'Infrastructure services: where the emissions sit',
-    basis: 'Illustrative portfolio, built for this page',
+    basis: 'Illustrative, not client data · composite scaled to listed sector peers',
   },
 
   // From src/fashion/data.js → BRANDS, counting the Fashion Transparency Index
