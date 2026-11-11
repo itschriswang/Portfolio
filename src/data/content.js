@@ -15,12 +15,13 @@ export const NAV_LINKS = [
   { href: 'footprint/', label: 'Life Footprint', external: true },
 ];
 
-// Years since a start date, rounded up to the whole year, so a part year
-// counts as a year. The counters carry no "+" for the same reason: the figure
-// is already rounded up.
+// Years since a start date, to the nearest whole year: a part year of six
+// months or more rounds up, less than six months rounds down. So 4 years and
+// 9 months reads 5, and 5 years and 1 month still reads 5, not 6. The counters
+// carry no "+" because the figure can already be rounded up.
 export function yearsSince(startISO, now = Date.now()) {
   const years = (now - new Date(startISO)) / (1000 * 60 * 60 * 24 * 365.25);
-  return Math.max(0, Math.ceil(years - 1e-9));
+  return Math.max(0, Math.round(years));
 }
 
 const NUMBER_WORDS = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve'];
@@ -44,8 +45,8 @@ export const HERO = {
   ctas: [
     { label: 'Get in touch', href: '#contact', primary: true, icon: 'linkedin' },
   ],
-  // Animated counters: the start date drives the live figure, rounded up to the
-  // whole year by yearsSince above.
+  // Animated counters: the start date drives the live figure, rounded to the
+  // nearest whole year by yearsSince above.
   instruments: [
     { id: 'years-sustainability', label: ['Years in', 'sustainability'], start: SUSTAINABILITY_START, suffix: '' },
     { id: 'years-professional', label: ['Years of professional', 'experience'], start: PROFESSIONAL_START, suffix: '' },
