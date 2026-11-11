@@ -15,24 +15,22 @@ export const NAV_LINKS = [
   { href: 'footprint/', label: 'Life Footprint', external: true },
 ];
 
-// Years since a start date, floored to the half year. Never rounds up, so a
-// counter or a sentence built on it cannot claim a half year not yet served.
+// Years since a start date, rounded up to the whole year, so a part year
+// counts as a year. The counters carry no "+" for the same reason: the figure
+// is already rounded up.
 export function yearsSince(startISO, now = Date.now()) {
   const years = (now - new Date(startISO)) / (1000 * 60 * 60 * 24 * 365.25);
-  return Math.max(0, Math.floor(years * 2) / 2);
+  return Math.max(0, Math.ceil(years - 1e-9));
 }
 
 const NUMBER_WORDS = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve'];
 
-// "Four and a half years", "Five years": the bio says in words what the hero
-// counter shows in figures, from the same start date and the same floor.
+// "Five years": the bio says in words what the hero counter shows in figures,
+// from the same start date and the same rounding.
 function yearsInWords(startISO) {
   const y = yearsSince(startISO);
-  const whole = Math.floor(y);
-  const half = y - whole === 0.5;
-  const word = NUMBER_WORDS[whole] ?? String(whole);
-  if (half) return `${word} and a half years`;
-  return `${word} year${whole === 1 ? '' : 's'}`;
+  const word = NUMBER_WORDS[y] ?? String(y);
+  return `${word} year${y === 1 ? '' : 's'}`;
 }
 
 const SUSTAINABILITY_START = '2022-02-01';
@@ -46,11 +44,11 @@ export const HERO = {
   ctas: [
     { label: 'Get in touch', href: '#contact', primary: true, icon: 'linkedin' },
   ],
-  // Animated counters: the start date drives the live figure, floored to the
-  // half year by yearsSince above.
+  // Animated counters: the start date drives the live figure, rounded up to the
+  // whole year by yearsSince above.
   instruments: [
-    { id: 'years-sustainability', label: ['Years in', 'sustainability'], start: SUSTAINABILITY_START, suffix: '+' },
-    { id: 'years-professional', label: ['Years of professional', 'experience'], start: PROFESSIONAL_START, suffix: '+' },
+    { id: 'years-sustainability', label: ['Years in', 'sustainability'], start: SUSTAINABILITY_START, suffix: '' },
+    { id: 'years-professional', label: ['Years of professional', 'experience'], start: PROFESSIONAL_START, suffix: '' },
   ],
 };
 
