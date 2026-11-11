@@ -6,11 +6,10 @@ import ContourField from './ContourField';
 import Aurora from './Aurora';
 import Icon, { LinkedInIcon } from './Icons';
 
-// The live "years" figure comes from yearsSince (content.js), floored to the
-// half year. The tween floors too, so no frame ever shows more than the target.
+// The live "years" figure comes from yearsSince (content.js), a whole number.
+// The tween floors, so it counts up in whole years and never passes the target.
 function formatYears(v) {
-  const floored = Math.floor(v * 2 + 1e-9) / 2;
-  return Number.isInteger(floored) ? String(floored) : floored.toFixed(1);
+  return String(Math.floor(v + 1e-9));
 }
 
 function Counter({ target, suffix, still }) {
