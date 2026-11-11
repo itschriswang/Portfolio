@@ -40,7 +40,7 @@ const PROFESSIONAL_START = '2020-03-01';
 
 export const HERO = {
   name: ['Chris', 'Wang'],
-  roles: ['Senior Sustainability Advisor', 'GHG Accounting and NGER Reporting', 'Decarbonisation and Net Zero'],
+  roles: ['Senior Sustainability Advisor', 'GHG Accounting and ESG Reporting', 'Decarbonisation and Net Zero'],
   location: 'Melbourne, Australia',
   prop: 'I build the greenhouse gas numbers large organisations report to regulators and investors, and the net zero pathways they plan on.',
   ctas: [
@@ -94,7 +94,7 @@ export const PIPELINE = [
       { title: 'Group greenhouse gas inventory for limited assurance', body: 'Prepared the Group greenhouse gas inventory for limited assurance with my manager and a colleague, and reconciled my share of the interim Scope 1 and 2 samples to invoices.', outcome: 'FY26 Group inventory, Downer Group' },
       { title: 'Emission factor error in the reporting platform', body: 'Checked the emission factors in IBM Envizi, Downer\'s emissions data platform, against an independent recalculation, and caught a wrong electricity factor before it reached the assured figures.', outcome: 'Caught before it reached the assured figures, Downer Group' },
       { title: 'Recurring calculations in Python', body: 'Automated recurring emissions calculations in Python, including Scope 3 fuel and energy, business travel and the state split of Downer\'s diesel for NGER, and reconciled the prior year\'s fuel and energy emissions to the reporting platform.', outcome: 'Scripted, and reconciled to the platform, Downer Group' },
-      { title: 'LCA automation in Python', body: 'Taught myself Python and SQL, then wrote scripts that automated the data downloads and material linking for life cycle assessments, cutting about four hours from each study. The team reused them, and a colleague asked to learn scripting after seeing them.', outcome: 'High-rise and transport infrastructure life cycle assessments, WSP in Australia' },
+      { title: 'Life cycle assessments for high-rise developments', body: 'Delivered life cycle assessments for high-rise residential, commercial and mixed-use developments, showing developers, architects and builders what each reduction option meant for procurement. Worked with concrete suppliers on custom reference mixes and argued for a stricter reference case on cement replacement and reinforcement rates. Taught myself Python and SQL and wrote tooling that cut about four hours from each study.', outcome: 'Upfront carbon from the design stage, WSP in Australia' },
     ],
   },
   {
@@ -105,6 +105,7 @@ export const PIPELINE = [
       { title: 'CDP 2026 and the S&P Corporate Sustainability Assessment', body: 'Submitted Downer\'s CDP 2026 response and the S&P Corporate Sustainability Assessment, from first draft to submission, and built the sign-off pack that laid out the CDP response\'s open points for decision.', outcome: 'Two investor questionnaires submitted, Downer Group' },
       { title: 'AASB S2 climate statement: physical risk', body: 'Management adopted the method I recommended for the physical risk analysis behind Downer\'s AASB S2 climate statement, from three ready-to-adopt options I set out. I developed the analysis across three SSP scenarios and drafted the basis of preparation paragraphs for its method.', outcome: 'FY26 climate statement under AASB S2, Downer Group' },
       { title: 'GRESB Infrastructure Assessment', body: 'Led a GRESB Infrastructure submission for a major NSW electricity distribution network on behalf of its institutional investor, built the data collection, gap analysis and mock scoring procedures behind it, and supported every one of the client\'s submissions from its first.', outcome: 'Score up 35% and global ranking up 63%, WSP in Australia' },
+      { title: 'Green Star Performance across property portfolios', body: 'Coordinated Green Star Performance submissions across more than 400 property assets for property and fund managers, and produced a water resilience assessment with more than 30 recommended measures for a major property manager.', outcome: 'One client\'s 50-plus asset retail portfolio rose from two stars to three for the first time, WSP in Australia' },
       { title: 'NSW Government emissions accounting guidelines', body: 'Contributed to emissions accounting guidelines for all NSW Government entities under the State\'s emerging mandatory reporting framework, reviewing NGER, AASB S2 and the GHG Protocol and running stakeholder engagement and workshops.', outcome: 'Guidelines for every NSW Government entity, WSP in Australia' },
       { title: 'Statutory fuel reporting notice', body: 'Delivered Downer\'s first return under a statutory notice (Petroleum and Other Fuels Reporting Act 2017) inside its ten-day window, with no precedent in the team to follow, coordinating diesel capacity and reserves data across the business units.', outcome: 'Monthly returns kept up to 30 June 2026, Downer Group' },
     ],
@@ -115,6 +116,7 @@ export const PIPELINE = [
     examples: [
       { title: 'Net Zero pathway model', body: 'Built Downer\'s Net Zero pathway model to FY2050 across 130 initiatives, with DCCEEW grid factor projections and NVES light-fleet and CSIRO heavy-fleet trajectories, then rebuilt it on FY26 actuals. The business units\' FY27 decarbonisation plans now run on it.', outcome: 'FY27 decarbonisation plans, Downer Group' },
       { title: 'Scope 1-3 baselines', body: 'Delivered a NSW water business\'s first Scope 1, 2 and 3 baseline, including wastewater, and built a separate drought-year profile and a five-year forecast. Supported a mining services supplier\'s first Scope 1 and 2 baseline, running the workshops that taught its team to collect the data.', outcome: 'First baselines for both clients, WSP in Australia' },
+      { title: 'Residential energy ratings and ESD', body: 'Helped deliver NatHERS modelling, BASIX strategies and energy, water and thermal comfort analysis for residential and aged care developments, and supported ESD concept design reports for planning submissions.', outcome: 'Residential and aged care developments, WSP in Australia' },
       { title: 'Board committee papers and the FY26 Annual Report', body: 'Contributed to the papers for the Board\'s Zero Harm Committee setting out the reasonable grounds for Downer\'s 2032 and 2050 targets, and supplied the data and chart specification for the decarbonisation pathway in the FY26 Annual Report.', outcome: 'A Board committee and the published Annual Report, Downer Group' },
     ],
     cta: { href: '#scenario', label: '→ See the live scenario model below' },
