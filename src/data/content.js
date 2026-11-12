@@ -63,7 +63,7 @@ export const BIO_PARAS = [
 ];
 
 export const OUTCOMES = [
-  { color: 'var(--accent-ink)', num: '×57', small: '', what: 'A currency defect overstated one country\'s supplier spend about 57 times in our Scope 3 purchased goods and services data, and nothing in the totals showed it. I found it against the invoices, proved it was a system fault, worked out the affected companies with Finance and specified the correction.', where: 'Found during assurance · FY26 Scope 3 · Downer Group' },
+  { color: 'var(--accent-ink)', num: '×65', small: '', what: 'A currency defect overstated one country\'s supplier spend about 65 times in our Scope 3 purchased goods and services data, and nothing in the totals showed it. I found it against the invoices, proved it was a system fault, worked out the affected companies with Finance and specified the correction, now applied to FY25 and FY26.', where: 'Found during assurance · FY26 Scope 3 · Downer Group' },
   { color: 'var(--indigo-ink)', num: 'All', small: ' NSW Government entities', what: 'Covered by the emissions accounting guidelines I contributed to under the State\'s emerging mandatory reporting framework', where: 'NGER · AASB S2 · GHG Protocol · WSP' },
   { color: 'var(--amber-ink)', num: '+63', small: '%', what: 'GRESB Infrastructure global ranking, with the score up 35%', where: 'Major NSW electricity distribution network · submission I led · WSP' },
 ];
