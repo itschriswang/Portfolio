@@ -30,7 +30,7 @@ const monthLabel = (key) => {
 
 // Pathway series colours, exported so the legend in Plan.jsx renders from the
 // same values the datasets draw with.
-export const PATHWAY_COLORS = { bau: '#6E7469', plan: '#1F2A1E', planFill: 'rgba(100,112,18,0.14)', budget: '#C21431' };
+export const PATHWAY_COLORS = { bau: '#6E7469', plan: '#1F2A1E', planFill: 'rgba(100,112,18,0.14)', budget: '#B0236B' };
 
 // ---------------------------------------------------------------------------
 // Monthly stacked bars by category.

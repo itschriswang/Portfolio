@@ -19,13 +19,22 @@
 html { scroll-behavior: smooth; overflow-x: clip; color-scheme: light; }
 
 :root {
-  /* Accent fills. Matcha is the brand hue; indigo, berry and amber are its
-     companions for series, steps and status. They are fills first; text on a
-     light surface takes the darker -ink twins below. */
+  /* Accent fills. Matcha and lime are the brand; indigo, berry and amber are
+     their companions for series, steps and status, picked against the lime
+     (OKLCH hue 120) on a scheme rather than by eye (November 2026):
+       indigo  hue 280, the lime's split-complement (cool, opposite side);
+       berry   hue 355, a raspberry on the lime's triad (warm contrast);
+       amber   hue 82,  a gold one step from the lime (analogous neighbour);
+       comms   hue 315, near the lime's complement, quieter.
+     Their chroma is held near the lime's (0.16 to 0.19), so none of them
+     shouts over it; the old electric indigo, coral berry and orange amber sat
+     at 0.23, 104 degrees and 57 degrees off the lime, which is why they
+     clashed. They are fills first; text on a light surface takes the darker
+     -ink twins below. */
   --matcha:#B5C42B;
-  --indigo:#635BFF;
-  --berry:#FF3B60;
-  --amber:#FF9500;
+  --indigo:#6F6CEA;
+  --berry:#E85398;
+  --amber:#F2B52E;
   /* Chartreuse family — big colour fills and soft card washes. Pulled a notch
      off electric-lime toward the matcha/chartreuse the brand already uses, so
      the palette reads as our own, not a borrowed one. The matcha above stays
@@ -62,17 +71,16 @@ html { scroll-behavior: smooth; overflow-x: clip; color-scheme: light; }
      numerals, lever labels): darker than the old ad-hoc #75821D. Retuned
      September 2026 from #6A7614 (4.52:1 on lime-wash, 4.26:1 on lime-soft)
      to clear 4.5:1 on every light green surface: 5.4 white, 4.9 lime-wash,
-     4.6 lime-soft. --amber-ink is the darkened companion for --amber
-     numerals, retuned from #B56A00 (3.5:1 on its own 15% tile, 4.2:1 on
-     white) to 5.9 white, 4.7 on the tile, and 5.9 as white-on-amber.
-     --indigo-ink does the same for --indigo figures (6.9 white, 5.4 tile). */
+     4.6 lime-soft. --amber-ink, --indigo-ink and --berry-ink are the darkened
+     text twins of the three companions, each 4.6:1 or better on white, the lime
+     wash and the lime soft (amber 5.4, indigo 7.0, berry 6.4 on white). */
   --accent-ink:#647012;
-  --amber-ink:#955500;
-  --indigo-ink:#4B42D6;
+  --amber-ink:#916007;
+  --indigo-ink:#4F48BF;
   /* --berry is a fill too, and fails contrast as small text on both white and
      the lime wash (about 3.1:1 there). --berry-ink is its darkened text
      companion, used for a figure that has moved the wrong way. */
-  --berry-ink:#C21431;
+  --berry-ink:#B0236B;
   /* Warm neutral band — same lightness as a stock cool grey, but tinted to
      the brand hue so a "grey" section doesn't look like it escaped the
      palette. */
@@ -105,23 +113,11 @@ html { scroll-behavior: smooth; overflow-x: clip; color-scheme: light; }
   --rule-lt:oklch(0.917 0.008 118);
   /* matcha at 10% alpha — accent wash for hover backgrounds (not red) */
   --red-bg:rgba(181,196,43,0.10);
-  /* LIME, BLACK AND WHITE. The public pages draw everything from the green
-     ramp, the night ground, white and one neutral grey: no indigo, amber or
-     berry. Where a chart needs separate series, they step along that ramp
-     (bright lime, olive, grey, near-black) so they part by lightness, and each
-     has a text ink that clears 4.5:1 on white. The indigo, berry and amber
-     tokens above stay for Life Footprint's chart categories (ten-plus series
-     need distinct hues) and error states only. */
-  --grey-mid:#8C9080;
-  --series-1:var(--lime-bright); --series-1-ink:var(--accent-ink);
-  --series-2:var(--forest-ink);  --series-2-ink:var(--forest-ink);
-  --series-3:var(--grey-mid);    --series-3-ink:var(--ink-2);
-  --series-4:var(--forest);      --series-4-ink:var(--forest);
-  --step-raw:var(--forest);
-  --step-calc:var(--forest-ink);
-  --step-report:var(--matcha);
-  --step-strategy:var(--lime);
-  --step-comms:var(--grey-mid);
+  --step-raw:var(--indigo);
+  --step-calc:var(--matcha);
+  --step-report:var(--amber);
+  --step-strategy:var(--berry);
+  --step-comms:#8D5FA1;
   /* Each web font is followed by its metric-matched Arial fallback (fonts.css),
      then the platform's own face. The mono stack falls back to the system
      monospace rather than Courier New, whose thin typewriter strokes made
@@ -377,19 +373,19 @@ section { position:relative; }
    HERO / ABOUT
    ============================================================================ */
 /* The hero is the one dark band at the top of the home page: near-black with a
-   single faint lime glow, white type and one accent (lime), the restraint the
+   single soft plum glow, white type and one accent (lime), the restraint the
    BodyTea hub proved.
    Tokens are local so nothing else on the page picks them up. */
 #about{ --hero-ink:var(--night); --hero-line:rgba(255,255,255,0.14);
   background:
-    radial-gradient(55% 70% at 0% 0%, rgba(208,240,85,0.08), transparent 65%),
+    radial-gradient(55% 70% at 0% 0%, rgba(232,83,152,0.16), transparent 65%),
     var(--hero-ink);
   color:#fff; border-bottom:1px solid var(--hero-line); padding:0 0 clamp(3rem,7vw,6rem); overflow:hidden; }
 .bloom-wrap{ position:absolute; inset:0; pointer-events:none; overflow:hidden; z-index:0; }
 .bloom{ position:absolute; border-radius:50%; filter:blur(90px); mix-blend-mode:multiply; }
 .bloom-a{ width:560px; height:380px; background:radial-gradient(ellipse,rgba(181,196,43,0.10) 0%,transparent 70%); top:-60px; left:-80px; animation:bloomA 26s ease-in-out infinite; }
-.bloom-b{ width:440px; height:340px; background:radial-gradient(ellipse,rgba(208,240,85,0.10) 0%,transparent 70%); top:30px; right:-60px; animation:bloomB 32s ease-in-out infinite; }
-.bloom-c{ width:340px; height:240px; background:radial-gradient(ellipse,rgba(94,107,30,0.08) 0%,transparent 70%); bottom:0; left:40%; animation:bloomC 38s ease-in-out infinite; }
+.bloom-b{ width:440px; height:340px; background:radial-gradient(ellipse,rgba(242,181,46,0.08) 0%,transparent 70%); top:30px; right:-60px; animation:bloomB 32s ease-in-out infinite; }
+.bloom-c{ width:340px; height:240px; background:radial-gradient(ellipse,rgba(111,108,234,0.08) 0%,transparent 70%); bottom:0; left:40%; animation:bloomC 38s ease-in-out infinite; }
 @keyframes bloomA{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,18px)}}
 @keyframes bloomB{0%,100%{transform:translate(0,0)}50%{transform:translate(-24px,14px)}}
 @keyframes bloomC{0%,100%{transform:translate(0,0)}50%{transform:translate(18px,-16px)}}
@@ -603,10 +599,10 @@ section { position:relative; }
    sub-heading, at the weight of a footnote, when it is the governing fact
    about every figure in the section. Amber is the site's report/caution step
    colour, so the band reads as a notice without leaving the palette. */
-.basis-strip{ display:flex; flex-wrap:wrap; align-items:baseline; gap:0.5rem 1.15rem; margin-top:1.35rem; padding:0.95rem 1.2rem; background:var(--lime-wash); border:1px solid rgba(94,107,30,0.28); border-radius:var(--r-lg); }
-.basis-badge{ display:inline-flex; align-items:center; gap:0.4rem; flex:0 0 auto; font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--forest); }
+.basis-strip{ display:flex; flex-wrap:wrap; align-items:baseline; gap:0.5rem 1.15rem; margin-top:1.35rem; padding:0.95rem 1.2rem; background:rgba(242,181,46,0.07); border:1px solid rgba(242,181,46,0.30); border-radius:var(--r-lg); }
+.basis-badge{ display:inline-flex; align-items:center; gap:0.4rem; flex:0 0 auto; font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--amber-ink); }
 .basis-text{ flex:1 1 24rem; font-size:0.85rem; font-weight:400; line-height:1.65; color:var(--slate); max-width:74ch; }
-.basis-meta{ flex:0 1 auto; font-family:var(--mono); font-size:11px; letter-spacing:0.05em; color:var(--accent-ink); }
+.basis-meta{ flex:0 1 auto; font-family:var(--mono); font-size:11px; letter-spacing:0.05em; color:var(--amber-ink); }
 .sector-desc{ font-size:0.86rem; color:var(--ink-2); margin-top:1.1rem; line-height:1.65; max-width:62ch; }
 
 .scn-step{ margin-top:clamp(2.5rem,6vw,3.5rem); padding-top:2rem; border-top:1px solid var(--rule-dk); }
@@ -696,7 +692,7 @@ section { position:relative; }
 .kpi-note{ font-size:11.5px; color:var(--mid); line-height:1.45; margin-top:0.5rem; }
 .kpi-chg{ display:flex; flex-wrap:wrap; gap:0.3rem 0.45rem; margin-top:0.35rem; font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:0.01em; }
 .kpi-chg-down{ color:var(--accent-ink); }
-.kpi-chg-up{ color:var(--slate); }
+.kpi-chg-up{ color:var(--berry-ink); }
 .kpi-chg-flat{ color:var(--mid); }
 .kpi.live .kpi-base{ color:var(--forest-ink); }
 
@@ -722,7 +718,7 @@ section { position:relative; }
 @media(max-width:559px){ .cbar-list{ column-gap:0.5rem; } }
 .cbar{ display:contents; }
 .cbar-name{ font-size:0.78rem; font-weight:600; }
-.cbar-name.grid{ color:var(--series-1-ink); } .cbar-name.lv{ color:var(--series-2-ink); } .cbar-name.hv{ color:var(--series-3-ink); } .cbar-name.plant{ color:var(--series-4-ink); }
+.cbar-name.grid{ color:var(--indigo-ink); } .cbar-name.lv{ color:var(--accent-ink); } .cbar-name.hv{ color:var(--amber-ink); } .cbar-name.plant{ color:var(--berry-ink); }
 .cbar-track{ height:6px; background:var(--rule-lt); overflow:hidden; border-radius:var(--r-pill); }
 .cbar-fill{ height:100%; width:100%; transform-origin:left; transition:transform 0.35s var(--ease); }
 .cbar-val{ font-family:var(--mono); font-size:0.7rem; color:var(--ink-2); text-align:right; }
@@ -784,7 +780,7 @@ section { position:relative; }
    is being asked to look at built work, and it puts the tool cards in the same
    visual family as the site's Open Graph share cards.
    The ground is --night, the same near-black as the hero, with a faint lime
-   glow in the far corners, like the hero's. Every colour below is
+   glow in the far corners in place of the hero's plum. Every colour below is
    checked against it, which is why the indigo used elsewhere on this page
    never appears here: it fails on dark.
    ============================================================================ */

@@ -240,13 +240,13 @@ export const CHARACTERS = [
     line: 'A careful, tidy ledger with a handful of days that ignored it completely. The everyday barely registers; the exceptions are the inventory.',
   },
   {
-    id: 'season-ticket', name: 'The Season Ticket', hex: '#955500', stencil: S.turnstile,
+    id: 'season-ticket', name: 'The Season Ticket', hex: '#916007', stencil: S.turnstile,
     weight: 'middle', shape: 'specialist', rhythm: 'steady',
     tagline: 'The same seat, every single week.',
     line: 'One category on subscription: the commute, the meter, the standing order. The total is built by attendance, one ordinary day at a time.',
   },
   {
-    id: 'festival-season', name: 'The Festival Season', hex: '#C21431', stencil: S.flare,
+    id: 'festival-season', name: 'The Festival Season', hex: '#B0236B', stencil: S.flare,
     weight: 'middle', shape: 'generalist', rhythm: 'spiky',
     tagline: 'Everything happened in one loud stretch.',
     line: 'An ordinary spread of a year that concentrated into one hot window.',
@@ -258,19 +258,19 @@ export const CHARACTERS = [
     line: 'Evenly sampled across every category, no track dominating.',
   },
   {
-    id: 'world-tour', name: 'The World Tour', hex: '#635BFF', stencil: S.orbit,
+    id: 'world-tour', name: 'The World Tour', hex: '#4F48BF', stencil: S.orbit,
     weight: 'heavy', shape: 'specialist', rhythm: 'spiky',
     tagline: 'One act, huge, lived in departures.',
     line: 'A serious total from a single dominant mode, delivered as an event calendar. The quiet weeks barely register; the dates are the inventory.',
   },
   {
-    id: 'grind', name: 'The Grind', hex: '#955500', stencil: S.strata,
+    id: 'grind', name: 'The Grind', hex: '#916007', stencil: S.strata,
     weight: 'heavy', shape: 'specialist', rhythm: 'steady',
     tagline: 'One loop, enormous hours.',
     line: 'A big total built the slow way: the same dominant category, week after week. Nothing ever spiked.',
   },
   {
-    id: 'crossover-event', name: 'The Crossover Event', hex: '#C21431', stencil: S.converge,
+    id: 'crossover-event', name: 'The Crossover Event', hex: '#B0236B', stencil: S.converge,
     weight: 'heavy', shape: 'generalist', rhythm: 'spiky',
     tagline: 'Every storyline converged at once.',
     line: 'Heavy across the board, then the stretch where everything showed up in the same frame.',

@@ -6,10 +6,10 @@
 
 :root {
   --fp-electricity: #647012; /* = --accent-ink */
-  --fp-flight: #635BFF;
-  --fp-road: #955500; /* = --amber-ink */
+  --fp-flight: #4F48BF; /* = --indigo-ink */
+  --fp-road: #916007; /* = --amber-ink */
   --fp-freight: #0891B2;
-  --fp-gas: #C21431; /* = --berry-ink */
+  --fp-gas: #B0236B; /* = --berry-ink */
   --fp-diet: #8A4FBE;
   --fp-other: #6E7469;
   /* Optional module: spend-based goods (deep plum) and hotel nights (dark

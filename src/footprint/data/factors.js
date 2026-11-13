@@ -58,10 +58,10 @@ export const countryOf = (settings) =>
 // Palette validated for CVD separation and contrast (dataviz six checks).
 export const CATEGORIES = [
   { id: 'electricity', label: 'Electricity', color: 'var(--fp-electricity)', hex: '#647012' },
-  { id: 'flight', label: 'Flights', color: 'var(--fp-flight)', hex: '#635BFF' },
-  { id: 'road', label: 'Road & rail', color: 'var(--fp-road)', hex: '#955500' },
+  { id: 'flight', label: 'Flights', color: 'var(--fp-flight)', hex: '#4F48BF' },
+  { id: 'road', label: 'Road & rail', color: 'var(--fp-road)', hex: '#916007' },
   { id: 'freight', label: 'Freight', color: 'var(--fp-freight)', hex: '#0891B2' },
-  { id: 'gas', label: 'Gas', color: 'var(--fp-gas)', hex: '#C21431' },
+  { id: 'gas', label: 'Gas', color: 'var(--fp-gas)', hex: '#B0236B' },
   { id: 'diet', label: 'Diet', color: 'var(--fp-diet)', hex: '#8A4FBE' },
   { id: 'other', label: 'Other', color: 'var(--fp-other)', hex: '#6E7469' },
   // Optional goods-and-services module (spend-based screening) and hotel

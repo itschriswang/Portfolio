@@ -374,7 +374,7 @@
    then the biggest trip re-counted in the visitor's own lines. */
 .st-trip-bar { display: flex; gap: 2px; margin: 2.2rem 0 0; height: 22px; }
 .st-trip-seg { display: block; height: 100%; border-radius: 3px; }
-.st-trip-seg.trips, .st-trip-legend i.trips { background: var(--fp-flight, #635BFF); }
+.st-trip-seg.trips, .st-trip-legend i.trips { background: var(--fp-flight, #4F48BF); }
 .st-trip-seg.rest, .st-trip-legend i.rest { background: #C9D37E; }
 .st-trip-legend { display: flex; flex-wrap: wrap; gap: 0.5rem 1.8rem; margin-top: 0.8rem; }
 .st-trip-legend span { display: inline-flex; align-items: baseline; gap: 0.5rem; }

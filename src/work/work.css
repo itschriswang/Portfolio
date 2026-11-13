@@ -17,11 +17,12 @@
 .page-work p{ text-wrap:pretty; }
 
 /* ---- Intro ---- */
-/* The intro opens the way the home page does: the --night ground with one faint lime glow, white type, lime on a single word. The tree rings stay a
+/* The intro opens the way the home page does: the --night ground with one
+   soft plum glow, white type, lime on a single word. The tree rings stay a
    home-page signature; the contour field carries the backdrop here, in its
    dark tone. */
 #work-intro{
-  background:radial-gradient(55% 70% at 0% 0%, rgba(208,240,85,0.08), transparent 65%), var(--night);
+  background:radial-gradient(55% 70% at 0% 0%, rgba(232,83,152,0.16), transparent 65%), var(--night);
   color:#fff; border-bottom:1px solid rgba(255,255,255,0.14);
   padding:clamp(3.5rem,9vw,6rem) 0 clamp(3rem,7vw,5rem); overflow:hidden; position:relative;
 }
