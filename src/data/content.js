@@ -24,16 +24,6 @@ export function yearsSince(startISO, now = Date.now()) {
   return Math.max(0, Math.round(years));
 }
 
-const NUMBER_WORDS = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve'];
-
-// "Five years": the bio says in words what the hero counter shows in figures,
-// from the same start date and the same rounding.
-function yearsInWords(startISO) {
-  const y = yearsSince(startISO);
-  const word = NUMBER_WORDS[y] ?? String(y);
-  return `${word} year${y === 1 ? '' : 's'}`;
-}
-
 const SUSTAINABILITY_START = '2022-02-01';
 const PROFESSIONAL_START = '2020-03-01';
 
@@ -57,9 +47,9 @@ export const HERO = {
 export const BIO_TAG = { tag: 'Profile', idx: '00 / ' };
 
 export const BIO_PARAS = [
-  'At ASX-listed Downer Group I rebuilt the workbook behind our statutory National Greenhouse and Energy Reporting (NGER) report with checks that tie its totals to the assured data, loaded the regulator\'s system from it and wrote the method down, for my manager to review and submit. I also help prepare the Group greenhouse gas inventory for limited assurance, with my manager and a colleague. I built the Net Zero pathway model our business units\' decarbonisation plans run on, and ran the FY27 emissions budget cycle for four business units.',
-  `I have spent ${yearsInWords(SUSTAINABILITY_START).toLowerCase()} in sustainability, the first four as a consultant at WSP and now in-house. At WSP I delivered a NSW water business's first Scope 1, 2 and 3 baseline, including wastewater, helped deliver limited assurance of a property trust's emissions data each year and led a GRESB submission for an electricity network. Before that I worked on the owner's side at the Department of Defence, administering $1.3 billion of capital works contracts.`,
-  'I went to an agricultural high school, which taught me early that a business has to grow without using up what it depends on. In my own time I built Life Footprint, a public carbon calculator for anyone who wants to see their footprint clearly enough to change it.',
+  'I\'m a Senior Sustainability Advisor at Downer Group. I help prepare the greenhouse gas figures Downer reports to the government and investors, check them against the source data, and build the models the business uses to plan its path to net zero.',
+  'Before Downer I spent four years as a sustainability consultant at WSP, working with property, water, energy and government clients. I started my career at the Department of Defence, administering $1.3 billion of capital works contracts.',
+  'In my own time I built Life Footprint, a free calculator that shows anyone where their own emissions come from.',
 ];
 
 export const OUTCOMES = [
@@ -100,7 +90,7 @@ export const PIPELINE = [
     step: 'report', n: '03', label: 'Reporting', icon: 'chart', color: 'var(--step-report)',
     desc: 'Statutory reporting and disclosure across NGER, AASB S2, GRESB and CDP.',
     examples: [
-      { title: 'NGER statutory report', body: 'Rebuilt Downer\'s National Greenhouse and Energy Reporting (NGER) workbook with checks that tie its totals to the assured data and test the NGER facility and aggregation rules, and wrote the method down for next year\'s report. Loaded the Clean Energy Regulator\'s system from it and reconciled it to the assured data with every difference explained, as data manager and reviewer, for my manager\'s review and submission.', outcome: 'FY26 NGER report, Downer Group' },
+      { title: 'NGER statutory report', body: 'Rebuilt Downer\'s National Greenhouse and Energy Reporting (NGER) workbook with checks that tie its totals to the assured data and test the NGER facility and aggregation rules. Loaded the Clean Energy Regulator\'s system from it, as data manager and reviewer, for my manager\'s review and submission.', outcome: 'FY26 NGER report, Downer Group' },
       { title: 'CDP 2026 and the S&P Corporate Sustainability Assessment', body: 'Submitted Downer\'s CDP 2026 response and the S&P Corporate Sustainability Assessment, from first draft to submission, and built the sign-off pack that laid out the CDP response\'s open points for decision.', outcome: 'Two investor questionnaires submitted, Downer Group' },
       { title: 'AASB S2 climate statement: physical risk', body: 'Management adopted the method I recommended for the physical risk analysis behind Downer\'s AASB S2 climate statement, from three ready-to-adopt options I set out. I developed the analysis across three SSP scenarios and drafted the basis of preparation paragraphs for its method.', outcome: 'FY26 climate statement under AASB S2, Downer Group' },
       { title: 'GRESB Infrastructure Assessment', body: 'Led a GRESB Infrastructure submission for a major NSW electricity distribution network on behalf of its institutional investor, built the data collection, gap analysis and mock scoring procedures behind it, and supported every one of the client\'s submissions from its first.', outcome: 'Score up 35% and global ranking up 63%, WSP in Australia' },
