@@ -13,7 +13,6 @@ import CaseStudy from './CaseStudy';
 import SiteFooter from '../components/SiteFooter';
 import Mark from '../components/Mark';
 import Icon from '../components/Icons';
-import Aurora from '../components/Aurora';
 import ContourField from '../components/ContourField';
 
 function WorkNav() {
@@ -238,14 +237,7 @@ export default function WorkApp() {
 
       <main id="main-content" className="page-work">
       <section id="work-intro">
-        <div className="bloom-wrap" aria-hidden="true"><div className="bloom bloom-a" /><div className="bloom bloom-b" /><div className="bloom bloom-c" /></div>
-        <Aurora
-          colorStops={['#635BFF', '#B5C42B', '#FF9500', '#FF3B60']}
-          amplitude={0.6}
-          blend={0.5}
-          opacity={0.2}
-        />
-        <ContourField />
+        <ContourField tone="dark" />
         <div className="canvas" style={{ position: 'relative', zIndex: 1 }}>
           <div className="sec-tag" data-idx="01 / "><Icon name="chart" size={30} />{WORK_INTRO.tag}</div>
           <h1 className="wi-title display"><SplitText text={WORK_INTRO.title[0]} /> <SplitText text={WORK_INTRO.title[1]} accentIndex={1} /></h1>

@@ -43,6 +43,10 @@ html { scroll-behavior: smooth; overflow-x: clip; color-scheme: light; }
   --forest:#21300F;
   --forest-2:#31461A;
   --forest-ink:#5E6B1E;
+  /* Night: the one dark ground, shared by the home hero, the tools band and the
+     work page's intro, so the site has one dark used on purpose rather than
+     two that look like an accident. Near-black with the faintest green lean. */
+  --night:#12120E;
   /* Green-as-text roles, kept separate from the surface greens above:
      --matcha is a FILL only (glyph accents on dark, aurora, icon dots,
      hover backgrounds) — it fails contrast as text on any light surface.
@@ -356,7 +360,7 @@ section { position:relative; }
    single soft plum glow, white type and one accent (lime), the restraint the
    BodyTea hub proved.
    Tokens are local so nothing else on the page picks them up. */
-#about{ --hero-ink:#12120E; --hero-line:rgba(255,255,255,0.14);
+#about{ --hero-ink:var(--night); --hero-line:rgba(255,255,255,0.14);
   background:
     radial-gradient(55% 70% at 0% 0%, rgba(255,59,96,0.16), transparent 65%),
     var(--hero-ink);
@@ -759,14 +763,16 @@ section { position:relative; }
    Dark on purpose: it breaks the run of light sections at the point a reader
    is being asked to look at built work, and it puts the tool cards in the same
    visual family as the site's Open Graph share cards.
-   Every colour below is checked against the forest band, which is why the
-   indigo used elsewhere on this page never appears here: it fails on dark.
+   The ground is --night, the same near-black as the hero, with a faint lime
+   glow in the far corners in place of the hero's plum. Every colour below is
+   checked against it, which is why the indigo used elsewhere on this page
+   never appears here: it fails on dark.
    ============================================================================ */
 #tools, .tools-band{
   background:
-    radial-gradient(ellipse 70% 55% at 12% 0%,rgba(193,224,67,0.10) 0%,transparent 60%),
-    radial-gradient(ellipse 60% 50% at 92% 100%,rgba(181,196,43,0.08) 0%,transparent 62%),
-    linear-gradient(170deg,var(--forest) 0%,#1A2A0B 60%,var(--forest) 100%);
+    radial-gradient(ellipse 60% 55% at 100% 100%,rgba(208,240,85,0.09) 0%,transparent 62%),
+    radial-gradient(ellipse 50% 45% at 0% 0%,rgba(208,240,85,0.05) 0%,transparent 60%),
+    var(--night);
   padding:clamp(4.5rem,10vw,7.5rem) 0 clamp(5rem,11vw,8rem);
   overflow:hidden;
 }

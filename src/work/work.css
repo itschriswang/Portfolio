@@ -17,13 +17,24 @@
 .page-work p{ text-wrap:pretty; }
 
 /* ---- Intro ---- */
-#work-intro{ background:linear-gradient(168deg,var(--lime-soft) 0%,var(--lime-wash) 34%,var(--bg) 82%); border-bottom:1px solid var(--rule-dk); padding:clamp(3.5rem,9vw,6rem) 0 clamp(3rem,7vw,5rem); overflow:hidden; }
-.wi-title{ font-size:clamp(2.8rem,9.5vw,7rem); line-height:0.82; letter-spacing:-0.05em; margin:1.2rem 0 1.2rem; }
-.wi-title em{ color:var(--forest-ink); font-style:normal; }
-.wi-sub{ font-size:clamp(0.95rem,1.4vw,1.15rem); font-weight:400; color:var(--ink-2); max-width:560px; line-height:1.7; margin-bottom:1.75rem; }
-.wi-back{ font-family:var(--mono); font-size:12px; padding:0.65rem 0; letter-spacing:0.18em; text-transform:uppercase; color:var(--w-ink2); text-decoration:none; display:inline-flex; align-items:center; gap:0.5rem; transition:color 0.3s var(--ease); }
-.wi-back:hover{ color:var(--forest); }
-.wi-back span{ color:var(--matcha); }
+/* The intro opens the way the home page does: the --night ground with one
+   soft plum glow, white type, lime on a single word. The tree rings stay a
+   home-page signature; the contour field carries the backdrop here, in its
+   dark tone. */
+#work-intro{
+  background:radial-gradient(55% 70% at 0% 0%, rgba(255,59,96,0.16), transparent 65%), var(--night);
+  color:#fff; border-bottom:1px solid rgba(255,255,255,0.14);
+  padding:clamp(3.5rem,9vw,6rem) 0 clamp(3rem,7vw,5rem); overflow:hidden; position:relative;
+}
+#work-intro #contour-field{ opacity:0.35; }
+#work-intro .sec-tag{ color:var(--sage-2); }
+#work-intro .sec-tag::before{ color:var(--lime); }
+.wi-title{ font-size:clamp(2.8rem,9.5vw,7rem); line-height:0.82; letter-spacing:-0.05em; margin:1.2rem 0 1.2rem; color:#fff; --split-accent:var(--lime-bright); }
+.wi-title em{ color:var(--lime-bright); font-style:normal; }
+.wi-sub{ font-size:clamp(0.95rem,1.4vw,1.15rem); font-weight:400; color:rgba(255,255,255,0.78); max-width:560px; line-height:1.7; margin-bottom:1.75rem; }
+.wi-back{ font-family:var(--mono); font-size:12px; padding:0.65rem 0; letter-spacing:0.18em; text-transform:uppercase; color:rgba(255,255,255,0.72); text-decoration:none; display:inline-flex; align-items:center; gap:0.5rem; transition:color 0.3s var(--ease); }
+.wi-back:hover{ color:var(--lime-bright); }
+.wi-back span{ color:var(--lime-bright); }
 
 /* ---- Narrative lead-in: the through-line before the frameworks ---- */
 #work-narrative{ background:var(--bg); padding:clamp(3.5rem,8vw,5.5rem) 0 clamp(0.5rem,2vw,1.5rem); }
