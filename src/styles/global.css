@@ -352,7 +352,15 @@ section { position:relative; }
 /* ============================================================================
    HERO / ABOUT
    ============================================================================ */
-#about{ background:linear-gradient(168deg,color-mix(in srgb,var(--lime) 40%,var(--lime-soft)) 0%,var(--lime-soft) 28%,var(--lime-wash) 55%,var(--bg) 85%); border-bottom:1px solid var(--rule-dk); padding:0 0 clamp(3rem,7vw,6rem); overflow:hidden; }
+/* The hero is the one dark band at the top of the home page: near-black with a
+   single soft plum glow, white type and one accent (lime), the restraint the
+   BodyTea hub proved.
+   Tokens are local so nothing else on the page picks them up. */
+#about{ --hero-ink:#12120E; --hero-line:rgba(255,255,255,0.14);
+  background:
+    radial-gradient(55% 70% at 0% 0%, rgba(255,59,96,0.16), transparent 65%),
+    var(--hero-ink);
+  color:#fff; border-bottom:1px solid var(--hero-line); padding:0 0 clamp(3rem,7vw,6rem); overflow:hidden; }
 .bloom-wrap{ position:absolute; inset:0; pointer-events:none; overflow:hidden; z-index:0; }
 .bloom{ position:absolute; border-radius:50%; filter:blur(90px); mix-blend-mode:multiply; }
 .bloom-a{ width:560px; height:380px; background:radial-gradient(ellipse,rgba(181,196,43,0.10) 0%,transparent 70%); top:-60px; left:-80px; animation:bloomA 26s ease-in-out infinite; }
@@ -364,45 +372,63 @@ section { position:relative; }
 #contour-field{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:0; opacity:0.55; }
 #aurora-field{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:0; mix-blend-mode:multiply; }
 #aurora-field canvas{ display:block; width:100%; height:100%; }
+/* Tree-ring cross-section under the stat tiles, pushed into the band's
+   bottom-right corner so the hero's own edges crop it. It is drawn inside
+   .instr-stack and anchored to the tiles' right edge, with its centre a little
+   below them, so the tiles sit on its upper-left and the pith stays in view.
+   Decoration only; the rings grow outward once on load (skipped under reduced
+   motion, where Hero omits the .tr-grow class). */
+#about{ --ring:min(44vw,640px); --ring-in:4rem; --ring-drop:10rem; }
+#about #contour-field{ opacity:0.35; }
+.instr-stack{ position:relative; }
+.tree-rings{ position:absolute; z-index:0; pointer-events:none; width:var(--ring); aspect-ratio:1; right:calc(var(--ring) * -0.5 + var(--ring-in)); top:calc(var(--ring-drop) - var(--ring) * 0.5); }
+.tree-rings svg{ display:block; width:100%; height:100%; overflow:visible; }
+.tr-rays{ opacity:0.04; }
+.tr-wait .tr-ring{ opacity:0; }
+.tr-grow .tr-ring{ transform-box:view-box; transform-origin:center; animation:trGrow 1.1s var(--ease) both; animation-delay:calc(var(--i) * 14ms); }
+@keyframes trGrow{ from{ transform:scale(0.2); opacity:0; } to{ transform:scale(1); opacity:1; } }
+@media (max-width:680px){
+  #about{ --ring:96vw; --ring-in:3rem; --ring-drop:9.5rem; }
+}
 
 .hero-grid{ position:relative; z-index:1; row-gap:0; align-items:end; padding-top:clamp(2.5rem,7vw,5rem); }
 .hero-name{
   grid-column:1 / 13; position:relative; z-index:2;
   font-size:clamp(1.7rem,7.1vw,6rem); line-height:0.8; letter-spacing:-0.04em;
   margin-bottom:0.1em;
-  --split-accent:var(--forest);
+  --split-accent:#fff; color:#fff;
 }
 /* SplitText's accent word falls back to --matcha, which is a fill and sits
    under 2:1 as text on the light home bands. The home page takes the ink
    variant instead; the dark tools band and the hero set their own. */
 .page-home{ --split-accent:var(--accent-ink); }
-.hero-name em{ color:var(--forest-ink); font-style:normal; }
+.hero-name em{ color:#fff; font-style:normal; }
 .hero-side{ grid-column:1 / 10; align-self:start; margin-top:clamp(1rem,2.5vw,1.8rem); }
 @media(max-width:680px){
-  .hero-name{ grid-column:1 / 5; font-size:clamp(2.5rem,12.5vw,3.4rem); line-height:0.85; }
+  .hero-name{ grid-column:1 / 5; font-size:clamp(2.7rem,14vw,3.8rem); line-height:0.9; }
   .hero-side{ grid-column:1 / 5; margin-top:1.2rem; }
 }
 .role-cycle{
   font-family:var(--disp); font-size:clamp(1.35rem,3.4vw,2.5rem); font-weight:700;
-  letter-spacing:-0.035em; color:var(--forest-ink); line-height:1.02; display:inline-block;
+  letter-spacing:-0.035em; color:rgba(255,255,255,0.62); line-height:1.02; display:inline-block;
   text-align:left; max-width:100%;
 }
 @media(max-width:680px){
-  .role-cycle{ font-size:1.05rem; }
+  .role-cycle{ font-size:1.2rem; color:rgba(255,255,255,0.72); }
 }
-.hero-meta{ font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:color-mix(in oklch, var(--slate) 90%, transparent); margin-top:0.8rem; display:flex; flex-direction:column; gap:0.3rem; }
+.hero-meta{ font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:rgba(255,255,255,0.72); margin-top:0.8rem; display:flex; flex-direction:column; gap:0.3rem; }
 
 .hero-lower{ position:relative; z-index:2; margin-top:clamp(1.5rem,5vw,3rem); align-items:start; }
 .hero-prop{
   grid-column:1 / 8; font-weight:400; font-size:clamp(1rem,1.6vw,1.3rem); line-height:1.6;
-  color:#3f5133; padding:0;
+  color:rgba(255,255,255,0.8); padding:0;
 }
 .hero-cta{ grid-column:1 / 8; display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1.5rem; }
 /* Confident solid blocks (lime, then forest) replacing the earlier
    translucent-wash tiles — the pairing already proven in the footer card. */
 .instr-stack{ grid-column:9 / 13; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0.7rem; margin-top:0.2rem; }
 @media(max-width:680px){
-  .hero-prop{ grid-column:1 / 4; grid-row:1; font-size:0.95rem; }
+  .hero-prop{ grid-column:1 / 5; grid-row:1; font-size:0.95rem; line-height:1.55; }
   .hero-cta{ grid-column:1 / 5; grid-row:2; }
   .instr-stack{ grid-column:1 / 5; grid-row:3; margin-top:1.4rem; }
 }
@@ -411,11 +437,13 @@ section { position:relative; }
   border-radius:var(--r-xl); box-shadow:var(--shadow-card); padding:1.2rem 1.3rem;
   display:flex; flex-direction:column; justify-content:space-between; min-height:7.5rem;
 }
-.instr:nth-child(2){ background:var(--forest); }
+.instr{ position:relative; z-index:1; }
+/* The dark tile is glass over the rings, so the lines read faintly through it. */
+.instr + .instr{ background:rgba(22,23,16,0.66); -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px); box-shadow:inset 0 0 0 1px var(--hero-line, rgba(255,255,255,0.14)); }
 .instr-lbl{ font-family:var(--mono); font-size:11px; letter-spacing:0.05em; text-transform:uppercase; color:var(--forest-2); line-height:1.4; margin-bottom:0.5rem; font-weight:600; }
-.instr:nth-child(2) .instr-lbl{ color:var(--lime); }
+.instr + .instr .instr-lbl{ color:var(--lime); }
 .instr-val{ font-family:var(--disp); font-size:clamp(2rem,4vw,2.6rem); font-weight:700; color:var(--forest); line-height:1; letter-spacing:-0.02em; }
-.instr:nth-child(2) .instr-val{ color:var(--lime-bright); }
+.instr + .instr .instr-val{ color:var(--lime-bright); }
 
 /* ============================================================================
    BIO + PIPELINE
@@ -1258,4 +1286,53 @@ a.footer-cta-btn[target="_blank"]::after{ content:none; }
    iOS Safari zooms at. */
 @media (pointer: coarse), (max-width:680px){
   .gate-input{ font-size:16px; }
+}
+
+/* Hero controls on the dark ground: a lime pill and a hairline pill. */
+#about .btn{ border-radius:999px; }
+.page-home #about .btn-primary{ background:var(--lime-bright); color:var(--forest); border-color:var(--lime-bright); }
+.page-home #about .btn-primary:hover{ background:#fff; border-color:#fff; }
+.page-home #about .btn-secondary{ color:#fff; border-color:rgba(255,255,255,0.35); }
+.page-home #about .btn-secondary:hover{ color:var(--lime-bright); border-color:var(--lime-bright); background:transparent; }
+#about .hero-meta svg{ color:#fff; }
+
+/* MOBILE HERO PACING. The phone hero paces itself to the screen it is on.
+
+   Every gap, and the name itself, scales with the screen's height (svh, the
+   height left while the browser's toolbars show, so nothing jumps as they
+   slide away), clamped so a short phone tightens without cramping and a tall
+   one opens up without drifting apart.
+
+   Then Hero measures whether the whole first screen fits (usePace in
+   Hero.jsx: width matters as much as height, since a narrow phone wraps the
+   paragraph onto more lines) and sets data-pace on the band:
+   - "one": it fits (a Pro Max, a tall Android). One composed screen, the
+     year tiles on the rings at its foot.
+   - "two": it does not (an SE, a 15 in Safari). Two beats. The first screen
+     is who and what, with the rings' upper arcs at its foot; the tiles land
+     just below it whole, never cut by the screen's edge, and the rings grow
+     and the years count as they arrive. On a phone too short for even the
+     first beat, the padding above the tiles keeps the same peek.
+   Before the measurement lands (and without script) the band takes the
+   two-beat layout, which never cuts a tile. */
+@media (max-width:680px){
+  #about{
+    --hp-top:clamp(1.5rem, 5svh, 3.25rem);
+    --hp-beat:clamp(1.5rem, 5svh, 3rem);
+    --hp-step:clamp(0.75rem, 1.8svh, 1.2rem);
+    --hp-cta:clamp(1.25rem, 3.6svh, 2.25rem);
+    display:flex; flex-direction:column; padding-bottom:2rem;
+    min-height:calc(100svh - var(--nav-h, 53px) + 10.5rem); --ring-drop:6.5rem;
+  }
+  #about .hero-name{ font-size:clamp(2.4rem, min(14vw, 8svh), 3.8rem); }
+  #about .role-cycle{ font-size:clamp(1.05rem, min(5vw, 2.6svh), 1.3rem); }
+  #about .hero-grid{ padding-top:var(--hp-top); }
+  #about .hero-side{ margin-top:var(--hp-step); }
+  #about .hero-meta{ margin-top:var(--hp-step); }
+  #about .hero-lower{ flex:1; display:flex; flex-direction:column; align-items:stretch; margin-top:var(--hp-beat); }
+  #about .hero-prop{ color:rgba(255,255,255,0.74); line-height:1.65; font-size:clamp(0.92rem, 2.2svh, 1rem); }
+  #about .hero-cta{ margin-top:var(--hp-cta); }
+  #about .instr-stack{ margin-top:auto; padding-top:clamp(5rem, 14svh, 7rem); }
+  #about[data-pace="one"]{ min-height:calc(100svh - var(--nav-h, 53px)); --ring-drop:9rem; }
+  #about[data-pace="one"] .instr-stack{ padding-top:3rem; }
 }

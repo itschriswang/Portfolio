@@ -39,9 +39,9 @@ const PROFESSIONAL_START = '2020-03-01';
 
 export const HERO = {
   name: ['Chris', 'Wang'],
-  roles: ['Senior Sustainability Advisor', 'GHG Accounting and ESG Reporting', 'Decarbonisation and Net Zero'],
+  roles: ['Senior Sustainability Advisor', 'ESG Reporting and Assurance', 'Decarbonisation and Net Zero'],
   location: 'Melbourne, Australia',
-  prop: 'I build the greenhouse gas numbers large organisations report to regulators and investors, and the net zero pathways they plan on.',
+  prop: 'I deliver emissions and ESG reporting that holds up under assurance, and turn it into net zero plans the business can act on. Consulting at WSP, now in-house at an ASX-listed group, across NGER, AASB S2 and GRESB.',
   ctas: [
     { label: 'Get in touch', href: '#contact', primary: true, icon: 'linkedin' },
   ],
