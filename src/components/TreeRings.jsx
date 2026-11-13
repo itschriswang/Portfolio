@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 
-// A cross-section of a tree, drawn as one vector. It is decoration: it carries
+// A cross-section of a tree, drawn as one vector in line-work on the dark hero. It is decoration: it carries
 // no data and makes no claim, so it is aria-hidden and has no caption. What it
-// does is bring the site's accent colours (amber, matcha, lime, indigo, berry)
-// into the first screen at full strength, in a shape that suits the work.
+// does is bring the site's accent colours (amber, lime, indigo, berry) into the
+// first screen at full strength, in a shape that suits the work.
 //
 // Everything is generated once from a fixed seed, so the drawing is the same on
 // every visit and in every build. Rings are closed paths whose radius wobbles
@@ -35,11 +35,11 @@ function ramp(stops, t) {
   return 'rgb(' + a.map((v, k) => Math.round(v + (b[k] - v) * f)).join(',') + ')';
 }
 
-// Wood tone from heart to sapwood: warm amber at the pith, through the lime
-// family, to a sage-green rim. Latewood (the thin dark line closing each ring)
-// is the forest family.
-const EARLY = ['#FFB84A', '#F2D24B', '#D0F055', '#C1E043', '#B5C42B', '#C9DDA0'];
-const LATE = ['#B5650A', '#7A8A12', '#5E6B1E', '#31461A', '#21300F'];
+// Drawn for the dark hero: near-black wood with each ring picked out in a thin
+// line that runs from amber at the pith, through lime, to a quiet olive at the
+// rim. Accent years take the site's berry and indigo, plus one white ring.
+const WOOD = ['#2B2412', '#1F2012', '#191A10', '#15160E'];
+const LINE = ['#FF9500', '#F2D24B', '#D0F055', '#C1E043', '#B2C633', '#8FA02A'];
 
 function build() {
   const rnd = mulberry32(2910);
@@ -86,7 +86,7 @@ function build() {
   };
 
   // Accent years: the colours that make the rings read as a palette.
-  const accents = { 8: '#FF9500', 19: '#FF3B60', 25: '#635BFF', 31: '#FF9500', 40: '#635BFF' };
+  const accents = { 8: '#FF9500', 19: '#FF3B60', 25: '#8A83FF', 31: '#F4F7E8', 40: '#8A83FF' };
 
   const rings = [];
   for (let k = RINGS - 1; k >= 0; k--) {
@@ -95,9 +95,9 @@ function build() {
     rings.push({
       k,
       d: ringPath(k),
-      fill: ramp(EARLY, t * 0.98 + (rnd() - 0.5) * 0.04),
-      stroke: accents[k] || ramp(LATE, t),
-      sw: accents[k] ? 2.4 : narrow ? 1.7 : 1.0 + rnd() * 0.5,
+      fill: ramp(WOOD, t),
+      stroke: accents[k] || ramp(LINE, t),
+      sw: accents[k] ? 2.2 : narrow ? 1.5 : 0.8 + rnd() * 0.4,
       accent: Boolean(accents[k]),
     });
   }
@@ -139,8 +139,14 @@ export default function TreeRings({ still }) {
   return (
     <div className={'tree-rings' + (still ? '' : ' tr-grow')} aria-hidden="true">
       <svg viewBox={`${-HALF} ${-HALF} ${SIZE} ${SIZE}`} focusable="false">
-        <path d={g.barkOuter} fill="#21300F" />
-        <path d={g.barkOuter} fill="none" stroke="#31461A" strokeWidth="2" />
+        <defs>
+          <radialGradient id="tr-pith">
+            <stop offset="0" stopColor="#D0F055" stopOpacity="0.55" />
+            <stop offset="1" stopColor="#D0F055" stopOpacity="0" />
+          </radialGradient>
+        </defs>
+        <path d={g.barkOuter} fill="#0B0C07" />
+        <path d={g.barkOuter} fill="none" stroke="#D0F055" strokeOpacity="0.45" strokeWidth="1.2" />
         {g.rings.map((r) => (
           <path
             key={r.k}
@@ -153,12 +159,12 @@ export default function TreeRings({ still }) {
             strokeLinejoin="round"
           />
         ))}
-        <g className="tr-rays" stroke="#21300F" strokeWidth="0.5" strokeLinecap="round">
+        <g className="tr-rays" stroke="#F4F7E8" strokeWidth="0.5" strokeLinecap="round">
           {g.rays.map((l, i) => <line key={i} x1={l[0]} y1={l[1]} x2={l[2]} y2={l[3]} />)}
         </g>
-        {g.cracks.map((d, i) => <path key={i} d={d} fill="#21300F" fillOpacity="0.72" />)}
-        <circle r="3.2" fill="#B5650A" />
-        <circle r="1.2" fill="#21300F" />
+        {g.cracks.map((d, i) => <path key={i} d={d} fill="#070804" fillOpacity="0.9" stroke="#D0F055" strokeOpacity="0.4" strokeWidth="0.8" />)}
+        <circle r="16" fill="url(#tr-pith)" />
+        <circle r="2.6" fill="#D0F055" />
       </svg>
     </div>
   );

@@ -352,7 +352,16 @@ section { position:relative; }
 /* ============================================================================
    HERO / ABOUT
    ============================================================================ */
-#about{ background:linear-gradient(168deg,color-mix(in srgb,var(--lime) 40%,var(--lime-soft)) 0%,var(--lime-soft) 28%,var(--lime-wash) 55%,var(--bg) 85%); border-bottom:1px solid var(--rule-dk); padding:0 0 clamp(3rem,7vw,6rem); overflow:hidden; }
+/* The hero is the one dark band at the top of the home page: near-black with a
+   plum glow, electric lime and white type, the look the BodyTea hub proved.
+   Tokens are local so nothing else on the page picks them up. */
+#about{ --hero-ink:#12120E; --hero-line:rgba(255,255,255,0.14);
+  background:
+    radial-gradient(60% 75% at 0% 0%, rgba(255,59,96,0.30), transparent 62%),
+    radial-gradient(48% 60% at 100% 6%, rgba(99,91,255,0.26), transparent 64%),
+    radial-gradient(40% 40% at 72% 100%, rgba(208,240,85,0.12), transparent 70%),
+    var(--hero-ink);
+  color:#fff; border-bottom:1px solid var(--hero-line); padding:0 0 clamp(3rem,7vw,6rem); overflow:hidden; }
 .bloom-wrap{ position:absolute; inset:0; pointer-events:none; overflow:hidden; z-index:0; }
 .bloom{ position:absolute; border-radius:50%; filter:blur(90px); mix-blend-mode:multiply; }
 .bloom-a{ width:560px; height:380px; background:radial-gradient(ellipse,rgba(181,196,43,0.10) 0%,transparent 70%); top:-60px; left:-80px; animation:bloomA 26s ease-in-out infinite; }
@@ -363,31 +372,36 @@ section { position:relative; }
 @keyframes bloomC{0%,100%{transform:translate(0,0)}50%{transform:translate(18px,-16px)}}
 #contour-field{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:0; opacity:0.55; }
 #aurora-field{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:0; mix-blend-mode:multiply; }
+#about #aurora-field{ mix-blend-mode:screen; }
 #aurora-field canvas{ display:block; width:100%; height:100%; }
-/* Tree-ring cross-section behind the hero, cropped by the band's right edge.
-   Decoration only; the rings grow outward once on load (skipped under reduced
-   motion, where Hero omits the .tr-grow class). */
-.tree-rings{ position:absolute; z-index:0; pointer-events:none; width:min(46vw,660px); aspect-ratio:1; right:clamp(-12rem,-8vw,-3rem); top:clamp(0.5rem,1.2vw,1rem); filter:drop-shadow(0 28px 44px rgba(33,48,15,0.22)); }
+/* Tree-ring cross-section in the hero's right column, above the stat tiles
+   (the tiles are pushed down by --ring so the two never overlap). Decoration
+   only; the rings grow outward once on load (skipped under reduced motion,
+   where Hero omits the .tr-grow class). */
+#about{ --ring:min(31vw,460px); }
+.tree-rings{ position:absolute; z-index:0; pointer-events:none; width:var(--ring); aspect-ratio:1; right:var(--gut); top:clamp(1rem,2vw,1.75rem); filter:drop-shadow(0 0 54px rgba(208,240,85,0.16)); }
 .tree-rings svg{ display:block; width:100%; height:100%; overflow:visible; }
-.tr-rays{ opacity:0.14; }
+.tr-rays{ opacity:0.07; }
 .tr-grow .tr-ring{ transform-box:view-box; transform-origin:center; animation:trGrow 1.1s var(--ease) both; animation-delay:calc(var(--i) * 14ms); }
 @keyframes trGrow{ from{ transform:scale(0.2); opacity:0; } to{ transform:scale(1); opacity:1; } }
-/* The stat tiles sit over the rings, so they take a paper-coloured edge to stay legible. */
-.hero-lower .instr{ box-shadow:0 0 0 3px var(--bg), var(--shadow-card); }
-@media (max-width:680px){ .tree-rings{ width:92vw; right:-38vw; top:auto; bottom:-6vw; opacity:0.4; } }
+@media (min-width:681px){ #about .instr-stack{ margin-top:calc(var(--ring) * 0.2 + 0.5rem); } }
+@media (max-width:680px){
+  #about{ --ring:72vw; padding-bottom:calc(var(--ring) + 4rem); }
+  .tree-rings{ right:auto; left:50%; transform:translateX(-50%); top:auto; bottom:1.75rem; }
+}
 
 .hero-grid{ position:relative; z-index:1; row-gap:0; align-items:end; padding-top:clamp(2.5rem,7vw,5rem); }
 .hero-name{
   grid-column:1 / 13; position:relative; z-index:2;
   font-size:clamp(1.7rem,7.1vw,6rem); line-height:0.8; letter-spacing:-0.04em;
   margin-bottom:0.1em;
-  --split-accent:var(--forest);
+  --split-accent:var(--lime-bright); color:#fff;
 }
 /* SplitText's accent word falls back to --matcha, which is a fill and sits
    under 2:1 as text on the light home bands. The home page takes the ink
    variant instead; the dark tools band and the hero set their own. */
 .page-home{ --split-accent:var(--accent-ink); }
-.hero-name em{ color:var(--forest-ink); font-style:normal; }
+.hero-name em{ color:var(--lime-bright); font-style:normal; }
 .hero-side{ grid-column:1 / 10; align-self:start; margin-top:clamp(1rem,2.5vw,1.8rem); }
 @media(max-width:680px){
   .hero-name{ grid-column:1 / 5; font-size:clamp(2.5rem,12.5vw,3.4rem); line-height:0.85; }
@@ -395,18 +409,18 @@ section { position:relative; }
 }
 .role-cycle{
   font-family:var(--disp); font-size:clamp(1.35rem,3.4vw,2.5rem); font-weight:700;
-  letter-spacing:-0.035em; color:var(--forest-ink); line-height:1.02; display:inline-block;
+  letter-spacing:-0.035em; color:var(--lime-bright); line-height:1.02; display:inline-block;
   text-align:left; max-width:100%;
 }
 @media(max-width:680px){
   .role-cycle{ font-size:1.05rem; }
 }
-.hero-meta{ font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:color-mix(in oklch, var(--slate) 90%, transparent); margin-top:0.8rem; display:flex; flex-direction:column; gap:0.3rem; }
+.hero-meta{ font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:rgba(255,255,255,0.72); margin-top:0.8rem; display:flex; flex-direction:column; gap:0.3rem; }
 
 .hero-lower{ position:relative; z-index:2; margin-top:clamp(1.5rem,5vw,3rem); align-items:start; }
 .hero-prop{
   grid-column:1 / 8; font-weight:400; font-size:clamp(1rem,1.6vw,1.3rem); line-height:1.6;
-  color:#3f5133; padding:0;
+  color:rgba(255,255,255,0.8); padding:0;
 }
 .hero-cta{ grid-column:1 / 8; display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1.5rem; }
 /* Confident solid blocks (lime, then forest) replacing the earlier
@@ -422,7 +436,7 @@ section { position:relative; }
   border-radius:var(--r-xl); box-shadow:var(--shadow-card); padding:1.2rem 1.3rem;
   display:flex; flex-direction:column; justify-content:space-between; min-height:7.5rem;
 }
-.instr:nth-child(2){ background:var(--forest); }
+.instr:nth-child(2){ background:#1D1E17; box-shadow:inset 0 0 0 1px var(--hero-line, rgba(255,255,255,0.14)); }
 .instr-lbl{ font-family:var(--mono); font-size:11px; letter-spacing:0.05em; text-transform:uppercase; color:var(--forest-2); line-height:1.4; margin-bottom:0.5rem; font-weight:600; }
 .instr:nth-child(2) .instr-lbl{ color:var(--lime); }
 .instr-val{ font-family:var(--disp); font-size:clamp(2rem,4vw,2.6rem); font-weight:700; color:var(--forest); line-height:1; letter-spacing:-0.02em; }
@@ -1270,3 +1284,11 @@ a.footer-cta-btn[target="_blank"]::after{ content:none; }
 @media (pointer: coarse), (max-width:680px){
   .gate-input{ font-size:16px; }
 }
+
+/* Hero controls on the dark ground: a lime pill and a hairline pill. */
+#about .btn{ border-radius:999px; }
+.page-home #about .btn-primary{ background:var(--lime-bright); color:var(--forest); border-color:var(--lime-bright); }
+.page-home #about .btn-primary:hover{ background:#fff; border-color:#fff; }
+.page-home #about .btn-secondary{ color:#fff; border-color:rgba(255,255,255,0.35); }
+.page-home #about .btn-secondary:hover{ color:var(--lime-bright); border-color:var(--lime-bright); background:transparent; }
+#about .hero-meta svg{ color:#fff; }

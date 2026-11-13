@@ -74,12 +74,12 @@ export default function Hero() {
   return (
     <section id="about">
       <Aurora
-        colorStops={['#635BFF', '#B5C42B', '#FF9500', '#FF3B60']}
+        colorStops={['#FF3B60', '#635BFF', '#D0F055', '#FF9500']}
         amplitude={0.6}
         blend={0.5}
-        opacity={0.34}
+        opacity={0.3}
       />
-      <ContourField />
+      <ContourField tone="dark" />
       <TreeRings still={still} />
 
       <div className="canvas matrix hero-grid">

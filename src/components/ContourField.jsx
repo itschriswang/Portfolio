@@ -3,7 +3,7 @@ import { prefersReducedMotion } from '../utils/media';
 
 // Animated emissions topology (marching squares), ported from the original.
 // Reads as a soft background texture behind the hero.
-export default function ContourField() {
+export default function ContourField({ tone = 'light' }) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -56,7 +56,9 @@ export default function ContourField() {
             }
           }
         }
-        ctx.strokeStyle = hi ? 'rgba(139,160,30,0.18)' : 'rgba(15,23,42,0.05)';
+        ctx.strokeStyle = tone === 'dark'
+          ? (hi ? 'rgba(208,240,85,0.20)' : 'rgba(255,255,255,0.05)')
+          : (hi ? 'rgba(139,160,30,0.18)' : 'rgba(15,23,42,0.05)');
         ctx.lineWidth = 1;
         ctx.stroke();
       }
@@ -91,7 +93,7 @@ export default function ContourField() {
       if (raf) cancelAnimationFrame(raf);
       if (io) io.disconnect();
     };
-  }, []);
+  }, [tone]);
 
   return <canvas id="contour-field" ref={canvasRef} aria-hidden="true" />;
 }
