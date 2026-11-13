@@ -760,7 +760,7 @@ section { position:relative; }
    bottom of this file (see PAGE-SCOPED ELEVATION). */
 .btn{ display:inline-flex; padding:0.75rem 1.75rem; font-family:var(--sans); font-size:0.85rem; font-weight:600; text-decoration:none; cursor:pointer; transition:background 0.3s var(--ease),border-color 0.3s var(--ease),color 0.3s var(--ease); min-height:44px; align-items:center; gap:0.55rem; }
 .btn-primary{ background:var(--matcha); color:var(--slate); border:1px solid var(--matcha); }
-.btn-primary:hover{ background:#92AB10; border-color:#92AB10; }
+.btn-primary:hover{ background:color-mix(in oklch, var(--matcha) 82%, var(--forest)); border-color:color-mix(in oklch, var(--matcha) 82%, var(--forest)); }
 .btn-secondary{ background:transparent; color:var(--slate); border:1px solid var(--rule-dk); }
 .btn-secondary:hover{ border-color:var(--matcha); color:var(--matcha); }
 .btn .li-icon{ width:16px; height:16px; }
@@ -1249,15 +1249,16 @@ a.footer-cta-btn[target="_blank"]::after{ content:none; }
    PASSPHRASE GATE — the screen in front of the drafts at /lab/ and the tool
    pages it indexes (Gate.jsx). It stands on its own with no nav and no footer:
    there is nothing on the page to navigate yet, and the one link out goes back
-   to the site. Dark, so it reads as a different room rather than a broken page.
+   to the site. Dark, so it reads as a different room rather than a broken page: the
+   site's one dark, --night, the same ground as the tools band it fronts.
    ============================================================================ */
 .gate{
   min-height:100svh; display:flex; align-items:center; justify-content:center;
   padding:clamp(1.5rem,6vw,4rem) 1.25rem;
   background:
-    radial-gradient(ellipse 70% 55% at 12% 0%,rgba(193,224,67,0.10) 0%,transparent 60%),
-    radial-gradient(ellipse 60% 50% at 92% 100%,rgba(181,196,43,0.08) 0%,transparent 62%),
-    linear-gradient(170deg,var(--forest) 0%,#212805 60%,var(--forest) 100%);
+    radial-gradient(ellipse 60% 55% at 100% 100%,rgba(208,240,85,0.09) 0%,transparent 62%),
+    radial-gradient(ellipse 50% 45% at 0% 0%,rgba(208,240,85,0.05) 0%,transparent 60%),
+    var(--night);
 }
 .gate-card{
   width:100%; max-width:430px;

@@ -188,7 +188,7 @@
 
 /* ---- Dark summary band ---- */
 .pr-dark {
-  background: #171C13; color: #F4F6EE;
+  background: var(--night); color: #F4F6EE;
   padding: clamp(4rem, 10vw, 7.5rem) 0;
 }
 .pr-dark-inner { max-width: 1180px; margin: 0 auto; }

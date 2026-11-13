@@ -13,7 +13,7 @@ const H = 1350;
 const INK = '#F4F6EE';
 const MID = '#9AA694';
 const MATCHA = '#B5C42B';
-const BG = '#171C13';
+const BG = '#12120E'; // --night
 const RULE = 'rgba(244,246,238,0.16)';
 
 const DISP = '"Space Grotesk", sans-serif';

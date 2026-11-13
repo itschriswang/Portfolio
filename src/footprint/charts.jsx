@@ -13,7 +13,7 @@ Chart.register(BarController, BarElement, LineController, LineElement, PointElem
 
 const MONO = "'JetBrains Mono',monospace";
 const TOOLTIP_STYLE = {
-  backgroundColor: 'rgba(23,28,19,0.96)', titleColor: '#F4F6EE', bodyColor: 'rgba(244,246,238,0.85)',
+  backgroundColor: 'rgba(18,18,14,0.96)', titleColor: '#F4F6EE', bodyColor: 'rgba(244,246,238,0.85)',
   titleFont: { family: MONO, size: 11 }, bodyFont: { family: MONO, size: 11 },
   borderColor: 'rgba(181,196,43,0.5)', borderWidth: 1,
 };
@@ -30,7 +30,7 @@ const monthLabel = (key) => {
 
 // Pathway series colours, exported so the legend in Plan.jsx renders from the
 // same values the datasets draw with.
-export const PATHWAY_COLORS = { bau: '#6E7469', plan: '#1F2A1E', planFill: 'rgba(117,130,29,0.14)', budget: '#C7274A' };
+export const PATHWAY_COLORS = { bau: '#6E7469', plan: '#1F2A1E', planFill: 'rgba(100,112,18,0.14)', budget: '#C21431' };
 
 // ---------------------------------------------------------------------------
 // Monthly stacked bars by category.

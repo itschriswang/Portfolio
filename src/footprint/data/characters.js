@@ -201,7 +201,7 @@ export const SPIKE_MULTIPLE = 2;
 // under the 2.5 t lifestyle budget on top of whatever character it
 // classifies as.
 export const BADGE = {
-  id: 'pacifist-run', name: 'The Pacifist Run', hex: '#75821D', stencil: S.core,
+  id: 'pacifist-run', name: 'The Pacifist Run', hex: '#647012', stencil: S.core,
   tagline: 'Finished the year, harmed almost nothing.',
 };
 
@@ -216,7 +216,7 @@ export const CHARACTERS = [
     line: 'Under the global average with almost nothing on the clock, and most of it happened in one go. One category, one big day, credits.',
   },
   {
-    id: 'rerun', name: 'The Rerun', hex: '#75821D', stencil: S.loop,
+    id: 'rerun', name: 'The Rerun', hex: '#647012', stencil: S.loop,
     weight: 'feather', shape: 'specialist', rhythm: 'steady',
     tagline: 'The same quiet episode, all year.',
     line: 'One small habit on loop. Nothing new ever airs, which is exactly why the total stays small.',
@@ -240,13 +240,13 @@ export const CHARACTERS = [
     line: 'A careful, tidy ledger with a handful of days that ignored it completely. The everyday barely registers; the exceptions are the inventory.',
   },
   {
-    id: 'season-ticket', name: 'The Season Ticket', hex: '#B56A00', stencil: S.turnstile,
+    id: 'season-ticket', name: 'The Season Ticket', hex: '#955500', stencil: S.turnstile,
     weight: 'middle', shape: 'specialist', rhythm: 'steady',
     tagline: 'The same seat, every single week.',
     line: 'One category on subscription: the commute, the meter, the standing order. The total is built by attendance, one ordinary day at a time.',
   },
   {
-    id: 'festival-season', name: 'The Festival Season', hex: '#C7274A', stencil: S.flare,
+    id: 'festival-season', name: 'The Festival Season', hex: '#C21431', stencil: S.flare,
     weight: 'middle', shape: 'generalist', rhythm: 'spiky',
     tagline: 'Everything happened in one loud stretch.',
     line: 'An ordinary spread of a year that concentrated into one hot window.',
@@ -264,13 +264,13 @@ export const CHARACTERS = [
     line: 'A serious total from a single dominant mode, delivered as an event calendar. The quiet weeks barely register; the dates are the inventory.',
   },
   {
-    id: 'grind', name: 'The Grind', hex: '#B56A00', stencil: S.strata,
+    id: 'grind', name: 'The Grind', hex: '#955500', stencil: S.strata,
     weight: 'heavy', shape: 'specialist', rhythm: 'steady',
     tagline: 'One loop, enormous hours.',
     line: 'A big total built the slow way: the same dominant category, week after week. Nothing ever spiked.',
   },
   {
-    id: 'crossover-event', name: 'The Crossover Event', hex: '#C7274A', stencil: S.converge,
+    id: 'crossover-event', name: 'The Crossover Event', hex: '#C21431', stencil: S.converge,
     weight: 'heavy', shape: 'generalist', rhythm: 'spiky',
     tagline: 'Every storyline converged at once.',
     line: 'Heavy across the board, then the stretch where everything showed up in the same frame.',

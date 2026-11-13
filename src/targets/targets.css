@@ -336,7 +336,7 @@
 .tt-srccount:hover { text-decoration: underline; }
 
 /* ---- Dark spotlight band ---- */
-.tt-dark { background: #171C13; color: #F4F6EE; padding: clamp(4rem, 10vw, 7rem) 0; }
+.tt-dark { background: var(--night); color: #F4F6EE; padding: clamp(4rem, 10vw, 7rem) 0; }
 .tt-dark .sec-tag { color: #A9B4A2; }
 .tt-dark .sec-tag::before { color: var(--matcha); }
 .tt-kicker-dark { color: #A9B4A2; }
