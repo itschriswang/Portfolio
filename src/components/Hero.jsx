@@ -18,7 +18,7 @@ function formatYears(v) {
 function Counter({ target, suffix, still }) {
   const ref = useRef(null);
   const mv = useMotionValue(0);
-  const seen = useInView(ref, { once: true, margin: '0px 0px -12% 0px' });
+  const seen = useInView(ref, { once: true, amount: 0.6 });
   useEffect(() => {
     // Under reduced motion the figure is simply there, not counted up to.
     if (still) {
@@ -71,12 +71,55 @@ function RoleCycle({ roles, still }) {
 // none of that said anything about the work, so the one entrance below is the
 // only motion the text block has, and the aurora and contour field carry the
 // backdrop on their own.
+// On a phone the hero paces itself to the screen it is on. It measures what
+// the first screen has to hold (everything down to the button, then a beat,
+// the year tiles and the band's foot) against the screen's height, and picks:
+// 'one' when it all fits, a single composed screen; 'two' when it does not,
+// so the tiles land just below the first screen in full rather than cut in
+// half by its edge. Width matters as much as height (a narrow phone wraps the
+// paragraph onto more lines), which is why this is measured, not a breakpoint.
+// The layout itself lives in the MOBILE HERO PACING block of global.css.
+const PACE_BEAT = 48;   // px between the button and the tiles in one screen
+const PACE_FOOT = 32;   // the band's bottom padding on a phone
+function usePace(ref) {
+  const [pace, setPace] = useState(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return undefined;
+    const mq = window.matchMedia('(max-width: 680px)');
+    let raf = 0;
+    const measure = () => {
+      if (!mq.matches) { setPace(null); return; }
+      const cta = el.querySelector('.hero-cta');
+      const tile = el.querySelector('.instr');
+      if (!cta || !tile) return;
+      const top = el.getBoundingClientRect().top;
+      const need = cta.getBoundingClientRect().bottom - top + PACE_BEAT + tile.offsetHeight + PACE_FOOT;
+      const nav = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 53;
+      setPace(need <= window.innerHeight - nav ? 'one' : 'two');
+    };
+    const queue = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(measure); };
+    measure();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(queue);
+    window.addEventListener('resize', queue);
+    mq.addEventListener('change', queue);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('resize', queue);
+      mq.removeEventListener('change', queue);
+    };
+  }, [ref]);
+  return pace;
+}
+
 export default function Hero() {
   // Reduced motion: the entrance is skipped and everything renders in place.
   const still = useReducedMotion();
+  const sectionRef = useRef(null);
+  const pace = usePace(sectionRef);
 
   return (
-    <section id="about">
+    <section id="about" ref={sectionRef} data-pace={pace || undefined}>
       <ContourField tone="dark" />
 
       <div className="canvas matrix hero-grid">

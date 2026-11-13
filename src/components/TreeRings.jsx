@@ -140,7 +140,7 @@ export default function TreeRings({ still }) {
   // The rings grow when they reach the screen (below the first screen on a
   // phone), and wait unseen until then. Reduced motion skips both states.
   const ref = useRef(null);
-  const seen = useInView(ref, { once: true, margin: '0px 0px -8% 0px' });
+  const seen = useInView(ref, { once: true, amount: 0.15 });
   const motionClass = still ? '' : seen ? ' tr-grow' : ' tr-wait';
   return (
     <div ref={ref} className={'tree-rings' + motionClass} aria-hidden="true">

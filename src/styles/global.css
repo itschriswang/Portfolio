@@ -1296,22 +1296,43 @@ a.footer-cta-btn[target="_blank"]::after{ content:none; }
 .page-home #about .btn-secondary:hover{ color:var(--lime-bright); border-color:var(--lime-bright); background:transparent; }
 #about .hero-meta svg{ color:#fff; }
 
-/* MOBILE HERO PACING. On a phone the hero reads in two beats. The first
-   screen is who and what: name, role and place, then the paragraph and the
-   button, each group given its own room. The proof (the year tiles on the
-   rings) is the second beat: the hero is sized so the tiles land just below
-   the first screen, with the rings' upper arcs showing at its foot to invite
-   the scroll, and the rings grow and the years count as they arrive. svh, not
-   vh, so the browser's toolbars never change where the first screen ends. On
-   a short phone the content is taller than that anyway, and the padding
-   above the tiles keeps the same peek. */
+/* MOBILE HERO PACING. The phone hero paces itself to the screen it is on.
+
+   Every gap, and the name itself, scales with the screen's height (svh, the
+   height left while the browser's toolbars show, so nothing jumps as they
+   slide away), clamped so a short phone tightens without cramping and a tall
+   one opens up without drifting apart.
+
+   Then Hero measures whether the whole first screen fits (usePace in
+   Hero.jsx: width matters as much as height, since a narrow phone wraps the
+   paragraph onto more lines) and sets data-pace on the band:
+   - "one": it fits (a Pro Max, a tall Android). One composed screen, the
+     year tiles on the rings at its foot.
+   - "two": it does not (an SE, a 15 in Safari). Two beats. The first screen
+     is who and what, with the rings' upper arcs at its foot; the tiles land
+     just below it whole, never cut by the screen's edge, and the rings grow
+     and the years count as they arrive. On a phone too short for even the
+     first beat, the padding above the tiles keeps the same peek.
+   Before the measurement lands (and without script) the band takes the
+   two-beat layout, which never cuts a tile. */
 @media (max-width:680px){
-  #about{ display:flex; flex-direction:column; min-height:calc(100svh - var(--nav-h, 53px) + 10.5rem); padding-bottom:2rem; --ring-drop:6.5rem; }
-  #about .hero-grid{ padding-top:2.75rem; }
-  #about .hero-side{ margin-top:1.1rem; }
-  #about .hero-meta{ margin-top:1rem; }
-  #about .hero-lower{ flex:1; display:flex; flex-direction:column; align-items:stretch; margin-top:2.5rem; }
-  #about .hero-prop{ color:rgba(255,255,255,0.74); line-height:1.65; }
-  #about .hero-cta{ margin-top:2rem; }
-  #about .instr-stack{ margin-top:auto; padding-top:7rem; }
+  #about{
+    --hp-top:clamp(1.5rem, 5svh, 3.25rem);
+    --hp-beat:clamp(1.5rem, 5svh, 3rem);
+    --hp-step:clamp(0.75rem, 1.8svh, 1.2rem);
+    --hp-cta:clamp(1.25rem, 3.6svh, 2.25rem);
+    display:flex; flex-direction:column; padding-bottom:2rem;
+    min-height:calc(100svh - var(--nav-h, 53px) + 10.5rem); --ring-drop:6.5rem;
+  }
+  #about .hero-name{ font-size:clamp(2.4rem, min(14vw, 8svh), 3.8rem); }
+  #about .role-cycle{ font-size:clamp(1.05rem, min(5vw, 2.6svh), 1.3rem); }
+  #about .hero-grid{ padding-top:var(--hp-top); }
+  #about .hero-side{ margin-top:var(--hp-step); }
+  #about .hero-meta{ margin-top:var(--hp-step); }
+  #about .hero-lower{ flex:1; display:flex; flex-direction:column; align-items:stretch; margin-top:var(--hp-beat); }
+  #about .hero-prop{ color:rgba(255,255,255,0.74); line-height:1.65; font-size:clamp(0.92rem, 2.2svh, 1rem); }
+  #about .hero-cta{ margin-top:var(--hp-cta); }
+  #about .instr-stack{ margin-top:auto; padding-top:clamp(5rem, 14svh, 7rem); }
+  #about[data-pace="one"]{ min-height:calc(100svh - var(--nav-h, 53px)); --ring-drop:9rem; }
+  #about[data-pace="one"] .instr-stack{ padding-top:3rem; }
 }
