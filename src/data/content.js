@@ -47,9 +47,9 @@ export const HERO = {
 export const BIO_TAG = { tag: 'Profile', idx: '00 / ' };
 
 export const BIO_PARAS = [
-  'I work where a company\'s emissions numbers meet the people who have to stand behind them: the regulator, the assurer, investors and the business units asked to cut. My job is to make those numbers hold up, then turn them into targets a business can plan against.',
-  'At Downer Group I traced a defect that had inflated one country\'s supplier spend about 65 times, rebuilt the workbook behind our statutory NGER report, and ran the FY27 emissions budget cycle on the Net Zero pathway model I built. Before that came four years at WSP, including a GRESB submission I led, and two years on the owner\'s side at Defence, administering $1.3 billion of capital works contracts.',
-  'I went to an agricultural high school, where I learnt early that a business has to grow without using up what it depends on. In my own time I built Life Footprint, which runs the maths I use at work on one person\'s year.',
+  'Emissions numbers end up in front of people who do not take them on trust, from the assurer to the Clean Energy Regulator. Much of my work at Downer Group is making ours hold up. I found a currency defect that made one country\'s supplier spend look about 65 times bigger than it was, which nothing in the totals showed, and rebuilt our NGER workbook so its totals are checked against the assured data.',
+  'The rest is turning those numbers into decisions. I built the Net Zero pathway model the business units\' FY27 decarbonisation plans rest on, and ran the budget cycle that put them there. Before Downer I spent four years consulting at WSP, where I led a GRESB submission for an electricity network, and two years administering $1.3 billion of Defence capital works contracts.',
+  'I measure carbon for a living, so in my own time I pointed the same maths at my own year. That became Life Footprint, further down this page.',
 ];
 
 export const OUTCOMES = [
