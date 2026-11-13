@@ -16,10 +16,12 @@ import { prefersReducedMotion } from '../utils/media';
 // ambitious (see .seg-sm in global.css), so the wide button is always the
 // setting the model starts from.
 const LEVERS = [
-  { key: 'grid', lc: 'var(--indigo)', sc: 'var(--indigo)', opts: ['base', 'off', 'slower', 'faster'] },
-  { key: 'lv', lc: 'var(--matcha)', sc: 'var(--accent-ink)', opts: ['base', 'slower', 'faster'] },
-  { key: 'hv', lc: 'var(--amber)', sc: 'var(--amber-ink)', opts: ['base', 'slower', 'faster'] },
-  { key: 'plant', lc: 'var(--berry)', sc: 'var(--berry-ink)', opts: ['base', 'off', 'slower', 'faster'] },
+  // Lever colours step along the green ramp (see LIME, BLACK AND WHITE in
+  // global.css): bright lime, olive, grey, near-black, matching the wedges.
+  { key: 'grid', lc: 'var(--series-1)', sc: 'var(--series-1-ink)', opts: ['base', 'off', 'slower', 'faster'] },
+  { key: 'lv', lc: 'var(--series-2)', sc: 'var(--series-2-ink)', opts: ['base', 'slower', 'faster'] },
+  { key: 'hv', lc: 'var(--series-3)', sc: 'var(--series-3-ink)', opts: ['base', 'slower', 'faster'] },
+  { key: 'plant', lc: 'var(--series-4)', sc: 'var(--series-4-ink)', opts: ['base', 'off', 'slower', 'faster'] },
 ];
 const OPT_LABEL = { base: 'Base', faster: 'Faster', slower: 'Slower', off: 'Off' };
 const REV_OPTS = [
@@ -30,10 +32,10 @@ const REV_OPTS = [
 
 const LEGEND_SWATCH = [
   '<span class="cl-swatch line" style="color:#17190D"></span>',
-  '<span class="cl-swatch" style="background:rgba(99,91,255,0.45)"></span>',
-  '<span class="cl-swatch" style="background:rgba(155,170,30,0.55)"></span>',
-  '<span class="cl-swatch" style="background:rgba(255,149,0,0.5)"></span>',
-  '<span class="cl-swatch" style="background:rgba(255,59,96,0.45)"></span>',
+  '<span class="cl-swatch" style="background:rgba(208,240,85,0.75)"></span>',
+  '<span class="cl-swatch" style="background:rgba(94,107,30,0.55)"></span>',
+  '<span class="cl-swatch" style="background:rgba(140,144,128,0.5)"></span>',
+  '<span class="cl-swatch" style="background:rgba(39,46,9,0.42)"></span>',
   '<span class="cl-swatch dash" style="color:rgba(23,25,13,0.5)"></span>',
   '<span class="cl-swatch dash" style="color:#535648"></span>',
 ];
@@ -104,10 +106,10 @@ export default function Scenario() {
         labels: chartLabels,
         datasets: [
           { label: 'Net emissions', data: [], borderColor: '#17190D', borderWidth: 2.5, backgroundColor: 'rgba(23,25,13,0.10)', fill: 'origin', pointRadius: 0, tension: 0.15 },
-          { label: 'Grid Decarbonisation', data: [], borderColor: 'transparent', borderWidth: 0, backgroundColor: 'rgba(99,91,255,0.28)', fill: '-1', pointRadius: 0, tension: 0.15 },
-          { label: 'LV Fleet', data: [], borderColor: 'transparent', borderWidth: 0, backgroundColor: 'rgba(181,196,43,0.38)', fill: '-1', pointRadius: 0, tension: 0.15 },
-          { label: 'HV Fleet', data: [], borderColor: 'transparent', borderWidth: 0, backgroundColor: 'rgba(255,149,0,0.30)', fill: '-1', pointRadius: 0, tension: 0.15 },
-          { label: 'Plant Electrification', data: [], borderColor: 'transparent', borderWidth: 0, backgroundColor: 'rgba(255,59,96,0.26)', fill: '-1', pointRadius: 0, tension: 0.15 },
+          { label: 'Grid Decarbonisation', data: [], borderColor: 'transparent', borderWidth: 0, backgroundColor: 'rgba(208,240,85,0.55)', fill: '-1', pointRadius: 0, tension: 0.15 },
+          { label: 'LV Fleet', data: [], borderColor: 'transparent', borderWidth: 0, backgroundColor: 'rgba(94,107,30,0.38)', fill: '-1', pointRadius: 0, tension: 0.15 },
+          { label: 'HV Fleet', data: [], borderColor: 'transparent', borderWidth: 0, backgroundColor: 'rgba(140,144,128,0.34)', fill: '-1', pointRadius: 0, tension: 0.15 },
+          { label: 'Plant Electrification', data: [], borderColor: 'transparent', borderWidth: 0, backgroundColor: 'rgba(39,46,9,0.26)', fill: '-1', pointRadius: 0, tension: 0.15 },
           { label: 'Business as usual', data: [], borderColor: 'rgba(23,25,13,0.45)', borderWidth: 1.5, borderDash: [5, 4], backgroundColor: 'transparent', fill: false, pointRadius: 0, tension: 0 },
           { label: 'History (illustrative)', data: [], borderColor: '#535648', borderWidth: 1.5, borderDash: [2, 3], backgroundColor: 'transparent', fill: false, pointRadius: 3, tension: 0, pointBackgroundColor: '#535648' },
         ],
@@ -185,10 +187,10 @@ export default function Scenario() {
   }, [result, labels]);
 
   const cbars = [
-    { key: 'grid', cls: 'grid', fill: 'var(--indigo)', name: labels.cbar.grid, data: result.contrib.grid },
-    { key: 'lv', cls: 'lv', fill: 'var(--matcha)', name: labels.cbar.lv, data: result.contrib.lv },
-    { key: 'hv', cls: 'hv', fill: 'var(--amber)', name: labels.cbar.hv, data: result.contrib.hv },
-    { key: 'plant', cls: 'plant', fill: 'var(--berry)', name: labels.cbar.plant, data: result.contrib.plant },
+    { key: 'grid', cls: 'grid', fill: 'var(--series-1)', name: labels.cbar.grid, data: result.contrib.grid },
+    { key: 'lv', cls: 'lv', fill: 'var(--series-2)', name: labels.cbar.lv, data: result.contrib.lv },
+    { key: 'hv', cls: 'hv', fill: 'var(--series-3)', name: labels.cbar.hv, data: result.contrib.hv },
+    { key: 'plant', cls: 'plant', fill: 'var(--series-4)', name: labels.cbar.plant, data: result.contrib.plant },
   ];
 
   return (
@@ -242,10 +244,10 @@ export default function Scenario() {
                     <Seg value={scn[lv.key]} options={lv.opts} onChange={(v) => set(lv.key, v)} sc={lv.sc} small label={labels[lv.key].name} />
                   </div>
                 ))}
-                <div className="lever-card lever-card-rev" style={{ '--lc': 'var(--step-comms)' }}>
+                <div className="lever-card lever-card-rev" style={{ '--lc': 'var(--grey-mid)' }}>
                   <div className="lever-top"><span className="lever-dot" aria-hidden="true" /><span className="lever-name">{SCENARIO_UI.growth.name}</span></div>
                   <div className="lever-src">{SCENARIO_UI.growth.src}</div>
-                  <Seg value={scn.rev} options={REV_OPTS} onChange={(v) => set('rev', v)} sc="var(--step-comms)" small label={SCENARIO_UI.growth.name} />
+                  <Seg value={scn.rev} options={REV_OPTS} onChange={(v) => set('rev', v)} sc="var(--ink-2)" small label={SCENARIO_UI.growth.name} />
                 </div>
               </div>
             </div>

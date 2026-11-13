@@ -64,8 +64,8 @@ export const BIO_PARAS = [
 
 export const OUTCOMES = [
   { color: 'var(--accent-ink)', num: '×65', small: '', what: 'A currency defect overstated one country\'s supplier spend about 65 times in our Scope 3 purchased goods and services data, and nothing in the totals showed it. I found it against the invoices, proved it was a system fault, worked out the affected companies with Finance and specified the correction, now applied to FY25 and FY26.', where: 'Found during assurance · FY26 Scope 3 · Downer Group' },
-  { color: 'var(--indigo-ink)', num: 'All', small: ' NSW Government entities', what: 'Covered by the emissions accounting guidelines I contributed to under the State\'s emerging mandatory reporting framework', where: 'NGER · AASB S2 · GHG Protocol · WSP' },
-  { color: 'var(--amber-ink)', num: '+63', small: '%', what: 'GRESB Infrastructure global ranking, with the score up 35%', where: 'Major NSW electricity distribution network · submission I led · WSP' },
+  { color: 'var(--forest-ink)', num: 'All', small: ' NSW Government entities', what: 'Covered by the emissions accounting guidelines I contributed to under the State\'s emerging mandatory reporting framework', where: 'NGER · AASB S2 · GHG Protocol · WSP' },
+  { color: 'var(--forest)', num: '+63', small: '%', what: 'GRESB Infrastructure global ranking, with the score up 35%', where: 'Major NSW electricity distribution network · submission I led · WSP' },
 ];
 
 // The two subheads inside the profile section. They share one quiet style
@@ -203,7 +203,7 @@ export const SCENARIO_UI = {
 //
 // Order is by relevance to a senior sustainability role, not by build date.
 // Accent colours are picked to clear contrast on the forest band the section
-// sits on, which is why the indigo used elsewhere on the page is absent here.
+// sits on: the green ramp on the night ground, like the rest of the site.
 // ---------------------------------------------------------------------------
 export const TOOLS_INTRO = {
   tag: 'Tools',
@@ -347,13 +347,13 @@ export const EXPERIENCE_INTRO = {
 
 export const EXPERIENCE = [
   {
-    mark: 'DG', clr: 'downer',
+    mark: 'DG', clr: 'accent-ink',
     logo: 'Downer_Group_logo.svg.png', logoClass: 'logo-downer', logoAlt: 'Downer Group logo', logoW: 252, logoH: 90,
     org: 'Downer Group', dept: 'Group Environment, Sustainability and Reporting',
     roles: [{ title: 'Senior Sustainability Advisor', date: 'Mar 2026 to present' }],
   },
   {
-    mark: 'WSP', clr: 'wsp',
+    mark: 'WSP', clr: 'ink-2',
     logo: 'img-png-wsp-red.png', logoClass: 'logo-wsp', logoAlt: 'WSP logo', logoW: 126, logoH: 60,
     org: 'WSP in Australia', dept: 'Sustainability and Climate Change Advisory',
     roles: [
@@ -376,7 +376,7 @@ export const EXPERIENCE = [
 // peer of the employment history. The track record lists roles only; outcomes
 // live in the tailored CV sent with each application.
 export const EDUCATION = {
-  mark: 'UNSW', clr: 'unsw',
+  mark: 'UNSW', clr: 'mid',
   org: 'University of New South Wales',
   dept: 'Bachelor of Engineering (Civil Engineering with Architecture)',
   roles: [{ title: "Honours Class 1, Dean's Honours List", date: '' }],

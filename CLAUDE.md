@@ -64,6 +64,14 @@ built as a React + Vite multi-page app and deployed to GitHub Pages.
   matcha and lime differ in lightness and chroma, never in hue, so the dark and
   bright greens read as one family. Forest and the sages were moved onto it in
   November 2026 (hue only, so contrast held). Put any new green on that axis.
+  The public pages are lime, black and white: the green ramp, the `--night`
+  ground, white and one neutral grey (`--grey-mid`), and nothing else. Chart
+  series step along that ramp through `--series-1` to `--series-4` (bright lime,
+  olive, grey, near-black), each with an `-ink` twin for text; the outcome tiles,
+  the pipeline stages, the decarbonisation levers and the Track record all draw
+  from it. Indigo, berry and amber stay in `:root` only for Life Footprint's
+  ten-plus chart categories (which need distinct hues to be read) and error
+  states, and for the undeployed drafts.
 - **All editorial copy is data**, not JSX. Add or edit words in `src/data/`,
   never inline in components.
 - **The basis of preparation stays in sync.** The footprint's method page
