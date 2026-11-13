@@ -47,10 +47,10 @@ export const HERO = {
 export const BIO_TAG = { tag: 'Profile', idx: '00 / ' };
 
 export const BIO_PARAS = [
-  'At Downer Group I rebuilt the workbook behind our statutory NGER report, with checks that tie it to the assured data, and loaded the regulator\'s system from it for my manager to review and submit. I also built the Net Zero pathway model our business units plan against, and ran their FY27 emissions budget cycle.',
-  'Before that I spent four years at WSP, where I led a GRESB submission for an electricity network, delivered a NSW water business\'s first Scope 1, 2 and 3 baseline and helped deliver limited assurance of a property trust\'s emissions data each year. I started on the owner\'s side at the Department of Defence, administering $1.3 billion of capital works contracts.',
-  'I went to an agricultural high school, where I learnt early that a business has to grow without using up what it depends on. In my own time I built Life Footprint, a public carbon calculator.',
-]
+  'I work where a company\'s emissions numbers meet the people who have to stand behind them: the regulator, the assurer, investors and the business units asked to cut. My job is to make those numbers hold up, then turn them into targets a business can plan against.',
+  'At Downer Group I traced a defect that had inflated one country\'s supplier spend about 65 times, rebuilt the workbook behind our statutory NGER report, and ran the FY27 emissions budget cycle on the Net Zero pathway model I built. Before that came four years at WSP, including a GRESB submission I led, and two years on the owner\'s side at Defence, administering $1.3 billion of capital works contracts.',
+  'I went to an agricultural high school, where I learnt early that a business has to grow without using up what it depends on. In my own time I built Life Footprint, which runs the maths I use at work on one person\'s year.',
+];
 
 export const OUTCOMES = [
   { color: 'var(--accent-ink)', num: '×65', small: '', what: 'A currency defect overstated one country\'s supplier spend about 65 times in our Scope 3 purchased goods and services data, and nothing in the totals showed it. I found it against the invoices, proved it was a system fault, worked out the affected companies with Finance and specified the correction, now applied to FY25 and FY26.', where: 'Found during assurance · FY26 Scope 3 · Downer Group' },
