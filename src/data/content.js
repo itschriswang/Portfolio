@@ -47,9 +47,9 @@ export const HERO = {
 export const BIO_TAG = { tag: 'Profile', idx: '00 / ' };
 
 export const BIO_PARAS = [
-  'Emissions numbers end up in front of people who do not take them on trust, from the assurer to the Clean Energy Regulator. Much of my work at Downer Group is making ours hold up. I found a currency defect that made one country\'s supplier spend look about 65 times bigger than it was, which nothing in the totals showed, and rebuilt our NGER workbook so its totals are checked against the assured data.',
-  'The rest is turning those numbers into decisions. I built the Net Zero pathway model the business units\' FY27 decarbonisation plans rest on, and ran the budget cycle that put them there. Before Downer I spent four years consulting at WSP, where I led a GRESB submission for an electricity network, and two years administering $1.3 billion of Defence capital works contracts.',
-  'I measure carbon for a living, so in my own time I pointed the same maths at my own year. That became Life Footprint, further down this page.',
+  'I\'m a Senior Sustainability Advisor at Downer Group. I help prepare the greenhouse gas figures Downer reports to the government and investors, check them against the source data, and build the models the business uses to plan its path to net zero.',
+  'Before Downer I spent four years as a sustainability consultant at WSP, working with property, water, energy and government clients. I started my career at the Department of Defence, administering $1.3 billion of capital works contracts.',
+  'In my own time I built Life Footprint, a free calculator that shows anyone where their own emissions come from.',
 ];
 
 export const OUTCOMES = [
