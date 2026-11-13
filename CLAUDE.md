@@ -59,6 +59,10 @@ built as a React + Vite multi-page app and deployed to GitHub Pages.
   `global.css`. Neutrals are intentionally tinted toward the matcha brand hue at
   low chroma — do not "restore" cool-blue slate values; the green lean is
   deliberate and contrast is held to the original lightness, except `--mid`, darkened to oklch 0.50 in September 2026 so small text clears 4.5:1 on the tinted bands.
+  The greens themselves share one hue axis (OKLCH 115-120): forest, the inks,
+  matcha and lime differ in lightness and chroma, never in hue, so the dark and
+  bright greens read as one family. Forest and the sages were moved onto it in
+  November 2026 (hue only, so contrast held). Put any new green on that axis.
 - **All editorial copy is data**, not JSX. Add or edit words in `src/data/`,
   never inline in components.
 - **The basis of preparation stays in sync.** The footprint's method page

@@ -18,7 +18,7 @@ const TOOLTIP_STYLE = {
   borderColor: 'rgba(181,196,43,0.5)', borderWidth: 1,
 };
 const AXIS_TICKS = { font: { family: MONO, size: 11 }, color: '#65695B' };
-const GRID = { color: 'rgba(33,48,15,0.06)' };
+const GRID = { color: 'rgba(39,46,9,0.06)' };
 
 // The one month list the footprint charts and dashboard both read from.
 export const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -238,7 +238,7 @@ export function MaccChart({ rows }) {
         aria-label={'Marginal abatement cost curve: ' + live.map((r) => r.action + ' abates ' + r.reduction.toFixed(2) + ' tonnes a year at ' + (r.costPerTonne < 0 ? 'a saving of $' + Math.abs(r.costPerTonne) : '$' + r.costPerTonne) + ' per tonne').join('; ') + '.'}>
         {yTicks.map((v) => (
           <g key={v}>
-            <line x1={padL} x2={W - padR} y1={yFor(v)} y2={yFor(v)} stroke="rgba(33,48,15,0.08)" strokeWidth="1" />
+            <line x1={padL} x2={W - padR} y1={yFor(v)} y2={yFor(v)} stroke="rgba(39,46,9,0.08)" strokeWidth="1" />
             <text x={padL - 6} y={yFor(v) + 4} textAnchor="end" fontSize={fsTick} fontFamily="JetBrains Mono, monospace" fill="#65695B">{'$' + v.toLocaleString()}</text>
           </g>
         ))}

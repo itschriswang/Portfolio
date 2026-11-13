@@ -8,7 +8,7 @@
 .lab-foot{
   display:flex; align-items:center; justify-content:space-between; gap:1rem 1.5rem;
   flex-wrap:wrap; margin-top:clamp(2.5rem,6vw,4rem);
-  padding-top:1.4rem; border-top:1px solid rgba(210,223,206,0.16);
+  padding-top:1.4rem; border-top:1px solid rgba(216,221,202,0.16);
   font-family:var(--mono); font-size:11px; letter-spacing:0.06em;
 }
 .lab-back{ color:var(--sage-2); text-decoration:none; }
@@ -17,7 +17,7 @@
 .lab-lock{
   font-family:var(--mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase;
   font-weight:700; color:var(--sage-2); background:transparent;
-  border:1px solid rgba(210,223,206,0.28); border-radius:var(--r-pill);
+  border:1px solid rgba(216,221,202,0.28); border-radius:var(--r-pill);
   padding:0.45rem 0.9rem; min-height:36px; cursor:pointer;
   transition:color 0.2s var(--ease),border-color 0.2s var(--ease);
 }

@@ -23,9 +23,9 @@ import { prefersReducedMotion } from '../utils/media';
 // lines beneath it carry the same information as text and the card is already
 // labelled by its heading, so it stays aria-hidden.
 // ---------------------------------------------------------------------------
-const INK = 'rgba(210,223,206,0.34)';
-const RULE = 'rgba(210,223,206,0.16)';
-const LBL = 'rgba(210,223,206,0.82)';
+const INK = 'rgba(216,221,202,0.34)';
+const RULE = 'rgba(216,221,202,0.16)';
+const LBL = 'rgba(216,221,202,0.82)';
 // The same stacks as --mono and --disp in global.css, fallbacks included.
 const MONO = "'JetBrains Mono',ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace";
 const DISP = "'Space Grotesk','Space Grotesk Fallback',system-ui,sans-serif";
@@ -158,7 +158,7 @@ function Scopes({ d, w, h, still }) {
           width={still ? Math.max(2, s.w - 2) : undefined}
         />
       ))}
-      <T x={big.x + 8} y={BY + BH / 2 + 5} size={14} fill="#1A2A0B" weight={700} font={DISP}>{d.parts[2].pct}%</T>
+      <T x={big.x + 8} y={BY + BH / 2 + 5} size={14} fill="#212805" weight={700} font={DISP}>{d.parts[2].pct}%</T>
       {/* The two operational scopes are only a sliver of the bar, so they share
           one label at the left rather than each pointing at a segment too
           narrow to sit under. */}
@@ -319,7 +319,7 @@ function Stack({ d, w, h, still }) {
           width={still ? Math.max(2, s.w - 2) : undefined}
         />
       ))}
-      <T x={X0 + 8} y={BY + BH / 2 + 5} size={13} fill="#1A2A0B" weight={700} font={DISP}>{d.parts[0].pct}%</T>
+      <T x={X0 + 8} y={BY + BH / 2 + 5} size={13} fill="#212805" weight={700} font={DISP}>{d.parts[0].pct}%</T>
       <T x={X0} y={BY + BH + 15} size={9} fill="var(--tc)">{d.parts[0].label}</T>
       {showSecond && <T x={segs[1].x} y={BY + BH + 15} size={9} fill={INK}>{d.parts[1].label}</T>}
       <T x={X0 + W} y={BY + BH + 15} size={9} anchor="end" fill={INK}>{d.parts[5].label}</T>
