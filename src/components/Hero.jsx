@@ -73,7 +73,6 @@ export default function Hero() {
   return (
     <section id="about">
       <ContourField tone="dark" />
-      <TreeRings still={still} />
 
       <div className="canvas matrix hero-grid">
         <h1 className="hero-name display">
@@ -102,6 +101,7 @@ export default function Hero() {
           ))}
         </div>
         <div className="instr-stack">
+          <TreeRings still={still} />
           {HERO.instruments.map((it) => (
             <div className="instr" key={it.id}>
               <div className="instr-lbl">{it.label[0]}<br />{it.label[1]}</div>
