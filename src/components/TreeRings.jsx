@@ -2,8 +2,8 @@ import { useMemo } from 'react';
 
 // A cross-section of a tree, drawn as one vector in line-work on the dark hero. It is decoration: it carries
 // no data and makes no claim, so it is aria-hidden and has no caption. What it
-// does is bring the site's accent colours (amber, lime, indigo, berry) into the
-// first screen at full strength, in a shape that suits the work.
+// does is give the first screen one quiet, detailed image in the brand lime,
+// in a shape that suits the work.
 //
 // Everything is generated once from a fixed seed, so the drawing is the same on
 // every visit and in every build. Rings are closed paths whose radius wobbles
@@ -35,11 +35,11 @@ function ramp(stops, t) {
   return 'rgb(' + a.map((v, k) => Math.round(v + (b[k] - v) * f)).join(',') + ')';
 }
 
-// Drawn for the dark hero: near-black wood with each ring picked out in a thin
-// line that runs from amber at the pith, through lime, to a quiet olive at the
-// rim. Accent years take the site's berry and indigo, plus one white ring.
-const WOOD = ['#2B2412', '#1F2012', '#191A10', '#15160E'];
-const LINE = ['#FF9500', '#F2D24B', '#D0F055', '#C1E043', '#B2C633', '#8FA02A'];
+// Drawn for the dark hero in one colour: near-black wood, each ring a thin
+// lime line that is brightest at the pith and quietens toward the rim. One
+// ring is picked out a little heavier; nothing else competes with it.
+const WOOD = ['#1A1B13', '#16170F', '#14150E'];
+const LINE = ['#E4FF7A', '#D0F055', '#AFC53A', '#7F8F2C', '#5C6824'];
 
 function build() {
   const rnd = mulberry32(2910);
@@ -86,7 +86,7 @@ function build() {
   };
 
   // Accent years: the colours that make the rings read as a palette.
-  const accents = { 8: '#FF9500', 19: '#FF3B60', 25: '#8A83FF', 31: '#F4F7E8', 40: '#8A83FF' };
+  const accents = { 31: '#D0F055' };
 
   const rings = [];
   for (let k = RINGS - 1; k >= 0; k--) {
@@ -97,7 +97,7 @@ function build() {
       d: ringPath(k),
       fill: ramp(WOOD, t),
       stroke: accents[k] || ramp(LINE, t),
-      sw: accents[k] ? 2.2 : narrow ? 1.5 : 0.8 + rnd() * 0.4,
+      sw: accents[k] ? 1.8 : narrow ? 1.2 : 0.6 + rnd() * 0.35,
       accent: Boolean(accents[k]),
     });
   }
@@ -146,7 +146,7 @@ export default function TreeRings({ still }) {
           </radialGradient>
         </defs>
         <path d={g.barkOuter} fill="#0B0C07" />
-        <path d={g.barkOuter} fill="none" stroke="#D0F055" strokeOpacity="0.45" strokeWidth="1.2" />
+        <path d={g.barkOuter} fill="none" stroke="#D0F055" strokeOpacity="0.28" strokeWidth="1" />
         {g.rings.map((r) => (
           <path
             key={r.k}
@@ -162,7 +162,7 @@ export default function TreeRings({ still }) {
         <g className="tr-rays" stroke="#F4F7E8" strokeWidth="0.5" strokeLinecap="round">
           {g.rays.map((l, i) => <line key={i} x1={l[0]} y1={l[1]} x2={l[2]} y2={l[3]} />)}
         </g>
-        {g.cracks.map((d, i) => <path key={i} d={d} fill="#070804" fillOpacity="0.9" stroke="#D0F055" strokeOpacity="0.4" strokeWidth="0.8" />)}
+        {g.cracks.map((d, i) => <path key={i} d={d} fill="#0B0C07" fillOpacity="0.9" />)}
         <circle r="16" fill="url(#tr-pith)" />
         <circle r="2.6" fill="#D0F055" />
       </svg>

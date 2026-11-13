@@ -3,7 +3,6 @@ import { motion, AnimatePresence, useMotionValue, useReducedMotion, animate } fr
 import { HERO, yearsSince } from '../data/content';
 import SplitText from './SplitText';
 import ContourField from './ContourField';
-import Aurora from './Aurora';
 import TreeRings from './TreeRings';
 import Icon, { LinkedInIcon } from './Icons';
 
@@ -73,18 +72,12 @@ export default function Hero() {
 
   return (
     <section id="about">
-      <Aurora
-        colorStops={['#FF3B60', '#635BFF', '#D0F055', '#FF9500']}
-        amplitude={0.6}
-        blend={0.5}
-        opacity={0.3}
-      />
       <ContourField tone="dark" />
       <TreeRings still={still} />
 
       <div className="canvas matrix hero-grid">
         <h1 className="hero-name display">
-          <SplitText text={HERO.name[0]} /> <SplitText text={HERO.name[1]} accentIndex={0} />
+          <SplitText text={HERO.name[0]} /> <SplitText text={HERO.name[1]} />
         </h1>
         <div className="hero-side">
           <RoleCycle roles={HERO.roles} still={still} />
