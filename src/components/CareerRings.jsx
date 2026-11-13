@@ -1,23 +1,28 @@
-import { useMemo, useRef } from 'react';
-import { useInView } from 'framer-motion';
+import { useEffect, useMemo, useRef } from 'react';
 import { careerRings } from '../lib/careerRings';
 import { EXPERIENCE, EXPERIENCE_INTRO } from '../data/content';
 import { prefersReducedMotion } from '../utils/media';
 
-// The Track record's tree-ring figure. The hero's rings are decoration; these
-// are the same motif carrying the record: one ring per calendar year from the
-// first role to today, a band per employer in the timeline's own colours, and a
-// finer line where a role changed inside an employer. All positions come from
-// careerRings() over the dates in EXPERIENCE, so the figure cannot drift from
-// the timeline printed beside it.
+// The Track record's tree-ring figure: the record itself as a cross-section.
+// One thin ring per calendar year from the first role to today, a band per
+// employer in the green ramp, closed by a line in that employer's timeline
+// colour, and a dashed ring where a role changed inside an employer. All
+// positions come from careerRings() over the dates in EXPERIENCE.
+//
+// It grows as you scroll: a clip widens from the pith to the bark with your
+// progress through the timeline beside it, so each employer's band arrives in
+// turn, oldest first. No labels, legend or caption; the timeline carries the
+// words and the figure carries the shape. Under reduced motion it is drawn
+// whole.
 
-const R = 92;        // bark radius in the 200 x 200 viewBox
-const R0 = 7;        // the pith
+const R = 92;
+const R0 = 7;
 const STEPS = 160;
-
-// A gentle, fixed wobble shared by every ring, so they read as grown wood but
-// stay parallel and never cross.
 const WOB = [[2, 0.022, 0.6], [3, 0.014, 2.1], [5, 0.007, 4.0]];
+const TONES = ['var(--sage-soft)', 'var(--lime-wash)', 'var(--lime-soft)', 'var(--sage)'];
+const FULL = R * 1.06;
+const START = R0 * 0.6;
+
 function ring(r) {
   let d = '';
   for (let s = 0; s <= STEPS; s++) {
@@ -30,55 +35,65 @@ function ring(r) {
   return d + 'Z';
 }
 const rad = (f) => R0 + (R - R0) * f;
-// Band tones, heart outwards, from the site's green ramp.
-const TONES = ['var(--sage-soft)', 'var(--lime-wash)', 'var(--lime-soft)', 'var(--sage)'];
 
 export default function CareerRings() {
   const g = useMemo(() => careerRings(EXPERIENCE), []);
-  const ref = useRef(null);
-  const seen = useInView(ref, { once: true, amount: 0.3 });
-  const still = prefersReducedMotion();
-  const copy = EXPERIENCE_INTRO.rings;
-  const label = copy.label.replace('{start}', String(g.startYear)).replace('{n}', String(g.bands.length));
-  const motion = still ? '' : seen ? ' cr-grow' : ' cr-wait';
-
-  // Bands outermost first, so each inner disc paints over the one around it.
+  const figRef = useRef(null);
+  const clipRef = useRef(null);
+  const label = EXPERIENCE_INTRO.rings.label
+    .replace('{start}', String(g.startYear)).replace('{n}', String(g.bands.length));
   const toned = g.bands.map((b, i) => ({ ...b, tone: TONES[i % TONES.length] }));
-  const bands = [...toned].reverse();
+  const outerFirst = [...toned].reverse();
+
+  // Scroll-driven growth: progress through the timeline beside the figure.
+  useEffect(() => {
+    const clip = clipRef.current;
+    const fig = figRef.current;
+    if (!clip || !fig) return undefined;
+    if (prefersReducedMotion()) { clip.setAttribute('r', String(FULL)); return undefined; }
+    const tl = fig.closest('.exp-body')?.querySelector('.exp-timeline');
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const box = (tl || fig).getBoundingClientRect();
+      const vh = window.innerHeight;
+      // Starts as the timeline enters, done before its last entry leaves.
+      const p = Math.min(1, Math.max(0, (vh * 0.85 - box.top) / (box.height * 0.8)));
+      const eased = 1 - Math.pow(1 - p, 2);
+      clip.setAttribute('r', (START + (FULL - START) * eased).toFixed(2));
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    update();
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
 
   return (
-    <figure className={'career-rings' + motion} ref={ref}>
+    <figure className="career-rings" ref={figRef}>
       <svg viewBox="-100 -100 200 200" role="img" aria-label={label}>
-        <path d={ring(R + 3)} className="cr-bark" />
-        {bands.map((b, i) => (
-          <path key={b.org} d={ring(rad(b.to))} className="cr-band" style={{ '--bc': `var(--${b.clr})`, '--tone': b.tone, '--i': bands.length - i }} />
-        ))}
-        {g.years.map((y) => (
-          <path key={y.year} d={ring(rad(y.at))} className="cr-year" />
-        ))}
-        {g.bands.flatMap((b) => b.changes.map((c) => (
-          <path key={b.org + c.title} d={ring(rad(c.at))} className="cr-change" style={{ '--bc': `var(--${b.clr})` }} />
-        )))}
-        <path d={ring(R)} className="cr-edge" />
-        <circle r={R0 * 0.55} className="cr-pith" />
-        {/* Year labels along the left ray, each set where its ring crosses it:
-            the right side of the disc runs off the page. */}
-        {g.years.map((y) => {
-          const r = rad(y.at);
-          return (
-            <text key={'t' + y.year} x={-(r + 1.2)} y={-1.4} textAnchor="end" className="cr-yr">{'\u2019' + String(y.year).slice(2)}</text>
-          );
-        })}
+        <defs>
+          <clipPath id="cr-grow">
+            <circle ref={clipRef} r={START} />
+          </clipPath>
+        </defs>
+        <g clipPath="url(#cr-grow)">
+          {outerFirst.map((b) => (
+            <path key={b.org} d={ring(rad(b.to))} className="cr-band" style={{ '--bc': `var(--${b.clr})`, '--tone': b.tone }} />
+          ))}
+          {g.years.map((y) => (
+            <path key={y.year} d={ring(rad(y.at))} className="cr-year" />
+          ))}
+          {g.bands.flatMap((b) => b.changes.map((c) => (
+            <path key={b.org + c.title} d={ring(rad(c.at))} className="cr-change" style={{ '--bc': `var(--${b.clr})` }} />
+          )))}
+          <circle r={R0 * 0.55} className="cr-pith" />
+        </g>
       </svg>
-      <ul className="cr-legend">
-        {toned.slice().reverse().map((b) => (
-          <li key={b.org} style={{ '--bc': `var(--${b.clr})`, '--tone': b.tone }}><span aria-hidden="true" />{b.org}</li>
-        ))}
-      </ul>
-      <figcaption className="cr-cap">
-        {copy.caption}
-        <span className="cr-basis">{copy.basis}</span>
-      </figcaption>
     </figure>
   );
 }

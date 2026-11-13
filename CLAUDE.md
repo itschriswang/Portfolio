@@ -141,18 +141,20 @@ built as a React + Vite multi-page app and deployed to GitHub Pages.
   `DRAFT_PAGES` to `PUBLIC_PAGES` (and its static files out of `DRAFT_STATIC`)
   in `vite.config.js`, and its entry from `PRIVATE_TOOLS` to `TOOLS`.
 - **Two motifs, one meaning each.** Tree rings mean time: decoration in the
-  hero, and in the Track record (`CareerRings.jsx`) the record itself, one ring
-  per calendar year from the first role to today, a band per employer in the
-  green ramp with the employer's colour on its closing line, the disc running off
-  the right edge of the page like the hero's. The geometry is
+  hero, and in the Track record (`CareerRings.jsx`) the record itself, one thin
+  ring per calendar year from the first role to today, a band per employer in
+  the green ramp closed by a line in its timeline colour, dashed rings for role
+  changes. It grows with the scroll through the timeline (a clip widening from
+  the pith, so each employer arrives in turn), runs off the right edge of the
+  page, and carries no labels, legend or caption. The geometry is
   `careerRings()` in `src/lib/careerRings.js`, read from the dates in
-  `EXPERIENCE` and tested in `tests/career-rings.test.js`. Dots mean quantity:
-  the Life Footprint carbon field, and the decarbonisation model's FY30 dot
-  field (`FloatingDots.jsx`: one dot per kt drifting in two clouds, solid for
-  net and hollow for abated, gliding between them when a lever moves), whose counts are
-  `dotField()` in `src/data/scenario.js` and are tested to agree with the KPI
-  tiles (`tests/scenario-dots.test.js`). Do not scatter either motif onto pages
-  where it would not carry its meaning.
+  `EXPERIENCE` and tested in `tests/career-rings.test.js`. Dots mean carbon:
+  the Life Footprint carbon field, and the ambient field behind the
+  decarbonisation model (`AmbientDots.jsx`), which is background flavour, not a
+  chart: the levers' FY30 abatement (`dotField()` in `src/data/scenario.js`,
+  tested against the KPI tiles in `tests/scenario-dots.test.js`) decides how
+  many of its dots let go and lift away as hollow lime rings. Do not scatter
+  either motif onto pages where it would not carry its meaning.
 - **Every tool card draws a chart from that tool's real data.** The specimens
   (`src/components/ToolSpecimen.jsx`, data in `src/data/specimens.js`) are small
   SVG charts: a claimed-versus-reported trajectory, a disclosure histogram, a

@@ -1369,23 +1369,13 @@ a.footer-cta-btn[target="_blank"]::after{ content:none; }
 }
 
 /* ============================================================================
-   DOT FIELD — FY30 in the decarbonisation model as a living field of dots at
-   one fixed scale (FloatingDots.jsx): solid for net emissions, hollow for what
-   the levers abate against business as usual, drifting in two clouds. Counts
-   come from dotField() in src/data/scenario.js.
+   AMBIENT DOTS — background flavour behind the decarbonisation model
+   (AmbientDots.jsx): a slow field of forest dots, some of which let go and
+   lift off as hollow lime rings when the levers abate more. Not a chart.
    ============================================================================ */
-.dotfield{ background:var(--white); border:1px solid var(--rule-dk); border-radius:var(--r-lg); padding:1.1rem 1.25rem 1rem; margin:1rem 0; }
-.df-head{ display:flex; align-items:baseline; justify-content:space-between; gap:0.5rem 1rem; flex-wrap:wrap; margin-bottom:0.85rem; }
-.df-title{ font-family:var(--disp); font-weight:600; font-size:0.95rem; color:var(--slate); }
-.df-scale{ font-family:var(--mono); font-size:11px; letter-spacing:0.04em; color:var(--mid); }
-.df-field{ position:relative; height:clamp(190px, 22vw, 250px); margin:0 -0.4rem; }
-.df-canvas{ display:block; width:100%; height:100%; }
-.df-legend i{ display:block; width:11px; height:11px; border-radius:50%; border:1.5px solid var(--matcha); background:transparent; }
-.df-legend i.on{ background:var(--forest); border-color:var(--forest); }
-.df-legend{ display:flex; flex-wrap:wrap; align-items:center; gap:0.5rem 1.2rem; margin-top:0.9rem; font-family:var(--mono); font-size:11px; letter-spacing:0.03em; color:var(--ink-2); }
-.df-legend span{ display:inline-flex; align-items:center; gap:0.45rem; }
-.df-legend b{ font-weight:600; color:var(--slate); }
-.df-basis{ color:var(--mid); }
+#scenario{ position:relative; overflow:hidden; }
+#scenario > .canvas{ position:relative; z-index:1; }
+.ambient-dots{ position:absolute; inset:0; z-index:0; pointer-events:none; }
 
 /* ============================================================================
    CAREER RINGS — the Track record as a tree cross-section: one ring per
@@ -1409,31 +1399,18 @@ a.footer-cta-btn[target="_blank"]::after{ content:none; }
 .career-rings svg{ display:block; width:100%; height:auto; overflow:visible; }
 /* The disc runs off the right edge of the page, like the hero's rings: it is
    drawn wider than its column and pushed past the page gutter, and the band
-   clips it. The legend and caption stay inside the column. */
+   clips it. */
 #experience{ overflow-x:clip; }
 .career-rings svg{ width:calc(100% + var(--gut) + 3.5rem); margin-left:0.5rem; }
 @media (max-width:959px){
   .exp-aside{ max-width:none; }
-  .career-rings svg{ width:min(92vw, 440px); margin-left:auto; margin-right:calc(-1 * (var(--gut) + 7rem)); }
-  .career-rings{ display:flex; flex-direction:column; align-items:flex-end; }
-  .cr-legend, .cr-cap{ align-self:stretch; }
+  .career-rings{ display:flex; justify-content:flex-end; }
+  .career-rings svg{ width:min(92vw, 440px); margin-right:calc(-1 * (var(--gut) + 7rem)); }
 }
-.cr-bark{ fill:var(--forest); }
 .cr-band{ fill:var(--tone); stroke:var(--bc); stroke-width:0.9; }
-.cr-year{ fill:none; stroke:var(--forest); stroke-opacity:0.3; stroke-width:0.5; }
+.cr-year{ fill:none; stroke:var(--forest); stroke-opacity:0.18; stroke-width:0.45; }
 .cr-change{ fill:none; stroke:var(--bc); stroke-width:0.7; stroke-dasharray:1.6 1.4; }
-.cr-edge{ fill:none; stroke:var(--forest); stroke-width:0.9; }
-.cr-pith{ fill:var(--forest); }
-.cr-yr{ font-family:var(--mono); font-size:5px; font-weight:600; letter-spacing:0.02em; fill:var(--ink-2); }
-.cr-legend{ list-style:none; display:flex; flex-wrap:wrap; gap:0.4rem 1rem; margin-top:1rem; font-family:var(--mono); font-size:11px; letter-spacing:0.04em; color:var(--ink-2); }
-.cr-legend li{ display:inline-flex; align-items:center; gap:0.45rem; }
-.cr-legend span{ width:10px; height:10px; border-radius:50%; background:var(--tone); border:1.5px solid var(--bc); }
-.cr-cap{ font-size:0.82rem; line-height:1.6; color:var(--ink-2); margin-top:0.8rem; }
-.cr-basis{ display:block; margin-top:0.45rem; font-family:var(--mono); font-size:11px; letter-spacing:0.04em; color:var(--mid); }
-.cr-wait .cr-band, .cr-wait .cr-year, .cr-wait .cr-change, .cr-wait .cr-yr, .cr-wait .cr-edge, .cr-wait .cr-pith{ opacity:0; }
-.cr-grow .cr-band{ transform-box:view-box; transform-origin:center; animation:trGrow 1s var(--ease) both; animation-delay:calc(var(--i) * 140ms); }
-.cr-grow .cr-year, .cr-grow .cr-change, .cr-grow .cr-yr, .cr-grow .cr-edge, .cr-grow .cr-pith{ animation:crFade 0.6s var(--ease) both; animation-delay:0.55s; }
-@keyframes crFade{ from{ opacity:0; } to{ opacity:1; } }
+.cr-pith{ fill:var(--forest-ink); }
 
 /* The bench line under the tools: work in progress, by role. */
 .tools-bench{ margin-top:0.4rem; color:var(--sage-2); }

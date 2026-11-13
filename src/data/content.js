@@ -156,15 +156,6 @@ export const SCENARIO_UI = {
   // `titleAccent` is the word index SplitText picks out in matcha.
   title: 'Model the pathway',
   titleAccent: 2,
-  // The FY30 dot field under the KPI tiles (Scenario.jsx, from dotField() in
-  // src/data/scenario.js).
-  dots: {
-    title: 'FY30 against business as usual',
-    net: 'Net emissions',
-    avoided: 'Abated by the levers',
-    scale: 'Each dot is 1 kt CO₂-e',
-    basis: 'Illustrative · counts round to the nearest kilotonne',
-  },
   basis: {
     label: 'Illustrative',
     text: 'Nothing in this model is client data, and no figure in it belongs to an organisation I have worked for. I scaled the operating profiles to published peer disclosures, and each lever names its basis. Read it as a demonstration of method rather than as a result.',
@@ -337,10 +328,9 @@ export const GATE = {
 export const EXPERIENCE_INTRO = {
   tag: 'Experience', idx: '04 / ', title: 'Track record', titleAccent: 1, education: 'Education',
   // The tree-ring figure beside the timeline (CareerRings.jsx, geometry from
-  // src/lib/careerRings.js). Drawn from the role dates below and nothing else.
+  // src/lib/careerRings.js). Drawn from the role dates below and nothing else;
+  // it carries no visible words, so this is its description for screen readers.
   rings: {
-    caption: 'One ring for each year since my first role. Each band is an employer, closed by a line in its timeline colour, and a dashed ring marks a change of role.',
-    basis: 'Derived · drawn from the dates in the record below',
     label: 'Tree-ring cross-section of my career from {start} to today: one ring a year, with a band for each of {n} employers.',
   },
 };

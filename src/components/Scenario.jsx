@@ -6,7 +6,7 @@ import { Chart, LineController, LineElement, PointElement, LinearScale, Category
 Chart.register(LineController, LineElement, PointElement, LinearScale, CategoryScale, Filler, Tooltip);
 import { runModel, chartLabels, LEVER_LABELS, SECTOR_OPTIONS, resolveSector } from '../data/scenario';
 import { SCENARIO_UI } from '../data/content';
-import FloatingDots from './FloatingDots';
+import AmbientDots from './AmbientDots';
 import SplitText from './SplitText';
 import Icon from './Icons';
 import { prefersReducedMotion } from '../utils/media';
@@ -56,29 +56,6 @@ function Seg({ value, options, onChange, sc, small, label }) {
           </button>
         );
       })}
-    </div>
-  );
-}
-
-// FY30 as dots at one fixed scale (dotField() in src/data/scenario.js), drawn
-// as a living field by FloatingDots: solid for net emissions, hollow for what
-// the levers abate against business as usual.
-function DotField({ dots }) {
-  const c = SCENARIO_UI.dots;
-  return (
-    <div className="dotfield">
-      <div className="df-head">
-        <span className="df-title">{c.title}</span>
-        <span className="df-scale">{c.scale}</span>
-      </div>
-      <div className="df-field" role="img" aria-label={`${c.title}: ${dots.net} kt ${c.net.toLowerCase()}, ${dots.avoided} kt ${c.avoided.toLowerCase()}. ${c.scale}.`}>
-        <FloatingDots net={dots.net} avoided={dots.avoided} />
-      </div>
-      <div className="df-legend">
-        <span><i className="on" aria-hidden="true" />{c.net}<b>{dots.net} kt</b></span>
-        <span><i aria-hidden="true" />{c.avoided}<b>{dots.avoided} kt</b></span>
-        <span className="df-basis">{c.basis}</span>
-      </div>
     </div>
   );
 }
@@ -195,6 +172,7 @@ export default function Scenario() {
 
   return (
     <section id="scenario">
+      <AmbientDots net={result.dots.net} avoided={result.dots.avoided} />
       <div className="canvas">
         <div className="sec-tag" data-idx={SCENARIO_UI.idx}><Icon name="target" size={30} />{SCENARIO_UI.tag}</div>
         <h2 className="display sec-title">
@@ -293,7 +271,6 @@ export default function Scenario() {
                   </div>
                 ))}
               </div>
-              <DotField dots={result.dots} />
               <div className="chart-card">
                 <div className="chart-head"><div className="chart-title">{result.chartTitle}</div></div>
                 <div className="chart-sub">{SCENARIO_UI.chartSub}</div>

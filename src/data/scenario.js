@@ -193,14 +193,11 @@ export function resolveSector(sectorKey) {
   };
 }
 
-// Core model. Returns everything the UI needs to render: series for the chart,
-// KPI values, the dynamic takeaway, and per-lever FY30 contribution bars.
-// The FY30 dot field under the KPI tiles: business-as-usual at FY30 drawn as
-// dots at one fixed scale, the net emissions filled and the abatement hollow,
-// so moving a lever visibly empties dots. Net and abatement each round the
-// same way their KPI tiles do (kt() rounds to the nearest thousand), so the
-// legend never disagrees with the tile above it; the total is their sum, and
-// can sit one dot off the rounded business-as-usual figure.
+// FY30 net and abatement in whole kilotonnes, for the ambient dot field behind
+// the model (AmbientDots.jsx), which lets go of the abated share of its dots.
+// Each rounds the way its KPI tile does (kt() rounds to the nearest thousand),
+// so the two never disagree; the total is their sum, and can sit one off the
+// rounded business-as-usual figure.
 export const DOT_T = 1000; // tCO2-e per dot
 export function dotField(net30, bau30, perDot = DOT_T) {
   const net = Math.max(0, Math.round(net30 / perDot));
@@ -208,6 +205,8 @@ export function dotField(net30, bau30, perDot = DOT_T) {
   return { perDot, total: net + avoided, net, avoided };
 }
 
+// Core model. Returns everything the UI needs to render: series for the chart,
+// KPI values, the dynamic takeaway, and per-lever FY30 contribution bars.
 export function runModel(scn) {
   const { grid: gk, lv: lk, hv: hk, plant: pk, rev: rk } = scn;
   const { mode, levers, FY20, FY25, FY26, SH, HIST, label } = resolveSector(scn.sector);

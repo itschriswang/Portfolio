@@ -2,8 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { runModel, dotField, DOT_T, SECTOR_OPTIONS } from '../src/data/scenario';
 
-// The decarbonisation model's FY30 dot field has to agree with the KPI tiles it
-// sits under: filled plus hollow is business as usual, at one stated scale.
+// The ambient dot field behind the decarbonisation model lets go of the abated
+// share of its dots, so its counts have to agree with the model's KPI tiles.
 const base = { grid: 'base', lv: 'base', hv: 'base', plant: 'base', rev: 'moderate' };
 
 test('filled and hollow dots match the net and abatement tiles', () => {
