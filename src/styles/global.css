@@ -980,6 +980,8 @@ section { position:relative; }
 .exp-logo.logo-downer{ height:30px; } .exp-logo.logo-wsp{ height:20px; } .exp-logo.logo-defence{ height:56px; margin-left:-6px; }
 .exp-org-name{ font-family:var(--disp); font-size:1.35rem; font-weight:700; color:var(--slate); line-height:1.1; margin-bottom:0.1rem; }
 .exp-dept{ font-size:0.8rem; color:var(--mid); font-weight:400; margin-bottom:0.6rem; }
+/* A credential held in the role (e.g. Green Star AP at WSP): a quiet mono line under the team. */
+.exp-note{ font-family:var(--mono); font-size:11px; letter-spacing:0.04em; color:var(--accent-ink); margin:-0.25rem 0 0.6rem; }
 .exp-meta{ display:flex; flex-direction:column; gap:0.2rem; }
 .exp-meta-row{ display:flex; justify-content:space-between; align-items:baseline; gap:1rem; flex-wrap:wrap; }
 .exp-role-title{ font-weight:700; font-size:0.85rem; color:var(--slate); }

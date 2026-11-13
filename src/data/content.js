@@ -94,7 +94,7 @@ export const PIPELINE = [
       { title: 'CDP 2026 and the S&P Corporate Sustainability Assessment', body: 'Submitted Downer\'s CDP 2026 response and the S&P Corporate Sustainability Assessment, from first draft to submission, and built the sign-off pack that laid out the CDP response\'s open points for decision.', outcome: 'Two investor questionnaires submitted, Downer Group' },
       { title: 'AASB S2 climate statement: physical risk', body: 'Management adopted the method I recommended for the physical risk analysis behind Downer\'s AASB S2 climate statement, from three ready-to-adopt options I set out. I developed the analysis across three SSP scenarios and drafted the basis of preparation paragraphs for its method.', outcome: 'FY26 climate statement under AASB S2, Downer Group' },
       { title: 'GRESB Infrastructure Assessment', body: 'Led a GRESB Infrastructure submission for a major NSW electricity distribution network on behalf of its institutional investor, built the data collection, gap analysis and mock scoring procedures behind it, and supported every one of the client\'s submissions from its first.', outcome: 'Score up 35% and global ranking up 63%, WSP in Australia' },
-      { title: 'Green Star Performance across property portfolios', body: 'Coordinated Green Star Performance submissions across more than 400 property assets for property and fund managers, and produced a water resilience assessment with more than 30 recommended measures for a major property manager.', outcome: 'One client\'s 50-plus asset retail portfolio rose from two stars to three for the first time, WSP in Australia' },
+      { title: 'Green Star Performance across property portfolios', body: 'Coordinated Green Star Performance submissions across more than 400 property assets for property and fund managers, and produced a water resilience assessment with more than 30 recommended measures for a major property manager. The first client submission I worked on came back from the Green Building Council of Australia with no comments.', outcome: 'One client\'s 50-plus asset retail portfolio rose from two stars to three for the first time, WSP in Australia' },
       { title: 'NSW Government emissions accounting guidelines', body: 'Contributed to emissions accounting guidelines for all NSW Government entities under the State\'s emerging mandatory reporting framework, reviewing NGER, AASB S2 and the GHG Protocol and running stakeholder engagement and workshops.', outcome: 'Guidelines for every NSW Government entity, WSP in Australia' },
       { title: 'Statutory fuel reporting notice', body: 'Delivered Downer\'s first return under a statutory notice (Petroleum and Other Fuels Reporting Act 2017) inside its ten-day window, with no precedent in the team to follow, coordinating diesel capacity and reserves data across the business units.', outcome: 'Monthly returns kept up to 30 June 2026, Downer Group' },
     ],
@@ -336,6 +336,9 @@ export const EXPERIENCE = [
     mark: 'WSP', clr: 'wsp',
     logo: 'img-png-wsp-red.png', logoClass: 'logo-wsp', logoAlt: 'WSP logo', logoW: 126, logoH: 60,
     org: 'WSP in Australia', dept: 'Sustainability and Climate Change Advisory',
+    // A credential held in the role, not an outcome. Not current, so it reads
+    // as held while at WSP (career record: achieved by June 2023).
+    note: 'Green Star Accredited Professional (Buildings) while at WSP',
     roles: [
       { title: 'Project Consultant', date: 'Oct 2025 to Feb 2026' },
       { title: 'Design Consultant', date: 'Oct 2023 to Oct 2025' },

@@ -286,7 +286,7 @@ paths relative so both the domain root and a `/Portfolio/` sub-path work.
 ## Content rules
 
 - Every figure and claim on the site must trace to Chris's own record, and must match his current CV. When a claim changes in one, check the other: the outcome tiles (`OUTCOMES`), the stage examples (`PIPELINE`) and the bio in `src/data/content.js`.
-- The track record (`EXPERIENCE`, `EDUCATION`) lists employer, team, titles and dates only. Per-job outcomes are left off on purpose, so each CV can be tailored without the site contradicting it. Do not add bullets back.
+- The track record (`EXPERIENCE`, `EDUCATION`) lists employer, team, titles and dates only, plus a credential held in a role as its `note` (Green Star AP while at WSP; not current, so never shown as held now). Per-job outcomes are left off on purpose, so each CV can be tailored without the site contradicting it. Do not add bullets back.
 - Describe work in progress by role, not by result. Do not write "lodged", "launched" or "resolved" before it is true.
 - Past consulting clients stay anonymised.
 - No side-stripe borders: no coloured `border-left` accents on cards, callouts or lead paragraphs (see `.claude/skills/impeccable`). Use a full hairline border, a tint, or nothing.
