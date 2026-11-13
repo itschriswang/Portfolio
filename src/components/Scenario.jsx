@@ -6,6 +6,7 @@ import { Chart, LineController, LineElement, PointElement, LinearScale, Category
 Chart.register(LineController, LineElement, PointElement, LinearScale, CategoryScale, Filler, Tooltip);
 import { runModel, chartLabels, LEVER_LABELS, SECTOR_OPTIONS, resolveSector } from '../data/scenario';
 import { SCENARIO_UI } from '../data/content';
+import FloatingDots from './FloatingDots';
 import SplitText from './SplitText';
 import Icon from './Icons';
 import { prefersReducedMotion } from '../utils/media';
@@ -57,22 +58,19 @@ function Seg({ value, options, onChange, sc, small, label }) {
   );
 }
 
-// FY30 as dots at one fixed scale (dotField() in src/data/scenario.js): filled
-// for net emissions, hollow for what the levers abate against business as
-// usual. The counts are the model's; this only lays them out. Dots change state
-// in place when a lever moves, so the reader watches tonnes leave rather than
-// a bar re-scale. Under reduced motion they change without the stagger.
+// FY30 as dots at one fixed scale (dotField() in src/data/scenario.js), drawn
+// as a living field by FloatingDots: solid for net emissions, hollow for what
+// the levers abate against business as usual.
 function DotField({ dots }) {
   const c = SCENARIO_UI.dots;
-  const cells = Array.from({ length: dots.total }, (_, i) => i < dots.net);
   return (
     <div className="dotfield">
       <div className="df-head">
         <span className="df-title">{c.title}</span>
         <span className="df-scale">{c.scale}</span>
       </div>
-      <div className="df-grid" role="img" aria-label={`${c.title}: ${dots.net} kt ${c.net.toLowerCase()}, ${dots.avoided} kt ${c.avoided.toLowerCase()}. ${c.scale}.`}>
-        {cells.map((on, i) => <i key={i} className={on ? 'on' : ''} style={{ '--i': i }} />)}
+      <div className="df-field" role="img" aria-label={`${c.title}: ${dots.net} kt ${c.net.toLowerCase()}, ${dots.avoided} kt ${c.avoided.toLowerCase()}. ${c.scale}.`}>
+        <FloatingDots net={dots.net} avoided={dots.avoided} />
       </div>
       <div className="df-legend">
         <span><i className="on" aria-hidden="true" />{c.net}<b>{dots.net} kt</b></span>

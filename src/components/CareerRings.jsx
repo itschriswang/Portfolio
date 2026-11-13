@@ -61,11 +61,12 @@ export default function CareerRings() {
         )))}
         <path d={ring(R)} className="cr-edge" />
         <circle r={R0 * 0.55} className="cr-pith" />
-        {/* Year labels along one ray, each set where its ring crosses it. */}
+        {/* Year labels along the left ray, each set where its ring crosses it:
+            the right side of the disc runs off the page. */}
         {g.years.map((y) => {
           const r = rad(y.at);
           return (
-            <text key={'t' + y.year} x={r + 1.2} y={-1.4} className="cr-yr">{'\u2019' + String(y.year).slice(2)}</text>
+            <text key={'t' + y.year} x={-(r + 1.2)} y={-1.4} textAnchor="end" className="cr-yr">{'\u2019' + String(y.year).slice(2)}</text>
           );
         })}
       </svg>

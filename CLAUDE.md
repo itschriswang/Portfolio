@@ -132,20 +132,16 @@ built as a React + Vite multi-page app and deployed to GitHub Pages.
   Publishing a draft is the reverse of the list above, plus moving its page from
   `DRAFT_PAGES` to `PUBLIC_PAGES` (and its static files out of `DRAFT_STATIC`)
   in `vite.config.js`, and its entry from `PRIVATE_TOOLS` to `TOOLS`.
-- **The home page puts its evidence first.** Under the hero paragraph,
-  `HERO.proof` carries three figures (the ×65 spend defect, the GRESB ranking,
-  the FY27 emissions budget across four business units) and one line on how
-  every figure is held. Each restates a claim made in full in `OUTCOMES` or
-  `BIO_PARAS`, so a change to one changes the other. On a phone the button
-  comes first and the evidence is the next beat.
 - **Two motifs, one meaning each.** Tree rings mean time: decoration in the
   hero, and in the Track record (`CareerRings.jsx`) the record itself, one ring
   per calendar year from the first role to today, a band per employer in the
-  green ramp with the employer's colour on its closing line. The geometry is
+  green ramp with the employer's colour on its closing line, the disc running off
+  the right edge of the page like the hero's. The geometry is
   `careerRings()` in `src/lib/careerRings.js`, read from the dates in
   `EXPERIENCE` and tested in `tests/career-rings.test.js`. Dots mean quantity:
   the Life Footprint carbon field, and the decarbonisation model's FY30 dot
-  field (one dot per kt, filled for net, hollow for abated), whose counts are
+  field (`FloatingDots.jsx`: one dot per kt drifting in two clouds, solid for
+  net and hollow for abated, gliding between them when a lever moves), whose counts are
   `dotField()` in `src/data/scenario.js` and are tested to agree with the KPI
   tiles (`tests/scenario-dots.test.js`). Do not scatter either motif onto pages
   where it would not carry its meaning.

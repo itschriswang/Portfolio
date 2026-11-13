@@ -41,19 +41,7 @@ export const HERO = {
   name: ['Chris', 'Wang'],
   roles: ['Senior Sustainability Advisor', 'ESG Reporting and Assurance', 'Decarbonisation and Net Zero'],
   location: 'Melbourne, Australia',
-  prop: 'I deliver emissions and ESG reporting that holds up under assurance, and turn it into net zero plans the business can act on. Consulting at WSP, now in-house at an ASX-listed group, across NGER, AASB S2 and GRESB.',
-  // The first-screen evidence, for the reader who decides in a glance whether
-  // the numbers will hold up: one data-integrity catch, one disclosure result,
-  // one budgeting cycle. Each restates a claim made in full further down
-  // (OUTCOMES and BIO_PARAS), so a change to one changes the other.
-  proof: {
-    items: [
-      { num: '×65', text: 'A currency defect I found in Scope 3 spend data during assurance, now corrected for FY25 and FY26' },
-      { num: '+63%', text: 'GRESB global ranking for an electricity network, on a submission I led' },
-      { num: '4', text: 'Business units through the FY27 emissions budget cycle I ran' },
-    ],
-    note: 'Every figure on this site is sourced, or labelled as illustrative.',
-  },
+  prop: 'I build emissions reporting that stands up to the regulator, the assurer and investors, and the net zero pathway models business plans are set against. Four years consulting at WSP, now in-house at ASX-listed Downer Group.',
   ctas: [
     { label: 'Get in touch', href: '#contact', primary: true, icon: 'linkedin' },
   ],
@@ -71,7 +59,7 @@ export const BIO_TAG = { tag: 'Profile', idx: '00 / ' };
 export const BIO_PARAS = [
   'At ASX-listed Downer Group I rebuilt the workbook behind our statutory National Greenhouse and Energy Reporting (NGER) report with checks that tie its totals to the assured data, loaded the regulator\'s system from it and wrote the method down, for my manager to review and submit. I also help prepare the Group greenhouse gas inventory for limited assurance, with my manager and a colleague. I built the Net Zero pathway model our business units\' decarbonisation plans run on, and ran the FY27 emissions budget cycle for four business units.',
   `I have spent ${yearsInWords(SUSTAINABILITY_START).toLowerCase()} in sustainability, the first four as a consultant at WSP and now in-house. At WSP I delivered a NSW water business's first Scope 1, 2 and 3 baseline, including wastewater, helped deliver limited assurance of a property trust's emissions data each year and led a GRESB submission for an electricity network. Before that I worked on the owner's side at the Department of Defence, administering $1.3 billion of capital works contracts.`,
-  'I went to an agricultural high school, which taught me early that business has to grow in an environmentally conscious way. In my own time I built Life Footprint, a public carbon calculator for anyone who wants to see their footprint clearly enough to change it.',
+  'I went to an agricultural high school, which taught me early that a business has to grow without using up what it depends on. In my own time I built Life Footprint, a public carbon calculator for anyone who wants to see their footprint clearly enough to change it.',
 ];
 
 export const OUTCOMES = [
@@ -148,7 +136,7 @@ export const PIPELINE = [
 export const PRINCIPLES_INTRO = { tag: 'My practice', idx: '01 / ', title: 'How I work', titleAccent: 1 };
 
 export const PRINCIPLES = [
-  { num: '01', icon: 'list', title: 'Test the numbers before they set targets', body: 'As Group reviewer I recalculated a business unit\'s proposed decarbonisation initiatives from first principles before their figures set its FY27 targets, and showed the abatement claimed was the top of a credible range, not the floor.' },
+  { num: '01', icon: 'list', title: 'Test the numbers before they set targets', body: 'As Group reviewer I recalculated a business unit\'s proposed decarbonisation initiatives from first principles before their figures set its FY27 targets, and showed the abatement claimed sat at the top of a credible range.' },
   { num: '02', icon: 'people', title: 'Teach the people who will run it', body: 'I built self-service emissions forecast workbooks for three business units, each with a written guide, for finance and sustainability managers to run without me. At WSP I typically managed one or two consultants on a project and mentored juniors across Australia and South-East Asia.' },
   { num: '03', icon: 'target', title: 'Claim only what the evidence supports', body: 'I reworded a renewable electricity commitment so it claimed only what would be true on the day it took effect. Carbon credits belong on residual, hard-to-abate emissions, once the business has cut what it can.' },
 ];
@@ -351,7 +339,7 @@ export const EXPERIENCE_INTRO = {
   // The tree-ring figure beside the timeline (CareerRings.jsx, geometry from
   // src/lib/careerRings.js). Drawn from the role dates below and nothing else.
   rings: {
-    caption: 'One ring a year, from my first role to today. Each band is an employer in the timeline colours, and the finer lines inside a band are role changes.',
+    caption: 'One ring for each year since my first role. Each band is an employer, closed by a line in its timeline colour, and a dashed ring marks a change of role.',
     basis: 'Derived · drawn from the dates in the record below',
     label: 'Tree-ring cross-section of my career from {start} to today: one ring a year, with a band for each of {n} employers.',
   },
