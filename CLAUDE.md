@@ -20,11 +20,12 @@ built as a React + Vite multi-page app and deployed to GitHub Pages.
   `src/footprint/main.jsx`) at `/footprint/`, and its basis of preparation
   (`footprint/method/index.html` → `src/footprint/method/main.jsx`) at
   `/footprint/method/`.
-- Drafts, unlisted and behind a passphrase (see **The drafts** below): Target
+- Drafts, not deployed (see **The drafts** below): Target
   Tracker at `/targets/`, Cost Per Wear at `/fashion/`, Super Fund Holdings at
   `/super/` (methodology at `/super/method/`), Grid Intensity at `/grid/`,
   Australia's Climate Progress at `/progress/` and Sustainability Daily at
-  `/daily/`, indexed only by `/lab/`.
+  `/daily/`, indexed only by `/lab/`. They run under `npm run dev` and are left
+  out of the production build.
 - Every page has its entry html at the repo root and its source under
   `src/<page>/`.
 
@@ -32,9 +33,9 @@ built as a React + Vite multi-page app and deployed to GitHub Pages.
 
 | Path | What lives here |
 |---|---|
-| `src/components/` | Main-page sections (Hero, Bio, Principles, Ticker, Scenario, Tools + its `ToolSpecimen` charts, Experience, Contact) plus the shared SiteFooter (big lime card with signup + link columns, used by the home and work pages), shared Chrome (nav, grain, scroll progress, skip link), the shared hand-drawn `Icons` set (round line art, one matcha accent shape per glyph, used beside sec-tags on every page), `TreeRings` (a seeded, generated vector cross-section drawn under the home hero's year tiles and cropped into the band's bottom-right corner, lime line-work on the dark hero ground, decoration only; the hero is the one dark band at the top of the home page, with its tokens local to `#about`), and the `Aurora` (WebGL) + `ContourField` (canvas) hero backdrops, mounted on the home, work, footprint and fashion intros. `ToolNav.jsx` carries the shared nav + compact footer for the standalone tool pages, all of them drafts now (`/grid/`, `/super/`, `/targets/`, `/fashion/`, `/progress/`, `/daily/`). `ToolCard.jsx` is the one tool tile, used by the home page's Tools band and by the drafts index. `Gate.jsx` is the passphrase screen in front of the drafts. Two shared controls sit alongside them: `Range.jsx` (every slider on the site, see the convention below) and `CopyButton.jsx` (every copy-to-clipboard action). |
-| `src/work/` | Work-samples page: `WorkApp`, `Baseline`, `CaseStudy`, data in `workData.js`, styles in `work.css`. |
-| `src/footprint/` | Life Footprint page: calculation engine and factor data in `lib/` and `data/` (keep rigorous; every factor cites its source), the Wrapped-style reveal in `story/` (WebGL carbon field, carbon characters, share cards), guided audit in `Onboarding.jsx`, dashboard sections alongside. Copy lives in `data/copy.js` and `data/storyCopy.js`. |
+| `src/components/` | Main-page sections (Hero, Bio, Principles, Ticker, Scenario, Tools + its `ToolSpecimen` charts, Experience, Contact) plus the shared SiteFooter (big lime card with signup + link columns, used by the home and work pages), shared Chrome (nav, grain, scroll progress, skip link), the shared hand-drawn `Icons` set (round line art, one matcha accent shape per glyph, used beside sec-tags on every page), `TreeRings` (a seeded, generated vector cross-section drawn under the home hero's year tiles and cropped into the band's bottom-right corner, lime line-work on the dark hero ground, decoration only; the hero opens the home page on the `--night` ground in `:root`, the one dark the site uses, shared with the tools band and the work page's intro), and the `Aurora` (WebGL) + `ContourField` (canvas) hero backdrops, mounted on the home, work, footprint and fashion intros. `ToolNav.jsx` carries the shared nav + compact footer for the standalone tool pages, all of them drafts now (`/grid/`, `/super/`, `/targets/`, `/fashion/`, `/progress/`, `/daily/`). `ToolCard.jsx` is the one tool tile, used by the home page's Tools band and by the drafts index. `Gate.jsx` is the passphrase screen in front of the drafts. Two shared controls sit alongside them: `Range.jsx` (every slider on the site, see the convention below) and `CopyButton.jsx` (every copy-to-clipboard action). |
+| `src/work/` | Work-samples page: `WorkApp`, `Baseline`, `CaseStudy`, data in `workData.js`, styles in `work.css`. Its intro is the same dark `--night` opening as the home hero (contour field only; the tree rings stay on the home page). |
+| `src/footprint/` | Life Footprint page: calculation engine and factor data in `lib/` and `data/` (keep rigorous; every factor cites its source), the Wrapped-style reveal in `story/` (WebGL carbon field, carbon characters, share cards; its dark sections stand on `--night`, and the cover takes the site's lime-bright accent and pill button while the rest of the story keeps its matcha), guided audit in `Onboarding.jsx`, dashboard sections alongside. Copy lives in `data/copy.js` and `data/storyCopy.js`. |
 | `src/footprint/method/` | The basis of preparation page (`/footprint/method/`): the written method plus the live factor tables, rendered from the same factor set the engine prices from. |
 | `src/fashion/` | Cost Per Wear (`/fashion/`): fashion brand transparency lookup. `FashionApp.jsx` holds the page spine: lookup, compare, the personal lens ("what you can't know": user-picked concerns read against a brand's disclosure statuses, never a brand ranking), directory, the ownership-map treemap in the dark spotlight band, the tabbed field guide (materials, certifications, regulation, claim check), the signals explainer, and the backlog with its dated change log. Between the directory and the field guide sits the Garment Studio (`Studio.jsx`: carbon footprint estimator with live CO2e particle streams, fabric comparator, supply chain mapper over the dot-matrix world map, circularity scorecard; all studio factors are indicative published-LCA estimates and the UI says so once, plainly). All brand data, studio factors, lens concerns, changelog and editorial copy in `data.js`, styles in `fashion.css` (layered on `global.css` tokens like the footprint pages), intent in `design-notes.md`. Every company shows its real logo via `BrandLogo` (walked through the keyless `LOGO_SOURCES` provider chain by `BRAND_DOMAIN` in `data.js`), with a generated woven-label monogram (`deriveMonogram`/`SEGMENT_STYLE`) as the automatic fallback. |
 | `src/grid/` | Grid Intensity (`/grid/`): live NEM emissions-intensity view ("run it now or wait") plus the Scope 2 explorer (location-based vs market-based factors with GreenPower/PPA and LGC toggles). Copy and factors in `data.js`, styles in `grid.css` (`gi-` prefix). |
@@ -43,7 +44,7 @@ built as a React + Vite multi-page app and deployed to GitHub Pages.
 | `src/progress/` | Australia's Climate Progress (`/progress/`): scroll-driven reveal of national numbers (grid mix, EV sales, capacity additions, emissions vs target), each with a reference point, ending on a progress-and-shortfall summary. Reviewed quarterly; the last-updated date renders from one field in `data.js`. Styles in `progress.css` (`pr-` prefix). |
 | `src/targets/` | Target Tracker (`/targets/`): ASX50 net zero commitments plotted against reported Scope 1 and 2 emissions. Each company card draws the claimed path (baseline through absolute interim targets to the net zero year) as an SVG chart with the reported series overlaid, and carries a verification status (`sourced`/`partial`/`unverified`), flags (offsets, intensity, weakened, alliance exits) and per-company sources. Trajectory maths in `lib.js`; all company data and copy in `data.js`; in-page basis of preparation; last-updated date from one field in `data.js`. Styles in `targets.css` (`tt-` prefix). |
 | `src/lab/` | The drafts index (`/lab/`): the six unpublished tools as the same `ToolCard` tiles the home page uses, behind `Gate`. Copy in `data.js`, page frame in `lab.css`; the tools themselves are `PRIVATE_TOOLS` in `src/data/content.js`. Unlisted, and nothing public links to it. |
-| `src/lib/` | `opennem.js` — the one shared OpenNEM/AEMO client both `/grid/` and `/progress/` read (live NEM data with honest `{ live: false }` failure; callers must label fallbacks as estimates). `gate.js` — the passphrase check behind `/lab/` and the drafts, and the written record of what that gate is and is not. |
+| `src/lib/` | `careerRings.js` — the Track record ring figure's geometry, from the dates in `EXPERIENCE`. `opennem.js` — the one shared OpenNEM/AEMO client both `/grid/` and `/progress/` read (live NEM data with honest `{ live: false }` failure; callers must label fallbacks as estimates). `gate.js` — the passphrase check behind `/lab/` and the drafts, and the written record of what that gate is and is not. |
 | `src/data/` | Content and model inputs: `content.js` (all editorial copy, including footer links, the public `TOOLS` index, the unlisted `PRIVATE_TOOLS` index and the gate's copy), `scenario.js` (decarbonisation model), `specimens.js` (the small slices of each tool's real data that the tool-card charts are drawn from). |
 | `src/hooks/` | `useMagnetic` — cursor-follow interaction. |
 | `src/utils/` | `media.js` — `prefersReducedMotion()` / `canHover()` guards. `clipboard.js` — the one `copyText()` helper, with the hidden-textarea fallback. |
@@ -59,6 +60,18 @@ built as a React + Vite multi-page app and deployed to GitHub Pages.
   `global.css`. Neutrals are intentionally tinted toward the matcha brand hue at
   low chroma — do not "restore" cool-blue slate values; the green lean is
   deliberate and contrast is held to the original lightness, except `--mid`, darkened to oklch 0.50 in September 2026 so small text clears 4.5:1 on the tinted bands.
+  The greens themselves share one hue axis (OKLCH 115-120): forest, the inks,
+  matcha and lime differ in lightness and chroma, never in hue, so the dark and
+  bright greens read as one family. Forest and the sages were moved onto it in
+  November 2026 (hue only, so contrast held). Put any new green on that axis.
+  The companions are picked against the lime on a colour scheme, not by eye:
+  indigo on the lime's split-complement (hue 280), berry as a raspberry on its
+  triad (355), amber as a gold one step from it (82), and the communication
+  purple near its complement (315), all at chroma close to the lime's so none
+  outshouts it. Each has an `-ink` twin for text, 4.6:1 or better on white and
+  both lime washes. Change a companion by moving it on that scheme, and keep
+  the hand-written copies (Aurora stops, chart rgba fills, Life Footprint's
+  category hexes in `footprint.css` and `factors.js`) in step.
 - **All editorial copy is data**, not JSX. Add or edit words in `src/data/`,
   never inline in components.
 - **The basis of preparation stays in sync.** The footprint's method page
@@ -108,20 +121,40 @@ built as a React + Vite multi-page app and deployed to GitHub Pages.
   the other side: `FOOTER.columns.length` drives the grid through
   `--footer-col-n`, so a column emptied by a page moving behind the gate closes
   up rather than leaving a hole. The accent
-  colours are chosen to clear contrast on the forest band, which is why
+  colours are chosen to clear contrast on the dark `--night` band, which is why
   `--indigo` is absent there.
-- **The drafts are unlisted, not secured.** Target Tracker, Cost Per Wear, Super
-  Fund Holdings, Grid Intensity, Australia's Climate Progress and Sustainability
-  Daily are not finished enough to show, so they are kept out of
-  `public/sitemap.xml` and `public/404.html`, carry
+- **The drafts are not deployed.** Target Tracker, Cost Per Wear, Super Fund
+  Holdings, Grid Intensity, Australia's Climate Progress and Sustainability Daily
+  are not finished enough to show, and several make unverified claims about
+  named companies and funds, so they are left out of the production build:
+  `vite.config.js` builds only `PUBLIC_PAGES` unless `BUILD_DRAFTS=1`, and its
+  `dropDraftStatic` step removes the drafts' share cards and Cost Per Wear's
+  `public/data/` CSV from `dist/`. `npm run dev` still serves every draft. They
+  also stay out of `public/sitemap.xml` and `public/404.html`, carry
   `<meta name="robots" content="noindex, nofollow">`, are absent from `NAV_LINKS`
-  and `FOOTER`, and wrap their app in `Gate` in `src/<tool>/main.jsx`. They still
-  build and deploy. The passphrase and the limits of the arrangement are written
-  at the top of `src/lib/gate.js`: the site is a static build with no server and
-  the repository is public, so the gate hides the drafts from visitors and search
-  engines and is not security. Never describe it as more than that, and never put
-  anything genuinely confidential behind it. Publishing a draft is the reverse of
-  the list above, plus moving its entry from `PRIVATE_TOOLS` to `TOOLS`.
+  and `FOOTER`, and wrap their app in `Gate` in `src/<tool>/main.jsx` (which now
+  only matters for a `BUILD_DRAFTS=1` build). The repository is public, so their
+  source is readable on GitHub whatever the build does: never put anything
+  genuinely confidential in a draft. The home page's tools band carries one
+  line of work in progress (`TOOLS_INTRO.bench`), by role, not by result.
+  Publishing a draft is the reverse of the list above, plus moving its page from
+  `DRAFT_PAGES` to `PUBLIC_PAGES` (and its static files out of `DRAFT_STATIC`)
+  in `vite.config.js`, and its entry from `PRIVATE_TOOLS` to `TOOLS`.
+- **Two motifs, one meaning each.** Tree rings mean time: decoration in the
+  hero, and in the Track record (`CareerRings.jsx`) the record itself, one thin
+  ring per calendar year from the first role to today, a band per employer in
+  the green ramp closed by a line in its timeline colour, dashed rings for role
+  changes. It grows with the scroll through the timeline (a clip widening from
+  the pith, so each employer arrives in turn), runs off the right edge of the
+  page, and carries no labels, legend or caption. The geometry is
+  `careerRings()` in `src/lib/careerRings.js`, read from the dates in
+  `EXPERIENCE` and tested in `tests/career-rings.test.js`. Dots mean carbon:
+  the Life Footprint carbon field, and the ambient field behind the
+  decarbonisation model (`AmbientDots.jsx`), which is background flavour, not a
+  chart: the levers' FY30 abatement (`dotField()` in `src/data/scenario.js`,
+  tested against the KPI tiles in `tests/scenario-dots.test.js`) decides how
+  many of its dots let go and lift away as hollow lime rings. Do not scatter
+  either motif onto pages where it would not carry its meaning.
 - **Every tool card draws a chart from that tool's real data.** The specimens
   (`src/components/ToolSpecimen.jsx`, data in `src/data/specimens.js`) are small
   SVG charts: a claimed-versus-reported trajectory, a disclosure histogram, a

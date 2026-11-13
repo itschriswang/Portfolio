@@ -193,6 +193,18 @@ export function resolveSector(sectorKey) {
   };
 }
 
+// FY30 net and abatement in whole kilotonnes, for the ambient dot field behind
+// the model (AmbientDots.jsx), which lets go of the abated share of its dots.
+// Each rounds the way its KPI tile does (kt() rounds to the nearest thousand),
+// so the two never disagree; the total is their sum, and can sit one off the
+// rounded business-as-usual figure.
+export const DOT_T = 1000; // tCO2-e per dot
+export function dotField(net30, bau30, perDot = DOT_T) {
+  const net = Math.max(0, Math.round(net30 / perDot));
+  const avoided = Math.max(0, Math.round(Math.max(0, bau30 - net30) / perDot));
+  return { perDot, total: net + avoided, net, avoided };
+}
+
 // Core model. Returns everything the UI needs to render: series for the chart,
 // KPI values, the dynamic takeaway, and per-lever FY30 contribution bars.
 export function runModel(scn) {
@@ -335,6 +347,7 @@ export function runModel(scn) {
     series: { net, gridLayer, lvLayer, hvLayer, plantLayer, bau, actuals },
     kpis, frame,
     takeaway,
+    dots: dotField(net30, bau30),
     contrib: { grid: bar(sv_g), lv: bar(sv_lv), hv: bar(sv_hv), plant: bar(sv_pl) },
     chartTitle: mode === 'textile' ? 'Value chain footprint pathway to FY50' : 'Scope 1 & 2 emissions pathway to FY50',
   };

@@ -17,13 +17,24 @@
 .page-work p{ text-wrap:pretty; }
 
 /* ---- Intro ---- */
-#work-intro{ background:linear-gradient(168deg,var(--lime-soft) 0%,var(--lime-wash) 34%,var(--bg) 82%); border-bottom:1px solid var(--rule-dk); padding:clamp(3.5rem,9vw,6rem) 0 clamp(3rem,7vw,5rem); overflow:hidden; }
-.wi-title{ font-size:clamp(2.8rem,9.5vw,7rem); line-height:0.82; letter-spacing:-0.05em; margin:1.2rem 0 1.2rem; }
-.wi-title em{ color:var(--forest-ink); font-style:normal; }
-.wi-sub{ font-size:clamp(0.95rem,1.4vw,1.15rem); font-weight:400; color:var(--ink-2); max-width:560px; line-height:1.7; margin-bottom:1.75rem; }
-.wi-back{ font-family:var(--mono); font-size:12px; padding:0.65rem 0; letter-spacing:0.18em; text-transform:uppercase; color:var(--w-ink2); text-decoration:none; display:inline-flex; align-items:center; gap:0.5rem; transition:color 0.3s var(--ease); }
-.wi-back:hover{ color:var(--forest); }
-.wi-back span{ color:var(--matcha); }
+/* The intro opens the way the home page does: the --night ground with one
+   soft plum glow, white type, lime on a single word. The tree rings stay a
+   home-page signature; the contour field carries the backdrop here, in its
+   dark tone. */
+#work-intro{
+  background:radial-gradient(55% 70% at 0% 0%, rgba(232,83,152,0.16), transparent 65%), var(--night);
+  color:#fff; border-bottom:1px solid rgba(255,255,255,0.14);
+  padding:clamp(3.5rem,9vw,6rem) 0 clamp(3rem,7vw,5rem); overflow:hidden; position:relative;
+}
+#work-intro #contour-field{ opacity:0.35; }
+#work-intro .sec-tag{ color:var(--sage-2); }
+#work-intro .sec-tag::before{ color:var(--lime); }
+.wi-title{ font-size:clamp(2.8rem,9.5vw,7rem); line-height:0.82; letter-spacing:-0.05em; margin:1.2rem 0 1.2rem; color:#fff; --split-accent:var(--lime-bright); }
+.wi-title em{ color:var(--lime-bright); font-style:normal; }
+.wi-sub{ font-size:clamp(0.95rem,1.4vw,1.15rem); font-weight:400; color:rgba(255,255,255,0.78); max-width:560px; line-height:1.7; margin-bottom:1.75rem; }
+.wi-back{ font-family:var(--mono); font-size:12px; padding:0.65rem 0; letter-spacing:0.18em; text-transform:uppercase; color:rgba(255,255,255,0.72); text-decoration:none; display:inline-flex; align-items:center; gap:0.5rem; transition:color 0.3s var(--ease); }
+.wi-back:hover{ color:var(--lime-bright); }
+.wi-back span{ color:var(--lime-bright); }
 
 /* ---- Narrative lead-in: the through-line before the frameworks ---- */
 #work-narrative{ background:var(--bg); padding:clamp(3.5rem,8vw,5.5rem) 0 clamp(0.5rem,2vw,1.5rem); }
@@ -37,7 +48,7 @@
 #work-samples{ background:var(--bg); padding:clamp(2rem,5vw,3.5rem) 0 clamp(3rem,7vw,5rem); }
 .tabs{ display:inline-flex; flex-wrap:wrap; gap:0.4rem; margin-bottom:2.5rem; padding:0.4rem; background:var(--lime-wash); border:1px solid rgba(94,107,30,0.16); border-radius:var(--r-pill); max-width:100%; }
 .tab{ font-family:var(--mono); font-size:12px; letter-spacing:0.06em; text-transform:uppercase; border:none; background:transparent; color:var(--w-ink2); cursor:pointer; white-space:nowrap; transition:color 0.3s var(--ease),background 0.3s var(--ease),box-shadow 0.3s var(--ease); font-weight:600; padding:0.6rem 1.15rem; border-radius:var(--r-pill); display:inline-flex; align-items:center; }
-.tab.on{ color:var(--lime-bright); background:var(--forest); box-shadow:0 6px 16px rgba(33,48,15,0.18); }
+.tab.on{ color:var(--lime-bright); background:var(--forest); box-shadow:0 6px 16px rgba(39,46,9,0.18); }
 @media (hover:hover){ .tab:hover:not(.on){ color:var(--forest); background:rgba(255,255,255,0.6); } }
 .tab-lt{ font-family:var(--disp); font-size:0.95rem; font-weight:700; color:var(--forest-ink); margin-right:0.4rem; transition:color 0.2s; }
 .tab.on .tab-lt{ color:var(--lime-bright); }
@@ -49,7 +60,7 @@
    The LCA panel's claim and system boundary share the same frame
    (.lca-card), so both panels open on one card rather than a card in one
    and a loose banner in the other. */
-.baseline-tool, .lca-card{ background:var(--white); border:1px solid var(--rule-dk); border-radius:var(--r-lg); overflow:hidden; margin-bottom:2rem; box-shadow:0 1px 2px rgba(33,48,15,0.05); }
+.baseline-tool, .lca-card{ background:var(--white); border:1px solid var(--rule-dk); border-radius:var(--r-lg); overflow:hidden; margin-bottom:2rem; box-shadow:0 1px 2px rgba(39,46,9,0.05); }
 /* Selector sits at the top of the card as a clean control strip, connected to
    the claim and the scope split below by a hairline, not a heavy divider. */
 .baseline-ctrl{ display:flex; align-items:center; gap:0.75rem 1rem; background:var(--white); padding:1rem 1.5rem; border-bottom:1px solid var(--rule-lt); flex-wrap:wrap; }
@@ -60,7 +71,7 @@
 .baseline-seg{ display:inline-flex; flex-wrap:wrap; gap:0.35rem; padding:0.35rem; background:var(--lime-wash); border:1px solid rgba(94,107,30,0.16); border-radius:var(--r-lg); max-width:100%; }
 .baseline-seg button{ font-family:var(--mono); font-size:12px; font-weight:600; background:transparent; border:none; border-radius:var(--r-pill); color:var(--w-ink2); min-height:32px; padding:0.45rem 0.95rem; cursor:pointer; transition:background 0.2s,color 0.2s,box-shadow 0.2s; white-space:nowrap; }
 @media (hover:hover){ .baseline-seg button:hover:not(.on){ background:rgba(255,255,255,0.6); color:var(--forest); } }
-.baseline-seg button.on{ background:var(--forest); color:var(--lime-bright); box-shadow:0 4px 12px rgba(33,48,15,0.16); }
+.baseline-seg button.on{ background:var(--forest); color:var(--lime-bright); box-shadow:0 4px 12px rgba(39,46,9,0.16); }
 
 /* The banner is a flat band; the card around it supplies the corners. */
 .bl-banner{ background:var(--lime-wash); padding:1.6rem; border-bottom:1px solid var(--rule-lt); }

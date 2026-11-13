@@ -42,6 +42,7 @@ export default function Tools() {
         </div>
 
         <p className="tools-note">{TOOLS_INTRO.note}</p>
+        <p className="tools-note tools-bench">{TOOLS_INTRO.bench}</p>
       </div>
     </section>
   );

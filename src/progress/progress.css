@@ -66,7 +66,7 @@
 .pr-live {
   display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem;
   margin: 1.4rem 0 0.5rem; padding: 0.7rem 1rem;
-  background: rgba(33, 48, 15, 0.06); border: 1px solid rgba(33, 48, 15, 0.14);
+  background: rgba(39, 46, 9, 0.06); border: 1px solid rgba(39, 46, 9, 0.14);
   border-radius: var(--r-pill); width: fit-content; max-width: 100%;
 }
 .pr-live-dot {
@@ -188,7 +188,7 @@
 
 /* ---- Dark summary band ---- */
 .pr-dark {
-  background: #171C13; color: #F4F6EE;
+  background: var(--night); color: #F4F6EE;
   padding: clamp(4rem, 10vw, 7.5rem) 0;
 }
 .pr-dark-inner { max-width: 1180px; margin: 0 auto; }

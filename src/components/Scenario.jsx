@@ -6,6 +6,7 @@ import { Chart, LineController, LineElement, PointElement, LinearScale, Category
 Chart.register(LineController, LineElement, PointElement, LinearScale, CategoryScale, Filler, Tooltip);
 import { runModel, chartLabels, LEVER_LABELS, SECTOR_OPTIONS, resolveSector } from '../data/scenario';
 import { SCENARIO_UI } from '../data/content';
+import AmbientDots from './AmbientDots';
 import SplitText from './SplitText';
 import Icon from './Icons';
 import { prefersReducedMotion } from '../utils/media';
@@ -15,7 +16,7 @@ import { prefersReducedMotion } from '../utils/media';
 // ambitious (see .seg-sm in global.css), so the wide button is always the
 // setting the model starts from.
 const LEVERS = [
-  { key: 'grid', lc: 'var(--indigo)', sc: 'var(--indigo)', opts: ['base', 'off', 'slower', 'faster'] },
+  { key: 'grid', lc: 'var(--indigo)', sc: 'var(--indigo-ink)', opts: ['base', 'off', 'slower', 'faster'] },
   { key: 'lv', lc: 'var(--matcha)', sc: 'var(--accent-ink)', opts: ['base', 'slower', 'faster'] },
   { key: 'hv', lc: 'var(--amber)', sc: 'var(--amber-ink)', opts: ['base', 'slower', 'faster'] },
   { key: 'plant', lc: 'var(--berry)', sc: 'var(--berry-ink)', opts: ['base', 'off', 'slower', 'faster'] },
@@ -29,10 +30,10 @@ const REV_OPTS = [
 
 const LEGEND_SWATCH = [
   '<span class="cl-swatch line" style="color:#17190D"></span>',
-  '<span class="cl-swatch" style="background:rgba(99,91,255,0.45)"></span>',
+  '<span class="cl-swatch" style="background:rgba(111,108,234,0.45)"></span>',
   '<span class="cl-swatch" style="background:rgba(155,170,30,0.55)"></span>',
-  '<span class="cl-swatch" style="background:rgba(255,149,0,0.5)"></span>',
-  '<span class="cl-swatch" style="background:rgba(255,59,96,0.45)"></span>',
+  '<span class="cl-swatch" style="background:rgba(242,181,46,0.5)"></span>',
+  '<span class="cl-swatch" style="background:rgba(232,83,152,0.45)"></span>',
   '<span class="cl-swatch dash" style="color:rgba(23,25,13,0.5)"></span>',
   '<span class="cl-swatch dash" style="color:#535648"></span>',
 ];
@@ -80,10 +81,10 @@ export default function Scenario() {
         labels: chartLabels,
         datasets: [
           { label: 'Net emissions', data: [], borderColor: '#17190D', borderWidth: 2.5, backgroundColor: 'rgba(23,25,13,0.10)', fill: 'origin', pointRadius: 0, tension: 0.15 },
-          { label: 'Grid Decarbonisation', data: [], borderColor: 'transparent', borderWidth: 0, backgroundColor: 'rgba(99,91,255,0.28)', fill: '-1', pointRadius: 0, tension: 0.15 },
+          { label: 'Grid Decarbonisation', data: [], borderColor: 'transparent', borderWidth: 0, backgroundColor: 'rgba(111,108,234,0.28)', fill: '-1', pointRadius: 0, tension: 0.15 },
           { label: 'LV Fleet', data: [], borderColor: 'transparent', borderWidth: 0, backgroundColor: 'rgba(181,196,43,0.38)', fill: '-1', pointRadius: 0, tension: 0.15 },
-          { label: 'HV Fleet', data: [], borderColor: 'transparent', borderWidth: 0, backgroundColor: 'rgba(255,149,0,0.30)', fill: '-1', pointRadius: 0, tension: 0.15 },
-          { label: 'Plant Electrification', data: [], borderColor: 'transparent', borderWidth: 0, backgroundColor: 'rgba(255,59,96,0.26)', fill: '-1', pointRadius: 0, tension: 0.15 },
+          { label: 'HV Fleet', data: [], borderColor: 'transparent', borderWidth: 0, backgroundColor: 'rgba(242,181,46,0.30)', fill: '-1', pointRadius: 0, tension: 0.15 },
+          { label: 'Plant Electrification', data: [], borderColor: 'transparent', borderWidth: 0, backgroundColor: 'rgba(232,83,152,0.26)', fill: '-1', pointRadius: 0, tension: 0.15 },
           { label: 'Business as usual', data: [], borderColor: 'rgba(23,25,13,0.45)', borderWidth: 1.5, borderDash: [5, 4], backgroundColor: 'transparent', fill: false, pointRadius: 0, tension: 0 },
           { label: 'History (illustrative)', data: [], borderColor: '#535648', borderWidth: 1.5, borderDash: [2, 3], backgroundColor: 'transparent', fill: false, pointRadius: 3, tension: 0, pointBackgroundColor: '#535648' },
         ],
@@ -169,6 +170,7 @@ export default function Scenario() {
 
   return (
     <section id="scenario">
+      <AmbientDots net={result.dots.net} avoided={result.dots.avoided} />
       <div className="canvas">
         <div className="sec-tag" data-idx={SCENARIO_UI.idx}><Icon name="target" size={30} />{SCENARIO_UI.tag}</div>
         <h2 className="display sec-title">

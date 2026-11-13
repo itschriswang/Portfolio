@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { EXPERIENCE, EDUCATION, EXPERIENCE_INTRO } from '../data/content';
 import SplitText from './SplitText';
 import Icon from './Icons';
+import CareerRings from './CareerRings';
 import { prefersReducedMotion } from '../utils/media';
 
 export default function Experience() {
@@ -75,6 +76,8 @@ export default function Experience() {
           <SplitText text={EXPERIENCE_INTRO.title} accentIndex={EXPERIENCE_INTRO.titleAccent} />
         </h2>
 
+        <div className="exp-body">
+        <aside className="exp-aside"><CareerRings /></aside>
         <div className="exp-timeline" ref={tlRef}>
           <div className="exp-rail-fill" ref={fillRef} aria-hidden="true" />
 
@@ -132,6 +135,7 @@ export default function Experience() {
               <span>{m.mark}</span>
             </div>
           ))}
+        </div>
         </div>
       </div>
     </section>

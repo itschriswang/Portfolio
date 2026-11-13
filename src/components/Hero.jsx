@@ -7,9 +7,12 @@ import TreeRings from './TreeRings';
 import Icon, { LinkedInIcon } from './Icons';
 
 // The live "years" figure comes from yearsSince (content.js), a whole number.
-// The tween floors, so it counts up in whole years and never passes the target.
+// The tween rounds, so each year appears halfway to it and the count never
+// passes the target. It used to floor on a steep ease-out, which reaches 80%
+// of the way in a third of the time and then creeps: the second-last year sat
+// on screen for most of a second before the real one landed.
 function formatYears(v) {
-  return String(Math.floor(v + 1e-9));
+  return String(Math.round(v));
 }
 
 // The count starts when the tile reaches the screen, not on page load: on a
@@ -27,7 +30,9 @@ function Counter({ target, suffix, still }) {
     }
     if (!seen) return undefined;
     const controls = animate(mv, target, {
-      duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.4,
+      // A gentle ease-out over a second: the years tick at a slowing, even
+      // pace and the last one lands about halfway through, then holds.
+      duration: 1.0, ease: [0.33, 1, 0.68, 1], delay: 0.3,
       onUpdate: (v) => { if (ref.current) ref.current.textContent = formatYears(v) + suffix; },
     });
     return controls.stop;
@@ -90,11 +95,11 @@ function usePace(ref) {
     let raf = 0;
     const measure = () => {
       if (!mq.matches) { setPace(null); return; }
-      const cta = el.querySelector('.hero-cta');
+      const last = el.querySelector('.hero-cta');
       const tile = el.querySelector('.instr');
-      if (!cta || !tile) return;
+      if (!last || !tile) return;
       const top = el.getBoundingClientRect().top;
-      const need = cta.getBoundingClientRect().bottom - top + PACE_BEAT + tile.offsetHeight + PACE_FOOT;
+      const need = last.getBoundingClientRect().bottom - top + PACE_BEAT + tile.offsetHeight + PACE_FOOT;
       const nav = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 53;
       setPace(need <= window.innerHeight - nav ? 'one' : 'two');
     };

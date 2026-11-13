@@ -19,30 +19,51 @@
 html { scroll-behavior: smooth; overflow-x: clip; color-scheme: light; }
 
 :root {
-  /* Accent fills. Matcha is the brand hue; indigo, berry and amber are its
-     companions for series, steps and status. They are fills first; text on a
-     light surface takes the darker -ink twins below. */
+  /* Accent fills. Matcha and lime are the brand; indigo, berry and amber are
+     their companions for series, steps and status, picked against the lime
+     (OKLCH hue 120) on a scheme rather than by eye (November 2026):
+       indigo  hue 280, the lime's split-complement (cool, opposite side);
+       berry   hue 355, a raspberry on the lime's triad (warm contrast);
+       amber   hue 82,  a gold one step from the lime (analogous neighbour);
+       comms   hue 315, near the lime's complement, quieter.
+     Their chroma is held near the lime's (0.16 to 0.19), so none of them
+     shouts over it; the old electric indigo, coral berry and orange amber sat
+     at 0.23, 104 degrees and 57 degrees off the lime, which is why they
+     clashed. They are fills first; text on a light surface takes the darker
+     -ink twins below. */
   --matcha:#B5C42B;
-  --indigo:#635BFF;
-  --berry:#FF3B60;
-  --amber:#FF9500;
+  --indigo:#6F6CEA;
+  --berry:#E85398;
+  --amber:#F2B52E;
   /* Chartreuse family — big colour fills and soft card washes. Pulled a notch
      off electric-lime toward the matcha/chartreuse the brand already uses, so
      the palette reads as our own, not a borrowed one. The matcha above stays
      the fine accent (hairlines, dots, small type); the chartreuse below carries
      the large surfaces. Forest is the dark companion: it sits on chartreuse and
      chartreuse type sits on it. Sage is the desaturated green-grey second tone
-     that keeps the big surfaces from reading as one flat wall of lime. */
+     that keeps the big surfaces from reading as one flat wall of lime.
+     ONE HUE AXIS. Every green here, from forest through the inks and matcha
+     to lime, sits at OKLCH hue 115-120 so the dark and the bright greens read
+     as one family at different lightness. Forest and the sages used to sit at
+     130-154, a cooler, bluer green, which is why forest and lime looked like
+     two palettes side by side. Retuned November 2026 by hue alone: lightness
+     and chroma held, so every contrast pair holds (lime on forest 10.9:1 to
+     11.0:1). A new green goes on this axis; written as rgba() it uses the
+     same values (forest is 39,46,9; sage is 216,221,202). */
   --lime:#C1E043;
   --lime-bright:#D0F055;
   --lime-soft:#E9F2C2;
   --lime-wash:#F1F7D8;
-  --sage:#D2DFCE;
-  --sage-2:#BFD1C4;
-  --sage-soft:#E4ECE0;
-  --forest:#21300F;
-  --forest-2:#31461A;
+  --sage:#D8DDCA;
+  --sage-2:#C9CEBC;
+  --sage-soft:#E7EBDE;
+  --forest:#272E09;
+  --forest-2:#3A4412;
   --forest-ink:#5E6B1E;
+  /* Night: the one dark ground, shared by the home hero, the tools band and the
+     work page's intro, so the site has one dark used on purpose rather than
+     two that look like an accident. Near-black with the faintest green lean. */
+  --night:#12120E;
   /* Green-as-text roles, kept separate from the surface greens above:
      --matcha is a FILL only (glyph accents on dark, aurora, icon dots,
      hover backgrounds) — it fails contrast as text on any light surface.
@@ -50,17 +71,16 @@ html { scroll-behavior: smooth; overflow-x: clip; color-scheme: light; }
      numerals, lever labels): darker than the old ad-hoc #75821D. Retuned
      September 2026 from #6A7614 (4.52:1 on lime-wash, 4.26:1 on lime-soft)
      to clear 4.5:1 on every light green surface: 5.4 white, 4.9 lime-wash,
-     4.6 lime-soft. --amber-ink is the darkened companion for --amber
-     numerals, retuned from #B56A00 (3.5:1 on its own 15% tile, 4.2:1 on
-     white) to 5.9 white, 4.7 on the tile, and 5.9 as white-on-amber.
-     --indigo-ink does the same for --indigo figures (6.9 white, 5.4 tile). */
+     4.6 lime-soft. --amber-ink, --indigo-ink and --berry-ink are the darkened
+     text twins of the three companions, each 4.6:1 or better on white, the lime
+     wash and the lime soft (amber 5.4, indigo 7.0, berry 6.4 on white). */
   --accent-ink:#647012;
-  --amber-ink:#955500;
-  --indigo-ink:#4B42D6;
+  --amber-ink:#916007;
+  --indigo-ink:#4F48BF;
   /* --berry is a fill too, and fails contrast as small text on both white and
      the lime wash (about 3.1:1 there). --berry-ink is its darkened text
      companion, used for a figure that has moved the wrong way. */
-  --berry-ink:#C21431;
+  --berry-ink:#B0236B;
   /* Warm neutral band — same lightness as a stock cool grey, but tinted to
      the brand hue so a "grey" section doesn't look like it escaped the
      palette. */
@@ -73,8 +93,8 @@ html { scroll-behavior: smooth; overflow-x: clip; color-scheme: light; }
   --r-sm:8px;
   --r-pill:999px;
   /* Soft, layered elevation — cards lift off the page rather than sit in a box. */
-  --shadow-soft:0 6px 22px rgba(33,48,15,0.07);
-  --shadow-card:0 16px 44px rgba(33,48,15,0.12),0 4px 12px rgba(23,25,13,0.05);
+  --shadow-soft:0 6px 22px rgba(39,46,9,0.07);
+  --shadow-card:0 16px 44px rgba(39,46,9,0.12),0 4px 12px rgba(23,25,13,0.05);
   /* Brand-tinted neutrals — matcha hue (~118) at low chroma, lightness held
      from the original slate values (was #0F172A / F8FAFC / 64748B / 94A3B8 /
      CBD5E1 / E2E8F0) so contrast is unchanged. The exception is --mid:
@@ -97,7 +117,7 @@ html { scroll-behavior: smooth; overflow-x: clip; color-scheme: light; }
   --step-calc:var(--matcha);
   --step-report:var(--amber);
   --step-strategy:var(--berry);
-  --step-comms:#7A5A8A;
+  --step-comms:#8D5FA1;
   /* Each web font is followed by its metric-matched Arial fallback (fonts.css),
      then the platform's own face. The mono stack falls back to the system
      monospace rather than Courier New, whose thin typewriter strokes made
@@ -356,16 +376,16 @@ section { position:relative; }
    single soft plum glow, white type and one accent (lime), the restraint the
    BodyTea hub proved.
    Tokens are local so nothing else on the page picks them up. */
-#about{ --hero-ink:#12120E; --hero-line:rgba(255,255,255,0.14);
+#about{ --hero-ink:var(--night); --hero-line:rgba(255,255,255,0.14);
   background:
-    radial-gradient(55% 70% at 0% 0%, rgba(255,59,96,0.16), transparent 65%),
+    radial-gradient(55% 70% at 0% 0%, rgba(232,83,152,0.16), transparent 65%),
     var(--hero-ink);
   color:#fff; border-bottom:1px solid var(--hero-line); padding:0 0 clamp(3rem,7vw,6rem); overflow:hidden; }
 .bloom-wrap{ position:absolute; inset:0; pointer-events:none; overflow:hidden; z-index:0; }
 .bloom{ position:absolute; border-radius:50%; filter:blur(90px); mix-blend-mode:multiply; }
 .bloom-a{ width:560px; height:380px; background:radial-gradient(ellipse,rgba(181,196,43,0.10) 0%,transparent 70%); top:-60px; left:-80px; animation:bloomA 26s ease-in-out infinite; }
-.bloom-b{ width:440px; height:340px; background:radial-gradient(ellipse,rgba(255,149,0,0.08) 0%,transparent 70%); top:30px; right:-60px; animation:bloomB 32s ease-in-out infinite; }
-.bloom-c{ width:340px; height:240px; background:radial-gradient(ellipse,rgba(99,91,255,0.08) 0%,transparent 70%); bottom:0; left:40%; animation:bloomC 38s ease-in-out infinite; }
+.bloom-b{ width:440px; height:340px; background:radial-gradient(ellipse,rgba(242,181,46,0.08) 0%,transparent 70%); top:30px; right:-60px; animation:bloomB 32s ease-in-out infinite; }
+.bloom-c{ width:340px; height:240px; background:radial-gradient(ellipse,rgba(111,108,234,0.08) 0%,transparent 70%); bottom:0; left:40%; animation:bloomC 38s ease-in-out infinite; }
 @keyframes bloomA{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,18px)}}
 @keyframes bloomB{0%,100%{transform:translate(0,0)}50%{transform:translate(-24px,14px)}}
 @keyframes bloomC{0%,100%{transform:translate(0,0)}50%{transform:translate(18px,-16px)}}
@@ -579,7 +599,7 @@ section { position:relative; }
    sub-heading, at the weight of a footnote, when it is the governing fact
    about every figure in the section. Amber is the site's report/caution step
    colour, so the band reads as a notice without leaving the palette. */
-.basis-strip{ display:flex; flex-wrap:wrap; align-items:baseline; gap:0.5rem 1.15rem; margin-top:1.35rem; padding:0.95rem 1.2rem; background:rgba(255,149,0,0.07); border:1px solid rgba(255,149,0,0.30); border-radius:var(--r-lg); }
+.basis-strip{ display:flex; flex-wrap:wrap; align-items:baseline; gap:0.5rem 1.15rem; margin-top:1.35rem; padding:0.95rem 1.2rem; background:rgba(242,181,46,0.07); border:1px solid rgba(242,181,46,0.30); border-radius:var(--r-lg); }
 .basis-badge{ display:inline-flex; align-items:center; gap:0.4rem; flex:0 0 auto; font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--amber-ink); }
 .basis-text{ flex:1 1 24rem; font-size:0.85rem; font-weight:400; line-height:1.65; color:var(--slate); max-width:74ch; }
 .basis-meta{ flex:0 1 auto; font-family:var(--mono); font-size:11px; letter-spacing:0.05em; color:var(--amber-ink); }
@@ -609,7 +629,7 @@ section { position:relative; }
 .seg-profiles .seg-btn{ border:none; border-radius:var(--r-pill); background:transparent; color:var(--mid); padding:0.55rem 1.1rem; font-weight:600; width:100%; white-space:normal; line-height:1.3; text-align:center; transition:color 0.3s var(--ease),background 0.3s var(--ease),box-shadow 0.3s var(--ease); }
 .seg-profiles .seg-btn:last-child:nth-child(odd){ grid-column:1 / -1; }
 .seg-profiles .seg-btn:hover:not(.on){ background:rgba(255,255,255,0.6); color:var(--forest); }
-.seg-profiles .seg-btn.on{ background:var(--forest); color:var(--lime-bright); font-weight:600; box-shadow:0 6px 16px rgba(33,48,15,0.18); }
+.seg-profiles .seg-btn.on{ background:var(--forest); color:var(--lime-bright); font-weight:600; box-shadow:0 6px 16px rgba(39,46,9,0.18); }
 /* Small (lever) selectors fill their card as an even grid rather than a
    wrapping flex — a wrapping flex left ragged grey where short buttons didn't
    reach the edge. The first option is the lever's default and takes the full
@@ -641,7 +661,7 @@ section { position:relative; }
 /* The headline result. A full hairline and the lime wash mark it; it used to
    carry a gradient bar down its left edge as well, the side stripe the house
    rules leave off cards and callouts. */
-.takeaway{ position:relative; background:linear-gradient(150deg,var(--lime-wash),var(--white) 70%); border:1px solid var(--rule-dk); padding:1.15rem 1.5rem; margin-top:1.25rem; margin-bottom:1.5rem; font-family:var(--disp); font-size:clamp(1.05rem,2.6vw,1.4rem); font-weight:600; line-height:1.45; color:var(--slate); letter-spacing:-0.01em; border-radius:var(--r-md); box-shadow:0 6px 20px rgba(33,48,15,0.10),0 1px 2px rgba(23,25,13,0.04); }
+.takeaway{ position:relative; background:linear-gradient(150deg,var(--lime-wash),var(--white) 70%); border:1px solid var(--rule-dk); padding:1.15rem 1.5rem; margin-top:1.25rem; margin-bottom:1.5rem; font-family:var(--disp); font-size:clamp(1.05rem,2.6vw,1.4rem); font-weight:600; line-height:1.45; color:var(--slate); letter-spacing:-0.01em; border-radius:var(--r-md); box-shadow:0 6px 20px rgba(39,46,9,0.10),0 1px 2px rgba(23,25,13,0.04); }
 .takeaway em{ font-style:normal; color:var(--accent-ink); }
 .takeaway .tk-note{ display:block; font-family:var(--sans); font-size:11px; font-weight:400; color:var(--mid); margin-top:0.35rem; letter-spacing:0; line-height:1.5; }
 
@@ -698,7 +718,7 @@ section { position:relative; }
 @media(max-width:559px){ .cbar-list{ column-gap:0.5rem; } }
 .cbar{ display:contents; }
 .cbar-name{ font-size:0.78rem; font-weight:600; }
-.cbar-name.grid{ color:var(--indigo); } .cbar-name.lv{ color:var(--accent-ink); } .cbar-name.hv{ color:var(--amber-ink); } .cbar-name.plant{ color:var(--berry-ink); }
+.cbar-name.grid{ color:var(--indigo-ink); } .cbar-name.lv{ color:var(--accent-ink); } .cbar-name.hv{ color:var(--amber-ink); } .cbar-name.plant{ color:var(--berry-ink); }
 .cbar-track{ height:6px; background:var(--rule-lt); overflow:hidden; border-radius:var(--r-pill); }
 .cbar-fill{ height:100%; width:100%; transform-origin:left; transition:transform 0.35s var(--ease); }
 .cbar-val{ font-family:var(--mono); font-size:0.7rem; color:var(--ink-2); text-align:right; }
@@ -748,7 +768,7 @@ section { position:relative; }
    bottom of this file (see PAGE-SCOPED ELEVATION). */
 .btn{ display:inline-flex; padding:0.75rem 1.75rem; font-family:var(--sans); font-size:0.85rem; font-weight:600; text-decoration:none; cursor:pointer; transition:background 0.3s var(--ease),border-color 0.3s var(--ease),color 0.3s var(--ease); min-height:44px; align-items:center; gap:0.55rem; }
 .btn-primary{ background:var(--matcha); color:var(--slate); border:1px solid var(--matcha); }
-.btn-primary:hover{ background:#8BAD1F; border-color:#8BAD1F; }
+.btn-primary:hover{ background:color-mix(in oklch, var(--matcha) 82%, var(--forest)); border-color:color-mix(in oklch, var(--matcha) 82%, var(--forest)); }
 .btn-secondary{ background:transparent; color:var(--slate); border:1px solid var(--rule-dk); }
 .btn-secondary:hover{ border-color:var(--matcha); color:var(--matcha); }
 .btn .li-icon{ width:16px; height:16px; }
@@ -759,14 +779,16 @@ section { position:relative; }
    Dark on purpose: it breaks the run of light sections at the point a reader
    is being asked to look at built work, and it puts the tool cards in the same
    visual family as the site's Open Graph share cards.
-   Every colour below is checked against the forest band, which is why the
-   indigo used elsewhere on this page never appears here: it fails on dark.
+   The ground is --night, the same near-black as the hero, with a faint lime
+   glow in the far corners in place of the hero's plum. Every colour below is
+   checked against it, which is why the indigo used elsewhere on this page
+   never appears here: it fails on dark.
    ============================================================================ */
 #tools, .tools-band{
   background:
-    radial-gradient(ellipse 70% 55% at 12% 0%,rgba(193,224,67,0.10) 0%,transparent 60%),
-    radial-gradient(ellipse 60% 50% at 92% 100%,rgba(181,196,43,0.08) 0%,transparent 62%),
-    linear-gradient(170deg,var(--forest) 0%,#1A2A0B 60%,var(--forest) 100%);
+    radial-gradient(ellipse 60% 55% at 100% 100%,rgba(208,240,85,0.09) 0%,transparent 62%),
+    radial-gradient(ellipse 50% 45% at 0% 0%,rgba(208,240,85,0.05) 0%,transparent 60%),
+    var(--night);
   padding:clamp(4.5rem,10vw,7.5rem) 0 clamp(5rem,11vw,8rem);
   overflow:hidden;
 }
@@ -789,8 +811,8 @@ section { position:relative; }
 .tools-rules{
   list-style:none; display:grid; grid-template-columns:1fr; gap:1px;
   margin-top:clamp(2.2rem,5vw,3.2rem);
-  background:rgba(210,223,206,0.16);
-  border:1px solid rgba(210,223,206,0.16); border-radius:var(--r-lg); overflow:hidden;
+  background:rgba(216,221,202,0.16);
+  border:1px solid rgba(216,221,202,0.16); border-radius:var(--r-lg); overflow:hidden;
 }
 @media(min-width:820px){ .tools-rules{ grid-template-columns:repeat(3,minmax(0,1fr)); } }
 .tools-rule{ background:rgba(255,255,255,0.03); padding:1.3rem 1.4rem 1.45rem; }
@@ -825,7 +847,7 @@ section { position:relative; }
 .tool-card{
   position:relative; display:flex; flex-direction:column; text-decoration:none;
   background:rgba(255,255,255,0.045);
-  border:1px solid rgba(210,223,206,0.18); border-radius:var(--r-xl);
+  border:1px solid rgba(216,221,202,0.18); border-radius:var(--r-xl);
   padding:1.5rem 1.5rem 1.35rem; overflow:hidden;
   transition:background 0.35s var(--ease),border-color 0.35s var(--ease);
 }
@@ -859,7 +881,7 @@ section { position:relative; }
    card rather than as an illustration floating on it. */
 .tool-spec{
   margin:0.15rem 0 1rem; padding:0.85rem 0.9rem 0.7rem;
-  background:rgba(0,0,0,0.18); border:1px solid rgba(210,223,206,0.1);
+  background:rgba(0,0,0,0.18); border:1px solid rgba(216,221,202,0.1);
   border-radius:var(--r-md);
   /* Deliberately does NOT stretch. When a bento row makes this card taller
      than its content, the slack belongs in the open card above the bottom
@@ -885,7 +907,7 @@ section { position:relative; }
 .spec-svg{ display:block; }
 .tool-spec-cap{
   display:block; margin-top:0.55rem; padding-top:0.5rem;
-  border-top:1px solid rgba(210,223,206,0.1);
+  border-top:1px solid rgba(216,221,202,0.1);
   font-size:0.76rem; line-height:1.5; color:var(--sage);
 }
 .tool-spec-basis{
@@ -897,7 +919,7 @@ section { position:relative; }
 .tool-what{ font-size:0.85rem; font-weight:400; line-height:1.7; color:var(--sage); }
 .tool-proves{
   font-size:0.82rem; font-weight:400; line-height:1.7; color:var(--sage-2);
-  margin-top:0.8rem; padding-top:0.8rem; border-top:1px solid rgba(210,223,206,0.14);
+  margin-top:0.8rem; padding-top:0.8rem; border-top:1px solid rgba(216,221,202,0.14);
 }
 .tool-proves-lbl{
   display:block; font-family:var(--mono); font-size:11px; letter-spacing:0.12em;
@@ -906,7 +928,7 @@ section { position:relative; }
 .tool-tags{ list-style:none; display:flex; flex-wrap:wrap; gap:0.4rem; margin-top:0.95rem; }
 .tool-tags li{
   font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase;
-  color:var(--sage-2); border:1px solid rgba(210,223,206,0.22); border-radius:var(--r-pill);
+  color:var(--sage-2); border:1px solid rgba(216,221,202,0.22); border-radius:var(--r-pill);
   padding:0.28rem 0.7rem; white-space:nowrap;
 }
 /* Pinned to the bottom edge so the scope lines share a baseline across a row
@@ -921,7 +943,7 @@ section { position:relative; }
    Run in uppercase tracked mono it read as a long eyebrow. */
 .tools-note{
   margin-top:clamp(1.6rem,3.5vw,2.4rem); padding-top:1.2rem;
-  border-top:1px solid rgba(210,223,206,0.16);
+  border-top:1px solid rgba(216,221,202,0.16);
   font-family:var(--mono); font-size:12px; letter-spacing:0.01em; line-height:1.7;
   color:var(--sage-2);
 }
@@ -1049,7 +1071,7 @@ section { position:relative; }
 .footer-cta-btn{
   flex:0 0 auto; display:inline-flex; align-items:center; gap:0.55rem; font-family:var(--sans); font-weight:600; font-size:0.9rem;
   letter-spacing:-0.01em; text-decoration:none; cursor:pointer; background:var(--forest); color:var(--lime-bright);
-  border-radius:var(--r-pill); padding:0.8rem 1.6rem; box-shadow:0 8px 24px rgba(33,48,15,0.16);
+  border-radius:var(--r-pill); padding:0.8rem 1.6rem; box-shadow:0 8px 24px rgba(39,46,9,0.16);
   transition:background 0.25s var(--ease);
 }
 .footer-cta-btn:hover{ background:var(--forest-2); }
@@ -1082,7 +1104,7 @@ a.footer-cta-btn[target="_blank"]::after{ content:none; }
 
 .footer-baseline{
   display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;
-  margin-top:clamp(2rem,4.5vw,3rem); padding-top:1.2rem; border-top:1px solid rgba(33,48,15,0.18);
+  margin-top:clamp(2rem,4.5vw,3rem); padding-top:1.2rem; border-top:1px solid rgba(39,46,9,0.18);
 }
 .footer-mark{ font-family:var(--mono); font-size:1.1rem; font-weight:600; color:var(--forest); text-decoration:none; transition:opacity 0.2s; margin-right:auto; display:inline-flex; align-items:center; min-width:24px; min-height:24px; }
 .footer-mark:hover{ opacity:0.6; }
@@ -1235,19 +1257,20 @@ a.footer-cta-btn[target="_blank"]::after{ content:none; }
    PASSPHRASE GATE — the screen in front of the drafts at /lab/ and the tool
    pages it indexes (Gate.jsx). It stands on its own with no nav and no footer:
    there is nothing on the page to navigate yet, and the one link out goes back
-   to the site. Dark, so it reads as a different room rather than a broken page.
+   to the site. Dark, so it reads as a different room rather than a broken page: the
+   site's one dark, --night, the same ground as the tools band it fronts.
    ============================================================================ */
 .gate{
   min-height:100svh; display:flex; align-items:center; justify-content:center;
   padding:clamp(1.5rem,6vw,4rem) 1.25rem;
   background:
-    radial-gradient(ellipse 70% 55% at 12% 0%,rgba(193,224,67,0.10) 0%,transparent 60%),
-    radial-gradient(ellipse 60% 50% at 92% 100%,rgba(181,196,43,0.08) 0%,transparent 62%),
-    linear-gradient(170deg,var(--forest) 0%,#1A2A0B 60%,var(--forest) 100%);
+    radial-gradient(ellipse 60% 55% at 100% 100%,rgba(208,240,85,0.09) 0%,transparent 62%),
+    radial-gradient(ellipse 50% 45% at 0% 0%,rgba(208,240,85,0.05) 0%,transparent 60%),
+    var(--night);
 }
 .gate-card{
   width:100%; max-width:430px;
-  background:rgba(255,255,255,0.045); border:1px solid rgba(210,223,206,0.18);
+  background:rgba(255,255,255,0.045); border:1px solid rgba(216,221,202,0.18);
   border-radius:var(--r-xl); padding:clamp(1.6rem,4vw,2.2rem);
 }
 .gate-mark{ display:inline-flex; color:var(--lime); width:30px; height:30px; }
@@ -1266,7 +1289,7 @@ a.footer-cta-btn[target="_blank"]::after{ content:none; }
 .gate-row{ display:flex; gap:0.5rem; flex-wrap:wrap; }
 .gate-input{
   flex:1 1 12ch; min-width:0; font-family:var(--mono); font-size:13px; color:var(--sage);
-  background:rgba(0,0,0,0.25); border:1px solid rgba(210,223,206,0.28);
+  background:rgba(0,0,0,0.25); border:1px solid rgba(216,221,202,0.28);
   border-radius:var(--r-lg); padding:0.7rem 0.85rem; min-height:44px;
   transition:border-color 0.2s var(--ease);
 }
@@ -1322,7 +1345,11 @@ a.footer-cta-btn[target="_blank"]::after{ content:none; }
     --hp-step:clamp(0.75rem, 1.8svh, 1.2rem);
     --hp-cta:clamp(1.25rem, 3.6svh, 2.25rem);
     display:flex; flex-direction:column; padding-bottom:2rem;
-    min-height:calc(100svh - var(--nav-h, 53px) + 10.5rem); --ring-drop:6.5rem;
+    min-height:calc(100svh - var(--nav-h, 53px) + 10.5rem);
+    /* The rings start at the top of the tile stack (its padding is the gap
+       above the tiles), so their upper arc fills that gap and never rises
+       behind the evidence row or the paragraph. */
+    --ring-drop:calc(var(--ring) * 0.5 + 0.25rem);
   }
   #about .hero-name{ font-size:clamp(2.4rem, min(14vw, 8svh), 3.8rem); }
   #about .role-cycle{ font-size:clamp(1.05rem, min(5vw, 2.6svh), 1.3rem); }
@@ -1333,6 +1360,53 @@ a.footer-cta-btn[target="_blank"]::after{ content:none; }
   #about .hero-prop{ color:rgba(255,255,255,0.74); line-height:1.65; font-size:clamp(0.92rem, 2.2svh, 1rem); }
   #about .hero-cta{ margin-top:var(--hp-cta); }
   #about .instr-stack{ margin-top:auto; padding-top:clamp(5rem, 14svh, 7rem); }
-  #about[data-pace="one"]{ min-height:calc(100svh - var(--nav-h, 53px)); --ring-drop:9rem; }
+  #about[data-pace="one"]{ min-height:calc(100svh - var(--nav-h, 53px)); }
   #about[data-pace="one"] .instr-stack{ padding-top:3rem; }
 }
+
+/* ============================================================================
+   AMBIENT DOTS — background flavour behind the decarbonisation model
+   (AmbientDots.jsx): a slow field of forest dots, some of which let go and
+   lift off as hollow lime rings when the levers abate more. Not a chart.
+   ============================================================================ */
+#scenario{ position:relative; overflow:hidden; }
+#scenario > .canvas{ position:relative; z-index:1; }
+.ambient-dots{ position:absolute; inset:0; z-index:0; pointer-events:none; }
+
+/* ============================================================================
+   CAREER RINGS — the Track record as a tree cross-section: one ring per
+   calendar year from the first role to today, a band per employer in the
+   timeline's colours, a finer dashed line where a role changed. Geometry from
+   src/lib/careerRings.js. Beside the timeline on a wide screen, above it on a
+   narrow one. The bands are tones of the site's own green ramp, oldest palest
+   at the heart; each employer's brand colour appears only as the thin line
+   that closes its band (and on its legend swatch), which is enough to tie it
+   to the timeline's coloured nodes without a salmon-and-grey disc.
+   ============================================================================ */
+.exp-body{ display:grid; gap:2.2rem; margin-top:2.5rem; }
+.exp-body .exp-timeline{ margin-top:0; }
+@media (min-width:960px){
+  .exp-body{ grid-template-columns:minmax(0,1fr) minmax(260px,330px); gap:clamp(2rem,4vw,4rem); align-items:start; }
+  .exp-aside{ grid-column:2; grid-row:1; position:sticky; top:calc(var(--nav-h) + 2rem); }
+  .exp-body .exp-timeline{ grid-column:1; grid-row:1; }
+}
+@media (max-width:959px){ .exp-aside{ max-width:330px; } }
+.career-rings{ margin:0; }
+.career-rings svg{ display:block; width:100%; height:auto; overflow:visible; }
+/* The disc runs off the right edge of the page, like the hero's rings: it is
+   drawn wider than its column and pushed past the page gutter, and the band
+   clips it. */
+#experience{ overflow-x:clip; }
+.career-rings svg{ width:calc(100% + var(--gut) + 3.5rem); margin-left:0.5rem; }
+@media (max-width:959px){
+  .exp-aside{ max-width:none; }
+  .career-rings{ display:flex; justify-content:flex-end; }
+  .career-rings svg{ width:min(92vw, 440px); margin-right:calc(-1 * (var(--gut) + 7rem)); }
+}
+.cr-band{ fill:var(--tone); stroke:var(--bc); stroke-width:0.9; }
+.cr-year{ fill:none; stroke:var(--forest); stroke-opacity:0.18; stroke-width:0.45; }
+.cr-change{ fill:none; stroke:var(--bc); stroke-width:0.7; stroke-dasharray:1.6 1.4; }
+.cr-pith{ fill:var(--forest-ink); }
+
+/* The bench line under the tools: work in progress, by role. */
+.tools-bench{ margin-top:0.4rem; color:var(--sage-2); }

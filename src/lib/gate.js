@@ -1,6 +1,10 @@
 // The passphrase gate on the drafts at /lab/ and on the four tool pages it
 // indexes (/targets/, /fashion/, /super/ with /super/method/, and /grid/).
 //
+// Since November 2026 the drafts are not in the production build at all
+// (vite.config.js), so on the live site there is nothing behind this gate. It
+// still runs in `npm run dev` and in a BUILD_DRAFTS=1 build.
+//
 // What this is, plainly: those tools are not finished enough to put in front of
 // a visitor, so they are unlinked from the site, kept out of the sitemap,
 // marked noindex, and asked for a passphrase before they render. That hides
