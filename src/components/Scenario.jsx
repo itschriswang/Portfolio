@@ -57,6 +57,32 @@ function Seg({ value, options, onChange, sc, small, label }) {
   );
 }
 
+// FY30 as dots at one fixed scale (dotField() in src/data/scenario.js): filled
+// for net emissions, hollow for what the levers abate against business as
+// usual. The counts are the model's; this only lays them out. Dots change state
+// in place when a lever moves, so the reader watches tonnes leave rather than
+// a bar re-scale. Under reduced motion they change without the stagger.
+function DotField({ dots }) {
+  const c = SCENARIO_UI.dots;
+  const cells = Array.from({ length: dots.total }, (_, i) => i < dots.net);
+  return (
+    <div className="dotfield">
+      <div className="df-head">
+        <span className="df-title">{c.title}</span>
+        <span className="df-scale">{c.scale}</span>
+      </div>
+      <div className="df-grid" role="img" aria-label={`${c.title}: ${dots.net} kt ${c.net.toLowerCase()}, ${dots.avoided} kt ${c.avoided.toLowerCase()}. ${c.scale}.`}>
+        {cells.map((on, i) => <i key={i} className={on ? 'on' : ''} style={{ '--i': i }} />)}
+      </div>
+      <div className="df-legend">
+        <span><i className="on" aria-hidden="true" />{c.net}<b>{dots.net} kt</b></span>
+        <span><i aria-hidden="true" />{c.avoided}<b>{dots.avoided} kt</b></span>
+        <span className="df-basis">{c.basis}</span>
+      </div>
+    </div>
+  );
+}
+
 export default function Scenario() {
   const [scn, setScn] = useState({ sector: 'property', grid: 'base', lv: 'base', hv: 'base', plant: 'base', rev: 'moderate' });
   const result = useMemo(() => runModel(scn), [scn]);
@@ -267,6 +293,7 @@ export default function Scenario() {
                   </div>
                 ))}
               </div>
+              <DotField dots={result.dots} />
               <div className="chart-card">
                 <div className="chart-head"><div className="chart-title">{result.chartTitle}</div></div>
                 <div className="chart-sub">{SCENARIO_UI.chartSub}</div>

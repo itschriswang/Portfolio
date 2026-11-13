@@ -20,11 +20,12 @@ built as a React + Vite multi-page app and deployed to GitHub Pages.
   `src/footprint/main.jsx`) at `/footprint/`, and its basis of preparation
   (`footprint/method/index.html` → `src/footprint/method/main.jsx`) at
   `/footprint/method/`.
-- Drafts, unlisted and behind a passphrase (see **The drafts** below): Target
+- Drafts, not deployed (see **The drafts** below): Target
   Tracker at `/targets/`, Cost Per Wear at `/fashion/`, Super Fund Holdings at
   `/super/` (methodology at `/super/method/`), Grid Intensity at `/grid/`,
   Australia's Climate Progress at `/progress/` and Sustainability Daily at
-  `/daily/`, indexed only by `/lab/`.
+  `/daily/`, indexed only by `/lab/`. They run under `npm run dev` and are left
+  out of the production build.
 - Every page has its entry html at the repo root and its source under
   `src/<page>/`.
 
@@ -43,7 +44,7 @@ built as a React + Vite multi-page app and deployed to GitHub Pages.
 | `src/progress/` | Australia's Climate Progress (`/progress/`): scroll-driven reveal of national numbers (grid mix, EV sales, capacity additions, emissions vs target), each with a reference point, ending on a progress-and-shortfall summary. Reviewed quarterly; the last-updated date renders from one field in `data.js`. Styles in `progress.css` (`pr-` prefix). |
 | `src/targets/` | Target Tracker (`/targets/`): ASX50 net zero commitments plotted against reported Scope 1 and 2 emissions. Each company card draws the claimed path (baseline through absolute interim targets to the net zero year) as an SVG chart with the reported series overlaid, and carries a verification status (`sourced`/`partial`/`unverified`), flags (offsets, intensity, weakened, alliance exits) and per-company sources. Trajectory maths in `lib.js`; all company data and copy in `data.js`; in-page basis of preparation; last-updated date from one field in `data.js`. Styles in `targets.css` (`tt-` prefix). |
 | `src/lab/` | The drafts index (`/lab/`): the six unpublished tools as the same `ToolCard` tiles the home page uses, behind `Gate`. Copy in `data.js`, page frame in `lab.css`; the tools themselves are `PRIVATE_TOOLS` in `src/data/content.js`. Unlisted, and nothing public links to it. |
-| `src/lib/` | `opennem.js` — the one shared OpenNEM/AEMO client both `/grid/` and `/progress/` read (live NEM data with honest `{ live: false }` failure; callers must label fallbacks as estimates). `gate.js` — the passphrase check behind `/lab/` and the drafts, and the written record of what that gate is and is not. |
+| `src/lib/` | `careerRings.js` — the Track record ring figure's geometry, from the dates in `EXPERIENCE`. `opennem.js` — the one shared OpenNEM/AEMO client both `/grid/` and `/progress/` read (live NEM data with honest `{ live: false }` failure; callers must label fallbacks as estimates). `gate.js` — the passphrase check behind `/lab/` and the drafts, and the written record of what that gate is and is not. |
 | `src/data/` | Content and model inputs: `content.js` (all editorial copy, including footer links, the public `TOOLS` index, the unlisted `PRIVATE_TOOLS` index and the gate's copy), `scenario.js` (decarbonisation model), `specimens.js` (the small slices of each tool's real data that the tool-card charts are drawn from). |
 | `src/hooks/` | `useMagnetic` — cursor-follow interaction. |
 | `src/utils/` | `media.js` — `prefersReducedMotion()` / `canHover()` guards. `clipboard.js` — the one `copyText()` helper, with the hidden-textarea fallback. |
@@ -114,18 +115,40 @@ built as a React + Vite multi-page app and deployed to GitHub Pages.
   up rather than leaving a hole. The accent
   colours are chosen to clear contrast on the dark `--night` band, which is why
   `--indigo` is absent there.
-- **The drafts are unlisted, not secured.** Target Tracker, Cost Per Wear, Super
-  Fund Holdings, Grid Intensity, Australia's Climate Progress and Sustainability
-  Daily are not finished enough to show, so they are kept out of
-  `public/sitemap.xml` and `public/404.html`, carry
+- **The drafts are not deployed.** Target Tracker, Cost Per Wear, Super Fund
+  Holdings, Grid Intensity, Australia's Climate Progress and Sustainability Daily
+  are not finished enough to show, and several make unverified claims about
+  named companies and funds, so they are left out of the production build:
+  `vite.config.js` builds only `PUBLIC_PAGES` unless `BUILD_DRAFTS=1`, and its
+  `dropDraftStatic` step removes the drafts' share cards and Cost Per Wear's
+  `public/data/` CSV from `dist/`. `npm run dev` still serves every draft. They
+  also stay out of `public/sitemap.xml` and `public/404.html`, carry
   `<meta name="robots" content="noindex, nofollow">`, are absent from `NAV_LINKS`
-  and `FOOTER`, and wrap their app in `Gate` in `src/<tool>/main.jsx`. They still
-  build and deploy. The passphrase and the limits of the arrangement are written
-  at the top of `src/lib/gate.js`: the site is a static build with no server and
-  the repository is public, so the gate hides the drafts from visitors and search
-  engines and is not security. Never describe it as more than that, and never put
-  anything genuinely confidential behind it. Publishing a draft is the reverse of
-  the list above, plus moving its entry from `PRIVATE_TOOLS` to `TOOLS`.
+  and `FOOTER`, and wrap their app in `Gate` in `src/<tool>/main.jsx` (which now
+  only matters for a `BUILD_DRAFTS=1` build). The repository is public, so their
+  source is readable on GitHub whatever the build does: never put anything
+  genuinely confidential in a draft. The home page's tools band carries one
+  line of work in progress (`TOOLS_INTRO.bench`), by role, not by result.
+  Publishing a draft is the reverse of the list above, plus moving its page from
+  `DRAFT_PAGES` to `PUBLIC_PAGES` (and its static files out of `DRAFT_STATIC`)
+  in `vite.config.js`, and its entry from `PRIVATE_TOOLS` to `TOOLS`.
+- **The home page puts its evidence first.** Under the hero paragraph,
+  `HERO.proof` carries three figures (the ×65 spend defect, the GRESB ranking,
+  the FY27 emissions budget across four business units) and one line on how
+  every figure is held. Each restates a claim made in full in `OUTCOMES` or
+  `BIO_PARAS`, so a change to one changes the other. On a phone the button
+  comes first and the evidence is the next beat.
+- **Two motifs, one meaning each.** Tree rings mean time: decoration in the
+  hero, and in the Track record (`CareerRings.jsx`) the record itself, one ring
+  per calendar year from the first role to today, a band per employer in the
+  green ramp with the employer's colour on its closing line. The geometry is
+  `careerRings()` in `src/lib/careerRings.js`, read from the dates in
+  `EXPERIENCE` and tested in `tests/career-rings.test.js`. Dots mean quantity:
+  the Life Footprint carbon field, and the decarbonisation model's FY30 dot
+  field (one dot per kt, filled for net, hollow for abated), whose counts are
+  `dotField()` in `src/data/scenario.js` and are tested to agree with the KPI
+  tiles (`tests/scenario-dots.test.js`). Do not scatter either motif onto pages
+  where it would not carry its meaning.
 - **Every tool card draws a chart from that tool's real data.** The specimens
   (`src/components/ToolSpecimen.jsx`, data in `src/data/specimens.js`) are small
   SVG charts: a claimed-versus-reported trajectory, a disclosure histogram, a

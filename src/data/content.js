@@ -42,6 +42,18 @@ export const HERO = {
   roles: ['Senior Sustainability Advisor', 'ESG Reporting and Assurance', 'Decarbonisation and Net Zero'],
   location: 'Melbourne, Australia',
   prop: 'I deliver emissions and ESG reporting that holds up under assurance, and turn it into net zero plans the business can act on. Consulting at WSP, now in-house at an ASX-listed group, across NGER, AASB S2 and GRESB.',
+  // The first-screen evidence, for the reader who decides in a glance whether
+  // the numbers will hold up: one data-integrity catch, one disclosure result,
+  // one budgeting cycle. Each restates a claim made in full further down
+  // (OUTCOMES and BIO_PARAS), so a change to one changes the other.
+  proof: {
+    items: [
+      { num: '×65', text: 'A currency defect I found in Scope 3 spend data during assurance, now corrected for FY25 and FY26' },
+      { num: '+63%', text: 'GRESB global ranking for an electricity network, on a submission I led' },
+      { num: '4', text: 'Business units through the FY27 emissions budget cycle I ran' },
+    ],
+    note: 'Every figure on this site is sourced, or labelled as illustrative.',
+  },
   ctas: [
     { label: 'Get in touch', href: '#contact', primary: true, icon: 'linkedin' },
   ],
@@ -156,6 +168,15 @@ export const SCENARIO_UI = {
   // `titleAccent` is the word index SplitText picks out in matcha.
   title: 'Model the pathway',
   titleAccent: 2,
+  // The FY30 dot field under the KPI tiles (Scenario.jsx, from dotField() in
+  // src/data/scenario.js).
+  dots: {
+    title: 'FY30 against business as usual',
+    net: 'Net emissions',
+    avoided: 'Abated by the levers',
+    scale: 'Each dot is 1 kt CO₂-e',
+    basis: 'Illustrative · counts round to the nearest kilotonne',
+  },
   basis: {
     label: 'Illustrative',
     text: 'Nothing in this model is client data, and no figure in it belongs to an organisation I have worked for. I scaled the operating profiles to published peer disclosures, and each lever names its basis. Read it as a demonstration of method rather than as a result.',
@@ -219,6 +240,9 @@ export const TOOLS_INTRO = {
     },
   ],
   note: 'The decarbonisation model above is the third, built the same way.',
+  // Work in progress, by role and not by result. The tool itself is not
+  // published until its data is verified.
+  bench: 'On the bench: a tracker that reads ASX50 net zero claims against reported emissions.',
 };
 
 // The public tool index, one card per page the site links to. Each carries what
@@ -322,7 +346,16 @@ export const GATE = {
 };
 
 // The track record's label and headline, and the eyebrow on the education entry.
-export const EXPERIENCE_INTRO = { tag: 'Experience', idx: '04 / ', title: 'Track record', titleAccent: 1, education: 'Education' };
+export const EXPERIENCE_INTRO = {
+  tag: 'Experience', idx: '04 / ', title: 'Track record', titleAccent: 1, education: 'Education',
+  // The tree-ring figure beside the timeline (CareerRings.jsx, geometry from
+  // src/lib/careerRings.js). Drawn from the role dates below and nothing else.
+  rings: {
+    caption: 'One ring a year, from my first role to today. Each band is an employer in the timeline colours, and the finer lines inside a band are role changes.',
+    basis: 'Derived · drawn from the dates in the record below',
+    label: 'Tree-ring cross-section of my career from {start} to today: one ring a year, with a band for each of {n} employers.',
+  },
+};
 
 export const EXPERIENCE = [
   {

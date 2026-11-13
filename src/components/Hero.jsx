@@ -77,7 +77,7 @@ function RoleCycle({ roles, still }) {
 // only motion the text block has, and the aurora and contour field carry the
 // backdrop on their own.
 // On a phone the hero paces itself to the screen it is on. It measures what
-// the first screen has to hold (everything down to the button, then a beat,
+// the first screen has to hold (everything down to the evidence row, then a beat,
 // the year tiles and the band's foot) against the screen's height, and picks:
 // 'one' when it all fits, a single composed screen; 'two' when it does not,
 // so the tiles land just below the first screen in full rather than cut in
@@ -95,11 +95,13 @@ function usePace(ref) {
     let raf = 0;
     const measure = () => {
       if (!mq.matches) { setPace(null); return; }
-      const cta = el.querySelector('.hero-cta');
+      // The last thing above the tiles: the evidence row on a phone (it
+      // follows the button there), else the button.
+      const last = el.querySelector('.hero-proof') || el.querySelector('.hero-cta');
       const tile = el.querySelector('.instr');
-      if (!cta || !tile) return;
+      if (!last || !tile) return;
       const top = el.getBoundingClientRect().top;
-      const need = cta.getBoundingClientRect().bottom - top + PACE_BEAT + tile.offsetHeight + PACE_FOOT;
+      const need = last.getBoundingClientRect().bottom - top + PACE_BEAT + tile.offsetHeight + PACE_FOOT;
       const nav = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 53;
       setPace(need <= window.innerHeight - nav ? 'one' : 'two');
     };
@@ -146,6 +148,16 @@ export default function Hero() {
         transition={{ duration: 0.8, delay: 0.25, ease: [0.25, 1, 0.5, 1] }}
       >
         <p className="hero-prop">{HERO.prop}</p>
+        {/* First-screen evidence: each line restates a claim made in full in
+            the outcomes and the bio below. */}
+        <div className="hero-proof">
+          <ul>
+            {HERO.proof.items.map((p) => (
+              <li key={p.num}><span className="hp-num">{p.num}</span><span className="hp-text">{p.text}</span></li>
+            ))}
+          </ul>
+          <p className="hp-note">{HERO.proof.note}</p>
+        </div>
         <div className="hero-cta">
           {HERO.ctas.map((c) => (
             <a key={c.href} className={'btn ' + (c.primary ? 'btn-primary' : 'btn-secondary')} href={c.href}>

@@ -195,6 +195,19 @@ export function resolveSector(sectorKey) {
 
 // Core model. Returns everything the UI needs to render: series for the chart,
 // KPI values, the dynamic takeaway, and per-lever FY30 contribution bars.
+// The FY30 dot field under the KPI tiles: business-as-usual at FY30 drawn as
+// dots at one fixed scale, the net emissions filled and the abatement hollow,
+// so moving a lever visibly empties dots. Net and abatement each round the
+// same way their KPI tiles do (kt() rounds to the nearest thousand), so the
+// legend never disagrees with the tile above it; the total is their sum, and
+// can sit one dot off the rounded business-as-usual figure.
+export const DOT_T = 1000; // tCO2-e per dot
+export function dotField(net30, bau30, perDot = DOT_T) {
+  const net = Math.max(0, Math.round(net30 / perDot));
+  const avoided = Math.max(0, Math.round(Math.max(0, bau30 - net30) / perDot));
+  return { perDot, total: net + avoided, net, avoided };
+}
+
 export function runModel(scn) {
   const { grid: gk, lv: lk, hv: hk, plant: pk, rev: rk } = scn;
   const { mode, levers, FY20, FY25, FY26, SH, HIST, label } = resolveSector(scn.sector);
@@ -335,6 +348,7 @@ export function runModel(scn) {
     series: { net, gridLayer, lvLayer, hvLayer, plantLayer, bau, actuals },
     kpis, frame,
     takeaway,
+    dots: dotField(net30, bau30),
     contrib: { grid: bar(sv_g), lv: bar(sv_lv), hv: bar(sv_hv), plant: bar(sv_pl) },
     chartTitle: mode === 'textile' ? 'Value chain footprint pathway to FY50' : 'Scope 1 & 2 emissions pathway to FY50',
   };

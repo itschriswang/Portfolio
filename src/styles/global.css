@@ -1337,7 +1337,11 @@ a.footer-cta-btn[target="_blank"]::after{ content:none; }
     --hp-step:clamp(0.75rem, 1.8svh, 1.2rem);
     --hp-cta:clamp(1.25rem, 3.6svh, 2.25rem);
     display:flex; flex-direction:column; padding-bottom:2rem;
-    min-height:calc(100svh - var(--nav-h, 53px) + 10.5rem); --ring-drop:6.5rem;
+    min-height:calc(100svh - var(--nav-h, 53px) + 10.5rem);
+    /* The rings start at the top of the tile stack (its padding is the gap
+       above the tiles), so their upper arc fills that gap and never rises
+       behind the evidence row or the paragraph. */
+    --ring-drop:calc(var(--ring) * 0.5 + 0.25rem);
   }
   #about .hero-name{ font-size:clamp(2.4rem, min(14vw, 8svh), 3.8rem); }
   #about .role-cycle{ font-size:clamp(1.05rem, min(5vw, 2.6svh), 1.3rem); }
@@ -1348,6 +1352,94 @@ a.footer-cta-btn[target="_blank"]::after{ content:none; }
   #about .hero-prop{ color:rgba(255,255,255,0.74); line-height:1.65; font-size:clamp(0.92rem, 2.2svh, 1rem); }
   #about .hero-cta{ margin-top:var(--hp-cta); }
   #about .instr-stack{ margin-top:auto; padding-top:clamp(5rem, 14svh, 7rem); }
-  #about[data-pace="one"]{ min-height:calc(100svh - var(--nav-h, 53px)); --ring-drop:9rem; }
+  #about[data-pace="one"]{ min-height:calc(100svh - var(--nav-h, 53px)); }
   #about[data-pace="one"] .instr-stack{ padding-top:3rem; }
 }
+
+/* ============================================================================
+   HERO PROOF — first-screen evidence for the reader who decides in a glance
+   whether the numbers will hold up. Three figures, each restated in full in
+   the outcomes and the bio, then one line on how every figure here is held.
+   ============================================================================ */
+.hero-proof{ grid-column:1 / 8; margin-top:clamp(1.4rem,2.6vw,2rem); border-top:1px solid rgba(255,255,255,0.14); padding-top:1rem; }
+.hero-proof ul{ list-style:none; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem 1.6rem; }
+.hero-proof li{ display:flex; flex-direction:column; gap:0.35rem; }
+.hp-num{ font-family:var(--disp); font-weight:700; font-size:clamp(1.35rem,2.2vw,1.7rem); line-height:1; letter-spacing:-0.02em; color:var(--lime-bright); }
+.hp-text{ font-size:0.8rem; line-height:1.5; color:rgba(255,255,255,0.74); }
+.hp-note{ font-family:var(--mono); font-size:11px; letter-spacing:0.04em; color:rgba(255,255,255,0.58); margin-top:0.9rem; }
+@media (min-width:681px){
+  #about .hero-prop{ grid-row:1; }
+  #about .hero-proof{ grid-row:2; }
+  #about .hero-cta{ grid-row:3; }
+  #about .instr-stack{ grid-row:1 / span 3; align-self:end; }
+}
+@media (max-width:680px){
+  /* On a phone the button stays on the first screen: it follows the
+     paragraph, and the evidence is the next beat down. */
+  #about .hero-prop{ order:0; }
+  #about .hero-cta{ order:1; }
+  #about .hero-proof{ order:2; margin-top:var(--hp-beat, 2rem); }
+  #about .instr-stack{ order:3; }
+  .hero-proof ul{ grid-template-columns:1fr; gap:0.7rem; }
+  .hero-proof li{ flex-direction:row; align-items:baseline; gap:0.8rem; }
+  .hp-num{ min-width:3.4rem; font-size:1.25rem; }
+}
+
+/* ============================================================================
+   DOT FIELD — FY30 in the decarbonisation model as dots at one fixed scale:
+   filled for net emissions, hollow for what the levers abate against business
+   as usual. Counts come from dotField() in src/data/scenario.js.
+   ============================================================================ */
+.dotfield{ background:var(--white); border:1px solid var(--rule-dk); border-radius:var(--r-lg); padding:1.1rem 1.25rem 1rem; margin:1rem 0; }
+.df-head{ display:flex; align-items:baseline; justify-content:space-between; gap:0.5rem 1rem; flex-wrap:wrap; margin-bottom:0.85rem; }
+.df-title{ font-family:var(--disp); font-weight:600; font-size:0.95rem; color:var(--slate); }
+.df-scale{ font-family:var(--mono); font-size:11px; letter-spacing:0.04em; color:var(--mid); }
+.df-grid{ display:grid; grid-template-columns:repeat(auto-fill, 11px); gap:5px; }
+.df-grid i, .df-legend i{ display:block; width:11px; height:11px; border-radius:50%; border:1.5px solid var(--matcha); background:transparent; }
+.df-grid i{ transition:background-color 0.35s var(--ease), border-color 0.35s var(--ease); transition-delay:calc(min(var(--i), 120) * 3ms); }
+.df-grid i.on, .df-legend i.on{ background:var(--forest); border-color:var(--forest); }
+.df-legend{ display:flex; flex-wrap:wrap; align-items:center; gap:0.5rem 1.2rem; margin-top:0.9rem; font-family:var(--mono); font-size:11px; letter-spacing:0.03em; color:var(--ink-2); }
+.df-legend span{ display:inline-flex; align-items:center; gap:0.45rem; }
+.df-legend b{ font-weight:600; color:var(--slate); }
+.df-basis{ color:var(--mid); }
+@media (prefers-reduced-motion:reduce){ .df-grid i{ transition:none; } }
+
+/* ============================================================================
+   CAREER RINGS — the Track record as a tree cross-section: one ring per
+   calendar year from the first role to today, a band per employer in the
+   timeline's colours, a finer dashed line where a role changed. Geometry from
+   src/lib/careerRings.js. Beside the timeline on a wide screen, above it on a
+   narrow one. The bands are tones of the site's own green ramp, oldest palest
+   at the heart; each employer's brand colour appears only as the thin line
+   that closes its band (and on its legend swatch), which is enough to tie it
+   to the timeline's coloured nodes without a salmon-and-grey disc.
+   ============================================================================ */
+.exp-body{ display:grid; gap:2.2rem; margin-top:2.5rem; }
+.exp-body .exp-timeline{ margin-top:0; }
+@media (min-width:960px){
+  .exp-body{ grid-template-columns:minmax(0,1fr) minmax(260px,330px); gap:clamp(2rem,4vw,4rem); align-items:start; }
+  .exp-aside{ grid-column:2; grid-row:1; position:sticky; top:calc(var(--nav-h) + 2rem); }
+  .exp-body .exp-timeline{ grid-column:1; grid-row:1; }
+}
+@media (max-width:959px){ .exp-aside{ max-width:330px; } }
+.career-rings{ margin:0; }
+.career-rings svg{ display:block; width:100%; height:auto; overflow:visible; }
+.cr-bark{ fill:var(--forest); }
+.cr-band{ fill:var(--tone); stroke:var(--bc); stroke-width:0.9; }
+.cr-year{ fill:none; stroke:var(--forest); stroke-opacity:0.3; stroke-width:0.5; }
+.cr-change{ fill:none; stroke:var(--bc); stroke-width:0.7; stroke-dasharray:1.6 1.4; }
+.cr-edge{ fill:none; stroke:var(--forest); stroke-width:0.9; }
+.cr-pith{ fill:var(--forest); }
+.cr-yr{ font-family:var(--mono); font-size:5px; font-weight:600; letter-spacing:0.02em; fill:var(--ink-2); }
+.cr-legend{ list-style:none; display:flex; flex-wrap:wrap; gap:0.4rem 1rem; margin-top:1rem; font-family:var(--mono); font-size:11px; letter-spacing:0.04em; color:var(--ink-2); }
+.cr-legend li{ display:inline-flex; align-items:center; gap:0.45rem; }
+.cr-legend span{ width:10px; height:10px; border-radius:50%; background:var(--tone); border:1.5px solid var(--bc); }
+.cr-cap{ font-size:0.82rem; line-height:1.6; color:var(--ink-2); margin-top:0.8rem; }
+.cr-basis{ display:block; margin-top:0.45rem; font-family:var(--mono); font-size:11px; letter-spacing:0.04em; color:var(--mid); }
+.cr-wait .cr-band, .cr-wait .cr-year, .cr-wait .cr-change, .cr-wait .cr-yr, .cr-wait .cr-edge, .cr-wait .cr-pith{ opacity:0; }
+.cr-grow .cr-band{ transform-box:view-box; transform-origin:center; animation:trGrow 1s var(--ease) both; animation-delay:calc(var(--i) * 140ms); }
+.cr-grow .cr-year, .cr-grow .cr-change, .cr-grow .cr-yr, .cr-grow .cr-edge, .cr-grow .cr-pith{ animation:crFade 0.6s var(--ease) both; animation-delay:0.55s; }
+@keyframes crFade{ from{ opacity:0; } to{ opacity:1; } }
+
+/* The bench line under the tools: work in progress, by role. */
+.tools-bench{ margin-top:0.4rem; color:var(--sage-2); }
