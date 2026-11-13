@@ -372,21 +372,22 @@ section { position:relative; }
 #contour-field{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:0; opacity:0.55; }
 #aurora-field{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:0; mix-blend-mode:multiply; }
 #aurora-field canvas{ display:block; width:100%; height:100%; }
-/* Tree-ring cross-section sitting under the stat tiles: it is drawn inside
-   .instr-stack, centred on the pair, and rises above them so the tiles cut
-   across its lower third. Decoration only; the rings grow outward once on load
-   (skipped under reduced motion, where Hero omits the .tr-grow class). */
-#about{ --ring:min(31vw,460px); --ring-rise:0.62; }
+/* Tree-ring cross-section under the stat tiles, pushed into the band's
+   bottom-right corner so the hero's own edges crop it. It is drawn inside
+   .instr-stack and anchored to the tiles' right edge, with its centre a little
+   below them, so the tiles sit on its upper-left and the pith stays in view.
+   Decoration only; the rings grow outward once on load (skipped under reduced
+   motion, where Hero omits the .tr-grow class). */
+#about{ --ring:min(44vw,640px); --ring-in:4rem; --ring-drop:10rem; }
 #about #contour-field{ opacity:0.35; }
 .instr-stack{ position:relative; }
-.tree-rings{ position:absolute; z-index:0; pointer-events:none; width:var(--ring); aspect-ratio:1; left:50%; top:calc(var(--ring) * var(--ring-rise) * -1); transform:translateX(-50%); }
+.tree-rings{ position:absolute; z-index:0; pointer-events:none; width:var(--ring); aspect-ratio:1; right:calc(var(--ring) * -0.5 + var(--ring-in)); top:calc(var(--ring-drop) - var(--ring) * 0.5); }
 .tree-rings svg{ display:block; width:100%; height:100%; overflow:visible; }
 .tr-rays{ opacity:0.04; }
 .tr-grow .tr-ring{ transform-box:view-box; transform-origin:center; animation:trGrow 1.1s var(--ease) both; animation-delay:calc(var(--i) * 14ms); }
 @keyframes trGrow{ from{ transform:scale(0.2); opacity:0; } to{ transform:scale(1); opacity:1; } }
 @media (max-width:680px){
-  #about{ --ring:72vw; --ring-rise:0.56; }
-  #about .instr-stack{ margin-top:calc(var(--ring) * var(--ring-rise) + 1rem); }
+  #about{ --ring:96vw; --ring-in:3rem; --ring-drop:9.5rem; }
 }
 
 .hero-grid{ position:relative; z-index:1; row-gap:0; align-items:end; padding-top:clamp(2.5rem,7vw,5rem); }
