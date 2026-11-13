@@ -4,6 +4,7 @@ import { HERO, yearsSince } from '../data/content';
 import SplitText from './SplitText';
 import ContourField from './ContourField';
 import Aurora from './Aurora';
+import TreeRings from './TreeRings';
 import Icon, { LinkedInIcon } from './Icons';
 
 // The live "years" figure comes from yearsSince (content.js), a whole number.
@@ -76,9 +77,10 @@ export default function Hero() {
         colorStops={['#635BFF', '#B5C42B', '#FF9500', '#FF3B60']}
         amplitude={0.6}
         blend={0.5}
-        opacity={0.2}
+        opacity={0.34}
       />
       <ContourField />
+      <TreeRings still={still} />
 
       <div className="canvas matrix hero-grid">
         <h1 className="hero-name display">
