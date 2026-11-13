@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { motion, AnimatePresence, useMotionValue, useReducedMotion, animate } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, useReducedMotion, useInView, animate } from 'framer-motion';
 import { HERO, yearsSince } from '../data/content';
 import SplitText from './SplitText';
 import ContourField from './ContourField';
@@ -12,21 +12,26 @@ function formatYears(v) {
   return String(Math.floor(v + 1e-9));
 }
 
+// The count starts when the tile reaches the screen, not on page load: on a
+// phone the tiles sit below the first screen, and a count that has already
+// finished by the time it is seen is motion nobody gets.
 function Counter({ target, suffix, still }) {
   const ref = useRef(null);
   const mv = useMotionValue(0);
+  const seen = useInView(ref, { once: true, margin: '0px 0px -12% 0px' });
   useEffect(() => {
     // Under reduced motion the figure is simply there, not counted up to.
     if (still) {
       if (ref.current) ref.current.textContent = formatYears(target) + suffix;
       return undefined;
     }
+    if (!seen) return undefined;
     const controls = animate(mv, target, {
       duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.4,
       onUpdate: (v) => { if (ref.current) ref.current.textContent = formatYears(v) + suffix; },
     });
     return controls.stop;
-  }, [target, suffix, mv, still]);
+  }, [target, suffix, mv, still, seen]);
   return <span ref={ref}>{still ? formatYears(target) : 0}{suffix}</span>;
 }
 

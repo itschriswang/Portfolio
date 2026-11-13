@@ -1,4 +1,5 @@
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
+import { useInView } from 'framer-motion';
 
 // A cross-section of a tree, drawn as one vector in line-work on the dark hero. It is decoration: it carries
 // no data and makes no claim, so it is aria-hidden and has no caption. What it
@@ -136,8 +137,13 @@ function build() {
 
 export default function TreeRings({ still }) {
   const g = useMemo(build, []);
+  // The rings grow when they reach the screen (below the first screen on a
+  // phone), and wait unseen until then. Reduced motion skips both states.
+  const ref = useRef(null);
+  const seen = useInView(ref, { once: true, margin: '0px 0px -8% 0px' });
+  const motionClass = still ? '' : seen ? ' tr-grow' : ' tr-wait';
   return (
-    <div className={'tree-rings' + (still ? '' : ' tr-grow')} aria-hidden="true">
+    <div ref={ref} className={'tree-rings' + motionClass} aria-hidden="true">
       <svg viewBox={`${-HALF} ${-HALF} ${SIZE} ${SIZE}`} focusable="false">
         <defs>
           <radialGradient id="tr-pith">
