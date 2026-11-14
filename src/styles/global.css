@@ -460,6 +460,11 @@ section { position:relative; }
    drop under the buttons instead. */
 @media(min-width:681px) and (max-width:1080px){
   .instr-stack{ grid-column:1 / 8; grid-row:3; margin-top:2rem; max-width:30rem; }
+  /* The tiles move left here, but the rings stay in the band's bottom-right
+     corner: they anchor to the whole lower block rather than to the tiles,
+     with their centre just below its foot, as on a wide screen. */
+  #about .instr-stack{ position:static; }
+  #about .tree-rings{ top:auto; bottom:calc(var(--ring) * -0.5 - 2.5rem); }
 }
 @media(max-width:680px){
   .hero-prop{ grid-column:1 / 5; grid-row:1; font-size:0.95rem; line-height:1.55; }
