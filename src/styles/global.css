@@ -412,13 +412,17 @@ section { position:relative; }
 .tree-rings{ position:absolute; z-index:0; pointer-events:none; width:var(--ring); aspect-ratio:1; right:calc(var(--ring) * -0.5 + var(--ring-in)); top:calc(var(--ring-drop) - var(--ring) * 0.5); }
 .tree-rings svg{ display:block; width:100%; height:100%; overflow:visible; }
 .tr-rays{ opacity:0.04; }
-/* Growth from the pith out, like a trunk: one clip disc widens from the
-   centre, so the inner rings appear first and the bark closes it off. The
-   pith's glow is outside the clip and is there from the start. */
-.tr-disc{ transform-origin:0 0; }
-.tr-wait .tr-disc{ transform:scale(0); }
-.tr-grow .tr-disc{ animation:trGrow 2.6s cubic-bezier(0.3,0.15,0.25,1) both; }
-@keyframes trGrow{ from{ transform:scale(0); } to{ transform:scale(1); } }
+/* Growth from the pith out, like a trunk: each ring is laid down in turn,
+   inner first, one every 45ms, swelling slightly into place as it arrives;
+   the bark, rays and checks close it off once the last ring is in. Rings are
+   painted outer-first, so a ring that has not arrived yet hides nothing. */
+.tr-ring, .tr-bark, .tr-rays, .tr-cracks{ transform-box:view-box; transform-origin:center; }
+.tr-wait :is(.tr-ring, .tr-bark, .tr-cracks){ opacity:0; }
+.tr-wait .tr-rays{ opacity:0; }
+.tr-grow :is(.tr-ring, .tr-bark, .tr-cracks){ animation:trRing 0.42s cubic-bezier(0.2,0.7,0.2,1) both; animation-delay:calc(var(--i) * 45ms); }
+.tr-grow .tr-rays{ animation:trRays 0.6s ease-out both; animation-delay:calc(var(--i) * 45ms); }
+@keyframes trRing{ from{ opacity:0; transform:scale(0.93); } to{ opacity:1; transform:scale(1); } }
+@keyframes trRays{ from{ opacity:0; } to{ opacity:0.04; } }
 @media (max-width:680px){
   #about{ --ring:96vw; --ring-in:3rem; --ring-drop:9.5rem; }
 }
