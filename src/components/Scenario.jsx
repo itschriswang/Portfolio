@@ -102,7 +102,7 @@ export default function Scenario() {
           },
         },
         scales: {
-          x: { grid: { color: 'rgba(23,25,13,0.05)' }, ticks: { font: { family: "'JetBrains Mono',monospace", size: 11 }, color: '#626557', callback: (v, i) => (i % 5 === 0 ? 'FY' + (2020 + i) : '') } },
+          x: { grid: { color: 'rgba(23,25,13,0.05)' }, ticks: { font: { family: "'JetBrains Mono',monospace", size: 11 }, color: '#626557', maxRotation: 0, minRotation: 0, autoSkip: false, callback: (v, i) => (i % 5 === 0 ? 'FY' + (2020 + i) : '') } },
           y: { grid: { color: 'rgba(23,25,13,0.05)' }, title: { display: true, text: 'tCO₂-e', font: { size: 11 }, color: '#626557' }, ticks: { font: { family: "'JetBrains Mono',monospace", size: 11 }, color: '#626557', callback: (v) => (v / 1000).toFixed(0) + 'k' } },
         },
       },

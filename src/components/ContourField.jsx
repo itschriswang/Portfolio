@@ -70,12 +70,20 @@ export default function ContourField({ tone = 'light' }) {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       draw();
     }
-    function frame() {
-      t += 0.0028;
+    let last = 0;
+    function frame(now) {
+      // Seconds since the last frame, so the field drifts at the same speed on
+      // a 60Hz and a 120Hz screen (0.0028 a frame at 60fps).
+      const dt = last ? Math.min(0.1, (now - last) / 1000) : 1 / 60;
+      last = now;
+      t += 0.168 * dt;
       draw();
       raf = inView ? requestAnimationFrame(frame) : null;
     }
-    window.addEventListener('resize', resize);
+    // The hero's height moves with its pacing and with font loading, not only
+    // with the window, so the canvas follows the hero itself.
+    const ro = new ResizeObserver(resize);
+    ro.observe(hero);
     resize();
     let io;
     if (!reduce) {
@@ -89,7 +97,7 @@ export default function ContourField({ tone = 'light' }) {
       raf = requestAnimationFrame(frame);
     }
     return () => {
-      window.removeEventListener('resize', resize);
+      ro.disconnect();
       if (raf) cancelAnimationFrame(raf);
       if (io) io.disconnect();
     };

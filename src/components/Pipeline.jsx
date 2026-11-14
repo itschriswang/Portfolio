@@ -4,7 +4,7 @@ import { PIPELINE } from '../data/content';
 import Icon from './Icons';
 
 // Organic spring used for the drawer open/close.
-const drawerSpring = { type: 'spring', stiffness: 120, damping: 22 };
+const drawerSpring = { type: 'spring', duration: 0.35, bounce: 0 };
 
 function PipeRow({ item, open, onToggle }) {
   return (

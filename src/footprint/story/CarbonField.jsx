@@ -268,7 +268,11 @@ export default function CarbonField({
       if (sig !== lastSig) { lastSig = sig; rebuildTargets(); setColors(m); geometry.attributes.color.needsUpdate = true; }
 
       const spring = m === 'emblem' ? 4.2 : f ? 2.8 : 1.6;
-      const damp = m === 'emblem' ? 0.86 : 0.92;
+      // Damping and the position step are per 60Hz frame, scaled by the
+      // frame's real length, so the field moves at one speed on a 60Hz or a
+      // 120Hz screen.
+      const fr = dt * 60;
+      const damp = Math.pow(m === 'emblem' ? 0.86 : 0.92, fr);
       const time = t * 0.001;
       for (let i = 0; i < N; i++) {
         const ix = i * 2, iy = ix + 1;
@@ -289,8 +293,8 @@ export default function CarbonField({
         }
         vel[ix] = (vel[ix] + ax * dt) * damp;
         vel[iy] = (vel[iy] + ay * dt) * damp;
-        pos[ix] += vel[ix];
-        pos[iy] += vel[iy];
+        pos[ix] += vel[ix] * fr;
+        pos[iy] += vel[iy] * fr;
       }
       geometry.attributes.position.needsUpdate = true;
       renderer.render({ scene: mesh });

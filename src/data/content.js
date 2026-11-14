@@ -33,7 +33,7 @@ export const HERO = {
   location: 'Melbourne, Australia',
   prop: 'I build emissions reporting that stands up to the regulator, the assurer and investors, and the net zero pathway models business plans are set against. Four years consulting at WSP, now in-house at ASX-listed Downer Group.',
   ctas: [
-    { label: 'Get in touch', href: '#contact', primary: true, icon: 'linkedin' },
+    { label: 'Get in touch', href: '#contact', primary: true },
   ],
   // Animated counters: the start date drives the live figure, rounded to the
   // nearest whole year by yearsSince above.
@@ -47,7 +47,7 @@ export const HERO = {
 export const BIO_TAG = { tag: 'Profile', idx: '00 / ' };
 
 export const BIO_PARAS = [
-  'I\'m a Senior Sustainability Advisor at Downer Group. I help prepare the greenhouse gas figures Downer reports to the government and investors, check them against the source data, and build the models the business uses to plan its path to net zero.',
+  'At Downer Group I help prepare the greenhouse gas figures Downer reports to the government and investors, check them against the source data, and build the models the business uses to plan its path to net zero.',
   'Before Downer I spent four years as a sustainability consultant at WSP, working with property, water, energy and government clients. I started my career at the Department of Defence, administering $1.3 billion of capital works contracts.',
   'In my own time I built Life Footprint, a free calculator that shows anyone where their own emissions come from.',
 ];
@@ -233,7 +233,7 @@ export const TOOLS = [
     what: 'Four methods as interactive examples: emissions baseline, decarbonisation roadmap, multi-criteria prioritisation and lifecycle carbon. A composite case study runs through all four.',
     proves: 'The method I use: boundary and data grading, quantified options, weighted screening, then a sequenced roadmap.',
     tags: ['Scope 1-3 baseline', 'Multi-criteria analysis', 'Upfront carbon (A1-A5)'],
-    scope: '4 frameworks · illustrative data, not client data',
+    scope: '4 methods · illustrative data, not client data',
   },
   {
     n: '02', icon: 'house', color: 'var(--matcha)',

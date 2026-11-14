@@ -32,15 +32,19 @@ function FTable({ caption, head, rows, source }) {
   const long = rows.length > LONG_TABLE;
   const [open, setOpen] = useState(false);
   const shown = long && !open ? rows.slice(0, PREVIEW_ROWS) : rows;
+  // A column whose every cell is a figure sets flush right, so the places
+  // stack; a short table keeps a width its columns can be read across.
+  const isNum = (c) => typeof c === 'number' || (typeof c === 'string' && /^[\s\d.,%×x+\-−–$€£]+$/.test(c) && /\d/.test(c));
+  const numCol = head.map((_, j) => rows.length > 0 && rows.every((r) => r[j] == null || r[j] === '' || isNum(r[j])));
   return (
     <div className="fp-ftable">
       <div className="fp-ftable-cap" id={capId}>{caption}</div>
       {/* Scrolls sideways on a phone, so it takes focus (arrow keys scroll it)
           and is named by its caption. */}
       <div className="fp-scroll-x" tabIndex={0} role="region" aria-labelledby={capId}>
-        <table className="fp-table">
-          <thead><tr>{head.map((h, i) => <th key={i}>{h}</th>)}</tr></thead>
-          <tbody id={bodyId}>{shown.map((r, i) => <tr key={i}>{r.map((c, j) => <td key={j}>{c}</td>)}</tr>)}</tbody>
+        <table className={'fp-table' + (head.length <= 3 ? ' fp-table-narrow' : '')}>
+          <thead><tr>{head.map((h, i) => <th key={i} className={numCol[i] ? 'num' : undefined}>{h}</th>)}</tr></thead>
+          <tbody id={bodyId}>{shown.map((r, i) => <tr key={i}>{r.map((c, j) => <td key={j} className={numCol[j] ? 'num' : undefined}>{c}</td>)}</tr>)}</tbody>
         </table>
       </div>
       {long && (

@@ -42,17 +42,21 @@ function Counter({ target, suffix, still }) {
 
 function RoleCycle({ roles, still }) {
   const [idx, setIdx] = useState(0);
+  const boxRef = useRef(null);
+  // Only cycles while the hero is on screen and the tab is visible.
+  const onScreen = useInView(boxRef);
   // Reduced motion: the first role holds still and the cycle never starts.
   useEffect(() => {
     if (still) { setIdx(0); return undefined; }
-    const id = setInterval(() => setIdx((i) => (i + 1) % roles.length), 3200);
+    if (!onScreen) return undefined;
+    const id = setInterval(() => { if (!document.hidden) setIdx((i) => (i + 1) % roles.length); }, 3200);
     return () => clearInterval(id);
-  }, [roles.length, still]);
+  }, [roles.length, still, onScreen]);
   return (
     // The cycling text is decorative motion: announcing a new job title every
     // 3.2s would spam assistive tech, so the animated span is hidden from it
     // and a single static label carries the role list instead.
-    <span className="role-cycle" style={{ overflow: 'hidden' }}>
+    <span className="role-cycle" ref={boxRef} style={{ overflow: 'hidden' }}>
       <span className="sr-only">{roles.join(', ')}</span>
       <AnimatePresence mode="wait" initial={false}>
         <motion.span
@@ -141,9 +145,9 @@ export default function Hero() {
 
       <motion.div
         className="canvas matrix hero-lower"
-        initial={still ? false : { opacity: 0, y: 30 }}
+        initial={still ? false : { opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.25, ease: [0.25, 1, 0.5, 1] }}
+        transition={{ duration: 0.5, delay: 0.1, ease: [0.25, 1, 0.5, 1] }}
       >
         <p className="hero-prop">{HERO.prop}</p>
         <div className="hero-cta">

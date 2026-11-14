@@ -145,6 +145,9 @@ export default function Aurora(props) {
       if (program) {
         program.uniforms.uResolution.value = [width, height];
       }
+      // setSize clears the buffer; with the loop stopped (off screen or reduced
+      // motion) nothing else would draw it again.
+      if (!animateId && program && mesh) renderer.render({ scene: mesh });
     }
     window.addEventListener('resize', resize);
 

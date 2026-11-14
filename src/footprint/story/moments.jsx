@@ -137,23 +137,22 @@ export function Cover({ d, voice, onStart, reduced }) {
         <motion.span style={{ x: ghostX, y: ghostYc, display: 'inline-block' }}>CO₂</motion.span>
       </motion.div>
       <motion.div className="st-cover-inner" style={reduced ? undefined : { opacity: fade, x: innerX }}>
-        <div className="st-cover-eyebrow">
-          <span className="st-cover-eyebrow-dot" aria-hidden="true" />{COVER.eyebrow}
-        </div>
         <div className="sec-tag" data-idx={d.fy + ' / '}>{COVER.tag}</div>
         <h1 className="st-h1 display">
           <SplitText text={COVER.h1a[voice]} /> <SplitText text={COVER.h1b} accentIndex={1} />
         </h1>
         <p className="st-cover-sub">{COVER.sub[voice]}</p>
-        <p className="st-cover-meta">{fill(COVER.meta[voice], { fy: d.fy })}</p>
         {voice === 'example' && (
           <div className="st-cover-cta">
             <button type="button" className="btn btn-primary fp-btn" onClick={onStart}>{COVER.start} →</button>
           </div>
         )}
-        <p className="st-cover-note">
-          <span className="st-cover-note-dot" aria-hidden="true" />{COVER.startNote}
-        </p>
+        {/* The legend for the field behind the words; no field, no legend. */}
+        {!reduced && (
+          <p className="st-cover-note">
+            <span className="st-cover-note-dot" aria-hidden="true" />{COVER.startNote}
+          </p>
+        )}
       </motion.div>
     </section>
   );
@@ -923,7 +922,7 @@ export function Needle({ d, profile, agg, voice, tags, onPlan }) {
             {on.size === 0 ? NEEDLE.live.none : fill(NEEDLE.live.cut, { cut: fmtT(reduction), pct })}
           </span>
           <span className="st-needle-track" aria-hidden="true">
-            <span className="st-needle-fill" style={{ width: `${agg.total > 0 ? (newTotal / agg.total) * 100 : 0}%` }} />
+            <span className="st-needle-fill" style={{ '--fill': agg.total > 0 ? Math.min(1, Math.max(0, newTotal / agg.total)) : 0 }} />
             {budgetFrac > 0 && budgetFrac < 1 && (
               <span className="st-needle-tick" style={{ left: `${budgetFrac * 100}%` }}>
                 <i /><em>{NEEDLE.live.benchTick}</em>
