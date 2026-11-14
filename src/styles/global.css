@@ -118,6 +118,11 @@ html { scroll-behavior: smooth; overflow-x: clip; color-scheme: light; }
   --step-report:var(--amber);
   --step-strategy:var(--berry);
   --step-comms:#8D5FA1;
+  /* Light twins for a filled control that carries dark text (the selected lever
+     buttons): the same hue, lifted until dark type clears 4.5:1 on it. Indigo
+     at its fill lightness reaches only 4.2 with either dark or white text. */
+  --indigo-light:#8184F1;
+  --comms-light:#A77FBD;
   /* Each web font is followed by its metric-matched Arial fallback (fonts.css),
      then the platform's own face. The mono stack falls back to the system
      monospace rather than Courier New, whose thin typewriter strokes made
@@ -643,7 +648,9 @@ section { position:relative; }
 /* Each lever keeps its own colour when active — the same hue as its dot and
    its wedge in the chart, so the toggle you just pressed is easy to find
    again at a glance. */
-.seg-sm .seg-btn.on{ background:var(--sc,var(--slate)); color:#fff; }
+/* The selected lever takes its own bright colour with dark type (5.2:1 or
+   better on every fill), not the dark text ink, which reads as mud at this size. */
+.seg-sm .seg-btn.on{ background:var(--sc,var(--slate)); color:var(--slate); font-weight:700; }
 
 .lever-deck{ display:grid; grid-template-columns:1fr; gap:1px; background:var(--rule-dk); border:1px solid var(--rule-dk); margin-top:1.25rem; border-radius:var(--r-lg); overflow:hidden; box-shadow:var(--shadow-soft); }
 @media(min-width:720px){ .lever-deck{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
