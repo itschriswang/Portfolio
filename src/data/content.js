@@ -191,8 +191,8 @@ export const TOOLS_INTRO = {
   idx: '03 / ',
   title: ['Working', 'tools'],
   paras: [
-    'Two tools I built and still maintain. Each takes a question a sustainability team has to answer and works it through in public, with a stated method and the gaps named.',
-    'The chart on each card is drawn from that tool\'s own data, with its basis printed underneath.',
+    'Work samples walks through how I build an emissions baseline and a decarbonisation roadmap, on illustrative data. Life Footprint works out a person\'s own footprint from what they enter, using cited factors.',
+    'Each card\'s chart uses that tool\'s own data, and says underneath where the data comes from.',
   ],
   rules: [
     {
@@ -208,7 +208,7 @@ export const TOOLS_INTRO = {
       body: 'Life Footprint runs in your browser, and what you enter stays there.',
     },
   ],
-  note: 'The decarbonisation model above is the third, built the same way.',
+  note: 'The decarbonisation model above follows the same rules.',
   // Work in progress, by role and not by result. The tool itself is not
   // published until its data is verified.
   bench: 'On the bench: a tracker that reads ASX50 net zero claims against reported emissions.',
