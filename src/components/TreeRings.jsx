@@ -1,4 +1,4 @@
-import { useMemo, useRef } from 'react';
+import { useId, useMemo, useRef } from 'react';
 import { useInView } from 'framer-motion';
 
 // A cross-section of a tree, drawn as one vector in line-work on the dark hero. It is decoration: it carries
@@ -142,6 +142,9 @@ export default function TreeRings({ still }) {
   const ref = useRef(null);
   const seen = useInView(ref, { once: true, amount: 0.15 });
   const motionClass = still ? '' : seen ? ' tr-grow' : ' tr-wait';
+  // The section grows the way a trunk does: a disc widening from the pith,
+  // laying the rings down one after another, oldest first, bark last.
+  const clip = 'tr-clip-' + useId().replace(/:/g, '');
   return (
     <div ref={ref} className={'tree-rings' + motionClass} aria-hidden="true">
       <svg viewBox={`${-HALF} ${-HALF} ${SIZE} ${SIZE}`} focusable="false">
@@ -150,14 +153,16 @@ export default function TreeRings({ still }) {
             <stop offset="0" stopColor="#D0F055" stopOpacity="0.55" />
             <stop offset="1" stopColor="#D0F055" stopOpacity="0" />
           </radialGradient>
+          <clipPath id={clip}>
+            <circle className="tr-disc" r={HALF} />
+          </clipPath>
         </defs>
+        <g clipPath={`url(#${clip})`}>
         <path d={g.barkOuter} fill="#0B0C07" />
         <path d={g.barkOuter} fill="none" stroke="#D0F055" strokeOpacity="0.28" strokeWidth="1" />
         {g.rings.map((r) => (
           <path
             key={r.k}
-            className="tr-ring"
-            style={{ '--i': r.k }}
             d={r.d}
             fill={r.fill}
             stroke={r.stroke}
@@ -169,6 +174,7 @@ export default function TreeRings({ still }) {
           {g.rays.map((l, i) => <line key={i} x1={l[0]} y1={l[1]} x2={l[2]} y2={l[3]} />)}
         </g>
         {g.cracks.map((d, i) => <path key={i} d={d} fill="#0B0C07" fillOpacity="0.9" />)}
+        </g>
         <circle r="16" fill="url(#tr-pith)" />
         <circle r="2.6" fill="#D0F055" />
       </svg>
