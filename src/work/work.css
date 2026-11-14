@@ -297,7 +297,7 @@
 }
 
 /* Coarse pointers get a 44px target on the page's own controls. */
-@media (pointer:coarse){
+@media (pointer:coarse), (max-width:680px){
   .tab, .baseline-seg button{ min-height:44px; }
   .wi-back{ min-height:44px; }
 }

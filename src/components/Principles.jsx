@@ -24,7 +24,7 @@ export default function Principles() {
               className="princ" key={p.num}
               custom={i} variants={reveal} initial={still ? false : 'hidden'} whileInView="visible" viewport={{ once: true, margin: '-60px' }}
             >
-              <div className="princ-num">{p.num}</div>
+              <div className="princ-num" aria-hidden="true">{p.num}</div>
               <div className="princ-main">
                 <div className="princ-title">{p.icon && <Icon name={p.icon} size={36} />}<span>{p.title}</span></div>
                 <div className="princ-body">{p.body}</div>

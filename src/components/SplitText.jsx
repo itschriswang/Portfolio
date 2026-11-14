@@ -54,7 +54,6 @@ export default function SplitText({ text, as = 'span', className, accentIndex = 
                 style={{
                   display: 'inline-block',
                   color: isAccent ? 'var(--split-accent, var(--matcha))' : undefined,
-                  willChange: 'transform',
                 }}
               >
                 {ch}

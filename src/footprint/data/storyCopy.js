@@ -45,20 +45,13 @@ export const CHAPTERS = [
 
 export const COVER = {
   tag: 'Life Footprint',
-  eyebrow: 'A carbon footprint calculator',
   h1a: { example: 'Calculate your year of', own: 'Your year of' },
   h1b: 'carbon emissions',
   sub: {
     example:
-      'I measure carbon for a living, so I pointed the same maths at my own year: every flight, power bill and parcel, plus an estimate of what I ate, added up.',
+      'I measure carbon for a living, so I pointed the same maths at my own year. Every flight, power bill and parcel is in it, plus an estimate of what I ate.',
     own:
       'Your year, measured in carbon: flights, power, food and deliveries. It stays in this browser and nowhere else.',
-  },
-  // Sets the expectation the home page never does: this is a Wrapped-style
-  // scroll-through of the audited year, not another landing page.
-  meta: {
-    example: 'My {fy} carbon emissions, wrapped',
-    own: 'Your {fy} carbon emissions, wrapped',
   },
   start: 'Calculate your own',
   // The field behind the words, explained: one dot is ten kilograms.
@@ -95,8 +88,8 @@ export const GUESS = {
   // The visitor's own reveal adds a fourth bearing: my year, on this calculator.
   headline: { example: 'Three numbers to hold on to', own: 'Four numbers to hold on to' },
   sub: {
-    example: 'Before you see my total, here is what a year of carbon looks like for other people. Keep these in mind.',
-    own: 'Before your total, here is what a year of carbon looks like for other people, mine included. Keep these in mind.',
+    example: 'Before you see my total, here is what a year of carbon looks like for other people.',
+    own: 'Before your total, here is what a year of carbon looks like for other people, mine included.',
   },
   // The home row carries no label here: it reads the home country's own
   // benchmark label off the bench data, so an American or New Zealand audit
@@ -153,7 +146,7 @@ export const TOTAL = {
   // Cute, accurate aside explaining the "-e" the first time it appears.
   eNote: 'CO₂-e means "carbon dioxide equivalent". It lets different greenhouse gases sit in one number, like converting currencies before you add them up.',
   line: {
-    example: 'Every flight, power bill and parcel, plus an estimate of what I ate, added up.',
+    example: 'Everything I logged, added up, awkward bits included.',
     own: 'Everything you entered, added up, awkward bits included.',
   },
   // One instant everyday anchor beside the number, so the unit means
@@ -181,8 +174,8 @@ export const EQUIV_ST = {
   tag: 'In real things',
   headline: { example: 'My year, counted in burgers', own: 'Your year, counted in burgers' },
   sub: {
-    example: 'Tonnes are abstract. Here is the same total counted out in things I choose, at published factors. Pick a unit.',
-    own: 'Tonnes are abstract. Here is your same total counted out in things you choose, at published factors. Pick a unit.',
+    example: 'The same total, counted out in things I choose at published factors. Pick a unit.',
+    own: 'Your same total, counted out in things you choose at published factors. Pick a unit.',
   },
   chipsLabel: 'Count the year in a different unit',
   // {n} pre-formatted; {unit} singular or plural to match.

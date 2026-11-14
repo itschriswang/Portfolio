@@ -41,8 +41,10 @@ export default function Experience() {
       if (stops.length) fill.style.background = `linear-gradient(180deg, ${stops.join(', ')})`;
     }
 
+    let tops = [];
     function layout() {
       railLen = Math.max(1, tl.offsetHeight - 8);
+      tops = entries.map((en) => en.offsetTop);
       entries.forEach((en, i) => {
         const pt = parseFloat(getComputedStyle(en).paddingTop) || 0;
         if (nodes[i]) nodes[i].style.top = (en.offsetTop + pt + 2) + 'px';
@@ -54,7 +56,8 @@ export default function Experience() {
       let h = window.innerHeight * 0.66 - r.top;
       h = reduced ? railLen : Math.max(0, Math.min(railLen, h));
       fill.style.clipPath = 'inset(0 0 ' + ((1 - h / railLen) * 100).toFixed(2) + '% 0)';
-      nodes.forEach((n, i) => { n.classList.toggle('lit', entries[i].offsetTop + 12 <= h); });
+      // Offsets are read once in layout(), so the scroll loop only writes.
+      nodes.forEach((n, i) => { n.classList.toggle('lit', tops[i] + 12 <= h); });
     }
     let tick = false;
     const onScroll = () => { if (!tick) { requestAnimationFrame(() => { update(); tick = false; }); tick = true; } };

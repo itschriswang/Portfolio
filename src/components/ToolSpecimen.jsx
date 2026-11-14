@@ -24,6 +24,9 @@ import { prefersReducedMotion } from '../utils/media';
 // labelled by its heading, so it stays aria-hidden.
 // ---------------------------------------------------------------------------
 const INK = 'rgba(216,221,202,0.34)';
+// Text on the dark card needs more than the strokes do: 0.34 put the axis
+// labels near 3:1, so labels take their own, stronger ink.
+const INK_TEXT = 'rgba(216,221,202,0.66)';
 const RULE = 'rgba(216,221,202,0.16)';
 const LBL = 'rgba(216,221,202,0.82)';
 // Dark type on a lime bar: the --forest token (SVG attributes cannot read CSS variables).
@@ -37,7 +40,7 @@ const EASE = [0.25, 1, 0.5, 1];
 
 // A label set in the site's mono. Sizes are real pixels, because the viewBox
 // is the plate's own pixel box.
-function T({ x, y, children, size = 9, fill = LBL, anchor = 'start', weight = 500, font = MONO }) {
+function T({ x, y, children, size = 10, fill = LBL, anchor = 'start', weight = 500, font = MONO }) {
   return (
     <text x={x} y={y} fontFamily={font} fontSize={size} fill={fill} textAnchor={anchor} fontWeight={weight}>
       {children}
@@ -106,7 +109,7 @@ function Trajectory({ d, w, h, still, uid }) {
       <line x1={X0} y1={Y1} x2={X1} y2={Y1} stroke={RULE} strokeWidth="1" />
       {/* Where the reported series runs out and the claim carries on alone. */}
       <line x1={x(d.nowYear)} y1={Y0 - 12} x2={x(d.nowYear)} y2={Y1} stroke={RULE} strokeWidth="1" strokeDasharray="2 3" />
-      <T x={x(d.nowYear) + 4} y={Y0 - 4} size={9} fill={INK}>now</T>
+      <T x={x(d.nowYear) + 4} y={Y0 - 4} size={10} fill={INK_TEXT}>now</T>
 
       <g clipPath={`url(#${clip})`}>
         <path
@@ -122,12 +125,12 @@ function Trajectory({ d, w, h, still, uid }) {
         ))}
       </g>
 
-      <T x={X0 - 4} y={y(d.baseMt) + 3} size={9} anchor="end" fill={INK}>{d.baseMt}</T>
-      <T x={X0} y={Y1 + 14} size={9} fill={INK}>{d.baseYear}</T>
-      <T x={x(d.interim[0].year)} y={Y1 + 14} size={9} anchor="middle" fill={INK}>{d.interim[0].year}</T>
-      <T x={X1} y={Y1 + 14} size={9} anchor="end" fill={INK}>{d.netZeroYear}</T>
+      <T x={X0 - 4} y={y(d.baseMt) + 3} size={10} anchor="end" fill={INK_TEXT}>{d.baseMt}</T>
+      <T x={X0} y={Y1 + 14} size={10} fill={INK_TEXT}>{d.baseYear}</T>
+      <T x={x(d.interim[0].year)} y={Y1 + 14} size={10} anchor="middle" fill={INK_TEXT}>{d.interim[0].year}</T>
+      <T x={X1} y={Y1 + 14} size={10} anchor="end" fill={INK_TEXT}>{d.netZeroYear}</T>
       <T x={X0} y={Y0 - 6} size={11} fill="var(--tc)" weight={700}>{d.company}</T>
-      <T x={x(2042)} y={y(claimedAt(2042)) - 9} size={9} anchor="middle" fill={INK}>claimed</T>
+      <T x={x(2042)} y={y(claimedAt(2042)) - 9} size={10} anchor="middle" fill={INK_TEXT}>claimed</T>
       <T x={x(last[0]) + 8} y={y(last[1]) + 4} size={9} fill="var(--tc)">reported</T>
     </>
   );
@@ -164,7 +167,7 @@ function Scopes({ d, w, h, still }) {
       {/* The two operational scopes are only a sliver of the bar, so they share
           one label at the left rather than each pointing at a segment too
           narrow to sit under. */}
-      <T x={X0} y={BY + BH + 15} size={9} fill={INK}>
+      <T x={X0} y={BY + BH + 15} size={10} fill={INK_TEXT}>
         {d.parts[0].label} {d.parts[0].pct}% · {d.parts[1].label} {d.parts[1].pct}%
       </T>
 
@@ -194,12 +197,12 @@ function Histogram({ d, w, h, still }) {
               viewport={VIEW} transition={{ duration: 0.5, ease: EASE, delay: i * 0.07 }}
               height={still ? bh : undefined} y={still ? BASE - bh : undefined}
             />
-            <T x={X0 + i * (BW + GAP) + BW / 2} y={BASE + 14} size={9} anchor="middle" fill={INK}>{b.label}</T>
+            <T x={X0 + i * (BW + GAP) + BW / 2} y={BASE + 14} size={10} anchor="middle" fill={INK_TEXT}>{b.label}</T>
           </g>
         );
       })}
       <Figure x={X0} y={17} size={15} value={`${d.bins[0].n} of ${d.scored}`} label="score under 20 out of 100" />
-      <T x={X0 + GW} y={16} size={9} anchor="end" fill={INK}>median {d.median}</T>
+      <T x={X0 + GW} y={16} size={10} anchor="end" fill={INK_TEXT}>median {d.median}</T>
     </>
   );
 }
@@ -236,8 +239,8 @@ function Matrix({ d, w, h, still }) {
       })}
       <line x1={X0} y1={FOOT + 1} x2={X0 + GW} y2={FOOT + 1} stroke={RULE} strokeWidth="1" />
       <Figure x={X0} y={17} size={15} value={`${d.flaggedFunds} of ${d.funds}`} label="default options carry a flagged holding" />
-      <T x={X0} y={FOOT + 15} size={9} fill={INK}>one column per fund</T>
-      <T x={X0 + GW} y={FOOT + 15} size={9} anchor="end" fill={INK}>one dot per flagged holding</T>
+      <T x={X0} y={FOOT + 15} size={10} fill={INK_TEXT}>one column per fund</T>
+      <T x={X0 + GW} y={FOOT + 15} size={10} anchor="end" fill={INK_TEXT}>one dot per flagged holding</T>
     </>
   );
 }
@@ -279,7 +282,7 @@ function Factors({ d, w, h, still }) {
           </g>
         );
       })}
-      <T x={LX} y={TOP + d.bars.length * STEP + 11} size={9} anchor="end" fill={INK}>{d.unit}</T>
+      <T x={LX} y={TOP + d.bars.length * STEP + 11} size={10} anchor="end" fill={INK_TEXT}>{d.unit}</T>
     </>
   );
 }
@@ -323,8 +326,8 @@ function Stack({ d, w, h, still }) {
       ))}
       <T x={X0 + 8} y={BY + BH / 2 + 5} size={13} fill={FOREST} weight={700} font={DISP}>{d.parts[0].pct}%</T>
       <T x={X0} y={BY + BH + 15} size={9} fill="var(--tc)">{d.parts[0].label}</T>
-      {showSecond && <T x={segs[1].x} y={BY + BH + 15} size={9} fill={INK}>{d.parts[1].label}</T>}
-      <T x={X0 + W} y={BY + BH + 15} size={9} anchor="end" fill={INK}>{d.parts[5].label}</T>
+      {showSecond && <T x={segs[1].x} y={BY + BH + 15} size={10} fill={INK_TEXT}>{d.parts[1].label}</T>}
+      <T x={X0 + W} y={BY + BH + 15} size={10} anchor="end" fill={INK_TEXT}>{d.parts[5].label}</T>
     </>
   );
 }
@@ -351,10 +354,10 @@ function Gap({ d, w, h, still }) {
       />
       {/* The straight line from 2005 to the target, i.e. the pace it needs. */}
       <line x1={at(d.pacePct)} y1={BY - 7} x2={at(d.pacePct)} y2={BY + BH + 7} stroke={INK} strokeWidth="1.5" strokeDasharray="3 2" />
-      <T x={at(d.pacePct)} y={BY - 11} size={9} anchor="middle" fill={INK}>on pace</T>
+      <T x={at(d.pacePct)} y={BY - 11} size={10} anchor="middle" fill={INK_TEXT}>on pace</T>
       <line x1={X0 + W} y1={BY - 7} x2={X0 + W} y2={BY + BH + 7} stroke={LBL} strokeWidth="1.5" />
 
-      <T x={X0} y={BY + BH + 20} size={9} fill={INK}>2005 baseline</T>
+      <T x={X0} y={BY + BH + 20} size={10} fill={INK_TEXT}>2005 baseline</T>
       <T x={X0 + W} y={BY + BH + 20} size={9} anchor="end">{d.targetPct}% by {d.targetYear}</T>
     </>
   );
@@ -386,7 +389,7 @@ function Scale({ d, w, h, still }) {
         viewport={VIEW} transition={{ duration: 0.35, delay: 0.6, ease: EASE }}
       />
       <line x1={X0 + W} y1={BY - 9} x2={X0 + W} y2={BY + 9} stroke={LBL} strokeWidth="1.5" />
-      <T x={X0} y={BY + 20} size={9} fill={INK}>0</T>
+      <T x={X0} y={BY + 20} size={10} fill={INK_TEXT}>0</T>
       <T x={X0 + W} y={BY + 20} size={9} anchor="end">{d.benchmarkLabel}</T>
     </>
   );

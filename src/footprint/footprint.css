@@ -50,7 +50,7 @@
 .fp-mode-btn{ font-family:var(--mono); font-size:11.5px; letter-spacing:0.06em; text-transform:uppercase; background:transparent; color:#B9C4B4; border:1px solid rgba(255,255,255,0.25); padding:0.3rem 0.7rem; cursor:pointer; transition:background 0.2s var(--ease),color 0.2s var(--ease),border-color 0.2s var(--ease); }
 .fp-mode-btn.on{ background:var(--matcha); color:var(--slate); border-color:var(--matcha); font-weight:700; }
 .fp-mode-btn.cta{ border-color:var(--matcha); color:var(--matcha); }
-.fp-mode-btn:hover:not(.on){ border-color:var(--matcha); color:#fff; }
+@media (hover:hover) and (pointer:fine){ .fp-mode-btn:hover:not(.on){ border-color:var(--matcha); color:#fff; } }
 
 /* ---- Sections ---- */
 #fp-dash, #fp-plan, #fp-log, #fp-method, #fp-methodlink{ padding:clamp(3rem,7vw,5rem) 0; }
@@ -94,7 +94,7 @@
 .fp-card{ background:var(--white); border:1px solid var(--rule-dk); padding:1.4rem 1.5rem; margin-bottom:1.5rem; }
 .fp-card-toprow{ display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; flex-wrap:wrap; }
 .fp-compare{ font-family:var(--mono); font-size:11.5px; letter-spacing:0.08em; text-transform:uppercase; font-weight:700; background:var(--bg); color:var(--mid); border:1px solid var(--rule-dk); border-radius:999px; padding:0.45rem 0.9rem; cursor:pointer; transition:background 0.25s var(--ease),color 0.25s var(--ease),border-color 0.25s var(--ease); white-space:nowrap; }
-.fp-compare:hover{ border-color:var(--matcha); color:var(--accent-ink); }
+@media (hover:hover) and (pointer:fine){ .fp-compare:hover{ border-color:var(--matcha); color:var(--accent-ink); } }
 .fp-compare.on{ background:var(--matcha); border-color:var(--matcha); color:var(--slate); }
 .fp-remind{ margin-top:1.2rem; }
 .fp-remind .fp-ctrl-row{ align-items:center; }
@@ -104,9 +104,9 @@
   .fp-card-toprow > .fp-viewtabs, .fp-card-toprow > .fp-compare-row{ margin-bottom:0.75rem; }
 }
 .fp-replay{ font-family:var(--mono); font-size:11.5px; letter-spacing:0.08em; text-transform:uppercase; font-weight:700; background:none; border:1px solid var(--rule-dk); color:var(--slate); padding:0.55rem 0.95rem; cursor:pointer; transition:color 0.25s var(--ease),border-color 0.25s var(--ease); display:inline-flex; align-items:center; gap:0.45rem; min-height:44px; }
-.fp-replay:hover{ border-color:var(--matcha); color:var(--accent-ink); }
+@media (hover:hover) and (pointer:fine){ .fp-replay:hover{ border-color:var(--matcha); color:var(--accent-ink); } }
 .fp-card-head{ font-family:var(--mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--slate); font-weight:700; margin-bottom:0.3rem; }
-.fp-card-sub{ font-size:0.8rem; color:var(--fp-ink-2); line-height:1.65; margin-bottom:1rem; max-width:700px; }
+.fp-card-sub{ font-size:0.95rem; color:var(--fp-ink-2); line-height:1.65; margin-bottom:1rem; max-width:700px; }
 .fp-chart-wrap{ position:relative; }
 .fp-legend{ display:flex; gap:1rem; flex-wrap:wrap; margin-top:0.8rem; }
 .fp-leg-item{ display:inline-flex; align-items:center; gap:0.4rem; font-family:var(--mono); font-size:11.5px; color:var(--mid); font-weight:600; }
@@ -140,7 +140,7 @@
 /* Comparison overlay: a hollow diamond marks the other audit's value. */
 .fp-cat-diamond{ position:absolute; top:50%; width:10px; height:10px; background:var(--white); border:2px solid; transform:translateY(-50%) rotate(45deg); box-shadow:0 0 0 2px var(--white); }
 .fp-cat-row{ transition:background 0.25s var(--ease); }
-.fp-cat-row:hover{ background:rgba(181,196,43,0.05); }
+@media (hover:hover) and (pointer:fine){ .fp-cat-row:hover{ background:rgba(181,196,43,0.05); } }
 .fp-cat-val{ font-family:var(--mono); font-size:0.75rem; color:var(--slate); text-align:right; font-weight:600; }
 .fp-cat-pct{ font-family:var(--mono); font-size:0.72rem; color:var(--mid); text-align:right; }
 
@@ -231,7 +231,7 @@
   transition:color 0.2s var(--ease),border-color 0.2s var(--ease),opacity 0.2s var(--ease);
   display:flex; align-items:center; justify-content:center;
 }
-.fp-car-btn:hover:not([aria-disabled="true"]){ border-color:var(--matcha); color:var(--accent-ink); }
+@media (hover:hover) and (pointer:fine){ .fp-car-btn:hover:not([aria-disabled="true"]){ border-color:var(--matcha); color:var(--accent-ink); } }
 .fp-car-btn[aria-disabled="true"]{ opacity:0.4; cursor:default; }
 .fp-car-btn:focus-visible{ outline:2px solid var(--matcha); outline-offset:2px; }
 /* The readout pins under the page chrome while the planner is on screen, so
@@ -271,6 +271,10 @@
 .fp-table tbody tr{ background:var(--bg); border-bottom:1px solid var(--rule-dk); }
 .fp-table tbody tr:nth-child(even){ background:var(--white); }
 .fp-table tbody td{ padding:0.55rem 0.8rem; vertical-align:top; line-height:1.55; font-weight:400; color:var(--fp-ink-2); font-variant-numeric:tabular-nums; }
+/* Figures line up on the right so their places stack; a short table stops at
+   a width where its columns still read as one row. */
+.fp-table th.num, .fp-table td.num{ text-align:right; }
+.fp-table.fp-table-narrow{ max-width:52rem; }
 .fp-table-more{ margin:0.75rem 0 0.6rem; }
 .fp-table td.mono, .fp-table td .mono{ font-family:var(--mono); font-size:0.74rem; white-space:nowrap; }
 .fp-table td.strong{ font-weight:700; color:var(--slate); }
@@ -289,14 +293,14 @@
   border:none; border-bottom:1px dashed var(--rule-dk); padding:0.05rem 0.1rem; cursor:pointer;
   white-space:nowrap; transition:color 0.2s var(--ease), border-color 0.2s var(--ease);
 }
-.fp-num-edit:hover{ color:var(--accent-ink); border-bottom-color:var(--matcha); }
+@media (hover:hover) and (pointer:fine){ .fp-num-edit:hover{ color:var(--accent-ink); border-bottom-color:var(--matcha); } }
 .fp-num-edit:focus-visible{ outline:2px solid var(--matcha); outline-offset:2px; }
 .fp-edit-btn{
   font-family:var(--mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; font-weight:700;
   background:none; border:1px solid var(--rule-dk); color:var(--slate); padding:0.3rem 0.55rem;
   border-radius:6px; cursor:pointer; margin-right:0.3rem; transition:color 0.2s var(--ease),border-color 0.2s var(--ease);
 }
-.fp-edit-btn:hover{ border-color:var(--matcha); color:var(--accent-ink); }
+@media (hover:hover) and (pointer:fine){ .fp-edit-btn:hover{ border-color:var(--matcha); color:var(--accent-ink); } }
 .fp-row-editing td{ background:rgba(181,196,43,0.07); }
 .fp-editrow td{ background:rgba(181,196,43,0.05); padding:0; }
 .fp-edit{ display:flex; gap:0.9rem; flex-wrap:wrap; align-items:flex-end; padding:1rem 0.8rem; }
@@ -316,16 +320,20 @@
 .fp-field input[type="checkbox"]{ width:20px; height:20px; accent-color:var(--accent-ink); margin-top:0.5rem; }
 .fp-field select:focus, .fp-field input:focus{ outline:2px solid var(--matcha); outline-offset:1px; }
 .fp-btn{ font-size:0.82rem; }
-.fp-linkbtn{ font-family:var(--mono); font-size:11.5px; letter-spacing:0.08em; text-transform:uppercase; font-weight:700; background:none; border:1px solid var(--rule-dk); color:var(--slate); padding:0.55rem 0.9rem; cursor:pointer; transition:color 0.2s var(--ease),border-color 0.2s var(--ease); display:inline-flex; align-items:center; gap:0.4rem; }
-.fp-linkbtn:hover{ border-color:var(--matcha); color:var(--accent-ink); }
+/* Press feedback: a pressed control gives a little under the finger. */
+.fp-btn, .fp-mode-btn, .fp-viewtab, .fp-toggle, .fp-compare, .fp-replay, .ob-choice, .ob-remove{ transition:background 0.18s var(--ease), color 0.18s var(--ease), border-color 0.18s var(--ease), transform 160ms var(--ease); }
+.fp-btn:active, .fp-linkbtn:active, .ob-chip:active, .fp-mode-btn:active, .fp-viewtab:active, .fp-toggle:active, .fp-compare:active, .fp-replay:active, .ob-remove:active{ transform:scale(0.97); }
+.ob-choice:active{ transform:scale(0.99); }
+.fp-linkbtn{ font-family:var(--mono); font-size:11.5px; letter-spacing:0.08em; text-transform:uppercase; font-weight:700; background:none; border:1px solid var(--rule-dk); color:var(--slate); padding:0.55rem 0.9rem; cursor:pointer; transition:color 0.18s var(--ease),border-color 0.18s var(--ease),transform 160ms var(--ease); display:inline-flex; align-items:center; gap:0.4rem; }
+@media (hover:hover) and (pointer:fine){ .fp-linkbtn:hover{ border-color:var(--matcha); color:var(--accent-ink); } }
 .fp-linkbtn.danger{ color:var(--berry-ink); }
-.fp-linkbtn.danger:hover{ border-color:var(--berry-ink); }
+@media (hover:hover) and (pointer:fine){ .fp-linkbtn.danger:hover{ border-color:var(--berry-ink); } }
 .fp-filebtn{ position:relative; overflow:hidden; }
 .fp-filebtn input{ position:absolute; inset:0; opacity:0; cursor:pointer; }
 .fp-ctrl-row{ display:flex; gap:0.6rem; flex-wrap:wrap; margin-top:0.5rem; }
 .fp-error{ color:var(--berry-ink); font-size:0.8rem; margin-top:0.6rem; }
 .fp-example-note{ border:1px dashed var(--rule-dk); background:rgba(181,196,43,0.06); padding:1.25rem 1.5rem; margin-top:1.25rem; }
-.fp-example-note p{ font-size:0.85rem; color:var(--fp-ink-2); margin-bottom:0.9rem; max-width:560px; }
+.fp-example-note p{ font-size:0.95rem; color:var(--fp-ink-2); margin-bottom:0.9rem; max-width:560px; }
 
 /* ---- CSV import ---- */
 .fp-imp-actions{ display:flex; gap:0.9rem; align-items:center; flex-wrap:wrap; }
@@ -354,15 +362,15 @@
 .ob-seg.on{ background:var(--slate); }
 .ob-seg.done{ background:var(--matcha); }
 .ob-stepname{ font-family:var(--mono); font-size:11.5px; letter-spacing:0.06em; text-transform:uppercase; color:var(--mid); }
-.ob-close{ border:1px solid var(--rule-dk); background:none; color:var(--mid); font-size:1.15rem; line-height:1; cursor:pointer; width:36px; height:36px; border-radius:50%; transition:color 0.25s var(--ease),border-color 0.25s var(--ease); }
-.ob-close:hover{ border-color:var(--berry-ink); color:var(--berry-ink); }
+.ob-close{ border:1px solid var(--rule-dk); background:none; color:var(--mid); font-size:1.15rem; line-height:1; cursor:pointer; width:36px; height:36px; flex-shrink:0; border-radius:50%; transition:color 0.18s var(--ease),border-color 0.18s var(--ease); }
+@media (hover:hover) and (pointer:fine){ .ob-close:hover{ border-color:var(--berry-ink); color:var(--berry-ink); } }
 /* The dialog is modal, so scrolling to the end of a survey step must not chain
    into the (inert, scroll-locked) page behind it. */
 .ob-body{ flex:1; overflow-y:auto; overscroll-behavior:contain; padding-top:clamp(1.4rem,4vh,3rem); padding-bottom:2rem; }
 .ob-pane{ max-width:640px; }
-.ob-intro{ font-size:0.88rem; color:var(--fp-ink-2); line-height:1.7; max-width:560px; margin-bottom:1.4rem; }
+.ob-intro{ font-size:0.95rem; color:var(--fp-ink-2); line-height:1.7; max-width:560px; margin-bottom:1.4rem; }
 .ob-pane h3{ font-family:var(--disp); font-size:clamp(1.5rem,3.5vw,2.1rem); font-weight:700; color:var(--slate); letter-spacing:-0.03em; margin-bottom:0.5rem; outline:none; }
-.ob-pane > div > p{ font-size:0.85rem; color:var(--fp-ink-2); line-height:1.7; margin-bottom:1.6rem; max-width:520px; }
+.ob-pane > div > p{ font-size:0.95rem; color:var(--fp-ink-2); line-height:1.7; margin-bottom:1.6rem; max-width:520px; }
 
 /* ---- Hand-drawn icons ---- */
 /* One visual language across the page: round line art with a single matcha
@@ -384,16 +392,16 @@
 .ob-note{ display:block; font-family:var(--sans); font-size:0.8125rem; color:var(--fp-ink-2); line-height:1.6; margin:0.5rem 0 1.2rem; max-width:520px; }
 
 .ob-chips{ display:flex; gap:0.45rem; flex-wrap:wrap; }
-.ob-chip{ font-family:var(--sans); font-size:0.82rem; font-weight:600; color:var(--slate); background:var(--white); border:1px solid var(--rule-dk); padding:0.55rem 0.95rem; cursor:pointer; border-radius:999px; transition:background 0.25s var(--ease),color 0.25s var(--ease),border-color 0.25s var(--ease); display:inline-flex; flex-direction:column; align-items:flex-start; gap:0.1rem; }
+.ob-chip{ font-family:var(--sans); font-size:0.82rem; font-weight:600; color:var(--slate); background:var(--white); border:1px solid var(--rule-dk); padding:0.55rem 0.95rem; cursor:pointer; border-radius:999px; transition:background 0.18s var(--ease),color 0.18s var(--ease),border-color 0.18s var(--ease),transform 160ms var(--ease); display:inline-flex; flex-direction:column; align-items:flex-start; gap:0.1rem; }
 .ob-chip em{ font-style:normal; font-family:var(--mono); font-size:11px; color:var(--mid); font-weight:500; }
-.ob-chip:hover{ border-color:var(--matcha); }
+@media (hover:hover) and (pointer:fine){ .ob-chip:hover{ border-color:var(--matcha); } }
 .ob-chip.on{ background:var(--matcha); border-color:var(--matcha); color:var(--slate); }
 .ob-chip.on em{ color:rgba(31,42,30,0.75); }
 
 .ob-stepper{ display:flex; align-items:center; gap:0.5rem; }
-.ob-stepper button{ width:40px; height:40px; border:1px solid var(--rule-dk); background:var(--white); color:var(--slate); font-size:1.15rem; cursor:pointer; border-radius:50%; transition:color 0.25s var(--ease),border-color 0.25s var(--ease),transform 0.25s var(--ease); line-height:1; }
-.ob-stepper button:hover{ border-color:var(--matcha); color:var(--accent-ink); }
-.ob-stepper button:active{ transform:scale(0.92); }
+.ob-stepper button{ width:40px; height:40px; border:1px solid var(--rule-dk); background:var(--white); color:var(--slate); font-size:1.15rem; cursor:pointer; border-radius:50%; transition:color 0.18s var(--ease),border-color 0.18s var(--ease),transform 120ms var(--ease); line-height:1; }
+@media (hover:hover) and (pointer:fine){ .ob-stepper button:hover{ border-color:var(--matcha); color:var(--accent-ink); } }
+.ob-stepper button:active{ transform:scale(0.96); }
 .ob-stepper input{ font-family:var(--disp); font-weight:700; font-size:1.3rem; color:var(--slate); background:transparent; border:none; border-bottom:2px solid var(--rule-dk); width:76px; text-align:center; padding:0.25rem 0; -moz-appearance:textfield; }
 .ob-stepper input::-webkit-outer-spin-button, .ob-stepper input::-webkit-inner-spin-button{ -webkit-appearance:none; }
 .ob-stepper input:focus{ border-color:var(--matcha); }
@@ -409,7 +417,7 @@
   padding:0 0.1rem 0.1rem; font-variant-numeric:tabular-nums;
   transition:border-color 0.2s var(--ease);
 }
-.ob-value-input:hover{ border-bottom-color:var(--mid); }
+@media (hover:hover) and (pointer:fine){ .ob-value-input:hover{ border-bottom-color:var(--mid); } }
 .ob-value-input:focus{ outline:none; border-bottom-color:var(--matcha); border-bottom-style:solid; }
 /* Keep the native spinners; they are a handy nudge on desktop. */
 .ob-value-input::-webkit-inner-spin-button{ opacity:0.5; }
@@ -454,26 +462,21 @@
 
 /* ---- Method ---- */
 .fp-method-grid{ display:grid; grid-template-columns:1fr; gap:1px; background:var(--rule-dk); border:1px solid var(--rule-dk); margin-bottom:1.5rem; }
-/* One block per row: two blocks side by side left an empty cell whenever one
-   ran longer than its neighbour, or stood alone before a wide block. From
-   800px each block sets its own paragraphs in two balanced columns instead,
-   so the text keeps a reading measure and no cell is ever left empty. */
-@media(min-width:800px){
-  .fp-method-grid .fp-method-block{ column-count:2; column-gap:2.5rem; }
-  .fp-method-grid .fp-method-block h2{ display:table; column-span:all; }
-  .fp-method-grid .fp-method-block p{ max-width:none; }
-}
+/* One block per row, in one column at a reading measure. Two blocks side by
+   side left an empty cell whenever one ran longer than its neighbour, and two
+   text columns inside a block split paragraphs mid-sentence and sent the
+   reader back up a screen to find column two. */
 .fp-method-block{ background:var(--white); padding:1.4rem 1.5rem; }
 .fp-method-wide{ grid-column:1 / -1; border:1px solid var(--rule-dk); margin-bottom:1.5rem; }
 .fp-method-grid .fp-method-wide{ border:none; margin-bottom:0; }
 .fp-method-block h2{ font-family:var(--disp); font-size:1rem; font-weight:700; color:var(--slate); padding-bottom:0.5rem; border-bottom:2px solid var(--matcha); margin-bottom:0.75rem; display:inline-block; }
-.fp-method-block p{ font-size:0.82rem; color:var(--fp-ink-2); line-height:1.75; margin-bottom:0.75rem; max-width:72ch; }
+.fp-method-block p{ font-size:0.95rem; color:var(--fp-ink-2); line-height:1.7; margin-bottom:0.85rem; max-width:68ch; }
 .fp-ftable{ margin:1.4rem 0; }
 .fp-ftable-cap{ font-family:var(--sans); font-size:0.875rem; color:var(--slate); font-weight:700; line-height:1.45; margin-bottom:0.5rem; max-width:78ch; text-wrap:pretty; }
 .fp-ftable-src{ font-family:var(--sans); font-size:0.85rem; color:var(--fp-ink-2); line-height:1.6; margin-top:0.45rem; max-width:78ch; }
 .fp-ftable-src a{ color:var(--accent-ink); font-weight:700; }
 .fp-exclusions{ list-style:none; display:flex; flex-direction:column; gap:0.55rem; }
-.fp-exclusions li{ font-size:0.8rem; color:var(--fp-ink-2); line-height:1.65; padding-left:1rem; position:relative; max-width:80ch; }
+.fp-exclusions li{ font-size:0.95rem; color:var(--fp-ink-2); line-height:1.65; padding-left:1rem; position:relative; max-width:80ch; }
 .fp-exclusions li::before{ content:'›'; position:absolute; left:0; color:var(--matcha); font-weight:700; }
 
 /* ---- Snapshot banner / toast ---- */
@@ -492,7 +495,8 @@
 /* Motion preferences: the blooms animate in global.css; stop them here too. */
 @media (prefers-reduced-motion: reduce){
   .bloom{ animation:none !important; }
-  .fp-toggle, .fp-mode-btn, .fp-linkbtn, .fp-opt, .fp-car-btn, .fp-compare, .fp-replay, .ob-chip, .ob-stepper button{ transition:none; }
+  .fp-toggle, .fp-mode-btn, .fp-linkbtn, .fp-opt, .fp-car-btn, .fp-compare, .fp-replay, .ob-chip, .ob-stepper button, .fp-btn, .fp-viewtab, .ob-choice, .ob-remove{ transition:none; }
+  .fp-btn:active, .fp-linkbtn:active, .ob-chip:active, .fp-mode-btn:active, .fp-viewtab:active, .fp-toggle:active, .fp-compare:active, .fp-replay:active, .ob-remove:active, .ob-choice:active, .ob-stepper button:active{ transform:none; }
 }
 
 /* ---- Guided audit: flight cards ---- */
@@ -533,7 +537,7 @@
 .ob-addflight{ margin:0.2rem 0 1.2rem; }
 
 .ob-remove{ font-family:var(--mono); font-size:11.5px; letter-spacing:0.06em; text-transform:uppercase; font-weight:700; color:var(--berry-ink); background:none; border:1px solid var(--rule-dk); padding:0.35rem 0.7rem; cursor:pointer; border-radius:999px; transition:background 0.25s var(--ease),border-color 0.25s var(--ease); }
-.ob-remove:hover{ border-color:var(--berry-ink); background:rgba(194,20,49,0.06); }
+@media (hover:hover) and (pointer:fine){ .ob-remove:hover{ border-color:var(--berry-ink); background:rgba(194,20,49,0.06); } }
 
 /* "How this is estimated" disclosure: methodology on demand, not in the way. */
 .ob-disclose{ border-top:1px solid var(--rule-lt); padding-top:0.9rem; max-width:520px; }
@@ -547,7 +551,7 @@
 .ob-choicewrap{ display:grid; gap:0.8rem; grid-template-columns:minmax(0,1fr); max-width:560px; margin-top:1rem; }
 @media(min-width:560px){ .ob-choicewrap{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
 .ob-choice{ text-align:left; border:1px solid var(--rule-dk); background:var(--white); padding:1.1rem 1.2rem; cursor:pointer; transition:border-color 0.25s var(--ease); }
-.ob-choice:hover{ border-color:var(--matcha); }
+@media (hover:hover) and (pointer:fine){ .ob-choice:hover{ border-color:var(--matcha); } }
 .ob-choice:focus-visible{ outline:2px solid var(--matcha); outline-offset:3px; }
 .ob-choice strong{ display:block; font-family:var(--disp); font-size:1.05rem; color:var(--slate); margin-bottom:0.3rem; }
 .ob-choice span{ font-family:var(--mono); font-size:11.5px; letter-spacing:0.05em; text-transform:uppercase; color:var(--mid); }
@@ -576,7 +580,7 @@
 #fp-skim{ padding:4.5rem 0 3rem; border-bottom:1px solid var(--rule-lt); }
 .fp-skim-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--rule-dk); border:1px solid var(--rule-dk); margin-top:2rem; }
 .fp-skim-card{ display:flex; flex-direction:column; gap:0.45rem; background:var(--white); padding:1.3rem 1.4rem 1.15rem; text-decoration:none; color:inherit; transition:background 0.2s var(--ease); }
-.fp-skim-card:hover{ background:color-mix(in srgb, #B5C42B 7%, #FFFFFF); }
+@media (hover:hover) and (pointer:fine){ .fp-skim-card:hover{ background:color-mix(in srgb, #B5C42B 7%, #FFFFFF); } }
 .fp-skim-n{ font-family:var(--mono); font-size:11.5px; color:var(--mid); letter-spacing:0.08em; }
 .fp-skim-label{ font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:var(--slate); font-weight:700; }
 .fp-skim-v{ font-family:var(--disp); font-size:clamp(1.6rem,2.6vw,2.2rem); font-weight:700; line-height:1; color:var(--slate); }
@@ -588,7 +592,7 @@
 .fp-skim-contact{ display:flex; align-items:center; justify-content:space-between; gap:1.5rem; flex-wrap:wrap; border:1px solid var(--rule-dk); border-top:none; background:var(--slate); color:#E8EDE6; padding:1.2rem 1.4rem; }
 .fp-skim-contact p{ font-size:0.85rem; line-height:1.6; margin:0; max-width:34rem; color:#CBD5C6; }
 .fp-skim-contact .fp-linkbtn{ color:#E8EDE6; border-color:rgba(255,255,255,0.35); }
-.fp-skim-contact .fp-linkbtn:hover{ color:var(--matcha); border-color:var(--matcha); }
+@media (hover:hover) and (pointer:fine){ .fp-skim-contact .fp-linkbtn:hover{ color:var(--matcha); border-color:var(--matcha); } }
 
 /* ---- Quick-path dwelling nudge --------------------------------------------
    Sits directly above the option cards, because the two it unlocks are the
@@ -666,10 +670,10 @@
   background: rgba(244, 246, 238, 0.06); border: 1px solid rgba(244, 246, 238, 0.24);
   border-radius: 999px; padding: 0.45rem 0.8rem;
 }
-.fp-snaphero-body { font-size: 0.88rem; color: #A9B4A2; line-height: 1.65; max-width: 520px; margin-bottom: 0.5rem; }
+.fp-snaphero-body { font-size: 0.95rem; color: #A9B4A2; line-height: 1.65; max-width: 520px; margin-bottom: 0.5rem; }
 .fp-snaphero-tease { font-family: var(--disp); font-weight: 600; font-size: clamp(1.05rem, 2.2vw, 1.35rem); color: #F4F6EE; margin-bottom: 1.2rem; }
 .fp-snaphero-quiet { color: #F4F6EE; border-color: rgba(244, 246, 238, 0.28); }
-.fp-snaphero-quiet:hover { color: var(--matcha); border-color: var(--matcha); }
+@media (hover:hover) and (pointer:fine){ .fp-snaphero-quiet:hover { color: var(--matcha); border-color: var(--matcha); } }
 .fp-snaphero-note { color: #A9B4A2; margin-top: 1.1rem; }
 .fp-snaphero-note a { color: var(--matcha); }
 
@@ -708,6 +712,20 @@
   .fp-field input[type="date"],
   .fp-yearpick select,
   .ob-fl-field select { font-size: 16px; }
+
+  /* Touch targets reach 44px here too: the guided audit is mostly tapped. */
+  .ob-close { width: 44px; height: 44px; }
+  .ob-stepper button, .ob-field-compact .ob-stepper button { width: 44px; height: 44px; }
+  .ob-chip { justify-content: center; min-height: 44px; }
+  .fp-mode-btn, .fp-viewtab, .fp-toggle, .fp-linkbtn, .fp-compare { min-height: 44px; }
+  .fp-footer-home { min-width: 44px; min-height: 44px; justify-content: center; }
+  .fp-ftable-src a { display: inline-block; padding-block: 8px; }
+}
+@media (max-width: 680px) {
+  /* The last step's footer: the Skip at the top of the pane already offers
+     the way out, so the primary keeps the row and stays on one line. */
+  .ob-foot-btns .ob-skip { display: none; }
+  .ob-foot-btns .fp-btn { white-space: nowrap; }
 }
 
 /* The method page heading sits on the light canvas; the accent word takes the

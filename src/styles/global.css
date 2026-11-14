@@ -308,9 +308,12 @@ section { position:relative; }
 /* ============================================================================
    FILM GRAIN + SCROLL PROGRESS
    ============================================================================ */
+/* Plain alpha, not multiply: a fixed full-screen multiply layer over the
+   animated canvases made the browser re-blend the whole viewport every frame,
+   and dropped about four frames in ten while the hero animated. */
 .grain-overlay{
   position:fixed; inset:0; pointer-events:none; z-index:var(--z-grain);
-  mix-blend-mode:multiply; opacity:1;
+  opacity:1;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.042'/%3E%3C/svg%3E");
 }
 #scroll-progress{
@@ -330,7 +333,7 @@ section { position:relative; }
    Sized in em so it tracks each host link's font-size; colour via currentColor. */
 .nav-logo svg, .footer-mark svg, .fp-footer-home svg, .st-home svg{ width:1.3em; height:1.3em; display:block; }
 .nav-links{ display:flex; flex-wrap:wrap; justify-content:flex-end; gap:0.1rem 0.2rem; order:2; }
-.nav-links a{ position:relative; font-family:var(--mono); font-size:11px; line-height:1.55; letter-spacing:0.11em; text-transform:uppercase; color:var(--mid); text-decoration:none; padding:0.45rem 0.7rem; transition:color 0.3s var(--ease); white-space:nowrap; }
+.nav-links a{ position:relative; font-family:var(--mono); font-size:11px; line-height:1.55; letter-spacing:0.11em; text-transform:uppercase; color:var(--mid); text-decoration:none; padding:0.45rem 0.7rem; transition:color 0.18s var(--ease); white-space:nowrap; }
 .nav-links a:hover, .nav-links a.active{ color:var(--accent-ink); }
 /* Editorial underline: wipes in from the left on hover, holds on the active link. */
 .nav-links a::after{ content:''; position:absolute; left:0.7rem; right:0.7rem; bottom:0.2rem; height:1px; background:var(--matcha); transform:scaleX(0); transform-origin:left; transition:transform 0.3s var(--ease); }
@@ -354,7 +357,7 @@ section { position:relative; }
 }
 
 /* Hamburger — hidden on desktop */
-.nav-hamburger{ display:none; flex-direction:column; justify-content:center; gap:5px; background:none; border:none; cursor:pointer; padding:0.45rem; flex-shrink:0; order:3; }
+.nav-hamburger{ display:none; flex-direction:column; justify-content:center; align-items:center; gap:5px; background:none; border:none; cursor:pointer; padding:0.45rem; min-width:44px; min-height:44px; margin-right:-0.6rem; flex-shrink:0; order:3; }
 .nav-hamburger span{ display:block; width:20px; height:2px; background:var(--slate); border-radius:1px; transition:transform 0.25s var(--ease),opacity 0.2s; transform-origin:center; }
 .nav-hamburger.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
 .nav-hamburger.open span:nth-child(2){ opacity:0; }
@@ -363,7 +366,7 @@ section { position:relative; }
 @media(max-width:680px){
   .nav-hamburger{ display:flex; margin-left:auto; }
   .nav-links{ display:none; flex-direction:column; width:100%; order:4; border-top:1px solid var(--rule-lt); padding:0.4rem 0; gap:0; }
-  .nav-links.open{ display:flex; }
+  .nav-links.open{ display:flex; animation:navMenuIn 180ms var(--ease); }
   .nav-links a{ padding:0.75rem 0; border-bottom:1px solid var(--rule-lt); letter-spacing:0.15em; justify-content:flex-start; }
   .nav-links a:last-child{ border-bottom:none; }
   /* Stacked, the two groups part with a gap and a full-strength rule instead. */
@@ -452,6 +455,12 @@ section { position:relative; }
 /* Confident solid blocks (lime, then forest) replacing the earlier
    translucent-wash tiles — the pairing already proven in the footer card. */
 .instr-stack{ grid-column:9 / 13; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0.7rem; margin-top:0.2rem; }
+/* Between the hamburger breakpoint and about 1080px the four-column rail is
+   too narrow for "Years in sustainability", which was cut off, so the tiles
+   drop under the buttons instead. */
+@media(min-width:681px) and (max-width:1080px){
+  .instr-stack{ grid-column:1 / 8; grid-row:3; margin-top:2rem; max-width:30rem; }
+}
 @media(max-width:680px){
   .hero-prop{ grid-column:1 / 5; grid-row:1; font-size:0.95rem; line-height:1.55; }
   .hero-cta{ grid-column:1 / 5; grid-row:2; }
@@ -496,14 +505,17 @@ section { position:relative; }
 .sub-head::after{ content:''; flex:1; height:1px; background:var(--rule-lt); }
 .outcomes-grid{ display:grid; grid-template-columns:1fr; gap:1px; background:var(--rule-dk); border:1px solid var(--rule-dk); border-radius:var(--r-xl); overflow:hidden; box-shadow:var(--shadow-soft); }
 @media(min-width:640px){ .outcomes-grid{ grid-template-columns:repeat(3,minmax(0,1fr)); } }
+/* The first tile carries the long story, so it takes the wider column rather
+   than leaving the other two with a block of empty white under them. */
+@media(min-width:1024px){ .outcomes-grid{ grid-template-columns:minmax(0,1.6fr) repeat(2,minmax(0,1fr)); } }
 /* Stat card — one shared language for every metric tile on the site: flat
    white surface with a full-bleed tinted band behind the number, so the figure
    sits ON its accent colour instead of under a floating hairline (a border-top
    accent got clipped by the grid's rounded corners and read as a broken line). */
-.outcome{ background:var(--white); padding:0 0 1.6rem; transition:background 0.3s var(--ease); }
-.outcome:hover{ background:color-mix(in srgb, var(--lime-wash) 45%, var(--white)); }
+.outcome{ background:var(--white); padding:0 0 1.6rem; transition:background 0.18s var(--ease); }
+@media(hover:hover) and (pointer:fine){ .outcome:hover{ background:color-mix(in srgb, var(--lime-wash) 45%, var(--white)); } }
 .outcome-what, .outcome-where{ padding:0 1.6rem; }
-.outcome-num{ font-family:var(--disp); font-size:clamp(2.4rem,6vw,3.4rem); font-weight:700; line-height:1; color:var(--oc,var(--accent-ink)); letter-spacing:-0.03em; margin-bottom:0.9rem; padding:1.3rem 1.6rem 0.9rem; background:color-mix(in srgb, var(--oc,var(--accent-ink)) 15%, var(--white)); }
+.outcome-num{ font-family:var(--disp); font-size:clamp(2.4rem,6vw,3.4rem); font-weight:700; line-height:1; color:var(--oc,var(--accent-ink)); letter-spacing:-0.03em; font-variant-numeric:tabular-nums; margin-bottom:0.9rem; padding:1.3rem 1.6rem 0.9rem; background:color-mix(in srgb, var(--oc,var(--accent-ink)) 15%, var(--white)); }
 .outcome-from{ font-size:0.42em; font-weight:600; letter-spacing:0; color:var(--mid); margin-right:0.4em; display:inline-flex; gap:0.35em; vertical-align:0.55em; }
 .outcome-from s{ text-decoration-thickness:2px; }
 .outcome-num small{ font-size:0.42em; font-weight:600; letter-spacing:0; }
@@ -527,7 +539,7 @@ section { position:relative; }
    it — the badge/chevron drop to their own right-aligned line instead of
    landing short of the other rows' chevron column. */
 .pipe-step{ display:flex; flex-wrap:wrap; row-gap:0.25rem; align-items:center; gap:0.9rem; padding:0.95rem 1rem; background:var(--white); cursor:pointer; user-select:none; transition:background 0.25s var(--ease); }
-.pipe-step:hover{ background:var(--lime-wash); }
+@media(hover:hover) and (pointer:fine){ .pipe-step:hover{ background:var(--lime-wash); } }
 .pipe-step:focus-visible{ outline:2px solid var(--matcha); outline-offset:-2px; }
 .pipe-n{ font-family:var(--mono); font-size:11px; letter-spacing:0.06em; font-weight:700; color:color-mix(in srgb, var(--pc,var(--matcha)) 50%, var(--slate)); background:color-mix(in srgb, var(--pc,var(--matcha)) 14%, var(--white)); border-radius:var(--r-pill); padding:0.3rem 0.6rem; flex-shrink:0; }
 /* The step hue lives on the numeral chip only. The labels used to take it
@@ -536,7 +548,8 @@ section { position:relative; }
    not already said. */
 .pipe-label{ font-family:var(--mono); font-size:0.82rem; letter-spacing:0.08em; text-transform:uppercase; font-weight:600; color:var(--slate); }
 .pipe-step-right{ display:flex; align-items:center; gap:0.6rem; margin-left:auto; flex-shrink:0; }
-.pipe-badge{ font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--mid); background:var(--band); border:1px solid var(--rule-dk); padding:0.25rem 0.7rem; border-radius:var(--r-pill); white-space:nowrap; transition:background 0.2s,color 0.2s,border-color 0.2s; }
+/* The count is quiet meta, so it is plain mono text rather than a pill. */
+.pipe-badge{ font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--mid); white-space:nowrap; transition:color 0.18s; }
 /* On a phone the row holds chip, label, count and chevron on one line, as it
    does on desktop: the glyph steps aside (the chip already numbers and colours
    the stage) and the spacing tightens, so "Calculation" and "Communication"
@@ -545,18 +558,18 @@ section { position:relative; }
   .pipe-step{ gap:0.6rem; }
   .pipe-step > .fpi{ display:none; }
   .pipe-label{ letter-spacing:0.04em; }
-  .pipe-badge{ padding-inline:0.55rem; }
 }
-.pipe-step:hover .pipe-badge, .pipe-step.open .pipe-badge{ background:rgba(181,196,43,0.14); color:var(--accent-ink); border-color:rgba(181,196,43,0.35); }
+.pipe-step.open .pipe-badge{ color:var(--accent-ink); }
+@media(hover:hover) and (pointer:fine){ .pipe-step:hover .pipe-badge{ color:var(--accent-ink); } }
 .pipe-chevron{ font-size:0.7rem; color:var(--subtle); transition:transform 0.32s var(--ease),color 0.2s; line-height:1; }
 .pipe-step.open .pipe-chevron{ transform:rotate(180deg); color:var(--matcha); }
 .pipe-panel-inner{ padding:1.25rem 1.5rem 1.6rem; background:var(--bg); overflow:hidden; }
-.pipe-desc{ font-size:0.85rem; color:var(--mid); line-height:1.7; margin-bottom:1.25rem; }
+.pipe-desc{ font-size:0.92rem; color:var(--mid); line-height:1.7; margin-bottom:1.25rem; }
 .pipe-examples{ display:flex; flex-direction:column; border-top:1px solid var(--rule-dk); }
 .pipe-example{ padding:1rem 0 1.05rem; border-bottom:1px solid var(--rule-lt); }
 .pipe-example:last-child{ border-bottom:0; padding-bottom:0.2rem; }
 .pipe-ex-title{ font-weight:700; font-size:0.86rem; color:var(--slate); margin-bottom:0.3rem; line-height:1.3; }
-.pipe-ex-body{ font-size:0.8rem; color:var(--ink-2); line-height:1.65; margin-bottom:0.35rem; }
+.pipe-ex-body{ font-size:0.88rem; color:var(--ink-2); line-height:1.65; margin-bottom:0.35rem; }
 .pipe-ex-outcome{ font-family:var(--mono); font-size:11px; color:var(--accent-ink); letter-spacing:0.02em; line-height:1.5; }
 .pipe-cta{ display:inline-flex; align-items:center; gap:0.35rem; margin-top:1.25rem; font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--accent-ink); text-decoration:none; font-weight:600; transition:opacity 0.2s; }
 .pipe-cta:hover{ opacity:0.7; }
@@ -564,7 +577,7 @@ section { position:relative; }
 /* ============================================================================
    PRINCIPLES
    ============================================================================ */
-#principles{ background:radial-gradient(ellipse 90% 60% at 95% 5%,rgba(181,196,43,0.04) 0%,transparent 65%),var(--white); border-top:1px solid var(--rule-lt); padding:clamp(3.5rem,8vw,6rem) 0 clamp(5rem,11vw,8.5rem); overflow:hidden; }
+#principles{ background:radial-gradient(ellipse 90% 60% at 95% 5%,rgba(181,196,43,0.04) 0%,transparent 65%),var(--white); border-top:1px solid var(--rule-lt); padding:clamp(3.5rem,8vw,6rem) 0; overflow:hidden; }
 .princ-grid{ border-top:1px solid var(--rule-lt); margin-top:2rem; }
 .princ{ padding:2.2rem 0; border-bottom:1px solid var(--rule-lt); }
 @media(min-width:640px){
@@ -581,7 +594,7 @@ section { position:relative; }
   .princ-num{
     font-family:var(--disp); font-size:clamp(2.2rem,4vw,3.2rem);
     font-weight:700; letter-spacing:-0.04em; text-transform:none;
-    color:rgba(181,196,43,0.18); line-height:1; margin-bottom:0;
+    color:color-mix(in oklch, var(--matcha) 30%, transparent); line-height:1; margin-bottom:0;
     padding-top:0.12em;
   }
 }
@@ -589,7 +602,7 @@ section { position:relative; }
 /* Icon and title sit as one row, so a title that wraps keeps its own left
    edge rather than running back under the glyph. */
 .princ-title{ display:flex; align-items:center; gap:0.6rem; font-family:var(--disp); font-size:clamp(1.05rem,2.2vw,1.35rem); font-weight:700; color:var(--slate); line-height:1.2; margin-bottom:0.75rem; letter-spacing:-0.02em; }
-.princ-body{ font-size:0.85rem; font-weight:400; color:var(--ink-2); line-height:1.75; }
+.princ-body{ font-size:0.95rem; font-weight:400; color:var(--ink-2); line-height:1.7; max-width:68ch; }
 
 /* ============================================================================
    SCENARIO MODEL
@@ -598,7 +611,7 @@ section { position:relative; }
    premium cards on a soft surface, not tiles on a slab. */
 #scenario{ background:var(--bg); border-top:1px solid var(--rule-lt); border-bottom:1px solid var(--rule-dk); padding:clamp(5rem,11vw,8.5rem) 0; overflow:clip; }
 #scenario .sec-title + .tool-sub{ margin-top:1.5rem; }
-.tool-sub{ font-size:0.85rem; font-weight:400; color:var(--mid); max-width:600px; line-height:1.65; margin-bottom:0.75rem; }
+.tool-sub{ font-size:0.95rem; font-weight:400; color:var(--mid); max-width:600px; line-height:1.65; margin-bottom:0.75rem; }
 /* BASIS STRIP — what the numbers below are, stated before them.
    The illustrative-model caveat used to be an 11px grey line under the
    sub-heading, at the weight of a footnote, when it is the governing fact
@@ -615,11 +628,11 @@ section { position:relative; }
 .scn-step{ margin-top:clamp(2.5rem,6vw,3.5rem); padding-top:2rem; border-top:1px solid var(--rule-dk); }
 .scn-step-num{ font-family:var(--mono); font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent-ink); font-weight:700; display:block; margin-bottom:0.4rem; }
 .scn-step-title{ font-family:var(--disp); font-size:clamp(1.3rem,3vw,1.9rem); font-weight:700; letter-spacing:-0.02em; color:var(--slate); line-height:1.1; margin-bottom:0.4rem; }
-.scn-step-sub{ font-size:0.85rem; font-weight:400; color:var(--mid); line-height:1.6; max-width:60ch; }
+.scn-step-sub{ font-size:0.92rem; font-weight:400; color:var(--mid); line-height:1.6; max-width:60ch; }
 
 .seg-row{ display:flex; flex-wrap:wrap; gap:1px; background:var(--rule-dk); border:1px solid var(--rule-dk); width:fit-content; max-width:100%; margin-top:1.25rem; border-radius:var(--r-md); overflow:hidden; }
-.seg-btn{ font-family:var(--sans); font-size:0.8rem; font-weight:500; border:none; background:var(--white); color:var(--ink-2); cursor:pointer; padding:0.55rem 1.1rem; transition:background 0.2s,color 0.2s; white-space:nowrap; }
-.seg-btn:hover:not(.on){ background:var(--lime-wash); color:var(--forest); }
+.seg-btn{ font-family:var(--sans); font-size:0.8rem; font-weight:500; border:none; background:var(--white); color:var(--ink-2); cursor:pointer; padding:0.55rem 1.1rem; transition:background 0.18s,color 0.18s,transform 160ms var(--ease); white-space:nowrap; }
+@media(hover:hover) and (pointer:fine){ .seg-btn:hover:not(.on){ background:var(--lime-wash); color:var(--forest); } }
 .seg-btn:focus-visible{ outline:2px solid var(--matcha); outline-offset:-2px; }
 .seg-btn.on{ background:var(--forest); color:var(--lime-bright); font-weight:600; }
 /* Grid variant: buttons fill an even 2x2 so wrapped rows leave no grey gap. */
@@ -633,9 +646,9 @@ section { position:relative; }
    only a hair of clearance between them. The lone last pill on an odd count
    spans both columns instead of sitting off-centre under column one. */
 .seg-profiles{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0.4rem; margin-top:1.25rem; padding:0.4rem; background:var(--white); border:1px solid var(--rule-dk); border-radius:var(--r-lg); max-width:100%; }
-.seg-profiles .seg-btn{ border:none; border-radius:var(--r-pill); background:transparent; color:var(--mid); padding:0.55rem 1.1rem; font-weight:600; width:100%; white-space:normal; line-height:1.3; text-align:center; transition:color 0.3s var(--ease),background 0.3s var(--ease),box-shadow 0.3s var(--ease); }
+.seg-profiles .seg-btn{ border:none; border-radius:var(--r-pill); background:transparent; color:var(--mid); padding:0.55rem 1.1rem; font-weight:600; width:100%; white-space:normal; line-height:1.3; text-align:center; transition:color 0.18s var(--ease),background 0.18s var(--ease),box-shadow 0.18s var(--ease),transform 160ms var(--ease); }
 .seg-profiles .seg-btn:last-child:nth-child(odd){ grid-column:1 / -1; }
-.seg-profiles .seg-btn:hover:not(.on){ background:var(--lime-wash); color:var(--forest); }
+@media(hover:hover) and (pointer:fine){ .seg-profiles .seg-btn:hover:not(.on){ background:var(--lime-wash); color:var(--forest); } }
 .seg-profiles .seg-btn.on{ background:var(--night); color:var(--lime-bright); font-weight:600; box-shadow:0 6px 16px rgba(18,18,14,0.18); }
 /* Small (lever) selectors fill their card as an even grid rather than a
    wrapping flex — a wrapping flex left ragged grey where short buttons didn't
@@ -690,7 +703,10 @@ section { position:relative; }
    their top edge said the same thing twice. */
 .kpi.live{ background:var(--lime-wash); }
 .kpi-l{ font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--mid); margin-bottom:0.35rem; font-weight:600; }
-.kpi-v{ font-family:var(--disp); font-size:1.55rem; font-weight:700; color:var(--slate); line-height:1; }
+/* Four across, a label that wraps would drop its value below its neighbours',
+   so every label holds two lines and the values share one baseline. */
+@media(min-width:580px){ .kpi-l{ min-height:2.8em; } }
+.kpi-v{ font-family:var(--disp); font-size:1.55rem; font-weight:700; color:var(--slate); line-height:1; font-variant-numeric:tabular-nums; }
 .kpi.live .kpi-l{ color:var(--forest-ink); }
 .kpi.live .kpi-v{ color:var(--forest); }
 /* A value with no comparator beside it is a fact the reader then has to go and
@@ -730,19 +746,21 @@ section { position:relative; }
 .cbar-name.grid{ color:var(--indigo-ink); } .cbar-name.lv{ color:var(--accent-ink); } .cbar-name.hv{ color:var(--amber-ink); } .cbar-name.plant{ color:var(--berry-ink); }
 .cbar-track{ height:6px; background:var(--rule-lt); overflow:hidden; border-radius:var(--r-pill); }
 .cbar-fill{ height:100%; width:100%; transform-origin:left; transition:transform 0.35s var(--ease); }
-.cbar-val{ font-family:var(--mono); font-size:0.7rem; color:var(--ink-2); text-align:right; }
+.cbar-val{ font-family:var(--mono); font-size:0.7rem; font-variant-numeric:tabular-nums; color:var(--ink-2); text-align:right; }
 
 /* Desktop: controls + results side by side so the whole model fits one viewport. */
 @media(min-width:1024px){
   /* The steps drop their own top margin in the two-column layout, so the
      grid carries the space below the basis strip instead. */
   .scn-grid{ display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr); gap:clamp(1.5rem,3vw,2.75rem); align-items:start; margin-top:clamp(2.25rem,3.5vw,3.25rem); }
-  .scn-controls{ display:flex; flex-direction:column; }
+  /* Both columns pin under the nav, so the levers stay beside the result
+     rather than ending well above it. */
+  .scn-controls{ display:flex; flex-direction:column; position:sticky; top:calc(var(--nav-h, 53px) + 1rem); align-self:start; }
   /* Steps stack inside the left rail without the big top gap / divider chrome. */
   .scn-grid .scn-step{ margin-top:0; padding-top:0; border-top:none; }
   .scn-controls .scn-step + .scn-step{ margin-top:1.5rem; }
   /* Results column tracks the levers while you read. */
-  .scn-results{ position:sticky; top:1.5rem; }
+  .scn-results{ position:sticky; top:calc(var(--nav-h, 53px) + 1rem); }
   /* Trim the lever cards so all five selectors sit above the fold. */
   .scn-controls .lever-deck{ margin-top:1rem; }
   .scn-controls .lever-card{ padding:0.85rem 1rem; }
@@ -777,7 +795,7 @@ section { position:relative; }
 /* Buttons — base is shared with the footprint pages, so its look is left as the
    original. The soft-pill treatment is scoped to the home + work pages at the
    bottom of this file (see PAGE-SCOPED ELEVATION). */
-.btn{ display:inline-flex; padding:0.75rem 1.75rem; font-family:var(--sans); font-size:0.85rem; font-weight:600; text-decoration:none; cursor:pointer; transition:background 0.3s var(--ease),border-color 0.3s var(--ease),color 0.3s var(--ease); min-height:44px; align-items:center; gap:0.55rem; }
+.btn{ display:inline-flex; padding:0.75rem 1.75rem; font-family:var(--sans); font-size:0.85rem; font-weight:600; text-decoration:none; cursor:pointer; transition:background 0.18s var(--ease),border-color 0.18s var(--ease),color 0.18s var(--ease),transform 160ms var(--ease); min-height:44px; align-items:center; gap:0.55rem; }
 .btn-primary{ background:var(--matcha); color:var(--slate); border:1px solid var(--matcha); }
 .btn-primary:hover{ background:color-mix(in oklch, var(--matcha) 82%, var(--forest)); border-color:color-mix(in oklch, var(--matcha) 82%, var(--forest)); }
 .btn-secondary{ background:transparent; color:var(--slate); border:1px solid var(--rule-dk); }
@@ -860,7 +878,7 @@ section { position:relative; }
   background:rgba(255,255,255,0.045);
   border:1px solid rgba(216,221,202,0.18); border-radius:var(--r-xl);
   padding:1.5rem 1.5rem 1.35rem; overflow:hidden;
-  transition:background 0.35s var(--ease),border-color 0.35s var(--ease);
+  transition:background 0.2s var(--ease),border-color 0.2s var(--ease),transform 160ms var(--ease);
 }
 /* Hover is a surface step and the card's own accent in its border. The card
    used to lift 3px, grow a shadow, run a coloured stub across its top edge
@@ -879,9 +897,9 @@ section { position:relative; }
 .tool-icon .fpi-fill{ fill:var(--tc); }
 .tool-arrow{
   margin-left:auto; font-size:1rem; color:var(--sage-2); line-height:1;
-  transition:transform 0.3s var(--ease),color 0.3s var(--ease);
+  transition:transform 0.2s var(--ease),color 0.2s var(--ease);
 }
-.tool-card:hover .tool-arrow{ transform:translate(3px,-3px); color:var(--lime-bright); }
+@media(hover:hover) and (pointer:fine){ .tool-card:hover .tool-arrow{ transform:translate(3px,-3px); color:var(--lime-bright); } }
 
 .tool-name{
   font-family:var(--disp); font-size:clamp(1.15rem,2.3vw,1.45rem); font-weight:700;
@@ -1077,7 +1095,9 @@ section { position:relative; }
   max-width:11ch;
 }
 
-.footer-cta{ display:flex; align-items:center; justify-content:space-between; gap:1.4rem 2rem; flex-wrap:wrap; max-width:760px; }
+/* Full width, so the button lines up with the card's right edge rather than
+   floating mid-card. */
+.footer-cta{ display:flex; align-items:center; justify-content:space-between; gap:1.4rem 2rem; flex-wrap:wrap; }
 .footer-cta-copy{ display:flex; flex-direction:column; gap:0.5rem; }
 .footer-cta-line{ font-family:var(--disp); font-weight:600; font-size:clamp(1.15rem,2.4vw,1.6rem); letter-spacing:-0.02em; line-height:1.2; color:var(--forest); max-width:22ch; }
 .footer-cta-loc{ font-family:var(--mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--forest-2); }
@@ -1085,7 +1105,7 @@ section { position:relative; }
   flex:0 0 auto; display:inline-flex; align-items:center; gap:0.55rem; font-family:var(--sans); font-weight:600; font-size:0.9rem;
   letter-spacing:-0.01em; text-decoration:none; cursor:pointer; background:var(--forest); color:var(--lime-bright);
   border-radius:var(--r-pill); padding:0.8rem 1.6rem; box-shadow:0 8px 24px rgba(39,46,9,0.16);
-  transition:background 0.25s var(--ease);
+  transition:background 0.18s var(--ease),transform 160ms var(--ease);
 }
 .footer-cta-btn:hover{ background:var(--forest-2); }
 a.footer-cta-btn[target="_blank"]::after{ content:none; }
@@ -1163,7 +1183,7 @@ a.footer-cta-btn[target="_blank"]::after{ content:none; }
 .rng-fill{
   position:absolute; top:0; bottom:0; left:0; width:var(--rng-pct,0%);
   background:var(--rng-fill); border-radius:var(--r-pill);
-  transition:width 0.12s linear;
+  /* No transition: the thumb follows the finger directly, so the fill does too. */
 }
 /* Step notches, cut through fill and empty track alike so the scale stays
    legible either side of the thumb. */
@@ -1192,8 +1212,10 @@ a.footer-cta-btn[target="_blank"]::after{ content:none; }
   box-shadow:var(--shadow-soft);
   transition:transform 0.18s var(--ease), box-shadow 0.18s var(--ease);
 }
-.rng-input:hover::-webkit-slider-thumb{ transform:scale(1.06); }
-.rng-input:hover::-moz-range-thumb{ transform:scale(1.06); }
+@media(hover:hover) and (pointer:fine){
+  .rng-input:hover::-webkit-slider-thumb{ transform:scale(1.06); }
+  .rng-input:hover::-moz-range-thumb{ transform:scale(1.06); }
+}
 .rng-input:active::-webkit-slider-thumb{ transform:scale(1.16); box-shadow:0 0 0 7px rgba(181,196,43,0.22); }
 .rng-input:active::-moz-range-thumb{ transform:scale(1.16); box-shadow:0 0 0 7px rgba(181,196,43,0.22); }
 .rng-input:focus-visible{ outline:2px solid var(--matcha); outline-offset:2px; border-radius:var(--r-pill); }
@@ -1215,7 +1237,7 @@ a.footer-cta-btn[target="_blank"]::after{ content:none; }
    ============================================================================ */
 .copybtn{
   display:inline-flex; align-items:center; justify-content:center; gap:0.45rem;
-  cursor:pointer;
+  cursor:pointer; transition:transform 160ms var(--ease);
 }
 .copybtn .fpi{ color:currentColor; }
 /* Both slots hold their width while the mark and the label swap, so nothing
@@ -1255,7 +1277,7 @@ a.footer-cta-btn[target="_blank"]::after{ content:none; }
    an outlined pill that fills with a lime wash on hover. */
 .page-home .btn, .page-work .btn{
   border-radius:var(--r-pill); padding:0.8rem 1.7rem; letter-spacing:-0.01em;
-  transition:background 0.3s var(--ease),border-color 0.3s var(--ease),color 0.3s var(--ease);
+  transition:background 0.18s var(--ease),border-color 0.18s var(--ease),color 0.18s var(--ease),transform 160ms var(--ease);
 }
 .page-home .btn-primary, .page-work .btn-primary{ background:var(--forest); color:var(--lime-bright); border-color:var(--forest); }
 .page-home .btn-primary:hover, .page-work .btn-primary:hover{ background:var(--forest-2); border-color:var(--forest-2); }
@@ -1429,3 +1451,22 @@ a.footer-cta-btn[target="_blank"]::after{ content:none; }
 
 /* The bench line under the tools: work in progress, by role. */
 .tools-bench{ margin-top:0.4rem; color:var(--sage-2); }
+
+/* ============================================================================
+   TOUCH AND PRESS
+   Pressable things answer the press with a slight give, and on a touch screen
+   every control reaches the 44px target, whatever size it draws at.
+   ============================================================================ */
+@keyframes navMenuIn{ from{ opacity:0; transform:translateY(-6px); } to{ opacity:1; transform:none; } }
+.btn:active, .seg-btn:active, .footer-cta-btn:active, .copybtn:active{ transform:scale(0.97); }
+.tool-card:active{ transform:scale(0.99); }
+@media(prefers-reduced-motion:reduce){
+  .btn:active, .seg-btn:active, .footer-cta-btn:active, .copybtn:active, .tool-card:active{ transform:none; }
+  .nav-links.open{ animation:none; }
+}
+@media (pointer: coarse){
+  .seg-btn{ min-height:44px; }
+  .copybtn{ min-height:44px; }
+  .nav-logo, .footer-mark{ min-width:44px; min-height:44px; }
+  .footer-col-list a{ display:inline-flex; align-items:center; min-height:44px; }
+}
