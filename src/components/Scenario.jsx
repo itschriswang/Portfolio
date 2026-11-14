@@ -82,7 +82,7 @@ export default function Scenario() {
         datasets: [
           { label: 'Net emissions', data: [], borderColor: '#17190D', borderWidth: 2.5, backgroundColor: 'rgba(23,25,13,0.10)', fill: 'origin', pointRadius: 0, tension: 0.15 },
           { label: 'Grid Decarbonisation', data: [], borderColor: 'transparent', borderWidth: 0, backgroundColor: 'rgba(111,108,234,0.28)', fill: '-1', pointRadius: 0, tension: 0.15 },
-          { label: 'LV Fleet', data: [], borderColor: 'transparent', borderWidth: 0, backgroundColor: 'rgba(181,196,43,0.38)', fill: '-1', pointRadius: 0, tension: 0.15 },
+          { label: 'LV Fleet', data: [], borderColor: 'transparent', borderWidth: 0, backgroundColor: 'rgba(193,224,67,0.38)', fill: '-1', pointRadius: 0, tension: 0.15 },
           { label: 'HV Fleet', data: [], borderColor: 'transparent', borderWidth: 0, backgroundColor: 'rgba(242,181,46,0.30)', fill: '-1', pointRadius: 0, tension: 0.15 },
           { label: 'Plant Electrification', data: [], borderColor: 'transparent', borderWidth: 0, backgroundColor: 'rgba(232,83,152,0.26)', fill: '-1', pointRadius: 0, tension: 0.15 },
           { label: 'Business as usual', data: [], borderColor: 'rgba(23,25,13,0.45)', borderWidth: 1.5, borderDash: [5, 4], backgroundColor: 'transparent', fill: false, pointRadius: 0, tension: 0 },
@@ -98,7 +98,7 @@ export default function Scenario() {
             callbacks: { label: (c) => c.dataset.label + ': ' + Math.round(c.raw).toLocaleString() + ' tCO₂-e' },
             backgroundColor: 'rgba(23,25,13,0.96)', titleColor: '#F9FAF6', bodyColor: 'rgba(249,250,246,0.85)',
             titleFont: { family: "'JetBrains Mono',monospace", size: 11 }, bodyFont: { family: "'JetBrains Mono',monospace", size: 11 },
-            borderColor: 'rgba(181,196,43,0.5)', borderWidth: 1,
+            borderColor: 'rgba(193,224,67,0.5)', borderWidth: 1,
           },
         },
         scales: {
@@ -176,7 +176,6 @@ export default function Scenario() {
         <h2 className="display sec-title">
           <SplitText text={SCENARIO_UI.title} accentIndex={SCENARIO_UI.titleAccent} />
         </h2>
-        <p className="tool-sub">{labels.sub}</p>
         {/* The state of the data, said before the data: a basis of preparation
             compressed to one paragraph, the same thing every tool page on this
             site carries. Deliberately not the "locked, approved, available for
@@ -237,20 +236,7 @@ export default function Scenario() {
               <p className="scn-step-sub">{SCENARIO_UI.steps[2].sub}</p>
               <p className="takeaway" aria-live="polite">
                 {result.takeaway.head}<em>{result.takeaway.value}</em>{result.takeaway.tail}
-                <span className="tk-note">{result.takeaway.note}</span>
               </p>
-              {/* What produced the numbers. On a wide screen the levers sit
-                  alongside; on anything narrower they are several screens back,
-                  and a result panel that does not restate its own settings
-                  makes you go and find them. */}
-              <div className="scn-frame">
-                <span className="scn-frame-lead">{SCENARIO_UI.frameLead}</span>
-                <span className="scn-frame-chip scn-frame-profile">{result.frame.profile}</span>
-                {result.frame.levers.map((l) => (
-                  <span className="scn-frame-chip" key={l.name}>{l.name}<b>{l.set}</b></span>
-                ))}
-                <span className="scn-frame-chip">{SCENARIO_UI.frameGrowth}<b>{result.frame.growth}</b></span>
-              </div>
               {/* Each tile carries its comparator and its change rather than a
                   bare value. The change is signed, so its direction survives
                   without the colour. */}
@@ -292,11 +278,6 @@ export default function Scenario() {
               </div>
             </div>
           </div>
-        </div>
-
-        <div className="scn-foot">
-          <p>{SCENARIO_UI.foot}</p>
-          <a href="work/" className="btn btn-primary">{SCENARIO_UI.footCta}</a>
         </div>
       </div>
     </section>

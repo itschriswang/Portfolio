@@ -57,7 +57,7 @@ export const countryOf = (settings) =>
 // Canonical category order: identity colours and stack order everywhere.
 // Palette validated for CVD separation and contrast (dataviz six checks).
 export const CATEGORIES = [
-  { id: 'electricity', label: 'Electricity', color: 'var(--fp-electricity)', hex: '#647012' },
+  { id: 'electricity', label: 'Electricity', color: 'var(--fp-electricity)', hex: '#3E4800' },
   { id: 'flight', label: 'Flights', color: 'var(--fp-flight)', hex: '#4F48BF' },
   { id: 'road', label: 'Road & rail', color: 'var(--fp-road)', hex: '#916007' },
   { id: 'freight', label: 'Freight', color: 'var(--fp-freight)', hex: '#0891B2' },

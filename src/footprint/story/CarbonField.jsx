@@ -74,7 +74,7 @@ function shapePoints(stencil, n) {
 }
 
 export default function CarbonField({
-  mode, total, categories = [], stencil = null, hex = '#B5C42B',
+  mode, total, categories = [], stencil = null, hex = '#C1E043',
   focus = null, shapes = null, alpha = 1, className, fallback = null,
 }) {
   const ctnRef = useRef(null);

@@ -23,3 +23,11 @@
 }
 .lab-lock:hover{ color:var(--lime-bright); border-color:var(--lime-bright); }
 .lab-lock:focus-visible{ outline:2px solid var(--lime-bright); outline-offset:2px; }
+
+/* The headline-and-lead pair the home page's tools band used to carry; only
+   the drafts index still has a lead, so the layout lives here. */
+.lab .tools-head{ display:grid; gap:clamp(1.4rem,3vw,2.5rem); align-items:start; }
+@media(min-width:900px){ .lab .tools-head{ grid-template-columns:minmax(0,5fr) minmax(0,6fr); gap:clamp(2rem,4vw,4rem); } }
+.lab .tools-head .tools-headline{ margin-top:0; }
+.lab .tools-lead{ display:flex; flex-direction:column; gap:0.9rem; }
+.lab .tools-lead-p{ font-size:0.95rem; font-weight:400; line-height:1.8; color:var(--sage); max-width:62ch; }

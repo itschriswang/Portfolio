@@ -12,8 +12,8 @@ import { prefersReducedMotion } from '../utils/media';
 // House rules: the loop pauses off-screen and stops on unmount; under reduced
 // motion the field is drawn once, still, and redrawn when the levers change.
 
-const GREEN = '181,196,43';   // --matcha, held dots
-const LIME = '181,196,43';
+const GREEN = '193,224,67';   // --matcha, held dots
+const LIME = '193,224,67';
 
 function seeded(i) {
   return (n) => { const x = Math.sin((i + 1) * n) * 43758.5453; return x - Math.floor(x); };

@@ -483,8 +483,8 @@
   cursor: pointer; display: inline-flex; align-items: center; gap: 0.45rem;
   transition: border-color 0.25s var(--ease), background 0.25s var(--ease);
 }
-.st-cat-chip.on { border-color: var(--matcha); background: rgba(181, 196, 43, 0.12); }
-@media (hover:hover) and (pointer:fine){ .st-cat-chip:hover { border-color: var(--matcha); background: rgba(181, 196, 43, 0.12); } }
+.st-cat-chip.on { border-color: var(--matcha); background: rgba(193, 224, 67, 0.12); }
+@media (hover:hover) and (pointer:fine){ .st-cat-chip:hover { border-color: var(--matcha); background: rgba(193, 224, 67, 0.12); } }
 
 /* ---- Scopes: plain labels ---- */
 .st-scope-plain { font-family: var(--disp); font-weight: 700; font-size: clamp(1.15rem, 2.4vw, 1.6rem); color: var(--slate); letter-spacing: -0.02em; margin: 0.15rem 0 0.3rem; }
@@ -548,7 +548,7 @@
 .st-matrix-col { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--st-dark-mid); line-height: 1.55; padding-left: 0.5rem; }
 .st-matrix-rowlab { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--st-dark-mid); white-space: nowrap; padding-right: 0.3rem; }
 .st-char-cell { display: flex; align-items: center; gap: 0.55rem; font-size: 0.76rem; font-weight: 500; color: var(--st-dark-mid); padding: 0.35rem 0.5rem; border-radius: 10px; border: 1px solid transparent; }
-.st-char-cell.you { color: var(--st-dark-ink); font-weight: 700; border-color: var(--matcha); background: rgba(181, 196, 43, 0.08); }
+.st-char-cell.you { color: var(--st-dark-ink); font-weight: 700; border-color: var(--matcha); background: rgba(193, 224, 67, 0.08); }
 .st-char-cell-temp { display: none; font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--st-dark-mid); }
 .st-char-you { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--slate); background: var(--matcha); border-radius: 999px; padding: 0.12rem 0.45rem; font-weight: 700; }
 
@@ -693,14 +693,14 @@
 }
 /* A darker, legible pill so text reads over the particle field behind it. */
 .st-total .st-cat-chip { background: rgba(18, 18, 14, 0.55); backdrop-filter: blur(3px); }
-.st-total .st-cat-chip.on { background: rgba(181, 196, 43, 0.24); }
-@media (hover:hover) and (pointer:fine){ .st-total .st-cat-chip:hover { background: rgba(181, 196, 43, 0.24); } }
+.st-total .st-cat-chip.on { background: rgba(193, 224, 67, 0.24); }
+@media (hover:hover) and (pointer:fine){ .st-total .st-cat-chip:hover { background: rgba(193, 224, 67, 0.24); } }
 
 /* Benchmark explanation on the context moment */
 .st-benchnote {
   font-size: 0.9rem; color: var(--fp-ink-2); line-height: 1.65; max-width: 620px;
   margin: 1rem auto 0; padding: 0.7rem 1rem;
-  background: rgba(181, 196, 43, 0.06); text-align: left; border-radius:var(--r-sm); }
+  background: rgba(193, 224, 67, 0.06); text-align: left; border-radius:var(--r-sm); }
 
 /* Needle: difficulty label replaces the cost line */
 .st-needle-effort {
@@ -806,7 +806,7 @@
 }
 @keyframes st-eq-pop { to { opacity: 1; transform: scale(1); } }
 .st-eq-legend { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); font-weight: 600; }
-.st-eq-basis { font-size: 0.85rem; color: var(--fp-ink-2); line-height: 1.65; max-width: 620px; margin: 1.2rem auto 0; padding: 0.7rem 1rem; text-align: left; background: rgba(181, 196, 43, 0.06); border-radius:var(--r-sm); }
+.st-eq-basis { font-size: 0.85rem; color: var(--fp-ink-2); line-height: 1.65; max-width: 620px; margin: 1.2rem auto 0; padding: 0.7rem 1rem; text-align: left; background: rgba(193, 224, 67, 0.06); border-radius:var(--r-sm); }
 @media (prefers-reduced-motion: reduce) {
   .st-eq-dots i { animation: none; opacity: 1; transform: none; }
   .st-eq-chip, .st-cta-pill { transition: none; }
@@ -862,7 +862,7 @@
 }
 .st-grid-axis {
   position: relative; display: block; height: 34px; border-radius: 4px;
-  background: linear-gradient(90deg, rgba(181, 196, 43, 0.34), rgba(199, 39, 74, 0.30));
+  background: linear-gradient(90deg, rgba(193, 224, 67, 0.34), rgba(199, 39, 74, 0.30));
 }
 .st-grid-tick {
   position: absolute; top: 6px; bottom: 6px; width: 1px; margin-left: -0.5px;

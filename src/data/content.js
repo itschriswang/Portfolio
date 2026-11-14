@@ -47,13 +47,12 @@ export const HERO = {
 export const BIO_TAG = { tag: 'Profile', idx: '00 / ' };
 
 export const BIO_PARAS = [
-  'At Downer Group I help prepare the greenhouse gas figures Downer reports to the government and investors, check them against the source data, and build the models the business uses to plan its path to net zero.',
-  'Before Downer I spent four years as a sustainability consultant at WSP, working with property, water, energy and government clients. I started my career at the Department of Defence, administering $1.3 billion of capital works contracts.',
-  'In my own time I built Life Footprint, a free calculator that shows anyone where their own emissions come from.',
+  'At Downer Group I prepare the Group greenhouse gas inventory for limited assurance, and took our 2026 CDP response and the S&P Corporate Sustainability Assessment from first draft to submission. I also developed the physical climate risk method in our AASB S2 climate statement and built the Net Zero pathway model the business units plan against.',
+  'At WSP I led a GRESB submission for an electricity distribution network, coordinated Green Star Performance ratings for a national property group, helped assure a listed REIT\'s emissions, energy and water data each year, and delivered life cycle assessments for high-rise residential developments, showing developers what each lower-carbon option meant for procurement. Before that I administered $1.3 billion of capital works contracts at the Department of Defence.',
 ];
 
 export const OUTCOMES = [
-  { color: 'var(--accent-ink)', num: '×65', small: '', what: 'A currency defect overstated one country\'s supplier spend about 65 times in our Scope 3 purchased goods and services data, and nothing in the totals showed it. I found it against the invoices, proved it was a system fault, worked out the affected companies with Finance and specified the correction, now applied to FY25 and FY26.', where: 'Found during assurance · FY26 Scope 3 · Downer Group' },
+  { color: 'var(--accent-ink)', band: 'var(--lime-soft)', num: '×65', small: '', what: 'A currency defect overstated one country\'s supplier spend about 65 times in our Scope 3 purchased goods and services data, and nothing in the totals showed it. I found it against the invoices, proved it was a system fault, worked out the affected companies with Finance and specified the correction, now applied to FY25 and FY26.', where: 'Found during assurance · FY26 Scope 3 · Downer Group' },
   { color: 'var(--indigo-ink)', num: 'All', small: ' NSW Government entities', what: 'Covered by the emissions accounting guidelines I contributed to under the State\'s emerging mandatory reporting framework', where: 'NGER · AASB S2 · GHG Protocol · WSP' },
   { color: 'var(--amber-ink)', num: '+63', small: '%', what: 'GRESB Infrastructure global ranking, with the score up 35%', where: 'Major NSW electricity distribution network · submission I led · WSP' },
 ];
@@ -151,25 +150,20 @@ export const SCENARIO_UI = {
     text: 'Nothing in this model is client data, and no figure in it belongs to an organisation I have worked for. I scaled the operating profiles to published peer disclosures, and each lever names its basis. Read it as a demonstration of method rather than as a result.',
     meta: 'FY30 interim target year \u00b7 FY50 endpoint \u00b7 tCO\u2082-e per year',
   },
-  // Labels for the run summary that captions the result panel.
-  frameLead: 'This run',
-  frameGrowth: 'Growth',
-  // The three steps, in reading order: controls on the left, result on the right.
+  // The three steps, in reading order, top to bottom.
   steps: [
     { num: 'Step 01', title: 'Choose an operating profile', sub: 'Each profile loads a different emissions mix and its own set of abatement levers.' },
     { num: 'Step 02', title: 'Set the abatement levers', sub: 'Card colours match the wedges in the chart.' },
     { num: 'Step 03', title: 'Read the result', sub: 'The headline recalculates as you move the levers.' },
   ],
   growth: { name: 'Volume or revenue growth', src: 'Scales gross emissions before abatement is applied' },
-  chartSub: 'tCO\u2082-e per year \u00b7 coloured wedges show the abatement each lever contributes against business\u2011as\u2011usual',
+  chartSub: 'Coloured wedges show what each lever avoids against business\u2011as\u2011usual',
   // The contribution card takes the same title and sub-line shape as the
   // chart card above it.
   contrib: {
     title: 'Abatement contribution by lever at FY30',
-    sub: 'Interim target year \u00b7 tCO\u2082-e avoided vs gross pathway',
+    sub: 'Tonnes avoided against the gross pathway',
   },
-  foot: 'More of the method, shown on illustrative data: emissions baseline, decarbonisation roadmap, multi-criteria prioritisation and lifecycle carbon.',
-  footCta: 'View work samples \u2192',
 };
 
 // ---------------------------------------------------------------------------
@@ -190,25 +184,6 @@ export const TOOLS_INTRO = {
   tag: 'Tools',
   idx: '03 / ',
   title: ['Working', 'tools'],
-  paras: [
-    'Work samples walks through how I build an emissions baseline and a decarbonisation roadmap, on illustrative data. Life Footprint works out a person\'s own footprint from what they enter, using cited factors.',
-    'Each card\'s chart uses that tool\'s own data, and says underneath where the data comes from.',
-  ],
-  rules: [
-    {
-      icon: 'list', head: 'Every figure sourced or labelled',
-      body: 'A sourced figure carries its source and the date it was read. Estimates and illustrative figures say so, at the number.',
-    },
-    {
-      icon: 'book', head: 'Each tool states its basis',
-      body: 'Method, boundary, exclusions and update cadence sit on the page.',
-    },
-    {
-      icon: 'house', head: 'Your data stays with you',
-      body: 'Life Footprint runs in your browser, and what you enter stays there.',
-    },
-  ],
-  note: 'The decarbonisation model above follows the same rules.',
   // Work in progress, by role and not by result. The tool itself is not
   // published until its data is verified.
   bench: 'On the bench: a tracker that reads ASX50 net zero claims against reported emissions.',

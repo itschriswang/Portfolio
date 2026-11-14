@@ -20,8 +20,6 @@ const R0 = 7;
 const STEPS = 160;
 const WOB = [[2, 0.022, 0.6], [3, 0.014, 2.1], [5, 0.007, 4.0]];
 const TONES = ['var(--sage-soft)', 'var(--lime-wash)', 'var(--lime-soft)', 'var(--sage)'];
-const FULL = R * 1.06;
-const START = R0 * 0.6;
 
 function ring(r) {
   let d = '';
@@ -39,18 +37,42 @@ const rad = (f) => R0 + (R - R0) * f;
 export default function CareerRings() {
   const g = useMemo(() => careerRings(EXPERIENCE), []);
   const figRef = useRef(null);
-  const clipRef = useRef(null);
   const label = EXPERIENCE_INTRO.rings.label
     .replace('{start}', String(g.startYear)).replace('{n}', String(g.bands.length));
-  const toned = g.bands.map((b, i) => ({ ...b, tone: TONES[i % TONES.length] }));
-  const outerFirst = [...toned].reverse();
 
-  // Scroll-driven growth: progress through the timeline beside the figure.
+  // One layer per ring: every calendar year and every employer's last month
+  // closes a ring. Each is a filled disc in the tone of the employer it falls
+  // in, stroked as a year line or, where an employer ends, in its colour.
+  // Painted outer-first so a ring that has not arrived yet hides nothing.
+  const layers = useMemo(() => {
+    const toned = g.bands.map((b, i) => ({ ...b, tone: TONES[i % TONES.length] }));
+    const bandAt = (f) => toned.find((b) => f > b.from && f <= b.to + 1e-9) || toned[toned.length - 1];
+    const list = [
+      ...g.years.map((y) => ({ key: 'y' + y.year, at: y.at, end: false })),
+      ...toned.map((b) => ({ key: 'b' + b.org, at: b.to, end: true })),
+    ].sort((a, b) => a.at - b.at || (a.end ? 1 : -1));
+    return list.map((l) => ({ ...l, band: bandAt(l.at) })).reverse();
+  }, [g]);
+  const changes = g.bands.flatMap((b) => b.changes.map((c) => ({ ...c, org: b.org, clr: b.clr })));
+
+  // Scroll-driven growth: progress through the timeline beside the figure
+  // decides how far out the rings have been laid down.
   useEffect(() => {
-    const clip = clipRef.current;
     const fig = figRef.current;
-    if (!clip || !fig) return undefined;
-    if (prefersReducedMotion()) { clip.setAttribute('r', String(FULL)); return undefined; }
+    if (!fig) return undefined;
+    const rings = [...fig.querySelectorAll('[data-at]')].sort((x, y) => x.dataset.at - y.dataset.at);
+    // Rings that arrive in the same frame (a fast scroll, or landing mid-way)
+    // still go down one after another, inner first, 40ms apart.
+    const show = (p) => {
+      let k = 0;
+      rings.forEach((el) => {
+        const on = Number(el.dataset.at) <= p + 1e-6;
+        if (on === el.classList.contains('on')) return;
+        el.style.transitionDelay = on ? (k++ * 40) + 'ms' : '0ms';
+        el.classList.toggle('on', on);
+      });
+    };
+    if (prefersReducedMotion()) { show(1); return undefined; }
     const tl = fig.closest('.exp-body')?.querySelector('.exp-timeline');
     let raf = 0;
     const update = () => {
@@ -59,8 +81,7 @@ export default function CareerRings() {
       const vh = window.innerHeight;
       // Starts as the timeline enters, done before its last entry leaves.
       const p = Math.min(1, Math.max(0, (vh * 0.85 - box.top) / (box.height * 0.8)));
-      const eased = 1 - Math.pow(1 - p, 2);
-      clip.setAttribute('r', (START + (FULL - START) * eased).toFixed(2));
+      show(p);
     };
     const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -76,23 +97,19 @@ export default function CareerRings() {
   return (
     <figure className="career-rings" ref={figRef}>
       <svg viewBox="-100 -100 200 200" role="img" aria-label={label}>
-        <defs>
-          <clipPath id="cr-grow">
-            <circle ref={clipRef} r={START} />
-          </clipPath>
-        </defs>
-        <g clipPath="url(#cr-grow)">
-          {outerFirst.map((b) => (
-            <path key={b.org} d={ring(rad(b.to))} className="cr-band" style={{ '--bc': `var(--${b.clr})`, '--tone': b.tone }} />
-          ))}
-          {g.years.map((y) => (
-            <path key={y.year} d={ring(rad(y.at))} className="cr-year" />
-          ))}
-          {g.bands.flatMap((b) => b.changes.map((c) => (
-            <path key={b.org + c.title} d={ring(rad(c.at))} className="cr-change" style={{ '--bc': `var(--${b.clr})` }} />
-          )))}
-          <circle r={R0 * 0.55} className="cr-pith" />
-        </g>
+        {layers.map((l) => (
+          <path
+            key={l.key}
+            data-at={l.at}
+            d={ring(rad(l.at))}
+            className={'cr-layer' + (l.end ? ' cr-end' : '')}
+            style={{ '--bc': `var(--${l.band.clr})`, '--tone': l.band.tone }}
+          />
+        ))}
+        {changes.map((c) => (
+          <path key={c.org + c.title} data-at={c.at} d={ring(rad(c.at))} className="cr-change" style={{ '--bc': `var(--${c.clr})` }} />
+        ))}
+        <circle r={R0 * 0.55} className="cr-pith" />
       </svg>
     </figure>
   );

@@ -5,7 +5,7 @@
    dataviz palette checks against #FFFFFF and the page background. */
 
 :root {
-  --fp-electricity: #647012; /* = --accent-ink */
+  --fp-electricity: #3E4800; /* = --accent-ink */
   --fp-flight: #4F48BF; /* = --indigo-ink */
   --fp-road: #916007; /* = --amber-ink */
   --fp-freight: #0891B2;
@@ -35,7 +35,7 @@
 .fp-h1{ font-size:clamp(2.4rem,8vw,5.6rem); line-height:0.9; letter-spacing:-0.045em; margin:1.2rem 0; }
 .fp-intro-p{ font-size:clamp(0.92rem,1.3vw,1.08rem); font-weight:300; color:var(--fp-ink-2); max-width:640px; line-height:1.75; margin-bottom:1rem; }
 .fp-chips{ display:flex; gap:0.5rem; flex-wrap:wrap; margin:1.2rem 0 1.5rem; }
-.fp-chip{ font-family:var(--mono); font-size:11.5px; letter-spacing:0.08em; text-transform:uppercase; font-weight:600; color:#3F4A3C; background:rgba(181,196,43,0.14); border:1px solid rgba(181,196,43,0.4); padding:0.35rem 0.7rem; }
+.fp-chip{ font-family:var(--mono); font-size:11.5px; letter-spacing:0.08em; text-transform:uppercase; font-weight:600; color:#3F4A3C; background:rgba(193,224,67,0.14); border:1px solid rgba(193,224,67,0.4); padding:0.35rem 0.7rem; }
 .fp-ctas{ display:flex; gap:0.75rem; flex-wrap:wrap; margin-bottom:1.25rem; }
 .fp-disc{ font-family:var(--sans); font-size:0.8125rem; color:var(--fp-ink-2); line-height:1.6; display:block; }
 
@@ -70,7 +70,7 @@
 .fp-kpi{ background:var(--white); padding:1.1rem 1.25rem; }
 /* Solid tints: the grid behind the tiles is the rule colour, so a translucent
    wash here read as grey-green and pulled the label under 4.5:1. */
-.fp-kpi.live{ background:color-mix(in srgb, #B5C42B 10%, #FFFFFF); }
+.fp-kpi.live{ background:color-mix(in srgb, #C1E043 10%, #FFFFFF); }
 .fp-kpi-l{ font-family:var(--mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--mid); margin-bottom:0.4rem; font-weight:600; }
 .fp-kpi-v{ font-family:var(--disp); font-size:clamp(1.5rem,3vw,2.1rem); font-weight:700; line-height:1; color:var(--slate); font-variant-numeric:tabular-nums; }
 /* The unit only: the figure itself is a CountUp, whose own spans must keep the
@@ -140,7 +140,7 @@
 /* Comparison overlay: a hollow diamond marks the other audit's value. */
 .fp-cat-diamond{ position:absolute; top:50%; width:10px; height:10px; background:var(--white); border:2px solid; transform:translateY(-50%) rotate(45deg); box-shadow:0 0 0 2px var(--white); }
 .fp-cat-row{ transition:background 0.25s var(--ease); }
-@media (hover:hover) and (pointer:fine){ .fp-cat-row:hover{ background:rgba(181,196,43,0.05); } }
+@media (hover:hover) and (pointer:fine){ .fp-cat-row:hover{ background:rgba(193,224,67,0.05); } }
 .fp-cat-val{ font-family:var(--mono); font-size:0.75rem; color:var(--slate); text-align:right; font-weight:600; }
 .fp-cat-pct{ font-family:var(--mono); font-size:0.72rem; color:var(--mid); text-align:right; }
 
@@ -211,7 +211,7 @@
   background:var(--bg); border:1px solid var(--rule-dk);
   padding:1rem 1.1rem 1.05rem; transition:border-color 0.2s var(--ease), background 0.2s var(--ease);
 }
-.fp-opt.on{ background:rgba(181,196,43,0.09); border-color:var(--accent-ink); }
+.fp-opt.on{ background:rgba(193,224,67,0.09); border-color:var(--accent-ink); }
 /* Not applicable: greyed by border and ink rather than opacity, so the reason
    text beneath still clears 4.5:1. */
 .fp-opt.na{ border-style:dashed; }
@@ -301,8 +301,8 @@
   border-radius:6px; cursor:pointer; margin-right:0.3rem; transition:color 0.2s var(--ease),border-color 0.2s var(--ease);
 }
 @media (hover:hover) and (pointer:fine){ .fp-edit-btn:hover{ border-color:var(--matcha); color:var(--accent-ink); } }
-.fp-row-editing td{ background:rgba(181,196,43,0.07); }
-.fp-editrow td{ background:rgba(181,196,43,0.05); padding:0; }
+.fp-row-editing td{ background:rgba(193,224,67,0.07); }
+.fp-editrow td{ background:rgba(193,224,67,0.05); padding:0; }
 .fp-edit{ display:flex; gap:0.9rem; flex-wrap:wrap; align-items:flex-end; padding:1rem 0.8rem; }
 .fp-edit .fp-field{ min-width:120px; }
 .fp-edit-btns{ display:flex; gap:0.7rem; align-items:center; flex-wrap:wrap; }
@@ -332,7 +332,7 @@
 .fp-filebtn input{ position:absolute; inset:0; opacity:0; cursor:pointer; }
 .fp-ctrl-row{ display:flex; gap:0.6rem; flex-wrap:wrap; margin-top:0.5rem; }
 .fp-error{ color:var(--berry-ink); font-size:0.8rem; margin-top:0.6rem; }
-.fp-example-note{ border:1px dashed var(--rule-dk); background:rgba(181,196,43,0.06); padding:1.25rem 1.5rem; margin-top:1.25rem; }
+.fp-example-note{ border:1px dashed var(--rule-dk); background:rgba(193,224,67,0.06); padding:1.25rem 1.5rem; margin-top:1.25rem; }
 .fp-example-note p{ font-size:0.95rem; color:var(--fp-ink-2); margin-bottom:0.9rem; max-width:560px; }
 
 /* ---- CSV import ---- */
@@ -381,7 +381,7 @@
 /* A step heading wears its category glyph in a soft matcha badge. */
 .ob-stephead{ display:flex; align-items:center; gap:0.75rem; margin-bottom:0.5rem; }
 .ob-stephead h3{ margin-bottom:0; }
-.ob-stephead-i{ display:inline-flex; align-items:center; justify-content:center; width:64px; height:64px; flex-shrink:0; border-radius:50%; background:rgba(181,196,43,0.16); border:1px solid rgba(181,196,43,0.42); color:var(--slate); box-shadow:0 1px 3px rgba(39,46,9,0.06); }
+.ob-stephead-i{ display:inline-flex; align-items:center; justify-content:center; width:64px; height:64px; flex-shrink:0; border-radius:50%; background:rgba(193,224,67,0.16); border:1px solid rgba(193,224,67,0.42); color:var(--slate); box-shadow:0 1px 3px rgba(39,46,9,0.06); }
 
 /* Small glyph tucked before a field label, drawn in the label's own ink. */
 .ob-label-i{ vertical-align:-0.28em; margin-right:0.42rem; }
@@ -426,12 +426,12 @@
    rest of the audit uses rather than the lime the tool pages carry. */
 .ob-range .rng-input::-webkit-slider-thumb{ background:var(--matcha); border-color:var(--slate); }
 .ob-range .rng-input::-moz-range-thumb{ background:var(--matcha); border-color:var(--slate); }
-.ob-live{ display:inline-block; font-family:var(--mono); font-size:11.5px; font-weight:700; color:var(--accent-ink); background:rgba(181,196,43,0.14); border:1px solid rgba(181,196,43,0.4); padding:0.25rem 0.6rem; border-radius:999px; margin-top:0.4rem; font-variant-numeric:tabular-nums; }
+.ob-live{ display:inline-block; font-family:var(--mono); font-size:11.5px; font-weight:700; color:var(--accent-ink); background:rgba(193,224,67,0.14); border:1px solid rgba(193,224,67,0.4); padding:0.25rem 0.6rem; border-radius:999px; margin-top:0.4rem; font-variant-numeric:tabular-nums; }
 
 .ob-none{ color:var(--mid); font-family:var(--mono); font-size:11px; margin:0.6rem 0; }
 
 /* Household split reminder on the energy step: plain words, no carbon. */
-.ob-splitnote{ display:flex; align-items:flex-start; gap:0.1rem; font-size:0.82rem; color:var(--fp-ink-2); line-height:1.6; background:rgba(181,196,43,0.1); padding:0.7rem 0.95rem; margin:0.4rem 0 1.6rem; max-width:520px; border-radius:var(--r-sm); }
+.ob-splitnote{ display:flex; align-items:flex-start; gap:0.1rem; font-size:0.82rem; color:var(--fp-ink-2); line-height:1.6; background:rgba(193,224,67,0.1); padding:0.7rem 0.95rem; margin:0.4rem 0 1.6rem; max-width:520px; border-radius:var(--r-sm); }
 .ob-splitnote .ob-label-i{ color:var(--accent-ink); margin-top:0.15rem; }
 
 /* Public-transport fare cap: note plus optional override. */
@@ -457,7 +457,7 @@
 .ob-skip{ white-space:nowrap; }
 
 .ob-done{ text-align:left; }
-.ob-done-ready{ display:inline-flex; align-items:center; gap:0.15rem; font-family:var(--sans); font-weight:700; font-size:1.05rem; color:var(--slate); background:rgba(181,196,43,0.14); border:1px solid rgba(181,196,43,0.4); padding:0.55rem 0.9rem; border-radius:999px; margin:1rem 0 1.2rem; }
+.ob-done-ready{ display:inline-flex; align-items:center; gap:0.15rem; font-family:var(--sans); font-weight:700; font-size:1.05rem; color:var(--slate); background:rgba(193,224,67,0.14); border:1px solid rgba(193,224,67,0.4); padding:0.55rem 0.9rem; border-radius:999px; margin:1rem 0 1.2rem; }
 .ob-done-ctas{ display:flex; gap:0.9rem; align-items:center; flex-wrap:wrap; margin-top:1.6rem; }
 
 /* ---- Method ---- */
@@ -580,7 +580,7 @@
 #fp-skim{ padding:4.5rem 0 3rem; border-bottom:1px solid var(--rule-lt); }
 .fp-skim-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--rule-dk); border:1px solid var(--rule-dk); margin-top:2rem; }
 .fp-skim-card{ display:flex; flex-direction:column; gap:0.45rem; background:var(--white); padding:1.3rem 1.4rem 1.15rem; text-decoration:none; color:inherit; transition:background 0.2s var(--ease); }
-@media (hover:hover) and (pointer:fine){ .fp-skim-card:hover{ background:color-mix(in srgb, #B5C42B 7%, #FFFFFF); } }
+@media (hover:hover) and (pointer:fine){ .fp-skim-card:hover{ background:color-mix(in srgb, #C1E043 7%, #FFFFFF); } }
 .fp-skim-n{ font-family:var(--mono); font-size:11.5px; color:var(--mid); letter-spacing:0.08em; }
 .fp-skim-label{ font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:var(--slate); font-weight:700; }
 .fp-skim-v{ font-family:var(--disp); font-size:clamp(1.6rem,2.6vw,2.2rem); font-weight:700; line-height:1; color:var(--slate); }
@@ -597,21 +597,21 @@
 /* ---- Quick-path dwelling nudge --------------------------------------------
    Sits directly above the option cards, because the two it unlocks are the
    greyed-out ones right below it. Same visual family as the rollover card. */
-.fp-dwelling-nudge{ border:1px solid var(--fp-electricity); background:rgba(181,196,43,0.08); padding:1.1rem 1.3rem; margin:0 0 1.2rem; }
+.fp-dwelling-nudge{ border:1px solid var(--fp-electricity); background:rgba(193,224,67,0.08); padding:1.1rem 1.3rem; margin:0 0 1.2rem; }
 .fp-dwelling-k{ display:block; font-family:var(--mono); font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:var(--accent-ink); font-weight:700; margin:0 0 0.45rem; line-height:1.5; }
 .fp-dwelling-body{ font-size:0.95rem; line-height:1.65; color:var(--slate); max-width:60ch; margin:0 0 0.9rem; }
 .fp-dwelling-nudge .fp-ctrl-row{ margin:0; }
 
 /* ---- Year rollover and the multi-year record ------------------------------ */
 .fp-rollover{ padding:1.5rem 0 0; }
-.fp-roll-card{ border:1px solid var(--accent-ink); background:rgba(181,196,43,0.08); padding:1.25rem 1.5rem; }
+.fp-roll-card{ border:1px solid var(--accent-ink); background:rgba(193,224,67,0.08); padding:1.25rem 1.5rem; }
 .fp-roll-card .fp-card-sub{ max-width:640px; }
-.fp-archivebar{ background:rgba(181,196,43,0.1); border-bottom:1px solid var(--rule-dk); font-family:var(--mono); font-size:11.5px; color:var(--fp-ink-2); }
+.fp-archivebar{ background:rgba(193,224,67,0.1); border-bottom:1px solid var(--rule-dk); font-family:var(--mono); font-size:11.5px; color:var(--fp-ink-2); }
 .fp-archivebar .canvas{ padding-top:0.5rem; padding-bottom:0.5rem; }
 .fp-yearpick select{ font-family:var(--mono); font-size:11.5px; letter-spacing:0.06em; text-transform:uppercase; background:transparent; color:#E8EDE6; border:1px solid rgba(255,255,255,0.25); padding:0.3rem 0.5rem; cursor:pointer; }
 .fp-yearpick select:focus-visible{ outline:2px solid var(--matcha); outline-offset:2px; }
 .fp-yearpick option{ color:var(--slate); background:var(--white); }
-.fp-fresh{ color:#B5C42B; }
+.fp-fresh{ color:#C1E043; }
 
 /* ---- Data quality chips. Text colours hold 4.5:1 on white at chip size. --- */
 .fp-q{ display:inline-block; font-family:var(--mono); font-size:11px; letter-spacing:0.07em; text-transform:uppercase; border:1px solid var(--rule-dk); color:#5C6156; padding:0.1rem 0.4rem; margin-left:0.5rem; vertical-align:middle; white-space:nowrap; }

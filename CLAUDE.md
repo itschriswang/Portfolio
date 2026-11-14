@@ -64,6 +64,11 @@ built as a React + Vite multi-page app and deployed to GitHub Pages.
   matcha and lime differ in lightness and chroma, never in hue, so the dark and
   bright greens read as one family. Forest and the sages were moved onto it in
   November 2026 (hue only, so contrast held). Put any new green on that axis.
+  Two roles only, so the light and dark sections read as one site: the lime
+  for fills and highlights, and a dark green ink (`--accent-ink`,
+  `--forest-ink`) for text. The old olive matcha (#B5C42B) and its mid-olive
+  inks were retired in November 2026 for reading as a second palette beside
+  the neon lime; `--matcha` now carries the lime value.
   The companions are picked against the lime on a colour scheme, not by eye:
   indigo on the lime's split-complement (hue 280), berry as a raspberry on its
   triad (355), amber as a gold one step from it (82), and the communication
@@ -144,8 +149,8 @@ built as a React + Vite multi-page app and deployed to GitHub Pages.
   hero, and in the Track record (`CareerRings.jsx`) the record itself, one thin
   ring per calendar year from the first role to today, a band per employer in
   the green ramp closed by a line in its timeline colour, dashed rings for role
-  changes. It grows with the scroll through the timeline (a clip widening from
-  the pith, so each employer arrives in turn), runs off the right edge of the
+  changes. It grows with the scroll through the timeline, laid down one ring at a
+  time from the pith outwards, so each employer arrives in turn, runs off the right edge of the
   page, and carries no labels, legend or caption. Beside the timeline on a wide
   screen; on a narrow one it takes no space, riding faintly behind the
   timeline's right edge as a sticky backdrop. The geometry is
