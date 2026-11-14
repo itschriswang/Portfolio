@@ -187,7 +187,8 @@ export function resolveSector(sectorKey) {
     levers: prof.levers,
     FY20: prof.FY20, FY25: prof.FY25, FY26: prof.FY26,
     SH: prof.SH,
-    HIST: HIST_SHAPE.map((h) => Math.round(h * prof.FY25)),
+    // FY20 to FY25 from the generic shape, then the profile's FY26 actual.
+    HIST: [...HIST_SHAPE.map((h) => Math.round(h * prof.FY25)), prof.FY26],
     desc: prof.desc,
     label: prof.label,
   };
@@ -209,33 +210,36 @@ export function dotField(net30, bau30, perDot = DOT_T) {
 // KPI values, the dynamic takeaway, and per-lever FY30 contribution bars.
 export function runModel(scn) {
   const { grid: gk, lv: lk, hv: hk, plant: pk, rev: rk } = scn;
-  const { mode, levers, FY20, FY25, FY26, SH, HIST, label } = resolveSector(scn.sector);
+  const { mode, levers, FY20, FY26, SH, HIST, label } = resolveSector(scn.sector);
   const FT = mode === 'textile' ? F_TEXTILE : F;
-  const currentYear = new Date().getFullYear();
 
   const net = [], gridLayer = [], lvLayer = [], hvLayer = [], plantLayer = [], bau = [], actuals = [];
   let net30 = 0, bau30 = 0;
 
+  // FY26 is the last reported year (the financial year closed in June 2026),
+  // so the history runs to it and every projection, the levers' wedges and
+  // business as usual alike, grows from FY27 off the FY26 figure. Each lever's
+  // curve starts at its first entry in FY27.
   for (let y = 2020; y <= 2050; y++) {
-    if (y <= 2025) {
+    if (y <= 2026) {
       const h = HIST[y - 2020];
       net.push(h);
       gridLayer.push(h); lvLayer.push(h); hvLayer.push(h); plantLayer.push(h);
       bau.push(h);
-      actuals.push(y <= currentYear ? h : null);
+      actuals.push(h);
     } else {
-      const n = y - 2025, fi = y - 2026;
+      const n = y - 2026, fi = y - 2027;
       const gf = Math.pow(REV[rk], n);
-      const g = Math.round(FY25 * gf);
+      const g = Math.round(FY26 * gf);
       bau.push(g);
       const gFac = fi < 25 ? FT.grid[gk][fi] : 0.10;
       const lvFac = fi < 25 ? FT.lv[lk][fi] : 0.01;
       const hvFac = fi < 25 ? FT.hv[hk][fi] : 0.00;
       const pFac = fi < 25 ? FT.plant[pk][fi] : 0.00;
-      const s2gross = FY25 * SH.s2 * gf;
-      const lvGross = FY25 * SH.lv * gf;
-      const hvGross = FY25 * SH.hv * gf;
-      const plGross = FY25 * SH.plant * gf;
+      const s2gross = FY26 * SH.s2 * gf;
+      const lvGross = FY26 * SH.lv * gf;
+      const hvGross = FY26 * SH.hv * gf;
+      const plGross = FY26 * SH.plant * gf;
       const s2net = s2gross * gFac;
       const lvNet = lvGross * lvFac;
       const hvNet = hvGross * hvFac;
@@ -250,7 +254,7 @@ export function runModel(scn) {
       lvLayer.push(netVal + gridAbat + lvAbat);
       hvLayer.push(netVal + gridAbat + lvAbat + hvAbat);
       plantLayer.push(netVal + gridAbat + lvAbat + hvAbat + plAbat);
-      actuals.push(y <= currentYear ? netVal : null);
+      actuals.push(null);
       if (y === 2030) { net30 = netVal; bau30 = g; }
     }
   }
@@ -317,11 +321,11 @@ export function runModel(scn) {
   };
 
   // Contribution bars at FY30 (the interim target year).
-  const fi30 = 4, gf30 = Math.pow(REV[rk], 5);
-  const sv_g = FY25 * SH.s2 * gf30 * (1 - FT.grid[gk][fi30]);
-  const sv_lv = FY25 * SH.lv * gf30 * (1 - FT.lv[lk][fi30]);
-  const sv_hv = FY25 * SH.hv * gf30 * (1 - FT.hv[hk][fi30]);
-  const sv_pl = FY25 * SH.plant * gf30 * (1 - FT.plant[pk][fi30]);
+  const fi30 = 2030 - 2027, gf30 = Math.pow(REV[rk], 2030 - 2026);
+  const sv_g = FY26 * SH.s2 * gf30 * (1 - FT.grid[gk][fi30]);
+  const sv_lv = FY26 * SH.lv * gf30 * (1 - FT.lv[lk][fi30]);
+  const sv_hv = FY26 * SH.hv * gf30 * (1 - FT.hv[hk][fi30]);
+  const sv_pl = FY26 * SH.plant * gf30 * (1 - FT.plant[pk][fi30]);
   const maxSv = Math.max(sv_g, sv_lv, sv_hv, sv_pl, 1);
   const bar = (s) => ({ width: Math.max(0, s / maxSv * 100), label: s > 0 ? Math.round(s / 1000) + 'k t' : '0' });
 
