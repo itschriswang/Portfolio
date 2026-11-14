@@ -3,7 +3,7 @@ import { prefersReducedMotion } from '../utils/media';
 
 // Background flavour for the decarbonisation model: a slow field of dots
 // drifting behind the section, in the spirit of the Life Footprint's carbon
-// field. It is not a chart and carries no labels. Its one tie to the model is
+// field, in a soft translucent green. It is not a chart and carries no labels. Its one tie to the model is
 // the share of dots held in the field: the levers' FY30 abatement (from
 // dotField() in src/data/scenario.js) decides how many dots let go, turn into
 // hollow lime rings and lift off the top of the section, so pushing the levers
@@ -12,7 +12,7 @@ import { prefersReducedMotion } from '../utils/media';
 // House rules: the loop pauses off-screen and stops on unmount; under reduced
 // motion the field is drawn once, still, and redrawn when the levers change.
 
-const FOREST = '39,46,9';
+const GREEN = '181,196,43';   // --matcha, held dots
 const LIME = '181,196,43';
 
 function seeded(i) {
@@ -40,14 +40,14 @@ export default function AmbientDots({ net, avoided }) {
     let dots = [];
 
     function build() {
-      const n = Math.max(60, Math.min(220, Math.round((W * H) / 9000)));
+      const n = Math.max(30, Math.min(110, Math.round((W * H) / 18000)));
       dots = Array.from({ length: n }, (_, i) => {
         const h = seeded(i);
         return {
           u: h(12.9898),                       // rank: below the held share, the dot stays
           x: h(78.233) * W, y: h(37.719) * H,
-          r: 1.8 + h(19.19) * 3.2,
-          a: 0.16 + h(4.1414) * 0.22,
+          r: 1.4 + h(19.19) * 2.2,
+          a: 0.12 + h(4.1414) * 0.16,
           vx: (h(9.7391) - 0.5) * 0.18,
           ph: h(2.71) * 6.283, w: 0.3 + h(3.3) * 0.5,
           lift: 0.25 + h(5.17) * 0.35,
@@ -85,8 +85,8 @@ export default function AmbientDots({ net, avoided }) {
         const fade = d.m > 0.01 ? Math.max(0.15, d.y / H) : 1;
         ctx.beginPath();
         ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
-        if (d.m < 0.99) { ctx.fillStyle = `rgba(${FOREST},${d.a * (1 - d.m)})`; ctx.fill(); }
-        if (d.m > 0.01) { ctx.lineWidth = 1.2; ctx.strokeStyle = `rgba(${LIME},${Math.min(0.55, d.a * 2.4) * d.m * fade})`; ctx.stroke(); }
+        if (d.m < 0.99) { ctx.fillStyle = `rgba(${GREEN},${d.a * (1 - d.m)})`; ctx.fill(); }
+        if (d.m > 0.01) { ctx.lineWidth = 1.2; ctx.strokeStyle = `rgba(${LIME},${Math.min(0.4, d.a * 2) * d.m * fade})`; ctx.stroke(); }
       }
     }
     redraw.current = () => { if (reduce || !raf) draw(); };
