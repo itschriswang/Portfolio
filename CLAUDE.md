@@ -146,7 +146,9 @@ built as a React + Vite multi-page app and deployed to GitHub Pages.
   the green ramp closed by a line in its timeline colour, dashed rings for role
   changes. It grows with the scroll through the timeline (a clip widening from
   the pith, so each employer arrives in turn), runs off the right edge of the
-  page, and carries no labels, legend or caption. The geometry is
+  page, and carries no labels, legend or caption. Beside the timeline on a wide
+  screen; on a narrow one it takes no space, riding faintly behind the
+  timeline's right edge as a sticky backdrop. The geometry is
   `careerRings()` in `src/lib/careerRings.js`, read from the dates in
   `EXPERIENCE` and tested in `tests/career-rings.test.js`. Dots mean carbon:
   the Life Footprint carbon field, and the ambient field behind the
@@ -284,7 +286,7 @@ paths relative so both the domain root and a `/Portfolio/` sub-path work.
 ## Content rules
 
 - Every figure and claim on the site must trace to Chris's own record, and must match his current CV. When a claim changes in one, check the other: the outcome tiles (`OUTCOMES`), the stage examples (`PIPELINE`) and the bio in `src/data/content.js`.
-- The track record (`EXPERIENCE`, `EDUCATION`) lists employer, team, titles and dates only. Per-job outcomes are left off on purpose, so each CV can be tailored without the site contradicting it. Do not add bullets back.
+- The track record (`EXPERIENCE`, `EDUCATION`) lists employer, team, titles and dates only, plus a credential held in a role as its `note` (Green Star AP while at WSP; not current, so never shown as held now). Per-job outcomes are left off on purpose, so each CV can be tailored without the site contradicting it. Do not add bullets back.
 - Describe work in progress by role, not by result. Do not write "lodged", "launched" or "resolved" before it is true.
 - Past consulting clients stay anonymised.
 - No side-stripe borders: no coloured `border-left` accents on cards, callouts or lead paragraphs (see `.claude/skills/impeccable`). Use a full hairline border, a tint, or nothing.

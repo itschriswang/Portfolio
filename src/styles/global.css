@@ -980,6 +980,8 @@ section { position:relative; }
 .exp-logo.logo-downer{ height:30px; } .exp-logo.logo-wsp{ height:20px; } .exp-logo.logo-defence{ height:56px; margin-left:-6px; }
 .exp-org-name{ font-family:var(--disp); font-size:1.35rem; font-weight:700; color:var(--slate); line-height:1.1; margin-bottom:0.1rem; }
 .exp-dept{ font-size:0.8rem; color:var(--mid); font-weight:400; margin-bottom:0.6rem; }
+/* A credential held in the role (e.g. Green Star AP at WSP): a quiet mono line under the team. */
+.exp-note{ font-family:var(--mono); font-size:11px; letter-spacing:0.04em; color:var(--accent-ink); margin:-0.25rem 0 0.6rem; }
 .exp-meta{ display:flex; flex-direction:column; gap:0.2rem; }
 .exp-meta-row{ display:flex; justify-content:space-between; align-items:baseline; gap:1rem; flex-wrap:wrap; }
 .exp-role-title{ font-weight:700; font-size:0.85rem; color:var(--slate); }
@@ -1390,7 +1392,6 @@ a.footer-cta-btn[target="_blank"]::after{ content:none; }
   .exp-aside{ grid-column:2; grid-row:1; position:sticky; top:calc(var(--nav-h) + 2rem); }
   .exp-body .exp-timeline{ grid-column:1; grid-row:1; }
 }
-@media (max-width:959px){ .exp-aside{ max-width:330px; } }
 .career-rings{ margin:0; }
 .career-rings svg{ display:block; width:100%; height:auto; overflow:visible; }
 /* The disc runs off the right edge of the page, like the hero's rings: it is
@@ -1398,10 +1399,17 @@ a.footer-cta-btn[target="_blank"]::after{ content:none; }
    clips it. */
 #experience{ overflow-x:clip; }
 .career-rings svg{ width:calc(100% + var(--gut) + 3.5rem); margin-left:0.5rem; }
+/* On a narrow screen the rings take no space of their own: they become a
+   faint backdrop behind the timeline's right edge. The aside is laid over the
+   whole timeline, and the disc inside it is sticky, so it rides alongside the
+   entries as they scroll past, cropped by the page edge, still growing with the
+   scroll. The timeline sits above it. */
 @media (max-width:959px){
-  .exp-aside{ max-width:none; }
-  .career-rings{ display:flex; justify-content:flex-end; }
-  .career-rings svg{ width:min(92vw, 440px); margin-right:calc(-1 * (var(--gut) + 7rem)); }
+  .exp-body{ position:relative; }
+  .exp-aside{ position:absolute; inset:0; max-width:none; z-index:0; pointer-events:none; }
+  .exp-body .exp-timeline{ position:relative; z-index:1; }
+  .career-rings{ position:sticky; top:calc(var(--nav-h) + 18vh); display:flex; justify-content:flex-end; opacity:0.4; }
+  .career-rings svg{ width:min(78vw, 380px); margin-right:calc(-1 * (var(--gut) + 11rem)); }
 }
 .cr-band{ fill:var(--tone); stroke:var(--bc); stroke-width:0.9; }
 .cr-year{ fill:none; stroke:var(--forest); stroke-opacity:0.18; stroke-width:0.45; }

@@ -90,6 +90,7 @@ export default function Experience() {
                     : <div className="exp-eyebrow">{exp.eyebrowIcon && <Icon name={exp.eyebrowIcon} size={28} className="fpi-lead" />}{exp.eyebrow}</div>}
                   <div className="exp-org-name">{exp.org}</div>
                   <div className="exp-dept">{exp.dept}</div>
+                  {exp.note && <div className="exp-note">{exp.note}</div>}
                 </div>
                 <div className="exp-meta">
                   {exp.roles.map((r, i) => (
