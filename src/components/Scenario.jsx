@@ -16,10 +16,10 @@ import { prefersReducedMotion } from '../utils/media';
 // ambitious (see .seg-sm in global.css), so the wide button is always the
 // setting the model starts from.
 const LEVERS = [
-  { key: 'grid', lc: 'var(--indigo)', sc: 'var(--indigo-ink)', opts: ['base', 'off', 'slower', 'faster'] },
-  { key: 'lv', lc: 'var(--matcha)', sc: 'var(--accent-ink)', opts: ['base', 'slower', 'faster'] },
-  { key: 'hv', lc: 'var(--amber)', sc: 'var(--amber-ink)', opts: ['base', 'slower', 'faster'] },
-  { key: 'plant', lc: 'var(--berry)', sc: 'var(--berry-ink)', opts: ['base', 'off', 'slower', 'faster'] },
+  { key: 'grid', lc: 'var(--indigo)', sc: 'var(--indigo-light)', opts: ['base', 'off', 'slower', 'faster'] },
+  { key: 'lv', lc: 'var(--matcha)', sc: 'var(--matcha)', opts: ['base', 'slower', 'faster'] },
+  { key: 'hv', lc: 'var(--amber)', sc: 'var(--amber)', opts: ['base', 'slower', 'faster'] },
+  { key: 'plant', lc: 'var(--berry)', sc: 'var(--berry)', opts: ['base', 'off', 'slower', 'faster'] },
 ];
 const OPT_LABEL = { base: 'Base', faster: 'Faster', slower: 'Slower', off: 'Off' };
 const REV_OPTS = [
@@ -223,7 +223,7 @@ export default function Scenario() {
                 <div className="lever-card lever-card-rev" style={{ '--lc': 'var(--step-comms)' }}>
                   <div className="lever-top"><span className="lever-dot" aria-hidden="true" /><span className="lever-name">{SCENARIO_UI.growth.name}</span></div>
                   <div className="lever-src">{SCENARIO_UI.growth.src}</div>
-                  <Seg value={scn.rev} options={REV_OPTS} onChange={(v) => set('rev', v)} sc="var(--step-comms)" small label={SCENARIO_UI.growth.name} />
+                  <Seg value={scn.rev} options={REV_OPTS} onChange={(v) => set('rev', v)} sc="var(--comms-light)" small label={SCENARIO_UI.growth.name} />
                 </div>
               </div>
             </div>
