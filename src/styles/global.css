@@ -725,7 +725,9 @@ section { position:relative; }
 
 /* Desktop: controls + results side by side so the whole model fits one viewport. */
 @media(min-width:1024px){
-  .scn-grid{ display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr); gap:clamp(1.5rem,3vw,2.75rem); align-items:start; }
+  /* The steps drop their own top margin in the two-column layout, so the
+     grid carries the space below the basis strip instead. */
+  .scn-grid{ display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr); gap:clamp(1.5rem,3vw,2.75rem); align-items:start; margin-top:clamp(2.25rem,3.5vw,3.25rem); }
   .scn-controls{ display:flex; flex-direction:column; }
   /* Steps stack inside the left rail without the big top gap / divider chrome. */
   .scn-grid .scn-step{ margin-top:0; padding-top:0; border-top:none; }
