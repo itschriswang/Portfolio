@@ -47,8 +47,8 @@ export const HERO = {
 export const BIO_TAG = { tag: 'Profile', idx: '00 / ' };
 
 export const BIO_PARAS = [
-  'At Downer Group I help prepare the greenhouse gas figures Downer reports to the government and investors, check them against the source data, and build the models the business uses to plan its path to net zero.',
-  'Before Downer I worked with property, water, energy and government clients at WSP, and started my career at the Department of Defence, administering $1.3 billion of capital works contracts.',
+  'At Downer Group I prepare the Group greenhouse gas inventory for limited assurance, and took our 2026 CDP response and the S&P Corporate Sustainability Assessment from first draft to submission. I also developed the physical climate risk method in our AASB S2 climate statement and built the Net Zero pathway model the business units plan against.',
+  'At WSP I led a GRESB submission for an electricity distribution network, coordinated Green Star Performance ratings for a national property group, helped assure a listed REIT\'s emissions, energy and water data each year, and delivered life cycle assessments for high-rise residential developments, showing developers what each lower-carbon option meant for procurement. Before that I administered $1.3 billion of capital works contracts at the Department of Defence.',
 ];
 
 export const OUTCOMES = [
