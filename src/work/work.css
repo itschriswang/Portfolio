@@ -176,7 +176,7 @@
    the lime wash with a matcha edge, noted is the warm band with a faint edge,
    out of scope is a quiet hatch. Text stays at full contrast in all three. */
 .lcm.active{ background:var(--lime-wash); border-bottom:2px solid var(--matcha); }
-.lcm.noted{ background:var(--band); border-bottom:2px solid rgba(181,196,43,0.45); }
+.lcm.noted{ background:var(--band); border-bottom:2px solid rgba(193,224,67,0.45); }
 .lcm.out{ background:repeating-linear-gradient(135deg,var(--band) 0 5px,var(--bg) 5px 10px); }
 .lcm-ref{ font-family:var(--mono); font-size:0.8rem; font-weight:700; color:var(--slate); display:block; margin-bottom:0.2rem; }
 .lcm.active .lcm-ref{ color:var(--accent-ink); }
@@ -186,7 +186,7 @@
 .lcm-legend{ display:flex; gap:0.5rem 1.25rem; margin-top:0.75rem; flex-wrap:wrap; }
 .lcm-leg-item{ display:flex; align-items:center; gap:0.4rem; font-family:var(--mono); font-size:12px; color:var(--w-ink2); font-weight:600; }
 .lcm-leg-dot{ width:8px; height:8px; flex-shrink:0; }
-.lcm-leg-dot.act{ background:var(--matcha); } .lcm-leg-dot.not{ background:rgba(181,196,43,0.35); } .lcm-leg-dot.oot{ background:repeating-linear-gradient(135deg,var(--rule-dk) 0 2px,var(--bg) 2px 4px); outline:1px solid var(--rule-dk); }
+.lcm-leg-dot.act{ background:var(--matcha); } .lcm-leg-dot.not{ background:rgba(193,224,67,0.35); } .lcm-leg-dot.oot{ background:repeating-linear-gradient(135deg,var(--rule-dk) 0 2px,var(--bg) 2px 4px); outline:1px solid var(--rule-dk); }
 .lc-modwrap{ background:var(--white); padding:1.25rem 1.5rem; }
 .lc-modwrap-head{ font-family:var(--mono); font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--w-ink2); margin-bottom:0.75rem; font-weight:600; }
 

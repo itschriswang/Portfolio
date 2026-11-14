@@ -30,7 +30,7 @@ export default function Bio() {
           <div className="outcomes-grid">
             {OUTCOMES.map((o, i) => (
               <motion.div
-                className="outcome" key={i} style={{ '--oc': o.color }}
+                className="outcome" key={i} style={{ '--oc': o.color, '--ob': o.band }}
                 custom={i} variants={reveal} initial={still ? false : 'hidden'} whileInView="visible" viewport={{ once: true, margin: '-40px' }}
               >
                 <div className="outcome-num">{o.from && <span className="outcome-from"><s>{o.from}</s><span className="sr-only"> cut to </span><span aria-hidden="true">→</span></span>}{o.num}<small>{o.small}</small></div>

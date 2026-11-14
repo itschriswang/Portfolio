@@ -201,7 +201,7 @@ export const SPIKE_MULTIPLE = 2;
 // under the 2.5 t lifestyle budget on top of whatever character it
 // classifies as.
 export const BADGE = {
-  id: 'pacifist-run', name: 'The Pacifist Run', hex: '#647012', stencil: S.core,
+  id: 'pacifist-run', name: 'The Pacifist Run', hex: '#3E4800', stencil: S.core,
   tagline: 'Finished the year, harmed almost nothing.',
 };
 
@@ -210,13 +210,13 @@ export const BADGE = {
 // (specialist-spiky, specialist-steady, generalist-spiky, generalist-steady).
 export const CHARACTERS = [
   {
-    id: 'speedrun', name: 'The Speedrun', hex: '#B5C42B', stencil: S.chevrons,
+    id: 'speedrun', name: 'The Speedrun', hex: '#C1E043', stencil: S.chevrons,
     weight: 'feather', shape: 'specialist', rhythm: 'spiky',
     tagline: 'A tiny total, done in one burst.',
     line: 'Under the global average with almost nothing on the clock, and most of it happened in one go. One category, one big day, credits.',
   },
   {
-    id: 'rerun', name: 'The Rerun', hex: '#647012', stencil: S.loop,
+    id: 'rerun', name: 'The Rerun', hex: '#3E4800', stencil: S.loop,
     weight: 'feather', shape: 'specialist', rhythm: 'steady',
     tagline: 'The same quiet episode, all year.',
     line: 'One small habit on loop. Nothing new ever airs, which is exactly why the total stays small.',
@@ -228,7 +228,7 @@ export const CHARACTERS = [
     line: 'A light year spent drifting across the categories, with one detour that briefly became the main plot. Still nowhere near the main storyline.',
   },
   {
-    id: 'slice-of-life', name: 'The Slice of Life', hex: '#B5C42B', stencil: S.field,
+    id: 'slice-of-life', name: 'The Slice of Life', hex: '#C1E043', stencil: S.field,
     weight: 'feather', shape: 'generalist', rhythm: 'steady',
     tagline: 'Everyday, gentle, counted in full.',
     line: 'The genre where nothing dramatic happens. A bit of everything, spread thin, observed closely and added up anyway.',

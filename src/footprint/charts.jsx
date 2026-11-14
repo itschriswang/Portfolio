@@ -15,7 +15,7 @@ const MONO = "'JetBrains Mono',monospace";
 const TOOLTIP_STYLE = {
   backgroundColor: 'rgba(18,18,14,0.96)', titleColor: '#F4F6EE', bodyColor: 'rgba(244,246,238,0.85)',
   titleFont: { family: MONO, size: 11 }, bodyFont: { family: MONO, size: 11 },
-  borderColor: 'rgba(181,196,43,0.5)', borderWidth: 1,
+  borderColor: 'rgba(193,224,67,0.5)', borderWidth: 1,
 };
 const AXIS_TICKS = { font: { family: MONO, size: 11 }, color: '#65695B' };
 const GRID = { color: 'rgba(39,46,9,0.06)' };

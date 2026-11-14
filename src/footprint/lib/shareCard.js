@@ -12,7 +12,7 @@ const W = 1080;
 const H = 1350;
 const INK = '#F4F6EE';
 const MID = '#9AA694';
-const MATCHA = '#B5C42B';
+const MATCHA = '#C1E043';
 const BG = '#12120E'; // --night
 const RULE = 'rgba(244,246,238,0.16)';
 
@@ -54,8 +54,8 @@ function frame(ctx, title, fy) {
   ctx.fillRect(0, 0, W, H);
   // A faint bloom in the top corner so the card is not flat black.
   const g = ctx.createRadialGradient(W * 0.85, -60, 0, W * 0.85, -60, 700);
-  g.addColorStop(0, 'rgba(181,196,43,0.14)');
-  g.addColorStop(1, 'rgba(181,196,43,0)');
+  g.addColorStop(0, 'rgba(193,224,67,0.14)');
+  g.addColorStop(1, 'rgba(193,224,67,0)');
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, W, H);
 
@@ -114,7 +114,7 @@ function bars(ctx, rows, top, opts = {}) {
     ctx.fillStyle = INK;
     ctx.font = `600 30px ${SANS}`;
     ctx.fillText(r.label, 84, y);
-    ctx.fillStyle = r.dim ? 'rgba(181,196,43,0.38)' : MATCHA;
+    ctx.fillStyle = r.dim ? 'rgba(193,224,67,0.38)' : MATCHA;
     roundedBar(ctx, 84, y + 16, Math.max(10, (r.t / max) * maxW), barH, 5);
     ctx.fillStyle = MID;
     ctx.font = `500 28px ${MONO}`;
@@ -259,8 +259,8 @@ export async function drawStoryCard(kind, data) {
   ctx.fillStyle = BG;
   ctx.fillRect(0, 0, SW, SH);
   const g = ctx.createRadialGradient(SW * 0.82, -90, 0, SW * 0.82, -90, 980);
-  g.addColorStop(0, 'rgba(181,196,43,0.16)');
-  g.addColorStop(1, 'rgba(181,196,43,0)');
+  g.addColorStop(0, 'rgba(193,224,67,0.16)');
+  g.addColorStop(1, 'rgba(193,224,67,0)');
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, SW, SH);
   // A faint vignette at the foot so the card reads as lifted, not tiled.
@@ -294,7 +294,7 @@ export async function drawStoryCard(kind, data) {
 
   ctx.save();
   roundRectPath(ctx, margin, top, cw, ch, r);
-  ctx.strokeStyle = 'rgba(181,196,43,0.30)';
+  ctx.strokeStyle = 'rgba(193,224,67,0.30)';
   ctx.lineWidth = 2;
   ctx.stroke();
   ctx.restore();
@@ -327,8 +327,8 @@ export async function drawLinkedInCard(d) {
   ctx.fillStyle = BG;
   ctx.fillRect(0, 0, LW, LH);
   const g = ctx.createRadialGradient(LW * 0.9, -40, 0, LW * 0.9, -40, 620);
-  g.addColorStop(0, 'rgba(181,196,43,0.16)');
-  g.addColorStop(1, 'rgba(181,196,43,0)');
+  g.addColorStop(0, 'rgba(193,224,67,0.16)');
+  g.addColorStop(1, 'rgba(193,224,67,0)');
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, LW, LH);
 

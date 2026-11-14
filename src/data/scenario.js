@@ -74,11 +74,6 @@ export const F = {
 
 export const REV = { flat: 1.000, moderate: 1.015, high: 1.030 };
 
-// Plain-text forms of the control settings, for the run summary the result
-// panel carries. The model owns these rather than the component, because the
-// summary has to say exactly what was fed into the maths.
-const OPT_TEXT = { base: 'Base', faster: 'Faster', slower: 'Slower', off: 'Off' };
-const REV_TEXT = { flat: 'flat', moderate: '+1.5%/yr', high: '+3.0%/yr' };
 
 // Number formatting for the KPI tiles. `kt` matches the thousand-tonne form
 // the chart and contribution bars already use; `signed` and `pct1` carry an
@@ -126,7 +121,6 @@ export const LEVER_LABELS = {
     hv: { name: 'Green leases and tenant engagement', src: 'Better Buildings Partnership green-lease pathway' },
     plant: { name: 'All-electric retrofit', src: 'Gas heating & hot-water electrification' },
     cbar: { grid: 'Renewable electricity', lv: 'HVAC efficiency', hv: 'Green leases', plant: 'All-electric retrofit' },
-    sub: 'Adjust the levers to see how a commercial office portfolio reaches net-zero Scope 1 and 2. Assumptions draw on the DCCEEW 2025 grid emission-factor trajectory, NABERS base-building performance, and published property-sector electrification pathways.',
   },
   retail: {
     grid: { name: 'Renewable electricity procurement', src: 'PPA + GreenPower · market-based Scope 2' },
@@ -134,7 +128,6 @@ export const LEVER_LABELS = {
     hv: { name: 'Retailer and tenant engagement', src: 'Green-lease + sub-metering pathway' },
     plant: { name: 'Low-GWP refrigerant transition', src: 'HFC phase-down · Kigali / Montreal Protocol' },
     cbar: { grid: 'Renewable electricity', lv: 'Refrigeration efficiency', hv: 'Tenant engagement', plant: 'Refrigerant transition' },
-    sub: 'Model how a shopping-centre portfolio decarbonises. Common-area electricity follows the DCCEEW grid trajectory and renewable procurement; refrigeration efficiency and a low-GWP refrigerant transition track the HFC phase-down; tenant engagement reaches sub-metered retail load.',
   },
   logistics: {
     grid: { name: 'On-site solar and renewable PPA', src: 'Rooftop PV + PPA · market-based Scope 2' },
@@ -142,7 +135,6 @@ export const LEVER_LABELS = {
     hv: { name: 'Yard and heavy equipment transition', src: 'CSIRO Net Zero Pathways · technology-constrained' },
     plant: { name: 'Materials-handling electrification', src: 'Forklift + MHE fleet electrification' },
     cbar: { grid: 'On-site solar and PPA', lv: 'Energy efficiency', hv: 'Heavy equipment', plant: 'MHE electrification' },
-    sub: 'Explore a logistics and industrial estate pathway. Warehouse roofs carry large solar and PPA potential, so Scope 2 falls fast; materials-handling electrification and efficiency follow; yard and heavy-equipment transition is technology-constrained and lands later.',
   },
   infrastructure: {
     grid: { name: 'Grid decarbonisation', src: 'DCCEEW 2025 Table 42 NEM trajectory' },
@@ -150,7 +142,6 @@ export const LEVER_LABELS = {
     hv: { name: 'HV fleet and mobile plant', src: 'CSIRO Net Zero Pathways 2023 · 1-yr lag' },
     plant: { name: 'Plant electrification', src: 'Industry plant electrification analysis' },
     cbar: { grid: 'Grid (Scope 2)', lv: 'LV fleet', hv: 'HV fleet and plant', plant: 'Plant electrification' },
-    sub: 'A services operator with a diesel fleet and mobile plant. Lever assumptions draw on the DCCEEW 2025 grid emission-factor tables, the NVES Act 2024 (light vehicles), CSIRO Net Zero Pathways (heavy fleet), and published plant-electrification analysis. Illustrative composite, not any single operator.',
   },
   textile: {
     grid: { name: 'Renewable electricity (own operations)', src: 'RE100 · Nike 96%, Hermès 98% market-based' },
@@ -158,7 +149,6 @@ export const LEVER_LABELS = {
     hv: { name: 'Freight mode shift (air to ocean)', src: 'Clean Cargo · logistics decarbonisation' },
     plant: { name: 'Supplier decarbonisation (Tier 2)', src: 'Coal phase-out in dyeing · SBTi supplier pathway' },
     cbar: { grid: 'Own-ops renewables', lv: 'Materials substitution', hv: 'Freight mode shift', plant: 'Supplier (Tier 2)' },
-    sub: 'Explore how a textile retailer cuts a value-chain footprint that is ~95% Scope 3. Own-operations renewables saturate early; preferred-materials substitution ramps steadily; supplier (Tier-2) decarbonisation and coal phase-out in wet processing carry the largest, back-loaded reduction; freight mode shift trims logistics. Anchored to Nike FY24, Hermès and LVMH disclosures.',
   },
 };
 
@@ -268,19 +258,16 @@ export function runModel(scn) {
   const d26 = FY26 - FY20;
   const d30 = net30 - FY20;
   const avoided30 = Math.max(0, bau30 - net30);
-  const anchor = 'Baseline FY20 \u00b7 ' + kt(FY20);
   const kpis = [
     {
       key: 'base',
       label: 'FY20 baseline',
       value: kt(FY20),
-      note: 'Illustrative \u00b7 every change below is measured against it',
     },
     {
       key: 'fy26',
-      label: 'FY26 (illustrative)',
+      label: 'FY26',
       value: kt(FY26),
-      base: anchor,
       change: [signed(d26), pct1(d26 / FY20 * 100)],
       dir: dirOf(d26, FY20),
     },
@@ -288,7 +275,6 @@ export function runModel(scn) {
       key: 'net',
       label: 'FY30 net',
       value: kt(net30),
-      base: anchor,
       change: [signed(d30), pct1(d30 / FY20 * 100)],
       dir: dirOf(d30, FY20),
       live: true,
@@ -317,7 +303,6 @@ export function runModel(scn) {
     head: 'These levers land FY30 at ',
     value: Math.round(net30 / 1000) + 'k tCO₂-e',
     tail: ', ' + rel + ', avoiding ' + avoided + 'k t against business-as-usual, ' + verdict,
-    note: 'Headline recalculates from your lever settings · FY30 interim target year · illustrative figures',
   };
 
   // Contribution bars at FY30 (the interim target year).
@@ -329,27 +314,10 @@ export function runModel(scn) {
   const maxSv = Math.max(sv_g, sv_lv, sv_hv, sv_pl, 1);
   const bar = (s) => ({ width: Math.max(0, s / maxSv * 100), label: s > 0 ? Math.round(s / 1000) + 'k t' : '0' });
 
-  // The run summary. A results panel that does not restate its own settings
-  // makes the reader scroll back to the levers to find out what they are
-  // looking at, so the panel carries the profile, the growth assumption and
-  // every lever position alongside the numbers they produced. The horizon is
-  // not here because it is not a control: the basis strip states it once.
-  const cb = LEVER_LABELS[levers].cbar;
-  const frame = {
-    profile: label,
-    growth: REV_TEXT[rk],
-    levers: [
-      { name: cb.grid, set: OPT_TEXT[gk] },
-      { name: cb.lv, set: OPT_TEXT[lk] },
-      { name: cb.hv, set: OPT_TEXT[hk] },
-      { name: cb.plant, set: OPT_TEXT[pk] },
-    ],
-  };
-
   return {
     mode, leverKey: levers,
     series: { net, gridLayer, lvLayer, hvLayer, plantLayer, bau, actuals },
-    kpis, frame,
+    kpis,
     takeaway,
     dots: dotField(net30, bau30),
     contrib: { grid: bar(sv_g), lv: bar(sv_lv), hv: bar(sv_hv), plant: bar(sv_pl) },

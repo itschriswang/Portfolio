@@ -31,7 +31,7 @@ html { scroll-behavior: smooth; overflow-x: clip; color-scheme: light; }
      at 0.23, 104 degrees and 57 degrees off the lime, which is why they
      clashed. They are fills first; text on a light surface takes the darker
      -ink twins below. */
-  --matcha:#B5C42B;
+  --matcha:#C1E043;
   --indigo:#6F6CEA;
   --berry:#E85398;
   --amber:#F2B52E;
@@ -59,7 +59,7 @@ html { scroll-behavior: smooth; overflow-x: clip; color-scheme: light; }
   --sage-soft:#E7EBDE;
   --forest:#272E09;
   --forest-2:#3A4412;
-  --forest-ink:#5E6B1E;
+  --forest-ink:#49530E;
   /* Night: the one dark ground, shared by the home hero, the tools band and the
      work page's intro, so the site has one dark used on purpose rather than
      two that look like an accident. Near-black with the faintest green lean. */
@@ -74,7 +74,7 @@ html { scroll-behavior: smooth; overflow-x: clip; color-scheme: light; }
      4.6 lime-soft. --amber-ink, --indigo-ink and --berry-ink are the darkened
      text twins of the three companions, each 4.6:1 or better on white, the lime
      wash and the lime soft (amber 5.4, indigo 7.0, berry 6.4 on white). */
-  --accent-ink:#647012;
+  --accent-ink:#3E4800;
   --amber-ink:#916007;
   --indigo-ink:#4F48BF;
   /* --berry is a fill too, and fails contrast as small text on both white and
@@ -112,7 +112,7 @@ html { scroll-behavior: smooth; overflow-x: clip; color-scheme: light; }
   --rule-dk:oklch(0.853 0.013 118);
   --rule-lt:oklch(0.917 0.008 118);
   /* matcha at 10% alpha — accent wash for hover backgrounds (not red) */
-  --red-bg:rgba(181,196,43,0.10);
+  --red-bg:rgba(193,224,67,0.10);
   --step-raw:var(--indigo);
   --step-calc:var(--matcha);
   --step-report:var(--amber);
@@ -180,7 +180,7 @@ p { text-wrap:pretty; }
    ---------------------------------------------------------------------------- */
 a, button, summary, label, select, [role="button"], [role="tab"], [role="radio"], [role="option"]{
   touch-action:manipulation;
-  -webkit-tap-highlight-color:rgba(181,196,43,0.24);
+  -webkit-tap-highlight-color:rgba(193,224,67,0.24);
 }
 
 /* ----------------------------------------------------------------------------
@@ -391,7 +391,7 @@ section { position:relative; }
   color:#fff; border-bottom:1px solid var(--hero-line); padding:0 0 clamp(3rem,7vw,6rem); overflow:hidden; }
 .bloom-wrap{ position:absolute; inset:0; pointer-events:none; overflow:hidden; z-index:0; }
 .bloom{ position:absolute; border-radius:50%; filter:blur(90px); mix-blend-mode:multiply; }
-.bloom-a{ width:560px; height:380px; background:radial-gradient(ellipse,rgba(181,196,43,0.10) 0%,transparent 70%); top:-60px; left:-80px; animation:bloomA 26s ease-in-out infinite; }
+.bloom-a{ width:560px; height:380px; background:radial-gradient(ellipse,rgba(193,224,67,0.10) 0%,transparent 70%); top:-60px; left:-80px; animation:bloomA 26s ease-in-out infinite; }
 .bloom-b{ width:440px; height:340px; background:radial-gradient(ellipse,rgba(242,181,46,0.08) 0%,transparent 70%); top:30px; right:-60px; animation:bloomB 32s ease-in-out infinite; }
 .bloom-c{ width:340px; height:240px; background:radial-gradient(ellipse,rgba(111,108,234,0.08) 0%,transparent 70%); bottom:0; left:40%; animation:bloomC 38s ease-in-out infinite; }
 @keyframes bloomA{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,18px)}}
@@ -521,6 +521,13 @@ section { position:relative; }
 /* The first tile carries the long story, so it takes the wider column rather
    than leaving the other two with a block of empty white under them. */
 @media(min-width:1024px){ .outcomes-grid{ grid-template-columns:minmax(0,1.6fr) repeat(2,minmax(0,1fr)); } }
+/* Each tile is a subgrid of the row, so the coloured number bands share one
+   height across the three tiles, whichever of them wraps. */
+@media(min-width:640px){
+  .outcomes-grid{ grid-template-rows:auto auto 1fr; }
+  .outcome{ display:grid; grid-row:span 3; grid-template-rows:subgrid; row-gap:0; }
+  .outcome-num{ display:flex; align-items:baseline; align-content:flex-end; flex-wrap:wrap; }
+}
 /* Stat card — one shared language for every metric tile on the site: flat
    white surface with a full-bleed tinted band behind the number, so the figure
    sits ON its accent colour instead of under a floating hairline (a border-top
@@ -528,7 +535,7 @@ section { position:relative; }
 .outcome{ background:var(--white); padding:0 0 1.6rem; transition:background 0.18s var(--ease); }
 @media(hover:hover) and (pointer:fine){ .outcome:hover{ background:color-mix(in srgb, var(--lime-wash) 45%, var(--white)); } }
 .outcome-what, .outcome-where{ padding:0 1.6rem; }
-.outcome-num{ font-family:var(--disp); font-size:clamp(2.4rem,6vw,3.4rem); font-weight:700; line-height:1; color:var(--oc,var(--accent-ink)); letter-spacing:-0.03em; font-variant-numeric:tabular-nums; margin-bottom:0.9rem; padding:1.3rem 1.6rem 0.9rem; background:color-mix(in srgb, var(--oc,var(--accent-ink)) 15%, var(--white)); }
+.outcome-num{ font-family:var(--disp); font-size:clamp(2.4rem,6vw,3.4rem); font-weight:700; line-height:1; color:var(--oc,var(--accent-ink)); letter-spacing:-0.03em; font-variant-numeric:tabular-nums; margin-bottom:0.9rem; padding:1.3rem 1.6rem 0.9rem; background:var(--ob, color-mix(in srgb, var(--oc,var(--accent-ink)) 15%, var(--white))); }
 .outcome-from{ font-size:0.42em; font-weight:600; letter-spacing:0; color:var(--mid); margin-right:0.4em; display:inline-flex; gap:0.35em; vertical-align:0.55em; }
 .outcome-from s{ text-decoration-thickness:2px; }
 .outcome-num small{ font-size:0.42em; font-weight:600; letter-spacing:0; }
@@ -590,7 +597,7 @@ section { position:relative; }
 /* ============================================================================
    PRINCIPLES
    ============================================================================ */
-#principles{ background:radial-gradient(ellipse 90% 60% at 95% 5%,rgba(181,196,43,0.04) 0%,transparent 65%),var(--white); border-top:1px solid var(--rule-lt); padding:clamp(3.5rem,8vw,6rem) 0; overflow:hidden; }
+#principles{ background:radial-gradient(ellipse 90% 60% at 95% 5%,rgba(193,224,67,0.04) 0%,transparent 65%),var(--white); border-top:1px solid var(--rule-lt); padding:clamp(3.5rem,8vw,6rem) 0; overflow:hidden; }
 .princ-grid{ border-top:1px solid var(--rule-lt); margin-top:2rem; }
 .princ{ padding:2.2rem 0; border-bottom:1px solid var(--rule-lt); }
 @media(min-width:640px){
@@ -623,8 +630,6 @@ section { position:relative; }
 /* Warm brand-tinted wash instead of a heavy cold grey — the results read as
    premium cards on a soft surface, not tiles on a slab. */
 #scenario{ background:var(--bg); border-top:1px solid var(--rule-lt); border-bottom:1px solid var(--rule-dk); padding:clamp(5rem,11vw,8.5rem) 0; overflow:clip; }
-#scenario .sec-title + .tool-sub{ margin-top:1.5rem; }
-.tool-sub{ font-size:0.95rem; font-weight:400; color:var(--mid); max-width:600px; line-height:1.65; margin-bottom:0.75rem; }
 /* BASIS STRIP — what the numbers below are, stated before them.
    The illustrative-model caveat used to be an 11px grey line under the
    sub-heading, at the weight of a footnote, when it is the governing fact
@@ -698,15 +703,7 @@ section { position:relative; }
    rules leave off cards and callouts. */
 .takeaway{ position:relative; background:linear-gradient(150deg,var(--lime-wash),var(--white) 70%); border:1px solid var(--rule-dk); padding:1.15rem 1.5rem; margin-top:1.25rem; margin-bottom:1.5rem; font-family:var(--disp); font-size:clamp(1.05rem,2.6vw,1.4rem); font-weight:600; line-height:1.45; color:var(--slate); letter-spacing:-0.01em; border-radius:var(--r-md); box-shadow:0 6px 20px rgba(39,46,9,0.10),0 1px 2px rgba(23,25,13,0.04); }
 .takeaway em{ font-style:normal; color:var(--accent-ink); }
-.takeaway .tk-note{ display:block; font-family:var(--sans); font-size:11px; font-weight:400; color:var(--mid); margin-top:0.35rem; letter-spacing:0; line-height:1.5; }
 
-/* RUN SUMMARY — the settings the panel's figures came out of, so a screenshot
-   of the result still says what it is a result of. */
-.scn-frame{ display:flex; flex-wrap:wrap; align-items:center; gap:0.35rem; margin-bottom:0.9rem; }
-.scn-frame-lead{ font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--mid); margin-right:0.15rem; }
-.scn-frame-chip{ display:inline-flex; align-items:baseline; gap:0.3rem; padding:0.2rem 0.6rem; font-size:11.5px; line-height:1.45; color:var(--mid); background:var(--white); border:1px solid var(--rule-dk); border-radius:var(--r-pill); }
-.scn-frame-chip b{ font-weight:700; color:var(--slate); }
-.scn-frame-profile{ font-weight:700; color:var(--accent-ink); background:var(--lime-wash); border-color:var(--lime); }
 
 .kpi-strip{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1px; background:var(--rule-dk); border:1px solid var(--rule-dk); margin-bottom:1.5rem; border-radius:var(--r-md); overflow:hidden; box-shadow:var(--shadow-soft); }
 @media(min-width:580px){ .kpi-strip{ grid-template-columns:repeat(4,minmax(0,1fr)); } }
@@ -761,49 +758,21 @@ section { position:relative; }
 .cbar-fill{ height:100%; width:100%; transform-origin:left; transition:transform 0.35s var(--ease); }
 .cbar-val{ font-family:var(--mono); font-size:0.7rem; font-variant-numeric:tabular-nums; color:var(--ink-2); text-align:right; }
 
-/* Desktop: controls + results side by side so the whole model fits one viewport. */
+/* The three steps run top to bottom in reading order, each across the full
+   width, so nobody meets the result before the levers that produce it. On a
+   wide screen the levers sit three across (the growth card takes the last two
+   cells), and the contribution bars sit under the chart. */
 @media(min-width:1024px){
-  /* The steps drop their own top margin in the two-column layout, so the
-     grid carries the space below the basis strip instead. */
-  .scn-grid{ display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr); gap:clamp(1.5rem,3vw,2.75rem); align-items:start; margin-top:clamp(2.25rem,3.5vw,3.25rem); }
-  /* Both columns pin under the nav, so the levers stay beside the result
-     rather than ending well above it. */
-  .scn-controls{ display:flex; flex-direction:column; position:sticky; top:calc(var(--nav-h, 53px) + 1rem); align-self:start; }
-  /* Steps stack inside the left rail without the big top gap / divider chrome. */
-  .scn-grid .scn-step{ margin-top:0; padding-top:0; border-top:none; }
-  .scn-controls .scn-step + .scn-step{ margin-top:1.5rem; }
-  /* Results column tracks the levers while you read. */
-  .scn-results{ position:sticky; top:calc(var(--nav-h, 53px) + 1rem); }
-  /* Trim the lever cards so all five selectors sit above the fold. */
-  .scn-controls .lever-deck{ margin-top:1rem; }
-  .scn-controls .lever-card{ padding:0.85rem 1rem; }
-  .scn-controls .lever-src{ margin-bottom:0.6rem; }
-  .scn-controls .seg-row{ margin-top:auto; }
-  /* The rail leaves a lever with three alternatives (Off, Slower, Faster)
-     about 150px for them at 1024px, too little for three equal columns at
-     full padding. So the columns size to their labels (the short "Off" gives
-     room to the other two) and the side padding tightens. They even out again
-     as soon as there is room, and the rail's height does not change. */
-  .scn-controls .seg-sm{ grid-template-columns:repeat(var(--seg-alt,2),minmax(max-content,1fr)); }
-  .scn-controls .seg-sm .seg-btn{ padding-left:0.3rem; padding-right:0.3rem; }
-  /* Tighten the result stack. Chart height is fixed rather than viewport-height-based:
-     the controls rail's height comes from its own content reflowing with width, not
-     from window height, so a vh-based chart size drifted out of sync with it on
-     first load. A flat height (taller just under 1024-1280px, where the narrower
-     rail squeezes the lever cards into an extra wrapped line) keeps the chart's
-     bottom edge close to the controls rail's bottom edge on landing. */
-  .scn-results .takeaway{ margin-bottom:1rem; }
-  .scn-results .kpi-strip{ margin-bottom:1rem; }
-  .scn-results .chart-card{ margin-bottom:1rem; padding:1.2rem 1.4rem 1rem; }
-  /* Trimmed by the height the run summary adds above the KPI strip. */
-  .scn-results .chart-wrap{ height:384px; }
-}
-@media(min-width:1024px) and (max-width:1299px){
-  .scn-results .chart-wrap{ height:432px; }
+  .scn-grid{ margin-top:clamp(2.25rem,3.5vw,3.25rem); }
+  .scn-grid > .scn-controls > .scn-step:first-child{ margin-top:0; padding-top:0; border-top:none; }
+  .seg-profiles{ grid-template-columns:repeat(5,minmax(0,1fr)); }
+  .seg-profiles .seg-btn:last-child:nth-child(odd){ grid-column:auto; }
+  .sector-desc{ max-width:80ch; }
+  .lever-deck{ grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .lever-card-rev{ grid-column:span 2; }
+  .scn-results .chart-wrap{ height:400px; }
 }
 
-.scn-foot{ margin-top:2.5rem; padding-top:1.5rem; border-top:1px solid var(--rule-dk); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; }
-.scn-foot p{ font-size:0.82rem; color:var(--mid); max-width:520px; line-height:1.6; }
 
 /* Buttons — base is shared with the footprint pages, so its look is left as the
    original. The soft-pill treatment is scoped to the home + work pages at the
@@ -839,32 +808,10 @@ section { position:relative; }
 #tools .sec-tag, .tools-band .sec-tag{ color:var(--sage-2); }
 .page-home #tools .sec-tag::before{ color:var(--lime); }
 
-.tools-head{ display:grid; gap:clamp(1.4rem,3vw,2.5rem); margin-top:1.2rem; align-items:start; }
-@media(min-width:900px){ .tools-head{ grid-template-columns:minmax(0,5fr) minmax(0,6fr); gap:clamp(2rem,4vw,4rem); } }
 .tools-headline{
-  font-size:clamp(2.2rem,6.4vw,4.6rem); letter-spacing:-0.04em; max-width:12ch;
+  font-size:clamp(2.2rem,6.4vw,4.6rem); letter-spacing:-0.04em; max-width:12ch; margin-top:1.2rem;
   color:var(--lime-soft); --split-accent:var(--lime-bright);
 }
-.tools-lead{ display:flex; flex-direction:column; gap:0.9rem; }
-.tools-lead-p{ font-size:0.95rem; font-weight:400; line-height:1.8; color:var(--sage); max-width:62ch; }
-
-/* Three standing rules, stated once, above the cards. This is the part a
-   hiring manager is actually reading for. */
-.tools-rules{
-  list-style:none; display:grid; grid-template-columns:1fr; gap:1px;
-  margin-top:clamp(2.2rem,5vw,3.2rem);
-  background:rgba(216,221,202,0.16);
-  border:1px solid rgba(216,221,202,0.16); border-radius:var(--r-lg); overflow:hidden;
-}
-@media(min-width:820px){ .tools-rules{ grid-template-columns:repeat(3,minmax(0,1fr)); } }
-.tools-rule{ background:rgba(255,255,255,0.03); padding:1.3rem 1.4rem 1.45rem; }
-.tools-rule-head{
-  display:flex; align-items:center; font-family:var(--mono); font-size:11px;
-  letter-spacing:0.1em; text-transform:uppercase; font-weight:700;
-  color:var(--lime); margin-bottom:0.6rem; line-height:1.4;
-}
-.tools-rule-head .fpi-fill{ fill:var(--lime-bright); }
-.tools-rule-body{ font-size:0.82rem; line-height:1.7; color:var(--sage-2); }
 
 /* Bento rather than a checkerboard. Spans come from `span` in the TOOLS and
    PRIVATE_TOOLS data so the rhythm is editorial (4-2 then 2-4) and the reading
@@ -1229,11 +1176,11 @@ a.footer-cta-btn[target="_blank"]::after{ content:none; }
   .rng-input:hover::-webkit-slider-thumb{ transform:scale(1.06); }
   .rng-input:hover::-moz-range-thumb{ transform:scale(1.06); }
 }
-.rng-input:active::-webkit-slider-thumb{ transform:scale(1.16); box-shadow:0 0 0 7px rgba(181,196,43,0.22); }
-.rng-input:active::-moz-range-thumb{ transform:scale(1.16); box-shadow:0 0 0 7px rgba(181,196,43,0.22); }
+.rng-input:active::-webkit-slider-thumb{ transform:scale(1.16); box-shadow:0 0 0 7px rgba(193,224,67,0.22); }
+.rng-input:active::-moz-range-thumb{ transform:scale(1.16); box-shadow:0 0 0 7px rgba(193,224,67,0.22); }
 .rng-input:focus-visible{ outline:2px solid var(--matcha); outline-offset:2px; border-radius:var(--r-pill); }
-.rng-input:focus-visible::-webkit-slider-thumb{ box-shadow:0 0 0 5px rgba(181,196,43,0.3); }
-.rng-input:focus-visible::-moz-range-thumb{ box-shadow:0 0 0 5px rgba(181,196,43,0.3); }
+.rng-input:focus-visible::-webkit-slider-thumb{ box-shadow:0 0 0 5px rgba(193,224,67,0.3); }
+.rng-input:focus-visible::-moz-range-thumb{ box-shadow:0 0 0 5px rgba(193,224,67,0.3); }
 /* A locked slider stays readable: it still shows where the value landed, it
    just stops responding. */
 .rng.is-disabled{ opacity:0.45; }
@@ -1457,9 +1404,15 @@ a.footer-cta-btn[target="_blank"]::after{ content:none; }
   .career-rings{ position:sticky; top:calc(var(--nav-h) + 18vh); display:flex; justify-content:flex-end; opacity:0.4; }
   .career-rings svg{ width:min(78vw, 380px); margin-right:calc(-1 * (var(--gut) + 11rem)); }
 }
-.cr-band{ fill:var(--tone); stroke:var(--bc); stroke-width:0.9; }
-.cr-year{ fill:none; stroke:var(--forest); stroke-opacity:0.18; stroke-width:0.45; }
+/* Each ring is laid down in turn as the scroll reaches it: it fades in and
+   swells into place from the pith. Year rings carry a faint line; an
+   employer's last ring closes in its timeline colour. */
+.cr-layer{ fill:var(--tone); stroke:var(--forest); stroke-opacity:0.18; stroke-width:0.45; }
+.cr-layer.cr-end{ stroke:var(--bc); stroke-opacity:1; stroke-width:0.9; }
 .cr-change{ fill:none; stroke:var(--bc); stroke-width:0.7; stroke-dasharray:1.6 1.4; }
+.cr-layer, .cr-change{ opacity:0; transform:scale(0.9); transform-box:view-box; transform-origin:center; transition:opacity 0.32s var(--ease), transform 0.42s cubic-bezier(0.2,0.7,0.2,1); }
+.cr-layer.on, .cr-change.on{ opacity:1; transform:none; }
+@media(prefers-reduced-motion:reduce){ .cr-layer, .cr-change{ transition:none; } }
 .cr-pith{ fill:var(--forest-ink); }
 
 /* The bench line under the tools: work in progress, by role. */

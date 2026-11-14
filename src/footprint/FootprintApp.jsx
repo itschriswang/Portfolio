@@ -455,7 +455,7 @@ export default function FootprintApp() {
           <section id="fp-intro">
             <div className="bloom-wrap" aria-hidden="true"><div className="bloom bloom-a" /><div className="bloom bloom-b" /><div className="bloom bloom-c" /></div>
             <Aurora
-              colorStops={['#6F6CEA', '#B5C42B', '#F2B52E', '#E85398']}
+              colorStops={['#6F6CEA', '#C1E043', '#F2B52E', '#E85398']}
               amplitude={0.55}
               blend={0.5}
               opacity={0.18}

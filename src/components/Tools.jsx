@@ -16,32 +16,15 @@ export default function Tools() {
       <div className="canvas">
         <div className="sec-tag" data-idx={TOOLS_INTRO.idx}><Icon name="calc" size={30} />{TOOLS_INTRO.tag}</div>
 
-        <div className="tools-head">
-          <h2 className="display sec-title tools-headline">
-            <SplitText text={TOOLS_INTRO.title[0]} />{' '}
-            <SplitText text={TOOLS_INTRO.title[1]} accentIndex={1} />
-          </h2>
-          <div className="tools-lead">
-            {TOOLS_INTRO.paras.map((p, i) => (
-              <p className="tools-lead-p" key={i}>{p}</p>
-            ))}
-          </div>
-        </div>
-
-        <ul className="tools-rules">
-          {TOOLS_INTRO.rules.map((r) => (
-            <li className="tools-rule" key={r.head}>
-              <div className="tools-rule-head"><Icon name={r.icon} size={28} className="fpi-lead" />{r.head}</div>
-              <p className="tools-rule-body">{r.body}</p>
-            </li>
-          ))}
-        </ul>
+        <h2 className="display sec-title tools-headline">
+          <SplitText text={TOOLS_INTRO.title[0]} />{' '}
+          <SplitText text={TOOLS_INTRO.title[1]} accentIndex={1} />
+        </h2>
 
         <div className="tools-grid">
           {TOOLS.map((t, i) => <ToolCard tool={t} index={i} key={t.href} />)}
         </div>
 
-        <p className="tools-note">{TOOLS_INTRO.note}</p>
         <p className="tools-note tools-bench">{TOOLS_INTRO.bench}</p>
       </div>
     </section>
